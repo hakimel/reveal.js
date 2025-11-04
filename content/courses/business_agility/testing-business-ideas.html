@@ -1,0 +1,2335 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="presentation-path" content="/content/courses/business_agility/testing-business-ideas.html">
+    <title>Testing Business Ideas | Business Agility Fundamentals Workshop</title>
+
+    <!-- Reveal.js Core CSS -->
+    <link rel="stylesheet" href="../../../dist/reset.css">
+    <link rel="stylesheet" href="../../../dist/reveal.css">
+    <link rel="stylesheet" href="../../../dist/theme/white.css">
+
+    <!-- Feedback Plugin CSS -->
+    <link rel="stylesheet" href="../../../plugin/feedback/feedback.css">
+</head>
+
+<body>
+    <!-- Viewport Height Fix for Mobile -->
+    <script>
+    (function() {
+        function setViewportHeightVar() {
+            try {
+                document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
+            } catch (e) { /* noop */ }
+        }
+        window.addEventListener('resize', setViewportHeightVar, { passive: true });
+        window.addEventListener('orientationchange', setViewportHeightVar);
+        setViewportHeightVar();
+    })();
+    </script>
+
+    <style>
+        /* ====================================
+           ADAPTIVEX BRAND COLORS
+           ==================================== */
+        :root {
+            --ax-purple: #6B3FA0;
+            --ax-yellow: #F9C80E;
+            --ax-dark-gray: #2C2C2C;
+            --ax-mid-gray: #808080;
+            --ax-light-gray: #F5F5F5;
+        }
+
+        /* ====================================
+           BASE TYPOGRAPHY
+           ==================================== */
+        body, .reveal {
+            font-family: 'Averta', Arial, Helvetica, sans-serif;
+            color: var(--ax-dark-gray);
+        }
+
+        .reveal {
+            background-color: #fff !important;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            color: var(--ax-purple);
+            font-weight: 700;
+            text-transform: none;
+            margin-bottom: 0.5em;
+        }
+
+        .reveal h1 {
+            font-size: 2em;
+            line-height: 1.2;
+        }
+
+        .reveal h2 {
+            font-size: 1.4em;
+            line-height: 1.1;
+            margin-bottom: 0.3em;
+        }
+
+        .reveal h3 {
+            font-size: 1em;
+            line-height: 1.2;
+        }
+
+        .reveal p, .reveal ul, .reveal ol {
+            color: var(--ax-dark-gray);
+            font-size: 0.8em;
+            line-height: 1.25;
+            margin: 0.2em 0;
+        }
+
+        .reveal ul, .reveal ol {
+            margin-left: 1em;
+            margin-top: 0.2em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal li {
+            margin: 0.1em 0;
+            line-height: 1.25;
+        }
+
+        .reveal strong {
+            color: var(--ax-purple);
+            font-weight: 600;
+        }
+
+        .reveal .highlight-yellow {
+            color: var(--ax-yellow);
+            font-weight: 600;
+        }
+
+        /* ====================================
+           TITLE SLIDE
+           ==================================== */
+        .title-slide {
+            background: linear-gradient(135deg, var(--ax-purple) 0%, #4a2870 100%) !important;
+            color: white !important;
+            text-align: center;
+            padding: 1em !important;
+        }
+
+        .title-slide h1 {
+            color: white !important;
+            font-size: 2.5em;
+        }
+
+        .title-slide h2,
+        .title-slide p {
+            color: white !important;
+        }
+
+        .title-slide .subtitle {
+            color: var(--ax-yellow) !important;
+            font-size: 1.1em;
+            margin-top: 0.8em;
+        }
+
+        /* ====================================
+           SECTION DIVIDER SLIDES
+           ==================================== */
+        .section-divider {
+            color: white !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            justify-content: center !important;
+            height: 100% !important;
+            padding-left: 3em !important;
+        }
+
+        .section-divider h1 {
+            color: white !important;
+            font-size: 2.5em;
+            margin-bottom: 0.3em;
+            text-align: left;
+        }
+
+        .section-divider h2 {
+            color: white !important;
+            font-size: 1.8em;
+            margin-bottom: 0.3em;
+            text-align: left;
+        }
+
+        .section-divider p {
+            color: white !important;
+            text-align: left;
+        }
+
+        /* ====================================
+           GRADIENT BACKGROUND SLIDES
+           ==================================== */
+        [data-background-gradient] h1,
+        [data-background-gradient] h2,
+        [data-background-gradient] h3,
+        [data-background-gradient] p,
+        [data-background-gradient] ul,
+        [data-background-gradient] li {
+            color: white !important;
+        }
+
+        /* ====================================
+           CONTENT SLIDES - LAYOUT
+           ==================================== */
+        .reveal .slides section {
+            text-align: left;
+            padding: 0.3em 0.5em 3.5em 0.5em;  /* Bottom padding for footer space */
+            overflow: visible;  /* Allow footer to be visible (was: hidden) */
+            min-height: 100%;   /* Allow section to expand if needed (was: height: 100%) */
+            box-sizing: border-box;  /* Include padding in height calculation */
+        }
+
+        /* Footer visible on all slides */
+
+        /* ====================================
+           TWO-COLUMN LAYOUT
+           ==================================== */
+        .two-column {
+            display: flex;
+            gap: 2em;
+            align-items: flex-start;
+            margin-top: 0.5em;
+        }
+
+        .two-column .column {
+            flex: 1;
+        }
+
+        .two-column .column h3 {
+            margin-top: 0;
+        }
+
+        .two-column img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        /* ====================================
+           CARD COMPONENTS
+           ==================================== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1em;
+            margin: 0.5em 0;
+        }
+
+        .card {
+            background: var(--ax-light-gray);
+            border-radius: 8px;
+            padding: 0.8em;
+            border-left: 4px solid var(--ax-purple);
+        }
+
+        .card h3 {
+            color: var(--ax-purple);
+            font-size: 0.9em;
+            margin: 0 0 0.3em 0;
+        }
+
+        .card p,
+        .card ul {
+            font-size: 0.75em;
+            margin: 0.2em 0;
+        }
+
+        .card ul {
+            margin-left: 0.8em;
+        }
+
+        /* ====================================
+           ACTIVITY BOXES
+           ==================================== */
+        .activity-box {
+            background: #FFFEF5;
+            border-left: 5px solid var(--ax-yellow);
+            padding: 1em 1.2em;
+            margin: 0.8em 0;
+            border-radius: 4px;
+        }
+
+        .activity-box h3 {
+            color: var(--ax-purple);
+            font-size: 1em;
+            margin: 0 0 0.4em 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+
+        .activity-box h3::before {
+            content: "⚡";
+            color: var(--ax-yellow);
+            font-size: 1.2em;
+        }
+
+        .activity-box p,
+        .activity-box ul {
+            font-size: 0.75em;
+            margin: 0.3em 0;
+        }
+
+        .activity-box ul {
+            margin-left: 1em;
+        }
+
+        .activity-box .duration {
+            color: var(--ax-mid-gray);
+            font-style: italic;
+            font-size: 0.7em;
+            margin-top: 0.5em;
+        }
+
+        /* ====================================
+           QUIZ/KNOWLEDGE CHECK STYLING
+           ==================================== */
+        .quiz {
+            background: white;
+            border: 3px solid var(--ax-purple);
+            padding: 0.5em;
+            border-radius: 8px;
+            margin: 0.3em 0;
+        }
+
+        .quiz h4 {
+            color: var(--ax-purple);
+            margin-top: 0;
+            font-size: 0.9em;
+            margin-bottom: 0.2em;
+            line-height: 1.15;
+        }
+
+        .quiz p {
+            font-size: 0.7em;
+            margin: 0.2em 0;
+            line-height: 1.2;
+        }
+
+        .quiz-options {
+            list-style: none;
+            padding: 0;
+            margin: 0.2em 0;
+        }
+
+        .quiz-options li {
+            background: var(--ax-light-gray);
+            padding: 0.3em 0.5em;
+            margin: 0.2em 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.65em;
+            line-height: 1.2;
+        }
+
+        .quiz-options li:hover {
+            background: var(--ax-yellow);
+            transform: translateX(5px);
+        }
+
+        .quiz > div {
+            padding: 0.4em;
+            margin-top: 0.3em;
+        }
+
+        .quiz > div p {
+            font-size: 0.65em;
+        }
+
+        .quiz > div p strong {
+            font-size: 1em;
+        }
+
+        /* ====================================
+           COMPACT MODE
+           ==================================== */
+        .compact h2 {
+            font-size: 1.2em;
+            margin-bottom: 0.2em;
+        }
+
+        .compact h3 {
+            font-size: 0.9em;
+            margin: 0.2em 0;
+        }
+
+        .compact p,
+        .compact li {
+            font-size: 0.7em;
+            line-height: 1.2;
+            margin: 0.1em 0;
+        }
+
+        .compact ul,
+        .compact ol {
+            margin: 0.1em 0 0.1em 0.8em;
+        }
+
+        .compact .activity-box {
+            padding: 0.6em 0.8em;
+            margin: 0.4em 0;
+        }
+
+        .compact .card {
+            padding: 0.5em;
+        }
+
+        .compact .cards-grid {
+            gap: 0.6em;
+        }
+
+        .compact .two-column {
+            gap: 1.2em;
+        }
+
+        /* ====================================
+           ULTRA-COMPACT MODE
+           ==================================== */
+        .ultra-compact h2 {
+            font-size: 1em;
+            margin-bottom: 0.15em;
+        }
+
+        .ultra-compact h3 {
+            font-size: 0.8em;
+            margin: 0.15em 0;
+        }
+
+        .ultra-compact p,
+        .ultra-compact li {
+            font-size: 0.65em;
+            line-height: 1.15;
+            margin: 0.05em 0;
+        }
+
+        .ultra-compact ul,
+        .ultra-compact ol {
+            margin: 0.05em 0 0.05em 0.6em;
+        }
+
+        .ultra-compact .activity-box {
+            padding: 0.4em 0.6em;
+            margin: 0.3em 0;
+        }
+
+        .ultra-compact .cards-grid {
+            gap: 0.4em;
+        }
+
+        .ultra-compact .two-column {
+            gap: 0.8em;
+        }
+
+        /* ====================================
+           SUPER-COMPACT UTILITY CLASS
+           ==================================== */
+        .super-compact {
+            font-size: 0.58em !important;
+            line-height: 1.1 !important;
+        }
+
+        .super-compact h2 {
+            font-size: 1.35em;
+            margin-bottom: 0.2em;
+        }
+
+        .super-compact h3 {
+            font-size: 1.1em;
+            margin-bottom: 0.15em;
+        }
+
+        .super-compact p,
+        .super-compact li {
+            margin: 0.1em 0;
+        }
+
+        .super-compact .card {
+            padding: 0.3em;
+            margin-bottom: 0.25em;
+        }
+
+        .super-compact .cards-grid {
+            gap: 0.3em;
+        }
+
+        .super-compact .two-column {
+            gap: 0.5em;
+        }
+
+        .super-compact .activity-box {
+            padding: 0.35em 0.5em;
+            margin: 0.3em 0;
+        }
+
+        /* ====================================
+           NAVBAR HEADER BAR
+           ==================================== */
+        section:has(h2):not(.section-divider):not(.title-slide):not(:has(.smartart--hero)) h2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            color: white !important;
+            background: var(--ax-purple);
+            padding: 0.4em 1em;
+            margin: 0;
+            font-size: 1.2em;
+            z-index: 20;
+            line-height: 1.3;
+            text-align: left !important;
+        }
+
+        section:has(h2):not(.section-divider):not(.title-slide) {
+            padding-top: 2.4em !important;
+        }
+
+        section:has(h2):not(.section-divider):not(.title-slide) .smartart {
+            margin-top: -0.5em;
+        }
+
+        /* ====================================
+           FOOTER CONFIGURATION (SmartArt FOOTER)
+           ==================================== */
+        /* Hide footer on title and section divider slides */
+        .reveal .slides section.title-slide .smartart[data-layout="footer"],
+        .reveal .slides section.section-divider .smartart[data-layout="footer"],
+        .section-divider .smartart[data-layout="footer"],
+        [data-xbackground="aurora"] .smartart[data-layout="footer"] {
+            display: none !important;
+        }
+
+        /* Remove bottom padding from title and section divider slides */
+        .reveal .slides section.title-slide,
+        .reveal .slides section.section-divider,
+        [data-xbackground="aurora"] {
+            padding-bottom: 0.3em !important;
+        }
+
+        /* Hide footer configuration slide completely */
+        section[data-footer-config="true"] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
+
+        /* Increase footer logo size */
+        .smartart[data-layout="footer"] img {
+            height: 50px !important;
+            width: auto !important;
+        }
+
+        /* Make footer responsive to viewport size */
+        @media screen and (max-width: 1400px) {
+            .smartart[data-layout="footer"] img {
+                height: 40px !important;
+            }
+        }
+
+        @media screen and (max-width: 1100px) {
+            .smartart[data-layout="footer"] img {
+                height: 32px !important;
+            }
+        }
+
+        @media screen and (max-width: 900px) {
+            .smartart[data-layout="footer"] img {
+                height: 26px !important;
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+            .smartart[data-layout="footer"] img {
+                height: 22px !important;
+            }
+        }
+
+        /* ====================================
+           SMARTART STYLING OVERRIDES
+           ==================================== */
+        .reveal .smartart[data-layout="lined"] .smartart__list {
+            background: white !important;
+            border: 1px solid rgba(107, 63, 160, 0.15) !important;
+        }
+
+        .reveal .smartart[data-layout="lined"] .smartart__list-item {
+            border-bottom: 1px solid rgba(107, 63, 160, 0.1) !important;
+        }
+
+        .reveal .smartart[data-layout="lined"] .smartart__list-item:last-child {
+            border-bottom: none !important;
+        }
+
+        .reveal .smartart__intro {
+            margin-top: 1.5em !important;
+        }
+
+        .reveal .smartart__icon {
+            background: rgba(107, 63, 160, 0.16) !important;
+            color: var(--ax-purple) !important;
+        }
+
+        .reveal .smartart__list-icon {
+            background: rgba(107, 63, 160, 0.14) !important;
+            color: var(--ax-purple) !important;
+        }
+
+        .reveal .smartart[data-layout="lined"] .smartart__list-item:hover {
+            background: rgba(107, 63, 160, 0.1) !important;
+        }
+
+        .reveal .smartart__cta {
+            background: var(--ax-purple) !important;
+            box-shadow: 0 8px 16px -8px rgba(107, 63, 160, 0.5) !important;
+        }
+
+        .reveal .smartart__cta:hover {
+            background: #8b5fc0 !important;
+            box-shadow: 0 10px 20px -6px rgba(107, 63, 160, 0.6) !important;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion {
+            background: white !important;
+            border: 2px solid var(--ax-purple) !important;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-item {
+            border-bottom: 1px solid rgba(107, 63, 160, 0.2) !important;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-button {
+            background: rgba(107, 63, 160, 0.05) !important;
+            color: var(--ax-purple) !important;
+            font-weight: 600;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-button:hover {
+            background: rgba(107, 63, 160, 0.1) !important;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-content {
+            background: white !important;
+            color: var(--ax-dark-gray) !important;
+        }
+
+        .reveal .smartart[data-layout="checklist"] .smartart__list {
+            text-align: left;
+        }
+
+        .reveal .smartart[data-layout="checklist"] .smartart__list-item {
+            text-align: left;
+        }
+
+        .reveal .smartart[data-layout="checklist"] .smartart__intro {
+            text-align: left;
+        }
+
+        .reveal .smartart__checklist-item {
+            background: white !important;
+            border: 2px solid var(--ax-purple) !important;
+            color: var(--ax-dark-gray) !important;
+        }
+
+        .reveal .smartart__checklist-item:hover {
+            background: rgba(107, 63, 160, 0.1) !important;
+            border-color: var(--ax-purple) !important;
+        }
+
+        .reveal .smartart__checklist-item:has(input:checked) {
+            background: rgba(107, 63, 160, 0.15) !important;
+            border-color: var(--ax-purple) !important;
+        }
+
+        .reveal .smartart__checklist-item:has(input:checked):hover {
+            background: rgba(107, 63, 160, 0.2) !important;
+            border-color: var(--ax-purple) !important;
+        }
+
+        .reveal .smartart__checklist-checkbox {
+            border: 2px solid var(--ax-purple) !important;
+        }
+
+        .reveal .smartart__checklist-checkbox:hover {
+            border-color: var(--ax-purple) !important;
+            background: rgba(107, 63, 160, 0.1) !important;
+        }
+
+        .reveal .smartart__checklist-checkbox:checked {
+            background: var(--ax-purple) !important;
+            border-color: var(--ax-purple) !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            background-size: 18px !important;
+        }
+
+        .reveal .smartart__checklist-checkbox:checked:hover {
+            background: #8b5fc0 !important;
+            border-color: #8b5fc0 !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            background-size: 18px !important;
+        }
+
+        .reveal .smartart__checklist-label {
+            color: var(--ax-dark-gray) !important;
+        }
+
+        .reveal .smartart__checklist-label strong {
+            color: var(--ax-purple) !important;
+            font-weight: 700 !important;
+        }
+
+        .reveal .smartart__checklist-item strong {
+            color: var(--ax-purple) !important;
+            font-weight: 700 !important;
+        }
+
+        /* ====================================
+           RESPONSIVE BREAKPOINTS
+           ==================================== */
+        @media screen and (max-width: 1400px) {
+            .reveal h1 { font-size: 1.8em; }
+            .reveal h2 { font-size: 1.5em; }
+            .cards-grid { gap: 0.8em; }
+            .smartart[data-layout="footer"] img { height: 40px !important; }
+        }
+
+        @media screen and (max-width: 1000px) {
+            .reveal h1 { font-size: 1.6em; }
+            .reveal h2 { font-size: 1.4em; }
+            .two-column {
+                flex-direction: column;
+                gap: 0.8em;
+            }
+            .smartart[data-layout="footer"] img { height: 32px !important; }
+        }
+
+        @media screen and (max-width: 700px) {
+            .reveal h1 { font-size: 1.4em; }
+            .reveal h2 { font-size: 1.2em; }
+            .reveal h3 { font-size: 1em; }
+            .smartart[data-layout="footer"] img { height: 22px !important; }
+        }
+
+        /* ====================================
+           SECTION DIVIDER SLIDES
+           ==================================== */
+        .section-divider {
+            color: white !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            justify-content: center !important;
+            height: 100% !important;
+            padding-left: 3em !important;
+        }
+
+        .section-divider h1 {
+            color: white !important;
+            font-size: 2.5em;
+            margin-bottom: 0.3em;
+            text-align: left;
+        }
+
+        .section-divider h2 {
+            color: white !important;
+            font-size: 1.8em;
+            margin-bottom: 0.3em;
+            text-align: left;
+        }
+
+        .section-divider p {
+            color: white !important;
+            text-align: left;
+        }
+
+        [data-background-gradient] h1,
+        [data-background-gradient] h2,
+        [data-background-gradient] h3,
+        [data-background-gradient] p,
+        [data-background-gradient] ul,
+        [data-background-gradient] li {
+            color: white !important;
+        }
+
+        [data-xbackground="aurora"] h1,
+        [data-xbackground="aurora"] h2,
+        [data-xbackground="aurora"] p {
+            color: white !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+
+        /* ====================================
+           PRESENTATION OPTIMIZATION
+           Additional spacing & sizing optimizations for 1280x720 viewport
+           ==================================== */
+
+        /* Global spacing compression for better fit */
+        .reveal .slides section {
+            padding-top: 0.25em;
+            padding-bottom: 4em;
+        }
+
+        /* Tighter grid gaps */
+        .cards-grid {
+            gap: 0.6em;
+        }
+
+        .compact .cards-grid {
+            gap: 0.45em;
+        }
+
+        .ultra-compact .cards-grid {
+            gap: 0.35em;
+        }
+
+        /* Optimized two-column spacing */
+        .two-column {
+            gap: 1.2em;
+        }
+
+        .compact .two-column {
+            gap: 0.8em;
+        }
+
+        .ultra-compact .two-column {
+            gap: 0.6em;
+        }
+
+        /* Image size constraints for viewport */
+        .two-column img {
+            max-height: 320px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .compact .two-column img {
+            max-height: 280px;
+        }
+
+        .ultra-compact .two-column img {
+            max-height: 240px;
+        }
+
+        /* Card component optimization */
+        .card {
+            padding: 0.6em;
+            margin-bottom: 0.5em;
+        }
+
+        .compact .card {
+            padding: 0.45em;
+            margin-bottom: 0.4em;
+        }
+
+        .ultra-compact .card {
+            padding: 0.35em;
+            margin-bottom: 0.3em;
+        }
+
+        /* Activity box optimization */
+        .activity-box {
+            padding: 0.7em 0.9em;
+            margin: 0.6em 0;
+        }
+
+        .compact .activity-box {
+            padding: 0.5em 0.7em;
+            margin: 0.45em 0;
+        }
+
+        .ultra-compact .activity-box {
+            padding: 0.4em 0.6em;
+            margin: 0.35em 0;
+        }
+
+        /* Quiz component optimization */
+        .quiz {
+            padding: 0.6em;
+            margin: 0.4em 0;
+        }
+
+        .compact .quiz {
+            padding: 0.5em;
+        }
+
+        .ultra-compact .quiz {
+            padding: 0.4em;
+        }
+
+        .quiz-options li {
+            padding: 0.35em 0.5em;
+            margin: 0.25em 0;
+        }
+
+        .compact .quiz-options li {
+            padding: 0.3em 0.45em;
+            margin: 0.2em 0;
+        }
+
+        .ultra-compact .quiz-options li {
+            padding: 0.25em 0.4em;
+            margin: 0.15em 0;
+        }
+
+        /* Heading margin optimization */
+        .reveal h2 {
+            margin-bottom: 0.2em;
+        }
+
+        .reveal h3 {
+            margin-bottom: 0.35em;
+        }
+
+        .compact h2 {
+            margin-bottom: 0.3em;
+        }
+
+        .compact h3 {
+            margin-bottom: 0.25em;
+        }
+
+        .ultra-compact h2 {
+            margin-bottom: 0.25em;
+        }
+
+        .ultra-compact h3 {
+            margin-bottom: 0.2em;
+        }
+
+        /* List spacing optimization */
+        .reveal ul,
+        .reveal ol {
+            margin-top: 0.3em;
+            margin-bottom: 0.3em;
+        }
+
+        .compact ul,
+        .compact ol {
+            margin-top: 0.25em;
+            margin-bottom: 0.25em;
+        }
+
+        .ultra-compact ul,
+        .ultra-compact ol {
+            margin-top: 0.2em;
+            margin-bottom: 0.2em;
+        }
+
+        /* Responsive viewport height adjustments */
+        @media (max-height: 800px) {
+            .reveal {
+                font-size: 0.92em;
+            }
+            .two-column img {
+                max-height: 300px;
+            }
+            .card {
+                padding: 0.55em;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .reveal {
+                font-size: 0.88em;
+            }
+            .two-column img {
+                max-height: 270px;
+            }
+            .card {
+                padding: 0.5em;
+            }
+        }
+
+        @media (max-height: 650px) {
+            .reveal {
+                font-size: 0.82em;
+            }
+            .two-column img {
+                max-height: 240px;
+            }
+            .card {
+                padding: 0.45em;
+            }
+            .activity-box {
+                padding: 0.5em 0.7em;
+            }
+        }
+
+        /* Ensure navbar header doesn't push content down too much */
+        section:has(h2):not(.section-divider):not(.title-slide) {
+            padding-top: 2.8em !important;
+        }
+
+        /* Super-compact utility class for extremely dense slides */
+        .super-compact {
+            font-size: 0.58em !important;
+            line-height: 1.1 !important;
+        }
+
+        .super-compact h2 {
+            font-size: 1.35em;
+            margin-bottom: 0.2em;
+        }
+
+        .super-compact h3 {
+            font-size: 1.1em;
+            margin-bottom: 0.15em;
+        }
+
+        .super-compact p,
+        .super-compact li {
+            margin: 0.1em 0;
+        }
+
+        .super-compact .card {
+            padding: 0.3em;
+            margin-bottom: 0.25em;
+        }
+
+        .super-compact .cards-grid {
+            gap: 0.3em;
+        }
+
+        .super-compact .two-column {
+            gap: 0.5em;
+        }
+
+        .super-compact .activity-box {
+            padding: 0.35em 0.5em;
+            margin: 0.3em 0;
+        }
+    </style>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- ========================================
+                 FOOTER CONFIGURATION SLIDE (Hidden)
+                 ======================================== -->
+            <section data-markdown data-footer-config="true">
+                <script type="text/template">
+                ::: smartart AdaptiveX FOOTER
+                image: assets/images/adaptivex-logo-icon.svg
+                global: true
+                :::
+                </script>
+            </section>
+
+            <!-- ========================================
+                 OPENING SECTION
+                 ======================================== -->
+
+            <!-- Slide 1: Title Slide with HERO SmartArt -->
+            <section data-markdown data-xbackground="aurora" data-background-color="#000000">
+                <script type="text/template">
+                ::: smartart Testing Business Ideas HERO
+                heading: Testing Business Ideas
+                subtitle: From Assumptions to Evidence-Based Decisions
+                tagline: De-risk Your Innovation Through Systematic Experimentation
+                cta: Let's Begin | #/2
+                image: assets/images/testing-business-ideas-hero.png
+                background: none
+                :::
+                </script>
+            </section>
+
+            <!-- Slide 2: Welcome & Context -->
+            <section>
+                <h2>Welcome to Testing Business Ideas</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Why This Workshop Matters</h3>
+                        <p>Most startups fail not because they can't build, but because they build something nobody wants. Teams spend months and hundreds of thousands building before discovering fundamental flaws in their assumptions.</p>
+                        <p style="margin-top: 1em;"><strong>This workshop introduces a systematic approach to testing your riskiest assumptions before you invest heavily in building.</strong></p>
+                    </div>
+                    <div class="column">
+                        <h3>What We'll Accomplish Today</h3>
+                        <ul>
+                            <li>Map your business model and identify hidden assumptions</li>
+                            <li>Prioritize assumptions by importance and evidence</li>
+                            <li>Select appropriate experiments from 44+ options</li>
+                            <li>Create an evidence-based testing roadmap</li>
+                        </ul>
+                        <p style="margin-top: 1em; font-style: italic; color: var(--ax-mid-gray);">Prerequisites: Come with an idea and willingness to challenge assumptions</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 3: Learning Outcomes with LINED SmartArt -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Learning Outcomes
+
+                ::: smartart Testing Business Ideas Learning Outcomes LINED
+                intro: By the end of this workshop, you will be able to:
+                - DVF Framework | Apply the Desirability-Viability-Feasibility framework to identify business risks | icon=lucide:target
+                - Assumption Mapping | Extract and map assumptions using the Assumptions Mapping method | icon=lucide:map
+                - Discovery vs Validation | Distinguish between Discovery and Validation experiments | icon=lucide:microscope
+                - Experiment Selection | Select appropriate experiments based on evidence strength and resource constraints | icon=lucide:flask-conical
+                - Testing Roadmap | Design a testing roadmap that addresses your riskiest assumptions first | icon=lucide:clipboard-check
+                :::
+                </script>
+            </section>
+
+            <!-- Slide 4: Workshop Journey with ACCORDION SmartArt -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Your Testing Journey Today
+
+                ::: smartart Your Testing Journey Today ACCORDION
+                intro: Today's 4-hour workshop agenda:
+                [*] Module 1: Business Model & Risk Types (45 min) | Map your business model on the canvas and identify Desirability, Viability, and Feasibility risks across all building blocks.
+                Module 2: Assumption Mapping (45 min) | Extract assumptions and map them by importance and evidence to identify your "leap of faith" assumptions.
+                BREAK (15 min) | Refresh and reflect on insights so far
+                Module 3: Experiment Selection Framework (45 min) | Learn Discovery vs Validation experiments and select from 44+ options based on evidence needs.
+                Module 4: Case Study - BroBot (30 min) | Real-world NYC startup: How systematic testing saved $500K+ and prevented a costly failure.
+                Module 5: Your Testing Roadmap (30 min) | Design your 12-week testing sprint with clear success criteria and pivot triggers.
+                Wrap-up & Resources (15 min) | Reflection, Q&A, and next steps for continuing your testing journey.
+                :::
+                </script>
+            </section>
+
+            <!-- ========================================
+                 MODULE 1: BUSINESS MODEL & RISK TYPES
+                 ======================================== -->
+
+            <!-- Slide 5: Module 1 Section Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #6B3FA0 0%, #4a2870 100%)">
+                <h1>Module 1</h1>
+                <h2>Business Model & Risk Types</h2>
+                <p>Understanding what could cause failure</p>
+            </section>
+
+            <!-- Slide 6: Module Introduction -->
+            <section>
+                <h2>Understanding Your Business Model Risks</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <p>Before testing, we need to understand what could cause failure. The Business Model Canvas reveals assumptions across nine building blocks, while the Desirability-Viability-Feasibility lens helps categorize risks.</p>
+                        <h3 style="margin-top: 1em;">In this module:</h3>
+                        <ol>
+                            <li>Map your idea on the Business Model Canvas</li>
+                            <li>Identify assumptions in each building block</li>
+                            <li>Categorize risks using the DVF framework</li>
+                        </ol>
+                    </div>
+                    <div class="column">
+                        <img src="assets/images/business-model-canvas-team.png" alt="Team working on business model canvas" style="border-radius: 8px;">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 7: The DVF Framework -->
+            <section class="compact super-compact">
+                <h2>The DVF Framework</h2>
+                <h3 style="text-align: center; margin-bottom: 0.5em;">Desirability, Viability, Feasibility</h3>
+                <p style="text-align: center; margin-bottom: 1em;">Every business faces three fundamental questions:</p>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>🎯 Desirability</h3>
+                        <p><strong>Do they want this?</strong></p>
+                        <p>Value proposition-customer fit</p>
+                        <p style="margin-top: 0.5em; font-style: italic;">Failure mode: Great tech nobody wants</p>
+                    </div>
+                    <div class="card">
+                        <h3>💰 Viability</h3>
+                        <p><strong>Should we do this?</strong></p>
+                        <p>Can we capture value sustainably?</p>
+                        <p style="margin-top: 0.5em; font-style: italic;">Failure mode: Loved product with no business model</p>
+                    </div>
+                    <div class="card">
+                        <h3>⚙️ Feasibility</h3>
+                        <p><strong>Can we do this?</strong></p>
+                        <p>Technical, regulatory, operational ability</p>
+                        <p style="margin-top: 0.5em; font-style: italic;">Failure mode: Perfect market fit but can't deliver</p>
+                    </div>
+                </div>
+
+                <p style="text-align: center; margin-top: 1em; font-size: 0.9em;"><strong>The intersection of all three = Sweet spot for success</strong></p>
+            </section>
+
+            <!-- Slide 8: Business Model Canvas Overview -->
+            <section class="compact">
+                <h2>Your Business Model as a System of Assumptions</h2>
+                <p style="margin-bottom: 0.8em;">The canvas isn't a checklist - it's a story of how you create, deliver, and capture value. <strong>Early on, every box contains guesses, not facts.</strong></p>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Front Stage (Customer-facing)</h3>
+                        <ul>
+                            <li><strong>Customer Segments:</strong> Who are you serving?</li>
+                            <li><strong>Value Proposition:</strong> What are you offering?</li>
+                            <li><strong>Channels:</strong> How do you reach them?</li>
+                            <li><strong>Relationships:</strong> How do you interact?</li>
+                            <li><strong>Revenue Streams:</strong> How do you make money?</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Back Stage (Operations)</h3>
+                        <ul>
+                            <li><strong>Key Activities:</strong> What must you do?</li>
+                            <li><strong>Key Resources:</strong> What must you have?</li>
+                            <li><strong>Key Partnerships:</strong> Who will help?</li>
+                            <li><strong>Cost Structure:</strong> What will it cost?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p style="margin-top: 0.8em; text-align: center; font-style: italic; color: var(--ax-mid-gray);">Each element can have Desirability, Viability, or Feasibility risks</p>
+            </section>
+
+            <!-- Slide 9: Activity - Canvas Sketching -->
+            <section class="compact">
+                <h2>Group Activity: Map Your Business Model</h2>
+
+                <div class="activity-box">
+                    <h3>Part 1: Canvas Sketching (20 min)</h3>
+                    <p>In pairs/teams, fill out a Business Model Canvas for your idea</p>
+                    <ul>
+                        <li>Use sticky notes (one idea per note)</li>
+                        <li>Don't overthink - capture your current thinking</li>
+                        <li>Focus on telling a coherent story, not perfection</li>
+                    </ul>
+                    <p><strong>Questions to guide you:</strong></p>
+                    <ul>
+                        <li>Who desperately needs this?</li>
+                        <li>What job are they trying to get done?</li>
+                        <li>How will you reach them at scale?</li>
+                        <li>What will they pay? How often?</li>
+                    </ul>
+                    <p class="duration">Tools: Business Model Canvas template in Miro/Mural, sticky notes (physical or digital)</p>
+                </div>
+            </section>
+
+            <!-- Slide 10: Activity - Risk Identification -->
+            <section class="compact">
+                <h2>Group Activity: Identify & Extract Assumptions</h2>
+
+                <div class="activity-box">
+                    <h3>Part 2: Risk Identification (15 min)</h3>
+                    <p>Review each canvas element and mark assumptions with colored dots:</p>
+                    <ul>
+                        <li>🔵 Blue = Desirability risk</li>
+                        <li>🟢 Green = Viability risk</li>
+                        <li>🟡 Yellow = Feasibility risk</li>
+                    </ul>
+                    <p style="margin-top: 0.5em;">Identify top 10-15 assumptions</p>
+                </div>
+
+                <div class="activity-box">
+                    <h3>Part 3: Extraction (10 min)</h3>
+                    <p>Write each assumption as a testable statement:</p>
+                    <ul>
+                        <li>Format: "We believe that [specific claim]"</li>
+                        <li><strong>Example:</strong> "We believe that busy professionals will pay $20/month for automated meal planning"</li>
+                    </ul>
+                    <p class="duration">Tools: Colored dots/markers, assumption cards template</p>
+                </div>
+            </section>
+
+            <!-- Slide 11: Module 1 Key Takeaways -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Module 1: Key Takeaways
+
+                ::: smartart Module 1 Key Takeaways CHECKLIST
+                intro: Reflect on what we've learned:
+                - [ ] **Systems Thinking:** Your business model is interconnected - one weak link breaks the chain
+                - [ ] **Risk Categories:** DVF lens reveals where failure is most likely
+                - [ ] **Assumption Density:** Early-stage ventures are mostly assumptions, not facts
+                - [ ] **Testable Statements:** Vague assumptions can't be tested - be specific
+                :::
+                </script>
+            </section>
+
+            <!-- Slide 11b: Reflection Questions -->
+            <section>
+                <h2>Reflection: Module 1</h2>
+                <div class="activity-box">
+                    <h3>Reflection Questions</h3>
+                    <ol>
+                        <li>Which part of your canvas has the most assumptions?</li>
+                        <li>What risk type (D, V, or F) dominates your model?</li>
+                        <li>Which assumption scares you most?</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- ========================================
+                 MODULE 2: ASSUMPTION MAPPING
+                 ======================================== -->
+
+            <!-- Slide 12: Module 2 Section Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #6B3FA0 0%, #4a2870 100%)">
+                <h1>Module 2</h1>
+                <h2>Assumption Mapping</h2>
+                <p>Focus on what matters most</p>
+            </section>
+
+            <!-- Slide 13: Module Introduction -->
+            <section>
+                <h2>Assumption Mapping: Prioritize Critical Unknowns</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <p>Not all assumptions are equal. Some will kill your business if wrong, others are mere details. Assumption Mapping helps you prioritize testing on the critical unknowns.</p>
+                        <h3 style="margin-top: 1em;">In this module:</h3>
+                        <ol>
+                            <li>Map assumptions by importance and evidence</li>
+                            <li>Identify your "leap of faith" assumptions</li>
+                            <li>Create a prioritized testing backlog</li>
+                        </ol>
+                    </div>
+                    <div class="column">
+                        <img src="assets/images/assumption-mapping-team.png" alt="Team mapping assumptions on 2x2 grid" style="border-radius: 8px;">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 14: The Assumption Mapping Method -->
+            <section>
+                <h2>A Simple but Powerful Prioritization Tool</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Two Dimensions Create Clarity</h3>
+                        <ul>
+                            <li><strong>Vertical Axis:</strong> How important is this to our success?</li>
+                            <li><strong>Horizontal Axis:</strong> How much evidence supports this?</li>
+                        </ul>
+
+                        <h3 style="margin-top: 1em;">The Magic of Relative Positioning</h3>
+                        <ul>
+                            <li>Start with one assumption</li>
+                            <li>Place each new one relative to others</li>
+                            <li>Don't seek perfection - seek clarity</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Upper right = Critical unknowns</strong> (test these first!)</p>
+                        <p><strong>Lower left = Minor details</strong> (test these last or never)</p>
+                    </div>
+                    <div class="column">
+                        <div style="background: var(--ax-light-gray); padding: 1em; border-radius: 8px; text-align: center;">
+                            <h4 style="margin-top: 0;">Assumption Mapping Grid</h4>
+                            <div style="width: 100%; height: 300px; background: white; border: 2px solid var(--ax-purple); position: relative; border-radius: 4px;">
+                                <!-- Y-axis label -->
+                                <div style="position: absolute; left: -80px; top: 50%; transform: translateY(-50%) rotate(-90deg); font-size: 0.8em; font-weight: 600; color: var(--ax-purple);">IMPORTANCE →</div>
+                                <!-- X-axis label -->
+                                <div style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-size: 0.8em; font-weight: 600; color: var(--ax-purple);">← EVIDENCE</div>
+                                <!-- Grid lines -->
+                                <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: rgba(107, 63, 160, 0.3);"></div>
+                                <div style="position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: rgba(107, 63, 160, 0.3);"></div>
+                                <!-- Quadrant label -->
+                                <div style="position: absolute; top: 10px; right: 10px; background: var(--ax-yellow); padding: 0.3em 0.6em; border-radius: 4px; font-size: 0.7em; font-weight: 600;">CRITICAL<br>UNKNOWNS</div>
+                            </div>
+                            <p style="font-size: 0.75em; margin-top: 0.5em; font-style: italic;">This focusing mechanism prevents wasting time on the wrong experiments</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 15: Activity - Initial Mapping -->
+            <section class="compact">
+                <h2>Group Activity: Map Your Assumptions</h2>
+
+                <div class="activity-box">
+                    <h3>Part 1: Initial Mapping (15 min)</h3>
+                    <p>Place assumptions on the importance/evidence grid</p>
+                    <ul>
+                        <li>Take your 10-15 assumptions from Module 1</li>
+                        <li>Place first assumption in center</li>
+                        <li>Each new assumption: "More or less important? More or less evidence?"</li>
+                        <li>Use color coding from canvas (blue/green/yellow for D/V/F)</li>
+                        <li>Don't overthink - first instinct often right</li>
+                    </ul>
+                    <p><strong>Tips:</strong></p>
+                    <ul>
+                        <li>Evidence = data, not opinions</li>
+                        <li>Important = business fails if wrong</li>
+                        <li>It's OK to cluster similar assumptions</li>
+                    </ul>
+                    <p class="duration">Tools: Assumption Mapping template, your extracted assumptions</p>
+                </div>
+            </section>
+
+            <!-- Slide 16: Activity - Refinement -->
+            <section class="compact">
+                <h2>Group Activity: Refine & Prioritize</h2>
+
+                <div class="activity-box">
+                    <h3>Part 2: Refinement & Prioritization (15 min)</h3>
+                    <p>Review placement as a team and challenge each other</p>
+                    <ul>
+                        <li>Challenge: "Really? More important than X?"</li>
+                        <li>Adjust based on discussion</li>
+                        <li>Circle your top 3-5 in upper right quadrant</li>
+                    </ul>
+
+                    <p style="margin-top: 0.5em;"><strong>Critical Unknown Criteria:</strong></p>
+                    <ul>
+                        <li>High importance + Low evidence</li>
+                        <li>Would kill the business if wrong</li>
+                        <li>Can be tested in next 4-12 weeks</li>
+                    </ul>
+                </div>
+
+                <div class="activity-box">
+                    <h3>Part 3: Capture & Document (5 min)</h3>
+                    <ul>
+                        <li>Screenshot your map</li>
+                        <li>List your critical unknowns in priority order</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 17: Module 2 Key Takeaways -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Module 2: Key Takeaways
+
+                ::: smartart Module 2 Key Takeaways CHECKLIST
+                intro: Core insights from Assumption Mapping:
+                - [ ] **Relative Positioning:** Absolute precision doesn't matter - relative priority does
+                - [ ] **Critical Unknowns:** Focus 80% of testing on upper-right quadrant
+                - [ ] **Evidence Hierarchy:** Customer behavior > surveys > opinions > hunches
+                - [ ] **Dynamic Document:** Your map evolves as you learn
+                :::
+                </script>
+            </section>
+
+            <!-- Slide 17b: Reflection Questions -->
+            <section>
+                <h2>Reflection: Module 2</h2>
+                <div class="activity-box">
+                    <h3>Reflection Questions</h3>
+                    <ol>
+                        <li>Which assumption surprised you with its importance?</li>
+                        <li>Where do you have the least evidence?</li>
+                        <li>What would you test first and why?</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- ========================================
+                 KNOWLEDGE CHECK 1
+                 ======================================== -->
+
+            <!-- Slide 18: Knowledge Check 1 -->
+            <section class="compact">
+                <h2>Knowledge Check: DVF Framework</h2>
+                <div class="quiz">
+                    <h4>Question 1: DVF Framework</h4>
+                    <p>A startup built an amazing AI product that users love, but can't figure out how to monetize it. What type of risk did they fail to address?</p>
+                    <ul class="quiz-options">
+                        <li>A) Desirability risk</li>
+                        <li>B) Viability risk</li>
+                        <li>C) Feasibility risk</li>
+                        <li>D) All of the above</li>
+                    </ul>
+                    <div class="fragment" style="margin-top: 0.8em; padding: 0.6em; background: var(--ax-light-gray); border-radius: 8px;">
+                        <p style="margin: 0.2em 0; font-size: 0.9em;"><strong>Correct Answer:</strong> B</p>
+                        <p style="font-size: 0.85em; margin: 0.2em 0;"><strong>Rationale:</strong> They validated Desirability (users love it) and Feasibility (they built it), but failed to validate Viability (sustainable business model). This is a common failure mode for startups.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 18b: Knowledge Check 2 -->
+            <section class="compact">
+                <h2>Knowledge Check: Assumption Mapping</h2>
+                <div class="quiz">
+                    <h4>Question 2: Assumption Mapping</h4>
+                    <p>You have an assumption in the lower-left quadrant (low importance, strong evidence). What should you do?</p>
+                    <ul class="quiz-options">
+                        <li>A) Test it first - the evidence might be wrong</li>
+                        <li>B) Test it last or not at all - focus resources elsewhere</li>
+                        <li>C) Move it to the upper-right quadrant</li>
+                        <li>D) Remove it from your canvas</li>
+                    </ul>
+                    <div class="fragment" style="margin-top: 0.8em; padding: 0.6em; background: var(--ax-light-gray); border-radius: 8px;">
+                        <p style="margin: 0.2em 0; font-size: 0.9em;"><strong>Correct Answer:</strong> B</p>
+                        <p style="font-size: 0.85em; margin: 0.2em 0;"><strong>Rationale:</strong> Low importance + strong evidence = low priority. Focus your limited testing resources on critical unknowns (upper-right: high importance, low evidence). That's where the biggest risks live.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================
+                 BREAK
+                 ======================================== -->
+
+            <!-- Slide 19: Break -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #F9C80E 0%, #e5b500 100%)">
+                <h1>BREAK TIME</h1>
+                <h2>15 Minutes</h2>
+                <p>Stretch, refresh, and reflect</p>
+                <p style="margin-top: 1em; font-size: 0.9em;">When we return: Choosing the right experiments</p>
+            </section>
+
+            <!-- ========================================
+                 MODULE 3: EXPERIMENT SELECTION FRAMEWORK
+                 ======================================== -->
+
+            <!-- Slide 20: Module 3 Section Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #6B3FA0 0%, #4a2870 100%)">
+                <h1>Module 3</h1>
+                <h2>Experiment Selection Framework</h2>
+                <p>44 experiments to choose from</p>
+            </section>
+
+            <!-- Slide 21: Module Introduction -->
+            <section>
+                <h2>Matching the Right Experiment to Your Risk</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <p>Most teams only know interviews and surveys. But there are 44+ different experiments, each with different strengths, costs, and evidence quality. Matching the right experiment to your risk is crucial.</p>
+                        <h3 style="margin-top: 1em;">In this module:</h3>
+                        <ol>
+                            <li>Understand Discovery vs. Validation experiments</li>
+                            <li>Learn the experiment selection criteria</li>
+                            <li>Explore experiment options for your risks</li>
+                        </ol>
+                    </div>
+                    <div class="column">
+                        <img src="assets/images/experiments-testing-team.png" alt="Team conducting experiments and testing" style="border-radius: 8px;">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 22: Discovery vs Validation -->
+            <section class="compact">
+                <h2>Discovery vs. Validation Experiments</h2>
+                <h3 style="text-align: center; margin-bottom: 1em;">Two Phases of Testing</h3>
+
+                <div class="two-column">
+                    <div class="column">
+                        <div style="background: rgba(107, 63, 160, 0.1); padding: 1em; border-radius: 8px; border-left: 4px solid var(--ax-purple);">
+                            <h3 style="margin-top: 0;">🔍 Discovery</h3>
+                            <p><strong>Going from NONE to SOME evidence</strong></p>
+                            <ul style="margin-top: 0.5em;">
+                                <li>Exploratory and qualitative</li>
+                                <li>Understanding the problem space</li>
+                                <li>Low cost, quick to run</li>
+                                <li>Generates directional insights</li>
+                            </ul>
+                            <p style="margin-top: 0.8em;"><strong>Examples:</strong></p>
+                            <ul>
+                                <li>Customer interviews</li>
+                                <li>Observation studies</li>
+                                <li>Search trend analysis</li>
+                                <li>Paper prototypes</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <div style="background: rgba(249, 200, 14, 0.1); padding: 1em; border-radius: 8px; border-left: 4px solid var(--ax-yellow);">
+                            <h3 style="margin-top: 0;">✅ Validation</h3>
+                            <p><strong>Going from SOME to STRONG evidence</strong></p>
+                            <ul style="margin-top: 0.5em;">
+                                <li>Quantitative and behavioral</li>
+                                <li>Testing specific solutions</li>
+                                <li>Higher cost, longer to run</li>
+                                <li>Generates measurable proof</li>
+                            </ul>
+                            <p style="margin-top: 0.8em;"><strong>Examples:</strong></p>
+                            <ul>
+                                <li>Landing pages</li>
+                                <li>MVPs</li>
+                                <li>Concierge tests</li>
+                                <li>Letters of intent</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="text-align: center; margin-top: 1em; font-size: 0.95em;"><strong>Discovery helps you aim. Validation pulls the trigger.</strong></p>
+            </section>
+
+            <!-- Slide 23: Experiment Selection Criteria -->
+            <section class="compact">
+                <h2>How to Choose the Right Experiment</h2>
+                <p style="margin-bottom: 1em;">Every experiment can be evaluated on these dimensions:</p>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>💰 Cost</h3>
+                        <p>Free → $ → $$ → $$$</p>
+                        <p style="margin-top: 0.3em; font-size: 0.7em;">Match to your budget constraints</p>
+                    </div>
+                    <div class="card">
+                        <h3>⏱️ Setup Time</h3>
+                        <p>Hours → Days → Weeks</p>
+                        <p style="margin-top: 0.3em; font-size: 0.7em;">How quickly can you start?</p>
+                    </div>
+                    <div class="card">
+                        <h3>📅 Run Time</h3>
+                        <p>Hours → Days → Weeks → Months</p>
+                        <p style="margin-top: 0.3em; font-size: 0.7em;">How long to get results?</p>
+                    </div>
+                    <div class="card">
+                        <h3>🔍 Evidence Strength</h3>
+                        <p>Weak → Moderate → Strong</p>
+                        <p style="margin-top: 0.3em; font-size: 0.7em;">How convincing is the proof?</p>
+                    </div>
+                    <div class="card">
+                        <h3>🛠️ Capabilities Needed</h3>
+                        <p>Design, technical, research, sales</p>
+                        <p style="margin-top: 0.3em; font-size: 0.7em;">What skills do you need?</p>
+                    </div>
+                    <div class="card">
+                        <h3>🎯 Risk Type</h3>
+                        <p>D, V, F - or combination</p>
+                        <p style="margin-top: 0.3em; font-size: 0.7em;">What does it test?</p>
+                    </div>
+                </div>
+
+                <p style="text-align: center; margin-top: 1em;"><strong>Match your experiment to:</strong> Current evidence level • Available resources • Type of risk • Required evidence strength</p>
+            </section>
+
+            <!-- Slide 24: Popular Experiments Overview -->
+            <section class="ultra-compact">
+                <h2>Your Experiment Toolkit</h2>
+
+                <div style="margin-bottom: 0.8em;">
+                    <h3 style="margin-bottom: 0.4em;">🔍 Discovery Favorites</h3>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <h3>Customer Interviews</h3>
+                            <p>Understand jobs, pains, gains</p>
+                            <p style="font-size: 0.65em; margin-top: 0.2em;">💰 Low cost | 🔍 Weak evidence</p>
+                        </div>
+                        <div class="card">
+                            <h3>Search Trend Analysis</h3>
+                            <p>Validate demand exists</p>
+                            <p style="font-size: 0.65em; margin-top: 0.2em;">💰 Free | 🔍 Moderate evidence</p>
+                        </div>
+                        <div class="card">
+                            <h3>Paper Prototype</h3>
+                            <p>Test concepts before building</p>
+                            <p style="font-size: 0.65em; margin-top: 0.2em;">💰 Low cost | 🔍 Moderate evidence</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 style="margin-bottom: 0.4em;">✅ Validation Champions</h3>
+                    <div class="cards-grid">
+                        <div class="card">
+                            <h3>Landing Page</h3>
+                            <p>Test value prop and conversion</p>
+                            <p style="font-size: 0.65em; margin-top: 0.2em;">💰 Medium cost | 🔍 Strong evidence</p>
+                        </div>
+                        <div class="card">
+                            <h3>Concierge</h3>
+                            <p>Manually deliver service</p>
+                            <p style="font-size: 0.65em; margin-top: 0.2em;">💰 High effort | 🔍 Very strong evidence</p>
+                        </div>
+                        <div class="card">
+                            <h3>Wizard of Oz</h3>
+                            <p>Fake the solution</p>
+                            <p style="font-size: 0.65em; margin-top: 0.2em;">💰 Medium cost | 🔍 Strong evidence</p>
+                        </div>
+                        <div class="card">
+                            <h3>Letter of Intent</h3>
+                            <p>Get commitment in writing</p>
+                            <p style="font-size: 0.65em; margin-top: 0.2em;">💰 Low cost | 🔍 Strong evidence</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 25: Activity - Experiment Exploration -->
+            <section class="compact">
+                <h2>Group Activity: Select Your Experiments</h2>
+
+                <div class="activity-box">
+                    <h3>Part 1: Experiment Exploration (15 min)</h3>
+                    <p>For each critical unknown, identify 2-3 potential experiments</p>
+                    <ul>
+                        <li>Review experiment library (cards/digital board)</li>
+                        <li>Consider: What evidence do I need? What resources do I have? How quickly must I learn?</li>
+                        <li><strong>Start with discovery</strong> if you have NO evidence</li>
+                        <li><strong>Jump to validation</strong> if you have SOME evidence</li>
+                    </ul>
+                    <p class="duration">Tools: Experiment card library, selection criteria matrix</p>
+                </div>
+            </section>
+
+            <!-- Slide 26: Activity - Experiment Sequencing -->
+            <section class="compact">
+                <h2>Group Activity: Sequence Your Tests</h2>
+
+                <div class="activity-box">
+                    <h3>Part 2: Experiment Sequencing (15 min)</h3>
+                    <p>Create an experiment flow for your #1 assumption</p>
+                    <p>Chain 3-4 experiments building evidence progressively</p>
+                    <p style="margin-top: 0.5em;"><strong>Example flow:</strong></p>
+                    <p style="margin-left: 1em; font-style: italic;">Interviews → Search trends → Landing page → Concierge</p>
+
+                    <p style="margin-top: 0.8em;"><strong>Document your sequence:</strong></p>
+                    <ol>
+                        <li>Experiment name</li>
+                        <li>What you'll learn</li>
+                        <li>Success criteria</li>
+                        <li>Next step if successful/failed</li>
+                    </ol>
+                </div>
+
+                <div class="activity-box">
+                    <h3>Share Out (5 min)</h3>
+                    <p>One team shares their sequence → Group provides feedback</p>
+                </div>
+            </section>
+
+            <!-- Slide 27: Module 3 Key Takeaways -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Module 3: Key Takeaways
+
+                ::: smartart Module 3 Key Takeaways CHECKLIST
+                intro: Core principles of experiment selection:
+                - [ ] **Progressive Evidence:** Build from weak to strong evidence systematically
+                - [ ] **Resource Matching:** Choose experiments you can actually execute
+                - [ ] **Failure is Data:** Failed experiments save you from bigger failures
+                - [ ] **Speed Matters:** Faster learning = more iterations = better outcomes
+                :::
+
+                <div style="margin-top: 1.5em; padding: 1em; background: var(--ax-light-gray); border-radius: 8px;">
+                    <p style="margin: 0.3em 0;"><strong>Reflection Questions:</strong></p>
+                    <ol style="margin-top: 0.5em;">
+                        <li>Which experiment type was new to you?</li>
+                        <li>How would your sequence change with 10x more budget?</li>
+                        <li>What experiment could you run this week?</li>
+                    </ol>
+                </div>
+                </script>
+            </section>
+
+            <!-- ========================================
+                 MODULE 4: CASE STUDY - BROBOT
+                 ======================================== -->
+
+            <!-- Slide 28: Module 4 Section Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #6B3FA0 0%, #4a2870 100%)">
+                <h1>Module 4</h1>
+                <h2>Case Study: BroBot</h2>
+                <p>Real-world application of systematic testing</p>
+            </section>
+
+            <!-- Slide 29: Case Study Introduction -->
+            <section>
+                <h2>Case Study: BroBot Dating Advice</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>A Real NYC Startup Story</h3>
+                        <ul>
+                            <li>Men's dating advice chatbot</li>
+                            <li>Text for personalized advice</li>
+                            <li>Team of talented founders</li>
+                            <li>Seemingly perfect market fit</li>
+                        </ul>
+                        <p style="margin-top: 1em; font-weight: 600;">Let's see how systematic testing saved them from disaster...</p>
+                    </div>
+                    <div class="column">
+                        <img src="assets/images/case-study-startup.png" alt="Startup founders analyzing data" style="border-radius: 8px;">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 30: Their Testing Journey -->
+            <section class="compact">
+                <h2>From Assumption to Evidence</h2>
+
+                <div style="background: var(--ax-light-gray); padding: 1em; border-radius: 8px; margin-bottom: 1em;">
+                    <h3 style="margin-top: 0;">Their Assumption Map Revealed:</h3>
+                    <ul>
+                        <li>"Men want dating advice" (Important, no evidence)</li>
+                        <li>"They'll pay for instant access" (Important, no evidence)</li>
+                        <li>"AI can provide good advice" (Important, no evidence)</li>
+                    </ul>
+                </div>
+
+                <h3>Their Experiment Sequence:</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>1. Customer Interviews</h3>
+                        <p>15 men interviewed</p>
+                        <p style="margin-top: 0.3em;"><strong>Result:</strong> Yes, dating is hard, advice is overwhelming</p>
+                    </div>
+                    <div class="card">
+                        <h3>2. Search Trend Analysis</h3>
+                        <p>Google Trends research</p>
+                        <p style="margin-top: 0.3em;"><strong>Result:</strong> Thousands searching "dating advice for men" monthly</p>
+                    </div>
+                    <div class="card">
+                        <h3>3. Paper Prototype</h3>
+                        <p>Conversation flow testing</p>
+                        <p style="margin-top: 0.3em;"><strong>Result:</strong> Positive feedback on interaction model</p>
+                    </div>
+                    <div class="card">
+                        <h3>4. Landing Page</h3>
+                        <p>Value prop test</p>
+                        <p style="margin-top: 0.3em;"><strong>Result:</strong> 1,000 signups in hours (!)</p>
+                    </div>
+                    <div class="card">
+                        <h3>5. Wizard of Oz</h3>
+                        <p>3 women manually texting as "AI"</p>
+                        <p style="margin-top: 0.3em;"><strong>Result:</strong> Extremely high engagement</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 31: The Results -->
+            <section>
+                <h2>What They Learned</h2>
+
+                <div class="cards-grid">
+                    <div class="card" style="border-left-color: #28a745;">
+                        <h3>✅ Desirability: VALIDATED</h3>
+                        <ul>
+                            <li>Overwhelming demand (too many signups!)</li>
+                            <li>Men loved personalized, instant advice</li>
+                            <li>Engagement was extremely high</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="border-left-color: #ffc107;">
+                        <h3>❓ Feasibility: UNCERTAIN</h3>
+                        <ul>
+                            <li>Manual responses didn't scale</li>
+                            <li>Real AI would take significant investment</li>
+                            <li>Quality bar was very high</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="border-left-color: #dc3545;">
+                        <h3>❌ Viability: FAILED</h3>
+                        <ul>
+                            <li>Zero willingness to pay</li>
+                            <li>No clear monetization path</li>
+                            <li>Acquisition costs > lifetime value</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.5em; padding: 1.5em; background: linear-gradient(135deg, #f5f0fa 0%, #fff 100%); border: 2px solid var(--ax-purple); border-radius: 8px; text-align: center;">
+                    <p style="font-size: 1.1em; margin: 0.3em 0;"><strong>Decision: Shut down after 6 weeks</strong></p>
+                    <p style="font-size: 0.9em; margin: 0.5em 0;">Cost to learn: <strong style="color: #28a745;">~$5,000</strong></p>
+                    <p style="font-size: 0.9em; margin: 0.5em 0;">Cost avoided: <strong style="color: #dc3545;">~$500,000+</strong></p>
+                    <p style="font-size: 1em; margin-top: 1em; font-weight: 600; color: var(--ax-purple);">100x ROI on testing investment</p>
+                </div>
+            </section>
+
+            <!-- Slide 32: Lessons Applied -->
+            <section>
+                <h2>Key Lessons from BroBot</h2>
+
+                <div class="two-column">
+                    <div class="column">
+                        <div style="background: rgba(40, 167, 69, 0.1); padding: 1em; border-radius: 8px; border-left: 4px solid #28a745;">
+                            <h3 style="margin-top: 0; color: #28a745;">✅ What Went Right</h3>
+                            <ul>
+                                <li>Tested before building</li>
+                                <li>Used escalating experiments</li>
+                                <li>Kept experiments small</li>
+                                <li>Made decision on data</li>
+                            </ul>
+                        </div>
+
+                        <div style="background: rgba(255, 193, 7, 0.1); padding: 1em; border-radius: 8px; border-left: 4px solid #ffc107; margin-top: 1em;">
+                            <h3 style="margin-top: 0; color: #e5b500;">⚠️ What Could Improve</h3>
+                            <ul>
+                                <li>Test willingness to pay earlier</li>
+                                <li>Set signup limits on experiments</li>
+                                <li>Have scaling plan before Wizard of Oz</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <div style="background: linear-gradient(135deg, #f5f0fa 0%, #fff 100%); padding: 1.5em; border-radius: 8px; border: 2px solid var(--ax-purple); height: 100%;">
+                            <h3 style="margin-top: 0; text-align: center;">💡 The Big Insight</h3>
+                            <p style="font-size: 1.1em; text-align: center; margin: 1.5em 0; font-style: italic; line-height: 1.4;">"People loving your product isn't enough if they won't pay for it"</p>
+                            <div style="background: white; padding: 1em; border-radius: 4px; margin-top: 1.5em;">
+                                <p style="margin: 0.5em 0; font-weight: 600; text-align: center;">Better to learn with $5K in experiments<br>than $500K in development</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 33: Interactive Debrief -->
+            <section>
+                <h2>Case Study Discussion</h2>
+
+                <div class="activity-box">
+                    <h3>Discussion (5 minutes)</h3>
+                    <p>With your partner, discuss:</p>
+                    <ol>
+                        <li>At what point would you have stopped testing?</li>
+                        <li>What experiment would you add to test viability earlier?</li>
+                        <li>How might they pivot instead of shutting down?</li>
+                    </ol>
+
+                    <p style="margin-top: 1em; padding: 0.8em; background: white; border-radius: 4px; border-left: 4px solid var(--ax-yellow);">
+                        <strong>Key Question:</strong> What's your equivalent "everyone loves it but won't pay" risk?
+                    </p>
+                </div>
+            </section>
+
+            <!-- ========================================
+                 KNOWLEDGE CHECK 2
+                 ======================================== -->
+
+            <!-- Slide 34: Knowledge Check 2 -->
+            <section class="compact">
+                <h2>Knowledge Check: Modules 3 & 4</h2>
+
+                <div class="two-column">
+                    <div class="column">
+                        <div class="quiz">
+                            <h4>Question 3: Discovery vs Validation</h4>
+                            <p>You have NO evidence that enterprise buyers will pay $50K/year for your solution. What type of experiment should you run FIRST?</p>
+                            <ul class="quiz-options">
+                                <li>A) Build MVP and sell it</li>
+                                <li>B) Customer interviews to understand budget authority</li>
+                                <li>C) Landing page with pricing</li>
+                                <li>D) Letter of Intent</li>
+                            </ul>
+                            <div class="fragment" style="margin-top: 0.8em; padding: 0.6em; background: var(--ax-light-gray); border-radius: 8px;">
+                                <p style="margin: 0.2em 0; font-size: 0.9em;"><strong>Correct Answer:</strong> B</p>
+                                <p style="font-size: 0.85em; margin: 0.2em 0;"><strong>Rationale:</strong> Start with Discovery (interviews) when you have ZERO evidence. Learn about procurement processes, budget cycles, and decision makers before running Validation experiments. Options A, C, D are all Validation experiments that require some baseline evidence first.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <div class="quiz">
+                            <h4>Question 4: BroBot Case Study</h4>
+                            <p>What was BroBot's critical mistake in their testing sequence?</p>
+                            <ul class="quiz-options">
+                                <li>A) They didn't test Desirability</li>
+                                <li>B) They tested Viability (willingness to pay) too late</li>
+                                <li>C) They used too many experiments</li>
+                                <li>D) They shut down too early</li>
+                            </ul>
+                            <div class="fragment" style="margin-top: 0.8em; padding: 0.6em; background: var(--ax-light-gray); border-radius: 8px;">
+                                <p style="margin: 0.2em 0; font-size: 0.9em;"><strong>Correct Answer:</strong> B</p>
+                                <p style="font-size: 0.85em; margin: 0.2em 0;"><strong>Rationale:</strong> They validated Desirability extensively but didn't test Viability (monetization) until late in the process. Testing willingness to pay earlier (e.g., "Would you pay $X?" in interviews or fake checkout page) would have revealed this fatal flaw sooner and cheaper.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========================================
+                 MODULE 5: YOUR TESTING ROADMAP
+                 ======================================== -->
+
+            <!-- Slide 35: Module 5 Section Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #6B3FA0 0%, #4a2870 100%)">
+                <h1>Module 5</h1>
+                <h2>Your Testing Roadmap</h2>
+                <p>From assumptions to evidence in 12 weeks</p>
+            </section>
+
+            <!-- Slide 36: Module Introduction -->
+            <section>
+                <h2>Building Your 12-Week Testing Sprint</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <p>Time to put it all together. You'll create a 12-week testing plan that systematically addresses your critical unknowns through evidence-building experiments.</p>
+                        <h3 style="margin-top: 1em;">In this module:</h3>
+                        <ol>
+                            <li>Design your first month of experiments</li>
+                            <li>Define success criteria</li>
+                            <li>Plan your pivot triggers</li>
+                        </ol>
+                    </div>
+                    <div class="column">
+                        <img src="assets/images/roadmap-planning-team.png" alt="Team planning roadmap and timeline" style="border-radius: 8px;">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 37: The 12-Week Testing Sprint -->
+            <section class="compact">
+                <h2>From Assumptions to Evidence in 12 Weeks</h2>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>Week 1-4: Discovery Phase</h3>
+                        <ul>
+                            <li>Focus on #1 critical unknown</li>
+                            <li>Run 2-3 discovery experiments</li>
+                            <li>Aim for directional evidence</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Week 5-8: Early Validation</h3>
+                        <ul>
+                            <li>Test refined hypothesis</li>
+                            <li>Run 1-2 validation experiments</li>
+                            <li>Seek behavioral evidence</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Week 9-12: Deep Validation</h3>
+                        <ul>
+                            <li>Test full solution</li>
+                            <li>Run MVP-level experiment</li>
+                            <li>Generate investment-grade evidence</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p style="text-align: center; margin-top: 1em; font-weight: 600;">Remember: Each phase builds on previous learning</p>
+
+                <div style="background: var(--ax-light-gray); padding: 1em; border-radius: 8px; margin-top: 1em;">
+                    <p style="margin: 0; text-align: center;"><strong>Evidence Progression:</strong> None → Some → Strong → Investment-Ready</p>
+                </div>
+            </section>
+
+            <!-- Slide 38: Activity - First Month Planning -->
+            <section class="compact">
+                <h2>Group Activity: Design Your First Month</h2>
+
+                <div class="activity-box">
+                    <h3>First Month Planning (20 min)</h3>
+                    <p>Create your Week 1-4 plan for your #1 critical unknown:</p>
+
+                    <div style="background: white; padding: 0.8em; border-radius: 4px; margin: 0.8em 0;">
+                        <p style="margin: 0.3em 0;"><strong>Critical Unknown #1:</strong> [Write it here]</p>
+
+                        <p style="margin: 0.8em 0 0.3em 0;"><strong>Experiment 1 (Week 1):</strong></p>
+                        <ul style="margin: 0.2em 0 0.2em 1em; font-size: 0.9em;">
+                            <li>Type: [e.g., Customer Interviews]</li>
+                            <li>Sample size: [e.g., 10 people]</li>
+                            <li>Success criteria: [e.g., 7/10 confirm problem exists]</li>
+                            <li>If success → [Next experiment]</li>
+                            <li>If failure → [Pivot or persist decision]</li>
+                        </ul>
+
+                        <p style="margin: 0.8em 0 0.3em 0;"><strong>Experiment 2 (Week 2-3):</strong> [Repeat structure]</p>
+                        <p style="margin: 0.8em 0 0.3em 0;"><strong>Experiment 3 (Week 4):</strong> [Repeat structure]</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 39: Activity - Success Metrics & Pivot Triggers -->
+            <section class="compact">
+                <h2>Group Activity: Define Decision Criteria</h2>
+
+                <div class="activity-box">
+                    <h3>Success Metrics & Pivot Triggers (15 min)</h3>
+                    <p><strong>Define your "Kill Criteria":</strong></p>
+                    <ul>
+                        <li>What result would make you abandon this assumption?</li>
+                        <li>What result would trigger a major pivot?</li>
+                        <li>What result means "full speed ahead"?</li>
+                    </ul>
+
+                    <div style="background: white; padding: 0.8em; border-radius: 4px; margin-top: 0.8em;">
+                        <p style="margin: 0.3em 0;"><strong>Example Kill Criteria:</strong></p>
+                        <ul style="font-size: 0.9em;">
+                            <li>Less than 20% problem confirmation</li>
+                            <li>Zero willingness to pay</li>
+                            <li>Technical impossibility discovered</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="activity-box">
+                    <h3>Document Everything (5 min)</h3>
+                    <ul>
+                        <li>Take photo of your roadmap</li>
+                        <li>Commit to first experiment date</li>
+                        <li>Share accountability partner</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 40: Module 5 Key Takeaways -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Module 5: Key Takeaways
+
+                ::: smartart Module 5 Key Takeaways CHECKLIST
+                intro: Your testing roadmap essentials:
+                - [ ] **Time-boxed Learning:** 12 weeks to evidence or exit
+                - [ ] **Progressive Risk Reduction:** Each experiment de-risks further
+                - [ ] **Clear Decision Points:** Know when to pivot or persevere
+                - [ ] **Documented Learning:** Track assumptions → experiments → evidence
+                :::
+
+                <div style="margin-top: 1.5em; padding: 1em; background: var(--ax-light-gray); border-radius: 8px;">
+                    <p style="margin: 0.3em 0;"><strong>Reflection Questions:</strong></p>
+                    <ol style="margin-top: 0.5em;">
+                        <li>What's your first experiment and when will you run it?</li>
+                        <li>What would make you completely pivot?</li>
+                        <li>Who will hold you accountable?</li>
+                    </ol>
+                </div>
+                </script>
+            </section>
+
+            <!-- ========================================
+                 CLOSING SECTION
+                 ======================================== -->
+
+            <!-- Slide 41: The Path Forward -->
+            <section>
+                <h2>What We Accomplished Today</h2>
+
+                <p style="font-size: 1.1em; margin-bottom: 1em;">In 4 hours, you've built the foundation for evidence-based innovation:</p>
+
+                <div class="cards-grid">
+                    <div class="card" style="border-left-color: #28a745;">
+                        <h3>✓ Business Model Mapping</h3>
+                        <p>Mapped your business model and extracted assumptions across DVF framework</p>
+                    </div>
+                    <div class="card" style="border-left-color: #28a745;">
+                        <h3>✓ Assumption Prioritization</h3>
+                        <p>Prioritized critical unknowns using evidence mapping</p>
+                    </div>
+                    <div class="card" style="border-left-color: #28a745;">
+                        <h3>✓ Experiment Selection</h3>
+                        <p>Selected experiments from a toolkit of 44+ options</p>
+                    </div>
+                    <div class="card" style="border-left-color: #28a745;">
+                        <h3>✓ Testing Roadmap</h3>
+                        <p>Created a 12-week testing roadmap with clear success criteria</p>
+                    </div>
+                    <div class="card" style="border-left-color: #28a745;">
+                        <h3>✓ Decision Framework</h3>
+                        <p>Defined pivot triggers and kill criteria</p>
+                    </div>
+                    <div class="card" style="border-left-color: #28a745;">
+                        <h3>✓ Real-World Learning</h3>
+                        <p>Learned from BroBot case study: $5K learning vs $500K failure</p>
+                    </div>
+                </div>
+
+                <p style="text-align: center; margin-top: 1.5em; font-size: 1.1em;"><strong>You're now prepared to learn fast and cheap instead of slow and expensive.</strong></p>
+            </section>
+
+            <!-- Slide 42: Common Pitfalls to Avoid -->
+            <section>
+                <h2>Watch Out For These Traps</h2>
+
+                <div class="cards-grid">
+                    <div class="card" style="border-left-color: #dc3545;">
+                        <h3>⚠️ Validation Theater</h3>
+                        <p>Running experiments after you've already decided</p>
+                        <p style="font-size: 0.7em; margin-top: 0.5em; font-style: italic;">Antidote: Be genuinely open to negative results</p>
+                    </div>
+                    <div class="card" style="border-left-color: #dc3545;">
+                        <h3>⚠️ Perfection Paralysis</h3>
+                        <p>Waiting for perfect evidence before moving</p>
+                        <p style="font-size: 0.7em; margin-top: 0.5em; font-style: italic;">Antidote: "Strong enough" evidence is good enough</p>
+                    </div>
+                    <div class="card" style="border-left-color: #dc3545;">
+                        <h3>⚠️ Confirmation Bias</h3>
+                        <p>Only seeing data that supports your hypothesis</p>
+                        <p style="font-size: 0.7em; margin-top: 0.5em; font-style: italic;">Antidote: Actively seek disconfirming evidence</p>
+                    </div>
+                    <div class="card" style="border-left-color: #dc3545;">
+                        <h3>⚠️ The Build Trap</h3>
+                        <p>Jumping to building after one positive signal</p>
+                        <p style="font-size: 0.7em; margin-top: 0.5em; font-style: italic;">Antidote: Validate with multiple experiment types</p>
+                    </div>
+                    <div class="card" style="border-left-color: #dc3545;">
+                        <h3>⚠️ Analysis Paralysis</h3>
+                        <p>Testing forever without deciding</p>
+                        <p style="font-size: 0.7em; margin-top: 0.5em; font-style: italic;">Antidote: Set decision deadlines (12-week sprints)</p>
+                    </div>
+                </div>
+
+                <p style="text-align: center; margin-top: 1.5em; font-size: 1em; font-weight: 600; color: var(--ax-purple);">Remember: The goal isn't to run experiments. The goal is to de-risk your business.</p>
+                <p style="text-align: center; margin-top: 0.5em; font-style: italic;">Good experiments lead to hard decisions.</p>
+            </section>
+
+            <!-- Slide 43: Resources & Tools -->
+            <section>
+                <h2>Your Testing Toolkit</h2>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Immediate Actions</h3>
+                        <ul style="list-style-type: none; padding-left: 0;">
+                            <li>☐ Schedule your first experiment (this week!)</li>
+                            <li>☐ Share your assumption map with advisors</li>
+                            <li>☐ Join online testing community</li>
+                        </ul>
+
+                        <h3 style="margin-top: 1.5em;">Resources</h3>
+                        <ul>
+                            <li><strong>Book:</strong> "Testing Business Ideas" by David Bland & Alexander Osterwalder</li>
+                            <li><strong>Tools:</strong> Strategyzer online platform</li>
+                            <li><strong>Community:</strong> Weekly experiment accountability group</li>
+                            <li><strong>Templates:</strong> Experiment library (44 experiments)</li>
+                            <li><strong>Templates:</strong> Assumption Mapping boards (Miro/Mural)</li>
+                        </ul>
+                    </div>
+
+                    <div class="column">
+                        <div style="background: linear-gradient(135deg, #f5f0fa 0%, #fff 100%); padding: 1.5em; border: 2px solid var(--ax-purple); border-radius: 8px; text-align: center;">
+                            <h3 style="margin-top: 0;">💡 Remember</h3>
+                            <p style="font-size: 1.3em; font-weight: 600; margin: 1em 0; color: var(--ax-purple); line-height: 1.4;">Ideas are cheap.<br>Evidence is gold.</p>
+                            <div style="background: white; padding: 1em; border-radius: 4px; margin-top: 1em;">
+                                <p style="margin: 0.5em 0; font-size: 0.95em;">A mediocre idea with great testing beats a great idea with mediocre testing</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 44: Final Reflection & Commitment -->
+            <section>
+                <h2>Final Reflection & Commitment</h2>
+
+                <div class="activity-box" style="background: linear-gradient(135deg, #f5f0fa 0%, #fff 100%); border-left-color: var(--ax-purple);">
+                    <h3>Public Commitment</h3>
+                    <p style="font-size: 1em;">Before we close, share with the group:</p>
+                    <div style="background: white; padding: 1.5em; border-radius: 8px; margin: 1em 0; text-align: center;">
+                        <p style="font-size: 1.1em; margin: 0.5em 0;">"I will run <strong style="color: var(--ax-purple);">[EXPERIMENT NAME]</strong></p>
+                        <p style="font-size: 1.1em; margin: 0.5em 0;">by <strong style="color: var(--ax-purple);">[DATE]</strong></p>
+                        <p style="font-size: 1.1em; margin: 0.5em 0;">to test <strong style="color: var(--ax-purple);">[ASSUMPTION]</strong>"</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2em;">
+                    <h3 style="text-align: center;">Q&A</h3>
+                    <p style="text-align: center; font-size: 1.1em; margin-top: 1em;">What questions will help you take action?</p>
+                </div>
+
+                <p style="text-align: center; margin-top: 2em; font-size: 1.2em; font-weight: 600; color: var(--ax-purple);">Go forth and experiment!</p>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- React Dependencies (required for XBackground plugin) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Reveal.js Core -->
+    <script src="../../../dist/reveal.js"></script>
+    <script src="../../../plugin/notes/notes.js"></script>
+    <script src="../../../plugin/markdown/markdown.js"></script>
+    <script src="../../../plugin/highlight/highlight.js"></script>
+    <script src="../../../plugin/math/math.js"></script>
+
+    <!-- SmartArt Plugin -->
+    <script src="../../../plugin/smartart/smartart.js"></script>
+
+    <!-- Initialize Reveal.js with ES6 Module for XBackground and Feedback Plugins -->
+    <script type="module">
+        // Import XBackground plugin as ES6 module
+        import XBackground from '../../../plugin/xbackground/plugin/xbackground.js';
+
+        // Import Feedback plugin as ES6 module
+        import FeedbackMVP from '../../../plugin/feedback/feedback-mvp.js';
+
+        // Initialize Reveal.js
+        Reveal.initialize({
+            // Optimized viewport configuration for better content fit
+            width: 1280,
+            height: 720,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 2.0,
+
+            hash: true,
+            slideNumber: 'c/t',
+            showSlideNumber: 'all',
+            controls: true,
+            progress: true,
+            center: false,
+            transition: 'slide',
+
+            // Plugin configuration
+            plugins: [
+                RevealMarkdown,
+                RevealHighlight,
+                RevealNotes,
+                RevealMath.KaTeX,
+                RevealSmartArt,
+                XBackground,      // Use the imported ES6 module
+                FeedbackMVP       // Feedback plugin for issue reporting
+            ],
+
+            // SmartArt configuration
+            smartart: {
+                enabled: true
+            },
+
+            // XBackground configuration
+            xbackground: {
+                enabled: true
+            },
+
+            // Feedback plugin configuration
+            feedback: {
+                enabled: true,
+                apiUrl: 'http://localhost:8002/api',
+                shortcut: 'F'
+            }
+        });
+
+        // Per-slide margin control: set margin=0 on the first slide only
+        const DEFAULT_MARGIN = Reveal.getConfig().margin ?? 0.04;
+        function applyMarginForCurrentSlide() {
+            const idx = Reveal.getIndices();
+            const onFirstSlide = (idx.h === 0) && ((idx.v || 0) === 0);
+            Reveal.configure({ margin: onFirstSlide ? 0 : DEFAULT_MARGIN });
+            // Force a layout refresh so background/letterboxing recalculates immediately
+            if (Reveal.layout) {
+                Reveal.layout();
+            }
+        }
+
+        // Auto-skip footer configuration slide
+        // This ensures the global footer config slide is processed by SmartArt but never shown to users
+        Reveal.on('ready', function() {
+            const slides = Reveal.getSlides();
+            const currentSlide = Reveal.getCurrentSlide();
+
+            // If we start on the footer config slide (last slide), navigate to first content slide
+            if (currentSlide && currentSlide.hasAttribute('data-footer-config')) {
+                Reveal.slide(0, 0);
+            }
+
+            // Ensure correct margin on initial render
+            applyMarginForCurrentSlide();
+        });
+
+        // Prevent navigating TO the footer config slide
+        Reveal.on('slidechanged', function(event) {
+            // Update margin depending on whether we are on the first slide
+            applyMarginForCurrentSlide();
+
+            if (event.currentSlide && event.currentSlide.hasAttribute('data-footer-config')) {
+                // Skip forward or backward depending on direction
+                const indices = Reveal.getIndices();
+                const totalSlides = Reveal.getSlides().length;
+
+                if (indices.h >= totalSlides - 1) {
+                    // If at or past the footer slide, go back one
+                    Reveal.slide(indices.h - 1, 0);
+                } else {
+                    // Otherwise skip forward
+                    Reveal.slide(indices.h + 1, 0);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

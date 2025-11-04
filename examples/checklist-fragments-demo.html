@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartArt Checklist with Fragments - RevealX Demo</title>
+
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="../dist/reveal.css">
+    <link rel="stylesheet" href="../dist/theme/white.css">
+
+    <style>
+        /* Custom styling for the demo */
+        .reveal h1 {
+            font-size: 2.5em;
+            color: #6B46C1;
+            margin-bottom: 0.5em;
+        }
+
+        .reveal h2 {
+            font-size: 2em;
+            color: #6B46C1;
+            margin-bottom: 1em;
+        }
+
+        /* Make sure fragments have proper spacing */
+        .smartart__checklist-item {
+            margin: 0.5em 0;
+        }
+
+        /* Enhance the checked state animation */
+        .smartart__checklist-checkbox {
+            transition: transform 0.2s ease;
+        }
+
+        .smartart__checklist-checkbox:checked {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Title Slide -->
+            <section>
+                <h1>SmartArt Checklist</h1>
+                <h2>with Reveal.js Fragments</h2>
+                <p>Progressive reveal and auto-check demonstration</p>
+            </section>
+
+            <!-- Key Learnings Demo (matches user's screenshot) -->
+            <section>
+                <div data-smartart='{
+                    "layout": "checklist",
+                    "heading": "Key Learnings",
+                    "intro": "Key learnings from this section:",
+                    "items": [
+                        {
+                            "title": "AI speeds pattern mining: Analyzing dozens of quotes manually is time-consuming; AI surfaces themes in seconds."
+                        },
+                        {
+                            "title": "Human review adds nuance: AI may miss context, cultural subtleties, or emerging weak signals. Your domain expertise catches what AI cannot."
+                        },
+                        {
+                            "title": "Bias mitigation is critical: If your qualitative data lacks diversity (e.g., no input from underrepresented users), AI will amplify that gap. Always audit your data sources."
+                        },
+                        {
+                            "title": "Prioritization guides validation: Selecting top problems focuses your limited resources on high-impact opportunities. Document your rationale for future reference."
+                        }
+                    ]
+                }'></div>
+            </section>
+
+            <!-- Simple Demo -->
+            <section>
+                <div data-smartart='{
+                    "layout": "checklist",
+                    "heading": "Project Milestones",
+                    "intro": "Click through to see progress:",
+                    "items": [
+                        {"title": "Research phase completed"},
+                        {"title": "Design mockups approved"},
+                        {"title": "Development in progress"},
+                        {"title": "Testing phase upcoming"}
+                    ]
+                }'></div>
+            </section>
+
+            <!-- Custom Animation Demo -->
+            <section>
+                <div data-smartart='{
+                    "layout": "checklist",
+                    "heading": "Custom Animation",
+                    "intro": "Using fade-left animation:",
+                    "fragmentAnimation": "fade-left",
+                    "items": [
+                        {"title": "First item slides from right"},
+                        {"title": "Second item follows"},
+                        {"title": "Third item continues"},
+                        {"title": "All auto-checked on reveal"}
+                    ]
+                }'></div>
+            </section>
+
+            <!-- Pre-checked Items Demo -->
+            <section>
+                <div data-smartart='{
+                    "layout": "checklist",
+                    "heading": "Mixed State",
+                    "intro": "Some items can start pre-checked:",
+                    "items": [
+                        {"title": "Already completed task", "checked": true},
+                        {"title": "Another done item", "checked": true},
+                        {"title": "Pending task - will check on reveal"},
+                        {"title": "Final pending task"}
+                    ]
+                }'></div>
+            </section>
+
+            <!-- Fragments Disabled Demo -->
+            <section>
+                <div data-smartart='{
+                    "layout": "checklist",
+                    "heading": "Static Checklist",
+                    "intro": "With fragments disabled (all items visible at once):",
+                    "fragments": false,
+                    "items": [
+                        {"title": "All items appear together"},
+                        {"title": "No progressive reveal"},
+                        {"title": "Manual interaction only"},
+                        {"title": "Good for reference slides"}
+                    ]
+                }'></div>
+            </section>
+
+            <!-- Configuration Options -->
+            <section>
+                <h2>Configuration Options</h2>
+                <div style="text-align: left; max-width: 800px; margin: 0 auto;">
+                    <h3>Available Options:</h3>
+                    <ul>
+                        <li><code>fragments</code>: Enable/disable fragments (default: true)</li>
+                        <li><code>fragmentAnimation</code>: Animation style (default: "fade-up")</li>
+                        <li><code>autoCheck</code>: Auto-check on reveal (default: true)</li>
+                    </ul>
+
+                    <h3>Fragment Animations:</h3>
+                    <ul>
+                        <li>fade-up, fade-down, fade-left, fade-right</li>
+                        <li>grow, shrink</li>
+                        <li>fade-in-then-out, current-visible</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Usage Example -->
+            <section>
+                <h2>Usage Example</h2>
+                <pre><code class="html" data-trim data-noescape>
+&lt;div data-smartart='{
+    "layout": "checklist",
+    "heading": "Key Learnings",
+    "intro": "Key learnings from this section:",
+    "fragmentAnimation": "fade-up",
+    "items": [
+        {
+            "title": "First learning point"
+        },
+        {
+            "title": "Second learning point"
+        },
+        {
+            "title": "Third learning point",
+            "checked": true
+        }
+    ]
+}'&gt;&lt;/div&gt;
+                </code></pre>
+            </section>
+
+            <!-- Thank You -->
+            <section>
+                <h1>Thank You!</h1>
+                <p>Progressive reveal checklists make presentations more engaging</p>
+                <p style="margin-top: 2em;">
+                    <small>Navigate with arrow keys or spacebar</small>
+                </p>
+            </section>
+        </div>
+    </div>
+
+    <!-- Reveal.js -->
+    <script src="../dist/reveal.js"></script>
+    <script src="../plugin/smartart/smartart.js"></script>
+    <script src="../plugin/highlight/highlight.js"></script>
+
+    <script>
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: true,
+            transition: 'slide',
+
+            plugins: [
+                RevealSmartArt,
+                RevealHighlight
+            ]
+        });
+
+        // Optional: Log fragment events for debugging
+        Reveal.on('fragmentshown', event => {
+            console.log('Fragment shown:', event.fragment);
+        });
+
+        Reveal.on('fragmenthidden', event => {
+            console.log('Fragment hidden:', event.fragment);
+        });
+    </script>
+</body>
+</html>

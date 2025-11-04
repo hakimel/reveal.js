@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>reveal.js - SmartArt Carousel Demo</title>
+  <link rel="stylesheet" href="../dist/reset.css">
+  <link rel="stylesheet" href="../dist/reveal.css">
+  <link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Simple manual carousel with indicators and controls -->
+      <section data-markdown>
+        <script type="text/template">
+        ## Carousel: Manual
+
+  ::: smartart Showcase CAROUSEL
+  height: 360px
+  indicators: true
+  controls: true
+  presentations/images/hero.png | Welcome | A beautiful background
+  presentations/images/novafit.png | NovaFit | AI-powered wellness
+        https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600 | Platform | Built to scale
+        :::
+        </script>
+      </section>
+
+      <!-- Autoplaying carousel -->
+      <section data-markdown>
+        <script type="text/template">
+        ## Carousel: Autoplay
+
+  ::: smartart Highlights CAROUSEL
+  height: 380px
+  autoplay: true
+  interval: 4000
+  loop: true
+  indicators: true
+  controls: false
+        https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1600 | Analytics | Data-driven insights
+        https://images.unsplash.com/photo-1522199755839-a2bacb67c546?q=80&w=1600 | Collaboration | Teams move faster together
+        https://images.unsplash.com/photo-1529101091764-c3526daf38fe?q=80&w=1600 | Security | Trust at every layer
+        :::
+        </script>
+      </section>
+
+      <!-- Dark background slide -->
+      <section data-markdown data-background="#0f172a">
+        <script type="text/template">
+        ## Carousel: Dark Slide
+
+  ::: smartart Night Shots CAROUSEL
+  height: 340px
+  indicators: true
+  controls: true
+        https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600 | Night City | The city never sleeps
+        https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=1600 | Stars | Endless possibilities
+        https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1600 | Mountains | Aim higher
+        :::
+        </script>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="../dist/reveal.js"></script>
+  <script src="../plugin/markdown/markdown.js"></script>
+  <script src="../plugin/smartart/smartart.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      controls: true,
+      progress: true,
+      center: false,
+      transition: 'slide',
+      plugins: [ RevealMarkdown, RevealSmartArt ]
+    });
+  </script>
+</body>
+</html>

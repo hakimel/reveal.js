@@ -1,0 +1,3175 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI for Product Discovery | AdaptiveX Workshop</title>
+    <link rel="stylesheet" href="../../dist/reset.css">
+    <link rel="stylesheet" href="../../dist/reveal.css">
+    <link rel="stylesheet" href="../../dist/theme/black.css">
+
+    </head>
+    <body>
+    <script>
+    // Viewport height CSS variable to make 100vh work reliably on mobile browsers
+    (function() {
+        function setViewportHeightVar() {
+            try {
+                document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
+            } catch (e) { /* noop */ }
+        }
+        window.addEventListener('resize', setViewportHeightVar, { passive: true });
+        window.addEventListener('orientationchange', setViewportHeightVar);
+        setViewportHeightVar();
+    })();
+    </script>
+    <style>
+        :root {
+            --ax-purple: #6B3FA0;
+            --ax-yellow: #F9C80E;
+            --ax-dark-gray: #2C2C2C;
+            --ax-mid-gray: #808080;
+            --ax-light-gray: #F5F5F5;
+        }
+
+        /* Import Averta font (fallback to Arial if not available) */
+        body, .reveal {
+            font-family: 'Averta', Arial, Helvetica, sans-serif;
+            color: var(--ax-dark-gray);
+        }
+
+        /* Custom AdaptiveX Theme */
+        .reveal {
+            background-color: #fff;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            color: var(--ax-purple);
+            font-weight: 700;
+            text-transform: none;
+            margin-bottom: 0.5em;
+        }
+
+        .reveal h1 {
+            font-size: 2em;
+            line-height: 1.2;
+        }
+
+        .reveal h2 {
+            font-size: 1.4em;
+            line-height: 1.1;
+            margin-bottom: 0.3em;
+        }
+
+        .reveal h3 {
+            font-size: 1em;
+            line-height: 1.2;
+        }
+
+        .reveal p, .reveal ul, .reveal ol {
+            color: var(--ax-dark-gray);
+            font-size: 0.8em;
+            line-height: 1.25;
+        }
+
+        /* Title slide styling */
+        .title-slide {
+            background: linear-gradient(135deg, var(--ax-purple) 0%, #4a2870 100%);
+            color: white !important;
+            text-align: center;
+            padding: 1em !important;
+        }
+
+        .title-slide h1 {
+            color: white !important;
+            font-size: 2.5em;
+        }
+
+        .title-slide h2,
+        .title-slide p {
+            color: white !important;
+        }
+
+        .title-slide .subtitle {
+            color: var(--ax-yellow) !important;
+            font-size: 1.1em;
+            margin-top: 0.8em;
+        }
+
+        /* Section divider slides */
+        .section-divider {
+            color: white !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            justify-content: center !important;
+            height: 100% !important;
+            padding-left: 3em !important;
+        }
+
+        .section-divider h1 {
+            color: white !important;
+            font-size: 2.5em;
+            margin-bottom: 0.3em;
+            text-align: left;
+        }
+
+        .section-divider h2 {
+            color: white !important;
+            font-size: 1.8em;
+            margin-bottom: 0.3em;
+            text-align: left;
+        }
+
+        .section-divider p {
+            color: white !important;
+            text-align: left;
+        }
+
+        /* Gradient background slides - ensure text is visible */
+        [data-background-gradient] h1,
+        [data-background-gradient] h2,
+        [data-background-gradient] h3,
+        [data-background-gradient] p {
+            color: white !important;
+        }
+
+        /* Content slides with responsive fluid grid */
+        .reveal .slides section {
+            text-align: left;
+            padding: 0.3em 0.5em;
+        }
+
+        /* Ensure content stays above footer - add bottom padding when footer is present */
+        /* Using :has() selector for modern browsers */
+        .reveal .slides section:has(.smartart[data-layout="footer"]) {
+            padding-bottom: calc(clamp(20px, 4vh, 32px) + clamp(12px, 2.4vh, 24px));
+        }
+
+        /* Fallback: Apply padding to all sections, then remove from special cases */
+        @supports not selector(:has(*)) {
+            .reveal .slides section {
+                padding-bottom: calc(clamp(20px, 4vh, 32px) + clamp(12px, 2.4vh, 24px));
+            }
+        }
+
+        /* Hide footer on title and section divider slides */
+        .reveal .slides section.title-slide .smartart[data-layout="footer"],
+        .reveal .slides section.section-divider .smartart[data-layout="footer"] {
+            display: none;
+        }
+
+        /* Remove bottom padding from title and section divider slides */
+        .reveal .slides section.title-slide,
+        .reveal .slides section.section-divider {
+            padding-bottom: 0.3em !important;
+        }
+
+        /* Also remove extra padding from compact slides if they're getting too cramped */
+        .reveal .slides section.compact,
+        .reveal .slides section.super-compact,
+        .reveal .slides section.ultra-compact {
+            padding-bottom: calc(clamp(20px, 4vh, 32px) + clamp(8px, 1.6vh, 16px));
+        }
+
+        /* Responsive container system */
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container > p {
+            margin: 0.3em 0;
+        }
+
+        /* Fluid grid system */
+        .grid {
+            display: grid;
+            gap: 0.5em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .grid-2col {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-3col {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Force 2-column layout for dense content */
+        .grid-2col-fixed {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5em;
+        }
+
+        /* Single column for very dense slides */
+        .grid-1col {
+            grid-template-columns: 1fr;
+            gap: 0.4em;
+        }
+
+        /* Card system with no overflow */
+        .card {
+            background: white;
+            border: 2px solid var(--ax-purple);
+            border-radius: 8px;
+            padding: 0.5em;
+            box-sizing: border-box;
+            overflow: hidden;
+            height: auto;
+            min-height: 0;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 0.9em;
+            color: var(--ax-purple);
+            margin-bottom: 0.2em;
+            line-height: 1.15;
+        }
+
+        .card p, .card ul {
+            font-size: 0.75em;
+            margin: 0.2em 0;
+            line-height: 1.2;
+        }
+
+        .card ul {
+            padding-left: 1em;
+        }
+
+        .card li {
+            margin: 0.1em 0;
+            line-height: 1.2;
+        }
+
+        /* Extra compact cards for dense slides */
+        .card.compact {
+            padding: 0.4em;
+        }
+
+        .card.compact h3 {
+            font-size: 0.85em;
+            margin-bottom: 0.15em;
+        }
+
+        .card.compact p,
+        .card.compact ul,
+        .card.compact li {
+            font-size: 0.7em;
+            margin: 0.15em 0;
+        }
+
+        /* Highlight cards with yellow accent */
+        .card.highlight {
+            border-color: var(--ax-yellow);
+            background: linear-gradient(to bottom, #fff 0%, #fffef5 100%);
+        }
+
+        .card.highlight h3 {
+            color: var(--ax-yellow);
+        }
+
+        /* Responsive images */
+        .reveal img {
+            max-width: 100%;
+            max-height: 380px;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            object-fit: contain;
+            margin: 0 auto;
+        }
+
+        .img-container {
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .img-container img {
+            max-height: 330px;
+        }
+
+        .title-slide .img-container img {
+            max-height: 250px;
+        }
+
+        .compact .img-container img {
+            max-height: 280px;
+        }
+
+        /* Two-column layout for text + image */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5em;
+            align-items: start;
+        }
+
+        /* Compact two-column for dense slides */
+        .compact .two-col {
+            gap: 0.4em;
+        }
+
+        /* Activity boxes */
+        .activity {
+            background: var(--ax-light-gray);
+            border-left: 5px solid var(--ax-yellow);
+            padding: 0.5em;
+            margin: 0.3em 0;
+            border-radius: 4px;
+        }
+
+        .activity h3 {
+            color: var(--ax-yellow);
+            margin-top: 0;
+            font-size: 0.9em;
+            margin-bottom: 0.2em;
+            line-height: 1.15;
+        }
+
+        .activity .time {
+            background: var(--ax-yellow);
+            color: var(--ax-dark-gray);
+            padding: 0.15em 0.4em;
+            border-radius: 20px;
+            font-size: 0.65em;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.2em;
+        }
+
+        .activity p, .activity ol, .activity ul {
+            font-size: 0.7em;
+            margin: 0.2em 0;
+            line-height: 1.2;
+        }
+
+        .activity li {
+            margin: 0.1em 0;
+            line-height: 1.2;
+        }
+
+        .activity strong {
+            font-size: 1em;
+        }
+
+        /* Key takeaways */
+        .takeaway {
+            background: linear-gradient(to right, var(--ax-purple) 0%, #8b5fc0 100%);
+            color: white;
+            padding: 0.4em 0.6em;
+            border-radius: 8px;
+            margin: 0.25em 0;
+        }
+
+        .takeaway p {
+            font-size: 0.7em;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .takeaway strong {
+            color: var(--ax-yellow);
+        }
+
+        /* Knowledge check styling */
+        .quiz {
+            background: white;
+            border: 3px solid var(--ax-purple);
+            padding: 0.5em;
+            border-radius: 8px;
+            margin: 0.3em 0;
+        }
+
+        .quiz h4 {
+            color: var(--ax-purple);
+            margin-top: 0;
+            font-size: 0.9em;
+            margin-bottom: 0.2em;
+            line-height: 1.15;
+        }
+
+        .quiz p {
+            font-size: 0.7em;
+            margin: 0.2em 0;
+            line-height: 1.2;
+        }
+
+        .quiz-options {
+            list-style: none;
+            padding: 0;
+            margin: 0.2em 0;
+        }
+
+        .quiz-options li {
+            background: var(--ax-light-gray);
+            padding: 0.3em 0.5em;
+            margin: 0.2em 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.65em;
+            line-height: 1.2;
+        }
+
+        .quiz-options li:hover {
+            background: var(--ax-yellow);
+            transform: translateX(5px);
+        }
+
+        .quiz > div {
+            padding: 0.4em;
+            margin-top: 0.3em;
+        }
+
+        .quiz > div p {
+            font-size: 0.65em;
+        }
+
+        .quiz > div p strong {
+            font-size: 1em;
+        }
+
+        /* Case study box */
+        .case-study {
+            background: linear-gradient(135deg, #f5f0fa 0%, #fff 100%);
+            border: 2px solid var(--ax-purple);
+            padding: 0.8em 1em;
+            border-radius: 8px;
+            margin: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .case-study .logo {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: var(--ax-purple);
+            margin-bottom: 0.4em;
+            line-height: 1.15;
+        }
+
+        .case-study .tagline {
+            color: var(--ax-yellow);
+            font-style: italic;
+            font-size: 0.75em;
+            margin: 0 0 0.6em 0;
+            line-height: 1.25;
+            padding-bottom: 0.6em;
+            border-bottom: 1px solid rgba(107, 63, 160, 0.2);
+        }
+
+        /* Override compact mode for case-study to prevent layout breaks */
+        .reveal section.compact .case-study .logo {
+            font-size: 1.2em !important;
+            font-weight: 700;
+            color: var(--ax-purple);
+            margin-bottom: 0.3em !important;
+            line-height: 1.15;
+        }
+
+        .reveal section.compact .case-study .tagline {
+            color: var(--ax-yellow) !important;
+            font-style: italic;
+            font-size: 0.7em !important;
+            margin: 0 0 0.5em 0 !important;
+            line-height: 1.25;
+            padding-bottom: 0.5em !important;
+            border-bottom: 1px solid rgba(107, 63, 160, 0.2);
+        }
+
+        .reveal section.compact .case-study h3 {
+            font-size: 0.88em !important;
+            margin-top: 0.4em !important;
+            margin-bottom: 0.25em !important;
+            color: var(--ax-purple);
+        }
+
+        .reveal section.compact .case-study p {
+            font-size: 0.72em !important;
+            margin-bottom: 0.4em !important;
+            line-height: 1.25 !important;
+        }
+
+        .case-study h3 {
+            font-size: 0.95em;
+            margin-top: 0.5em;
+            margin-bottom: 0.3em;
+            line-height: 1.15;
+            color: var(--ax-purple);
+        }
+
+        .case-study p {
+            font-size: 0.75em;
+            margin: 0 0 0.4em 0;
+            line-height: 1.3;
+        }
+
+        /* Prompt library styling */
+        .prompt-box {
+            background: var(--ax-dark-gray);
+            color: #fff;
+            padding: 0.4em 0.5em;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.65em;
+            margin: 0.25em 0;
+            overflow-x: auto;
+            line-height: 1.2;
+        }
+
+        .prompt-box strong {
+            display: block;
+            margin-bottom: 0.2em;
+        }
+
+        /* Footer styling - slide numbers disabled */
+        /* .reveal .slide-number {
+            color: var(--ax-purple);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.5em;
+        } */
+
+        /* Media Queries for Responsiveness */
+        @media screen and (max-width: 1400px) {
+            .reveal h1 { font-size: 1.8em; }
+            .reveal h2 { font-size: 1.5em; }
+            .grid { gap: 0.8em; }
+            .card { padding: 0.8em; }
+            .two-col { gap: 0.8em; }
+        }
+
+        @media screen and (max-width: 1000px) {
+            .reveal h1 { font-size: 1.6em; }
+            .reveal h2 { font-size: 1.4em; }
+            .two-col {
+                grid-template-columns: 1fr;
+                gap: 0.8em;
+            }
+            .grid-2col, .grid-3col {
+                grid-template-columns: 1fr;
+            }
+            .card { padding: 0.8em; }
+        }
+
+        @media screen and (max-width: 700px) {
+            .reveal h1 { font-size: 1.4em; }
+            .reveal h2 { font-size: 1.2em; }
+            .reveal h3 { font-size: 1em; }
+            .reveal p, .reveal ul { font-size: 0.8em; }
+            .card { padding: 0.6em; }
+            .activity { padding: 0.8em; }
+            .grid { gap: 0.6em; }
+        }
+
+        /* Prevent overflow on all elements */
+        * {
+            box-sizing: border-box;
+        }
+
+        .reveal .slides section {
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .reveal .slides section > * {
+            max-width: 100%;
+        }
+
+        /* List styling */
+        .reveal ul, .reveal ol {
+            margin-left: 1em;
+            margin-top: 0.2em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal li {
+            margin: 0.1em 0;
+            line-height: 1.25;
+        }
+
+        /* Optimize specific content types */
+        .reveal section h2 {
+            margin-bottom: 0.25em;
+        }
+
+        .reveal section h3 {
+            margin-bottom: 0.2em;
+        }
+
+        /* Compact mode for dense content slides */
+        .reveal section.compact h2 {
+            font-size: 1.3em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal section.compact .grid {
+            gap: 0.4em;
+        }
+
+        .reveal section.compact .card,
+        .reveal section.compact .activity,
+        .reveal section.compact .takeaway,
+        .reveal section.compact .quiz {
+            padding: 0.4em;
+            margin: 0.2em 0;
+        }
+
+        .reveal section.compact .card h3,
+        .reveal section.compact .activity h3,
+        .reveal section.compact .quiz h4 {
+            font-size: 0.8em;
+            margin-bottom: 0.15em;
+        }
+
+        .reveal section.compact p,
+        .reveal section.compact li {
+            font-size: 0.68em;
+            margin: 0.15em 0;
+            line-height: 1.2;
+        }
+
+        .reveal section.compact .card ul,
+        .reveal section.compact .activity ul,
+        .reveal section.compact .activity ol {
+            margin: 0.15em 0;
+            padding-left: 1em;
+        }
+
+        /* Extra-compact for very dense slides */
+        .reveal section.ultra-compact h2 {
+            font-size: 1.15em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal section.ultra-compact .grid {
+            gap: 0.3em;
+        }
+
+        .reveal section.ultra-compact .card,
+        .reveal section.ultra-compact .takeaway,
+        .reveal section.ultra-compact .quiz {
+            padding: 0.3em;
+            margin: 0.15em 0;
+        }
+
+        .reveal section.ultra-compact .card h3,
+        .reveal section.ultra-compact .quiz h4 {
+            font-size: 0.72em;
+            margin-bottom: 0.12em;
+        }
+
+        .reveal section.ultra-compact p,
+        .reveal section.ultra-compact li {
+            font-size: 0.58em;
+            margin: 0.08em 0;
+            line-height: 1.1;
+        }
+
+        .reveal section.ultra-compact .card p {
+            font-size: 0.6em;
+        }
+
+        .reveal section.ultra-compact .quiz-options li {
+            font-size: 0.58em;
+            padding: 0.25em 0.4em;
+            margin: 0.15em 0;
+        }
+
+        .reveal section.ultra-compact .quiz > div {
+            padding: 0.3em;
+            margin-top: 0.25em;
+        }
+
+        .reveal section.ultra-compact .quiz > div p {
+            font-size: 0.56em;
+        }
+
+        .reveal section.ultra-compact .prompt-box {
+            padding: 0.3em 0.4em;
+            margin: 0.2em 0;
+            font-size: 0.58em;
+            line-height: 1.15;
+        }
+
+        .reveal section.ultra-compact .prompt-box strong {
+            font-size: 1em;
+            margin-bottom: 0.1em;
+        }
+
+        /* Super-compact for extremely dense slides (guardrails, knowledge checks) */
+        .reveal section.super-compact h2 {
+            font-size: 1.1em;
+            margin-bottom: 0.15em;
+        }
+
+        .reveal section.super-compact .grid {
+            gap: 0.25em;
+        }
+
+        .reveal section.super-compact .card {
+            padding: 0.25em 0.3em;
+            margin: 0.12em 0;
+        }
+
+        .reveal section.super-compact .card h3 {
+            font-size: 0.68em;
+            margin-bottom: 0.1em;
+            line-height: 1.1;
+        }
+
+        .reveal section.super-compact .card p,
+        .reveal section.super-compact p {
+            font-size: 0.54em;
+            margin: 0.06em 0;
+            line-height: 1.08;
+        }
+
+        .reveal section.super-compact .quiz {
+            padding: 0.3em;
+            margin: 0.15em 0;
+        }
+
+        .reveal section.super-compact .quiz h4 {
+            font-size: 0.7em;
+            margin-bottom: 0.1em;
+        }
+
+        .reveal section.super-compact .quiz-options li {
+            font-size: 0.54em;
+            padding: 0.2em 0.35em;
+            margin: 0.12em 0;
+            line-height: 1.1;
+        }
+
+        .reveal section.super-compact .quiz > div {
+            padding: 0.25em;
+            margin-top: 0.2em;
+        }
+
+        .reveal section.super-compact .quiz > div p {
+            font-size: 0.52em;
+            line-height: 1.1;
+        }
+
+        .reveal section.super-compact .prompt-box {
+            padding: 0.25em 0.35em;
+            margin: 0.15em 0;
+            font-size: 0.52em;
+            line-height: 1.08;
+        }
+
+        .reveal section.super-compact .prompt-box strong {
+            font-size: 1em;
+        }
+
+        /* Strong emphasis with brand yellow */
+        .reveal strong {
+            color: var(--ax-purple);
+            font-weight: 600;
+        }
+
+        .reveal .highlight-yellow {
+            color: var(--ax-yellow);
+            font-weight: 600;
+        }
+
+        /* Section number badges */
+        .section-badge {
+            background: var(--ax-yellow);
+            color: var(--ax-dark-gray);
+            padding: 0.2em 0.5em;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.2em;
+        }
+
+        /* Global vertical compression to prevent overflow */
+        .reveal .slides section > .container > *:first-child {
+            margin-top: 0;
+        }
+
+        .reveal .slides section > .container > *:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Reduce default p margins globally */
+        .reveal p {
+            margin: 0.2em 0;
+        }
+
+        /* Compress h3 within sections */
+        .reveal section h3 {
+            margin-top: 0.3em;
+            margin-bottom: 0.2em;
+        }
+
+        /* Purple header bar with h2 title - automatically applied to content slides */
+        section:has(h2):not(.section-divider):not(.title-slide):not(:has(.smartart--hero)) h2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            color: white !important;
+            background: var(--ax-purple);
+            padding: 0.4em 1em;
+            margin: 0;
+            font-size: 1.2em;
+            z-index: 20;
+            line-height: 1.3;
+            text-align: left !important;
+        }
+
+        /* Adjust content positioning for header bar */
+        section:has(h2):not(.section-divider):not(.title-slide) .container {
+            margin-top: 2.5em;
+        }
+
+        /* Adjust SmartArt components positioning below navbar */
+        section:has(h2):not(.section-divider):not(.title-slide) .smartart {
+            margin-top: 2.8em;
+        }
+
+        /*
+         * Legacy .slide-footer CSS removed - now using SmartArt FOOTER layout
+         * Global footer defined with ::: smartart AdaptiveX FOOTER
+         */
+
+        /* Override SmartArt LINED dark background to white */
+        .reveal .smartart[data-layout="lined"] .smartart__list {
+            background: white !important;
+            border: 1px solid rgba(107, 63, 160, 0.15) !important;
+        }
+
+        /* Ensure LINED list items have proper text color */
+        .reveal .smartart[data-layout="lined"] .smartart__list-item {
+            color: var(--ax-dark-gray) !important;
+        }
+
+        /* Left-align and style intro text */
+        .reveal .smartart[data-layout="lined"] .smartart__intro {
+            color: var(--ax-dark-gray) !important;
+            text-align: left !important;
+            margin-bottom: 0.8em !important;
+        }
+
+        /* Style icons with light purple background */
+        .reveal .smartart[data-layout="lined"] .smartart__list-icon {
+            background: rgba(107, 63, 160, 0.1) !important;
+            border-radius: 8px;
+            padding: 0.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 48px;
+            min-height: 48px;
+        }
+
+        .reveal .smartart[data-layout="lined"] .smartart__list-icon img {
+            filter: invert(28%) sepia(48%) saturate(1543%) hue-rotate(254deg) brightness(85%) contrast(90%);
+            width: 32px !important;
+            height: 32px !important;
+        }
+
+        /* Light purple hover state */
+        .reveal .smartart[data-layout="lined"] .smartart__list-item:hover {
+            background: rgba(107, 63, 160, 0.08) !important;
+        }
+
+        /* Hide old SmartArt navbars if present */
+        section .smartart[data-layout="navbar"] {
+            display: none !important;
+        }
+
+        /* Accordion AdaptiveX styling */
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion {
+            background: white !important;
+            border: 2px solid var(--ax-purple) !important;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-item {
+            border-color: rgba(107, 63, 160, 0.2) !important;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-button {
+            background: rgba(107, 63, 160, 0.05) !important;
+            color: var(--ax-purple) !important;
+            font-weight: 600;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-button:hover {
+            background: rgba(107, 63, 160, 0.12) !important;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-button[aria-expanded="true"] {
+            background: var(--ax-purple) !important;
+            color: white !important;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-icon {
+            color: currentColor;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-panel-inner {
+            color: var(--ax-dark-gray) !important;
+            background: white;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__intro {
+            color: var(--ax-dark-gray) !important;
+            text-align: left !important;
+            margin-bottom: 0.8em !important;
+            font-size: 0.75em;
+        }
+
+        /* Left-align CHECKLIST smartart text */
+        .reveal .smartart[data-layout="checklist"] .smartart__list {
+            text-align: left;
+        }
+
+        .reveal .smartart[data-layout="checklist"] .smartart__list-item {
+            text-align: left;
+        }
+
+        .reveal .smartart[data-layout="checklist"] .smartart__intro {
+            text-align: left;
+        }
+
+        /* Custom CHECKLIST colors: White background with light purple accents */
+        .reveal .smartart__checklist-item {
+            background: white !important;
+            border: 2px solid var(--ax-purple) !important;
+            color: var(--ax-dark-gray) !important;
+        }
+
+        .reveal .smartart__checklist-item:hover {
+            background: rgba(107, 63, 160, 0.1) !important;
+            border-color: var(--ax-purple) !important;
+        }
+
+        /* Checked state - light purple background */
+        .reveal .smartart__checklist-item:has(input:checked) {
+            background: rgba(107, 63, 160, 0.15) !important;
+            border-color: var(--ax-purple) !important;
+        }
+
+        .reveal .smartart__checklist-item:has(input:checked):hover {
+            background: rgba(107, 63, 160, 0.2) !important;
+            border-color: var(--ax-purple) !important;
+        }
+
+        /* Checkbox styling with AdaptiveX purple */
+        .reveal .smartart__checklist-checkbox {
+            border: 2px solid var(--ax-purple) !important;
+        }
+
+        .reveal .smartart__checklist-checkbox:hover {
+            border-color: var(--ax-purple) !important;
+            background: rgba(107, 63, 160, 0.1) !important;
+        }
+
+        .reveal .smartart__checklist-checkbox:checked {
+            background: var(--ax-purple) !important;
+            border-color: var(--ax-purple) !important;
+        }
+
+        .reveal .smartart__checklist-checkbox:checked:hover {
+            background: #8b5fc0 !important;
+            border-color: #8b5fc0 !important;
+        }
+
+        /* Checklist label text - dark gray for readability */
+        .reveal .smartart__checklist-label {
+            color: var(--ax-dark-gray) !important;
+        }
+
+        /* Make strong/bold text (before colon) purple and bold in checklists */
+        .reveal .smartart__checklist-label strong {
+            color: var(--ax-purple) !important;
+            font-weight: 700 !important;
+        }
+
+        /* Ensure strong tags within checklist items are visible */
+        .reveal .smartart__checklist-item strong {
+            color: var(--ax-purple) !important;
+            font-weight: 700 !important;
+        }
+
+        /* Custom CAROUSEL card colors: White background */
+        .reveal .smartart__carousel-card {
+            background: white !important;
+            border: 2px solid var(--ax-purple) !important;
+            color: var(--ax-dark-gray) !important;
+        }
+
+        .reveal .smartart__carousel-card h3 {
+            color: var(--ax-purple) !important;
+        }
+
+        .reveal .smartart__carousel-card strong {
+            color: var(--ax-purple) !important;
+            font-weight: 700 !important;
+        }
+
+        /* White outer carousel frame, grey controls and indicators */
+        .reveal .smartart__carousel {
+            background: white !important;
+        }
+
+        .reveal .smartart__carousel-control {
+            background: rgba(128, 128, 128, 0.7) !important;
+        }
+
+        .reveal .smartart__carousel-control:hover {
+            background: rgba(128, 128, 128, 0.9) !important;
+        }
+
+        .reveal .smartart__carousel-indicators button {
+            background: rgba(128, 128, 128, 0.5) !important;
+        }
+
+        .reveal .smartart__carousel-indicators button[aria-current="true"] {
+            background: rgba(128, 128, 128, 1) !important;
+        }
+
+        /* ================================================
+           LLM RUNNER OFFCANVAS INTEGRATION STYLES
+           ================================================ */
+
+        /* Run Button on Prompt Cards */
+        .prompt-box {
+            position: relative;
+        }
+
+        .run-prompt-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 4px 12px;
+            background: var(--ax-purple);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.75em;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .run-prompt-btn:hover {
+            background: #5a2f80;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(107, 63, 160, 0.4);
+        }
+
+
+        .run-prompt-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+
+        /* Offcanvas Drawer Container - AdaptiveX Themed */
+        .llm-offcanvas {
+            position: fixed;
+            top: 0;
+            right: -700px;
+            width: 700px;
+            height: 100vh;
+            background: linear-gradient(to bottom, #ffffff 0%, #f9f9f9 100%);
+            box-shadow: -8px 0 40px rgba(107, 63, 160, 0.25);
+            z-index: 9999;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            outline: none;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .llm-offcanvas.active {
+            right: 0;
+        }
+
+        /* Offcanvas Header - Purple gradient with gold accent */
+        .llm-offcanvas-header {
+            padding: 1.25rem 1.75rem;
+            background: linear-gradient(135deg, #6B3FA0 0%, #5d3690 100%);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(107, 63, 160, 0.3);
+            border-bottom: 3px solid #F9C80E;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated shimmer effect */
+        .llm-offcanvas-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(249, 200, 14, 0.05) 50%, transparent 70%);
+            background-size: 200% 200%;
+            animation: shimmer 8s ease infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .llm-offcanvas-header h3 {
+            margin: 0;
+            font-size: 1.4em;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .llm-offcanvas-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            line-height: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .llm-offcanvas-close:hover {
+            background: rgba(249, 200, 14, 0.2);
+            border-color: #F9C80E;
+            transform: rotate(90deg);
+        }
+
+        /* Offcanvas Body - Clean gradient background */
+        .llm-offcanvas-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.75rem;
+            background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
+        }
+
+        /* Overlay - Purple tinted */
+        .llm-offcanvas-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(107, 63, 160, 0.4);
+            z-index: 9998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .llm-offcanvas-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* LLM Runner Wrapper inside Offcanvas - Elevated card */
+        .llm-offcanvas .llm-runner-wrapper {
+            background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+            border: 2px solid #6B3FA0;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(107, 63, 160, 0.15);
+            overflow: hidden;
+        }
+
+        /* Offcanvas form controls - AdaptiveX styled */
+        .llm-offcanvas label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            font-size: 0.95em;
+            color: #6B3FA0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .llm-offcanvas input[type="text"],
+        .llm-offcanvas input[type="search"],
+        .llm-offcanvas input[type="email"],
+        .llm-offcanvas input[type="password"],
+        .llm-offcanvas input[type="number"],
+        .llm-offcanvas select,
+        .llm-offcanvas textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background: #ffffff;
+            color: #2C2C2C;
+            font-size: 0.95em;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.5;
+            outline: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .llm-offcanvas textarea {
+            min-height: 140px;
+            resize: vertical;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+        }
+
+        .llm-offcanvas input:hover,
+        .llm-offcanvas select:hover,
+        .llm-offcanvas textarea:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .llm-offcanvas input:focus,
+        .llm-offcanvas select:focus,
+        .llm-offcanvas textarea:focus {
+            border-color: #6B3FA0;
+            box-shadow: 0 0 0 4px rgba(107, 63, 160, 0.15), 0 4px 12px rgba(107, 63, 160, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .llm-offcanvas .input-group {
+            display: flex;
+            align-items: stretch;
+            width: 100%;
+        }
+
+        .llm-offcanvas .input-group > .input-group-text {
+            background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
+            color: #6B3FA0;
+            border: 2px solid #e5e7eb;
+            border-right: 0;
+            padding: 0.75rem 1rem;
+            border-radius: 8px 0 0 8px;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .llm-offcanvas .input-group > input,
+        .llm-offcanvas .input-group > select,
+        .llm-offcanvas .input-group > textarea {
+            border-radius: 0 8px 8px 0;
+        }
+
+        .llm-offcanvas .actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        /* Primary Button - Purple gradient */
+        .llm-offcanvas .btn,
+        .llm-offcanvas button.primary,
+        .llm-offcanvas .llm-runner-btn-primary {
+            background: linear-gradient(135deg, #6B3FA0 0%, #5d3690 100%);
+            color: #ffffff;
+            border: 2px solid #6B3FA0;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            font-size: 0.95em;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                0 4px 12px rgba(107, 63, 160, 0.3),
+                0 2px 4px rgba(107, 63, 160, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .llm-offcanvas .btn::before,
+        .llm-offcanvas button.primary::before,
+        .llm-offcanvas .llm-runner-btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s;
+        }
+
+        .llm-offcanvas .btn:hover,
+        .llm-offcanvas button.primary:hover,
+        .llm-offcanvas .llm-runner-btn-primary:hover {
+            background: linear-gradient(135deg, #7d4fb8 0%, #6B3FA0 100%);
+            transform: translateY(-2px);
+            box-shadow:
+                0 6px 20px rgba(107, 63, 160, 0.4),
+                0 3px 8px rgba(107, 63, 160, 0.25);
+        }
+
+        .llm-offcanvas .btn:active,
+        .llm-offcanvas button.primary:active,
+        .llm-offcanvas .llm-runner-btn-primary:active {
+            transform: translateY(0);
+            box-shadow:
+                0 2px 8px rgba(107, 63, 160, 0.3),
+                0 1px 4px rgba(107, 63, 160, 0.2);
+        }
+
+        .llm-offcanvas .btn:active::before,
+        .llm-offcanvas button.primary:active::before,
+        .llm-offcanvas .llm-runner-btn-primary:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Secondary/Ghost Button - Gold outline */
+        .llm-offcanvas .llm-runner-btn-ghost,
+        .llm-offcanvas button.secondary {
+            background: transparent;
+            color: #6B3FA0;
+            border: 2px solid #6B3FA0;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 700;
+            font-size: 0.95em;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .llm-offcanvas .llm-runner-btn-ghost:hover,
+        .llm-offcanvas button.secondary:hover {
+            background: rgba(107, 63, 160, 0.08);
+            border-color: #5d3690;
+            transform: translateY(-1px);
+        }
+
+        .llm-offcanvas .llm-runner-btn-ghost:active,
+        .llm-offcanvas button.secondary:active {
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .llm-offcanvas {
+                width: 100%;
+                right: -100%;
+            }
+
+            .run-prompt-btn {
+                font-size: 0.7em;
+                padding: 3px 10px;
+            }
+        }
+
+        /* Ensure offcanvas is above reveal.js controls */
+        .llm-offcanvas,
+        .llm-offcanvas-overlay {
+            z-index: 9999 !important;
+        }
+
+        /* Prompt instruction text inside offcanvas - AdaptiveX card style */
+        .llm-offcanvas-prompt-display {
+            background: linear-gradient(135deg, #2C2C2C 0%, #3a3a3a 100%);
+            color: white;
+            padding: 1.25rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9em;
+            line-height: 1.6;
+            border-left: 4px solid #F9C80E;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .llm-offcanvas-prompt-display strong {
+            color: #F9C80E;
+            display: block;
+            margin-bottom: 0.6em;
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+
+        /* Editor Container - Purple bordered card */
+        .llm-offcanvas-editor-container {
+            background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);
+            border: 2px solid #6B3FA0;
+            border-radius: 12px;
+            padding: 0;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(107, 63, 160, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .llm-offcanvas-editor-container:focus-within {
+            box-shadow: 0 8px 24px rgba(107, 63, 160, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* Editor Textarea - Clean, professional */
+        .llm-offcanvas-editor {
+            width: 100%;
+            min-height: 200px;
+            max-height: 300px;
+            padding: 1.25rem;
+            background: #ffffff;
+            color: #2C2C2C;
+            border: none;
+            font-family: 'Monaco', 'Menlo', 'Consolas', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.7;
+            resize: vertical;
+            outline: none;
+            overflow-y: auto;
+            transition: background 0.2s ease;
+        }
+
+        .llm-offcanvas-editor::placeholder {
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .llm-offcanvas-editor:focus {
+            background: #fafafa;
+        }
+
+        /* Actions Row - Button container */
+        .llm-offcanvas-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            padding: 0;
+        }
+
+        /* Output Container - Terminal-like card */
+        .llm-offcanvas-output-container {
+            background: linear-gradient(to bottom, #f9fafb 0%, #f3f4f6 100%);
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            min-height: 150px;
+            max-height: 400px;
+        }
+
+        /* Output Content - Terminal-style */
+        .llm-offcanvas-output {
+            padding: 1.25rem;
+            color: #2C2C2C;
+            overflow-y: auto;
+            font-family: 'Monaco', 'Menlo', 'Consolas', 'Ubuntu Mono', monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            min-height: 150px;
+            max-height: 400px;
+        }
+
+        .llm-offcanvas-output:empty::before {
+            content: '✨ Output will appear here...';
+            color: #9ca3af;
+            font-style: italic;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Loading state */
+        .llm-offcanvas-output .loading {
+            color: #6B3FA0;
+            font-weight: 600;
+            padding-left: 12px;
+            border-left: 3px solid #F9C80E;
+            animation: fadeInUp 0.3s ease-in;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Response styling */
+        .llm-offcanvas-output .response {
+            color: #2C2C2C;
+            padding-left: 12px;
+            border-left: 3px solid #10b981;
+            animation: fadeInUp 0.3s ease-in;
+        }
+
+        /* Error styling */
+        .llm-offcanvas-output .error {
+            color: #dc2626;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-left: 3px solid #dc2626;
+            background: rgba(220, 38, 38, 0.05);
+            border-radius: 4px;
+            animation: fadeInUp 0.3s ease-in;
+        }
+
+        /* Scrollbar styling for editor and output */
+        .llm-offcanvas-editor::-webkit-scrollbar,
+        .llm-offcanvas-output::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .llm-offcanvas-editor::-webkit-scrollbar-track,
+        .llm-offcanvas-output::-webkit-scrollbar-track {
+            background: #f3f4f6;
+            border-radius: 10px;
+        }
+
+        .llm-offcanvas-editor::-webkit-scrollbar-thumb,
+        .llm-offcanvas-output::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #6B3FA0 0%, #5d3690 100%);
+            border-radius: 10px;
+            border: 2px solid #f3f4f6;
+        }
+
+        .llm-offcanvas-editor::-webkit-scrollbar-thumb:hover,
+        .llm-offcanvas-output::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #7d4fb8 0%, #6B3FA0 100%);
+        }
+
+        /* XBackground plugin styles - fullscreen like reveal.js backgrounds */
+        .xbackground-container {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important; /* fallback */
+            height: var(--vh) !important; /* precise viewport height on mobile */
+            z-index: 0 !important; /* ensure visible but still behind overlay/content */
+            pointer-events: none;
+        }
+
+        /* Ensure the background components fill the container */
+        .xbackground-container > * {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        /* Dark overlay between background and content - disabled for aurora */
+        section[data-xbackground]:not([data-xbackground="aurora"])::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1; /* above background container */
+            pointer-events: none;
+        }
+
+        /* Ensure content appears above overlay */
+        section[data-xbackground] > * {
+            position: relative;
+            z-index: 2; /* above overlay */
+        }
+
+        /* Ensure text is readable over animated backgrounds */
+        section[data-xbackground] h1,
+        section[data-xbackground] h2,
+        section[data-xbackground] h3,
+        section[data-xbackground] .smartart__hero-heading {
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.9),
+                         0 0 20px rgba(0,0,0,0.8);
+        }
+
+        section[data-xbackground] p,
+        section[data-xbackground] .smartart__hero-subtitle {
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.9),
+                         0 0 15px rgba(0,0,0,0.7);
+        }
+
+        /* Hyperspeed component styles */
+        #lights {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #lights canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* Hide footer on title/cover and section divider slides */
+        .section-divider .smartart[data-layout="footer"],
+        [data-xbackground="aurora"] .smartart[data-layout="footer"] {
+            display: none !important;
+        }
+
+        /* Hide footer configuration slide completely (backup to JavaScript auto-skip) */
+        section[data-footer-config="true"] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Title -->
+            <section data-markdown data-xbackground="aurora" data-background-color="#000000">
+                <script type="text/template">
+                ::: smartart AI for Product Discovery HERO
+                heading: AI for Product Discovery
+                subtitle: Leveraging Claude AI to transform your product development process
+                background: none
+                :::
+                </script>
+            </section>
+
+            <!-- Slide 2: Welcome & What We'll Explore -->
+            <section>
+                <h2>Welcome & What We'll Explore</h2>
+                <div class="container">
+                    <p style="margin-bottom: 0.4em; font-size: 0.75em; line-height: 1.2;">Welcome to this hands-on workshop on using <strong>generative AI</strong> to transform product discovery.</p>
+
+                    <div class="grid grid-2col">
+                        <div class="card">
+                            <h3>What This Workshop Is</h3>
+                            <ul>
+                                <li>Practical AI applications across discovery phases</li>
+                                <li>Hands-on exercises with real tools</li>
+                                <li>Balance of AI capabilities + human judgment</li>
+                                <li>Ethical frameworks for responsible use</li>
+                            </ul>
+                        </div>
+                        <div class="card highlight">
+                            <h3>Who This Is For</h3>
+                            <ul>
+                                <li>Product Managers</li>
+                                <li>Business Analysts</li>
+                                <li>UX/Product Designers</li>
+                                <li>Product Leaders</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 0.4em; font-size: 0.7em; line-height: 1.2;"><strong>Pre-work:</strong> Foundations of AI (ICP-FAI) or general experience with generative AI tools recommended.</p>
+                </div>
+            </section>
+
+            <!-- Slide 3: Learning Outcomes -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Learning Outcomes
+
+                ::: smartart Learning Outcomes LINED
+                intro: By the end of this workshop, you will be able to:
+                - Identify Problems | Surface 2+ customer problems from qualitative data with AI assistance | icon=lucide:search
+                - Generate Ideas | Create diverse product ideas and explain how AI broadened ideation scope | icon=lucide:lightbulb
+                - Refine & Select | Use AI scoring + human judgment to select top ideas systematically | icon=lucide:filter
+                - Design Artifacts | Create one AI-assisted discovery artifact and explain the process | icon=lucide:layout
+                - Reflect Ethically | Articulate AI's role and draft ethical guardrails for responsible use | icon=lucide:shield-check
+                :::
+                </script>
+            </section>
+
+            <!-- Slide 4: Course Activities Overview -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Course Flow & Activities
+
+                ::: smartart Course Flow & Activities ACCORDION
+                intro: Explore the five key parts of this workshop:
+                [*] Part 1: Customer Problem Discovery | Mine pain points from data, prioritize problem statements
+                Part 2: AI-Driven Idea Generation | Build diverse Idea Bank spanning MVPs to radical concepts
+                Part 3: Idea Refinement & Selection | Score, map, and select top ideas with rationale
+                Part 4: AI-Assisted Artifacts | Draft low-fi discovery tools with peer feedback
+                Part 5: Ethics & Guardrails | Map risks, create actionable if-then guardrails
+                :::
+                </script>
+            </section>
+
+            <!-- Slide 5: NovaFit Case Study -->
+            <section class="compact">
+                <h2>Our Case Study: NovaFit</h2>
+                <div class="container">
+                    <div class="two-col" style="align-items: stretch;">
+                        <div>
+                            <div class="case-study" style="padding: 0.6em 0.8em;">
+                                <div class="logo" style="font-size: 1.2em; margin-bottom: 0.3em;">NovaFit</div>
+                                <p class="tagline" style="font-size: 0.7em; margin: 0 0 0.5em 0; padding-bottom: 0.5em;">"Health and wellness with a fitness plan that works for you."</p>
+
+                                <h3 style="font-size: 0.88em; margin-top: 0.4em; margin-bottom: 0.25em;">Product Vision</h3>
+                                <p style="font-size: 0.72em; margin-bottom: 0.4em; line-height: 1.25;">AI-powered fitness app for busy users (ages 24-45) building healthy habits with minimal time commitment.</p>
+
+                                <h3 style="font-size: 0.88em; margin-top: 0.4em; margin-bottom: 0.25em;">Mission</h3>
+                                <p style="font-size: 0.72em; margin-bottom: 0; line-height: 1.25;">Inclusive wellness through personalized experiences, anytime, anywhere.</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 0.35em; height: 100%;">
+                            <div class="img-container" style="margin-bottom: 0; flex: 1 1 55%; display: flex; align-items: stretch; justify-content: center; min-height: 200px;">
+                                <img src="images/novafit.png" alt="NovaFit App" style="border: 2px solid var(--ax-purple); width: 100%; height: 100%; object-fit: fill;">
+                            </div>
+                            <div class="card" style="padding: 0.6em; flex: 1 1 45%; display: flex; flex-direction: column;">
+                                <h3 style="font-size: 0.95em; margin-bottom: 0.4em; margin-top: 0;">Key Insights</h3>
+                                <ul style="margin: 0; padding-left: 1.2em; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                                    <li style="margin: 0.25em 0; font-size: 0.8em; line-height: 1.4;">Rigid routines overwhelm users</li>
+                                    <li style="margin: 0.25em 0; font-size: 0.8em; line-height: 1.4;">Habits are inconsistent</li>
+                                    <li style="margin: 0.25em 0; font-size: 0.8em; line-height: 1.4;">Mix of data-driven & habit-driven users</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 1: CUSTOMER PROBLEM DISCOVERY -->
+
+            <!-- Slide 6: Section Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>Part 1</h1>
+                <h2>Customer Problem Discovery</h2>
+                <p style="font-size: 1.2em; margin-top: 1em;">From qualitative data to validated problem statements</p>
+            </section>
+
+            <!-- Slide 7: Problem Discovery - Goal -->
+            <section class="compact">
+                <h2>Customer Problem Discovery</h2>
+                <div class="container">
+                    <span class="section-badge">Part 1 of 5</span>
+
+                    <div class="two-col">
+                        <div>
+                            <h3 style="color: var(--ax-purple);">Goal</h3>
+                            <p>Surface customer pain points from quotes, tickets, and feedback—then refine and prioritize <strong>two problem statements</strong> to carry forward.</p>
+
+                            <h3 style="color: var(--ax-purple); margin-top: 0.5em;">How It Works</h3>
+                            <ol>
+                                <li><strong>Prompt AI</strong> to list top pain points from pasted snippets</li>
+                                <li><strong>De-duplicate</strong> and rewrite as concise problem statements</li>
+                                <li><strong>Prioritize</strong> the two most important to address</li>
+                            </ol>
+
+                            <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 6px;">
+                                <p style="font-size: 0.75em; margin: 0; line-height: 1.2;"><strong>Tools:</strong> AI assistant (ChatGPT, Claude, etc.) + Mural "Problem Discovery" board</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="img-container">
+                                <img src="images/customer-problems.png" alt="Customer Problem Discovery">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 8: Problem Mining Activity -->
+            <section class="compact">
+                <h2>Activity: Problem Mining</h2>
+                <div class="container">
+                    <div class="activity" style="padding: 0.4em 0.5em; margin: 0.25em 0;">
+                        <span class="time">⏱ 15 minutes</span>
+                        <h3 style="margin-bottom: 0.15em;">In Pairs: Discover Pain Points</h3>
+                        <p style="margin: 0.1em 0;"><strong>Instructions:</strong></p>
+                        <ol style="margin: 0.15em 0; padding-left: 1.2em;">
+                            <li style="margin: 0.08em 0;">Paste 3-4 customer quotes or support tickets into your AI tool</li>
+                            <li style="margin: 0.08em 0;">Prompt: "List the top 5 customer pain points or unmet needs from these quotes"</li>
+                            <li style="margin: 0.08em 0;">Capture each pain point as a sticky note in Mural's "Problem Discovery" board</li>
+                            <li style="margin: 0.08em 0;">Label each with the quote snippet for traceability</li>
+                        </ol>
+                    </div>
+
+                    <div class="grid grid-2col" style="margin-top: 0.3em; gap: 0.4em;">
+                        <div class="card" style="padding: 0.4em;">
+                            <h3 style="font-size: 0.8em; margin-bottom: 0.15em;">Example: NovaFit Feedback</h3>
+                            <p style="font-size: 0.68em; font-style: italic; margin: 0.1em 0; line-height: 1.15;">"I start strong but lose motivation after 2 weeks. I need something that adapts when I fall off track."</p>
+                            <p style="font-size: 0.68em; font-style: italic; margin: 0.1em 0; line-height: 1.15;">"The app expects me to work out 5 days a week. Who has time for that?"</p>
+                        </div>
+                        <div class="card highlight" style="padding: 0.4em;">
+                            <h3 style="font-size: 0.8em; margin-bottom: 0.15em;">AI Output Example</h3>
+                            <ul style="font-size: 0.68em; margin: 0.1em 0; padding-left: 1.2em;">
+                                <li style="margin: 0.08em 0;"><strong>Pain point:</strong> Motivation drops after initial phase</li>
+                                <li style="margin: 0.08em 0;"><strong>Pain point:</strong> Time commitment unrealistic for target users</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 9: Synthesis & Prioritization Activity -->
+            <section class="compact">
+                <h2>Activity: Synthesis & Prioritization</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 15 minutes</span>
+                        <h3>Refine and Select Top Problems</h3>
+                        <p><strong>Instructions:</strong></p>
+                        <ol>
+                            <li>Review all pain points on your Mural board</li>
+                            <li>Merge duplicates—cluster similar themes</li>
+                            <li>Rewrite top themes as clear problem statements (1-2 sentences)</li>
+                            <li>Prioritize using: <strong>Frequency</strong> (how often mentioned) × <strong>Severity</strong> (impact on user experience)</li>
+                            <li>Select your <strong>top two problem statements</strong> to carry forward</li>
+                        </ol>
+                    </div>
+
+                    <div class="card" style="margin-top: 0.5em;">
+                        <h3>Example Problem Statements</h3>
+                        <ul>
+                            <li><strong>Problem 1:</strong> Users struggle to maintain motivation beyond initial 2-3 weeks, especially when life disrupts their routine.</li>
+                            <li><strong>Problem 2:</strong> Target users (busy professionals 24-45) cannot commit to rigid 5-day workout schedules and need flexible, time-efficient options.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 10: Problem Discovery - Key Takeaways -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Key Takeaways: Problem Discovery
+                
+                ::: smartart Key Learnings CHECKLIST
+                intro: Key learnings from this section:
+                - [ ] **AI speeds pattern mining:** Analyzing dozens of quotes manually is time-consuming; AI surfaces themes in seconds.
+                - [ ] **Human review adds nuance:** AI may miss context, cultural subtleties, or emerging weak signals. Your domain expertise catches what AI cannot.
+                - [ ] **Bias mitigation is critical:** If your qualitative data lacks diversity (e.g., no input from underrepresented users), AI will amplify that gap. Always audit your data sources.
+                - [ ] **Prioritization guides validation:** Selecting top problems focuses your limited resources on high-impact opportunities. Document your rationale for future reference.
+                :::
+                </script>
+            </section>
+
+            <!-- Slide 11: Problem Discovery - Reflection Questions -->
+            <section class="ultra-compact">
+                <h2>Reflection: Problem Discovery</h2>
+                <div class="container">
+                    <div style="padding: 1em; background: white; border-radius: 8px;">
+                        <h3 style="margin-top: 0; font-size: 1em; margin-bottom: 0.4em; color: var(--ax-purple);">Reflection Questions</h3>
+                        <ol style="font-size: 0.75em; line-height: 1.3; margin: 0.3em 0; padding-left: 1.5em;">
+                            <li style="margin-bottom: 0.4em;">What patterns did AI reveal that you might have missed manually?</li>
+                            <li style="margin-bottom: 0.4em;">Where did you override or refine AI's suggestions? Why?</li>
+                            <li style="margin-bottom: 0.4em;">How will you validate these problem statements with real users?</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: AI-DRIVEN IDEA GENERATION -->
+
+            <!-- Slide 12: Section Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>Part 2</h1>
+                <h2>AI-Driven Idea Generation</h2>
+                <p style="font-size: 1.2em; margin-top: 1em;">Build a diverse Idea Bank with AI-powered brainstorming</p>
+            </section>
+
+            <!-- Slide 13: Idea Generation - Goal -->
+            <section class="compact">
+                <h2>AI-Driven Idea Generation</h2>
+                <div class="container">
+                    <span class="section-badge">Part 2 of 5</span>
+
+                    <div class="two-col">
+                        <div>
+                            <h3 style="color: var(--ax-purple);">Goal</h3>
+                            <p>Generate a <strong>diverse Idea Bank</strong> spanning MVP features, radical concepts, UX patterns, business-model tweaks, and distribution channels.</p>
+
+                            <h3 style="color: var(--ax-purple); margin-top: 1em;">The Process</h3>
+                            <ol>
+                                <li><strong>Draft targeted prompts</strong> for different idea categories</li>
+                                <li><strong>Run prompts</strong> and capture all outputs in your Idea Bank</li>
+                                <li><strong>Iterate prompts</strong> to push into unexplored territories</li>
+                                <li><strong>Highlight 3-4</strong> most novel or surprising ideas</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <div class="img-container">
+                                <img src="images/idea-generation.png" alt="Idea Generation">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 14: Prompt Library for Ideas -->
+            <section class="ultra-compact">
+                <h2>Prompt Library: Idea Generation</h2>
+                <div class="container">
+                    <p style="margin-bottom: 0.25em; font-size: 0.68em; line-height: 1.15;">Use these prompts with NovaFit's problems, or adapt for your own context:</p>
+
+                    <div class="grid grid-2col" style="gap: 0.4em; align-items: stretch;">
+                        <!-- Column 1: Prompt Boxes Stacked -->
+                        <div style="display: flex; flex-direction: column; gap: 0.25em;">
+                            <div class="prompt-box" style="padding: 0.35em 0.45em; margin: 0; font-size: 0.58em; line-height: 1.2;">
+                                <strong style="display: block; margin-bottom: 0.15em;">MVP Features:</strong>
+                                "Brainstorm 8 MVP features to solve [Problem 1: motivation drop-off]. Label each as either MVP or experiment."
+                            </div>
+
+                            <div class="prompt-box" style="padding: 0.35em 0.45em; margin: 0; font-size: 0.58em; line-height: 1.2;">
+                                <strong style="display: block; margin-bottom: 0.15em;">Radical Concepts:</strong>
+                                "Suggest 5 radical product concepts that address [Problem 2: time constraints] in novel ways—not just features, but reimagined approaches."
+                            </div>
+
+                            <div class="prompt-box" style="padding: 0.35em 0.45em; margin: 0; font-size: 0.58em; line-height: 1.2;">
+                                <strong style="display: block; margin-bottom: 0.15em;">UX & Business Models:</strong>
+                                "Iterate: surface UX patterns, business-model tweaks, and channel experiments for [combined problems]. Think beyond the app itself."
+                            </div>
+                        </div>
+
+                        <!-- Column 2: Pro Tips Full Height -->
+                        <div class="card" style="padding: 0.5em; display: flex; flex-direction: column; height: 100%;">
+                            <h3 style="font-size: 0.85em; margin-bottom: 0.3em; margin-top: 0;">Pro Tips</h3>
+                            <ul style="margin: 0; padding-left: 1.2em; flex-grow: 1;">
+                                <li style="margin-bottom: 0.3em; font-size: 0.7em; line-height: 1.3;"><strong>Be specific:</strong> Reference your actual problem statements</li>
+                                <li style="margin-bottom: 0.3em; font-size: 0.7em; line-height: 1.3;"><strong>Request diversity:</strong> Explicitly ask for "novel," "unconventional," or "outside the box"</li>
+                                <li style="margin-bottom: 0; font-size: 0.7em; line-height: 1.3;"><strong>Iterate:</strong> If first output is too conservative, ask AI to "go further" or "challenge assumptions"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 15: Idea Generation Activity -->
+            <section class="compact">
+                <h2>Activity: Build Your Idea Bank</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 40 minutes total</span>
+                        <h3>Prompt Crafting + Idea Generation + Highlighting</h3>
+
+                        <p><strong>Phase 1 (10 min): Craft Your Prompts</strong></p>
+                        <ul>
+                            <li>Choose 2-3 prompts from the library or write your own</li>
+                            <li>Customize with your problem statements from Part 1</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 2 (20 min): Generate Ideas</strong></p>
+                        <ul>
+                            <li>Run each prompt through your AI tool</li>
+                            <li>Capture all ideas in Mural "Idea Bank" board</li>
+                            <li>Aim for 20-30 total ideas across categories</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 3 (10 min): Highlight Novelty</strong></p>
+                        <ul>
+                            <li>Tag 3-4 ideas that surprised you or pushed boundaries</li>
+                            <li>Note why each is interesting (even if not immediately feasible)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 16: Idea Generation - Key Takeaways -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Key Takeaways: Idea Generation
+
+                ::: smartart Key Learnings CHECKLIST
+                intro: Key learnings from this section:
+                - [ ] **Prompt quality widens idea space:** Generic prompts yield generic ideas. Targeted, iterative prompts unlock novel solutions you wouldn't reach solo.
+                - [ ] **Scale and speed from AI:** Generating 30 ideas manually might take hours across multiple brainstorm sessions. AI delivers in minutes, letting you focus energy on evaluation.
+                - [ ] **Iteration matters:** First AI output is rarely optimal. Push back, ask "what if," challenge constraints. The conversation with AI is where breakthrough ideas emerge.
+                - [ ] **Human filtering for alignment:** AI doesn't know your strategy, brand values, or technical constraints. Your curation ensures ideas align with organizational reality.
+                :::
+                </script>
+            </section>
+
+            <!-- Slide 17: Idea Generation - Reflection Questions -->
+            <section class="ultra-compact">
+                <h2>Reflection: Idea Generation</h2>
+                <div class="container">
+                    <div style="padding: 1em; background: white; border-radius: 8px;">
+                        <h3 style="margin-top: 0; font-size: 1em; margin-bottom: 0.4em; color: var(--ax-purple);">Reflection Questions</h3>
+                        <ol style="font-size: 0.75em; line-height: 1.3; margin: 0.3em 0; padding-left: 1.5em;">
+                            <li style="margin-bottom: 0.4em;">Which category of ideas (MVP, radical, UX, business model) was most fruitful? Why?</li>
+                            <li style="margin-bottom: 0.4em;">Did AI suggest anything you'd never considered? What made it novel?</li>
+                            <li style="margin-bottom: 0.4em;">How will you balance "safe" MVP ideas with more experimental concepts?</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: IDEA REFINEMENT & SELECTION -->
+
+            <!-- Slide 18: Section Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>Part 3</h1>
+                <h2>Idea Refinement & Selection</h2>
+                <p style="font-size: 1.2em; margin-top: 1em;">From Idea Bank to prioritized concepts with rationale</p>
+            </section>
+
+            <!-- Slide 19: Refinement - Goal -->
+            <section class="ultra-compact">
+                <h2>Idea Refinement & Selection</h2>
+                <div class="container">
+                    <span class="section-badge">Part 3 of 5</span>
+
+                    <div class="two-col">
+                        <div>
+                            <h3 style="color: var(--ax-purple);">Goal</h3>
+                            <p>Combine <strong>AI-assisted scoring</strong> with <strong>human judgment</strong> to converge from 20-30 ideas down to <strong>two final concepts</strong> with clear rationale.</p>
+
+                            <h3 style="color: var(--ax-purple); margin-top: 0.5em;">The Process</h3>
+                            <ol>
+                                <li><strong>AI Scoring:</strong> Rate each idea on feasibility and customer impact (1-5 scale)</li>
+                                <li><strong>Visual Mapping:</strong> Plot ideas on a 2×2 matrix (Feasibility × Impact)</li>
+                                <li><strong>Human Override:</strong> Debate, adjust scores, and record rationales</li>
+                                <li><strong>Final Selection:</strong> Choose top two with documented reasoning</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <div class="img-container">
+                                <img src="images/idea-matrix.png" alt="Idea Matrix">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 20: Scoring Prompt & Matrix -->
+            <section class="super-compact">
+                <h2>AI-Assisted Scoring</h2>
+                <div class="container">
+                    <div class="grid grid-2col" style="gap: 0.5em; align-items: stretch;">
+                        <!-- Left Column: Scoring Prompt -->
+                        <div style="display: flex; flex-direction: column;">
+                            <div class="prompt-box" style="padding: 0.5em 0.6em; font-size: 0.6em; line-height: 1.3; flex-grow: 1;">
+                                <strong style="font-size: 1.1em; display: block; margin-bottom: 0.3em;">Scoring Prompt:</strong>
+                                "Rate each of the following ideas on:<br>
+                                • <strong>Technical Feasibility</strong> (1=very hard, 5=easy)<br>
+                                • <strong>Customer Impact</strong> (1=low value, 5=transformative)<br><br>
+                                Provide a 1-2 sentence rationale for each score. Output as a table. Note any assumptions we should double-check."
+                            </div>
+                        </div>
+
+                        <!-- Right Column: 2x2 Matrix -->
+                        <div style="display: flex; flex-direction: column;">
+                            <h3 style="font-size: 0.75em; margin-bottom: 0.25em; margin-top: 0; color: var(--ax-purple);">Feasibility × Impact Matrix</h3>
+                            <div class="grid grid-2col" style="gap: 0.3em; flex-grow: 1;">
+                                <div class="card highlight" style="padding: 0.4em; display: flex; flex-direction: column; justify-content: center;">
+                                    <h3 style="font-size: 0.65em; margin: 0 0 0.15em 0; line-height: 1.2;">High Impact, High Feasibility</h3>
+                                    <p style="font-size: 0.6em; margin: 0; line-height: 1.2;"><strong>Quick Wins:</strong> Pursue immediately</p>
+                                </div>
+                                <div class="card" style="padding: 0.4em; display: flex; flex-direction: column; justify-content: center;">
+                                    <h3 style="font-size: 0.65em; margin: 0 0 0.15em 0; line-height: 1.2;">High Impact, Low Feasibility</h3>
+                                    <p style="font-size: 0.6em; margin: 0; line-height: 1.2;"><strong>Big Bets:</strong> Consider for long-term roadmap</p>
+                                </div>
+                                <div class="card" style="padding: 0.4em; display: flex; flex-direction: column; justify-content: center;">
+                                    <h3 style="font-size: 0.65em; margin: 0 0 0.15em 0; line-height: 1.2;">Low Impact, High Feasibility</h3>
+                                    <p style="font-size: 0.6em; margin: 0; line-height: 1.2;"><strong>Fill-ins:</strong> Nice-to-haves if capacity exists</p>
+                                </div>
+                                <div class="card" style="padding: 0.4em; display: flex; flex-direction: column; justify-content: center; opacity: 0.6;">
+                                    <h3 style="font-size: 0.65em; margin: 0 0 0.15em 0; line-height: 1.2;">Low Impact, Low Feasibility</h3>
+                                    <p style="font-size: 0.6em; margin: 0; line-height: 1.2;"><strong>Deprioritize:</strong> Park for now</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 21: Refinement Activity -->
+            <section class="compact">
+                <h2>Activity: Score, Map, Select</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 30 minutes total</span>
+                        <h3>AI Scoring + Matrix Mapping + Selection</h3>
+
+                        <p><strong>Phase 1 (10 min): AI Scoring</strong></p>
+                        <ul>
+                            <li>Feed your Idea Bank to AI with the scoring prompt</li>
+                            <li>Review AI's ratings and rationales</li>
+                            <li>Challenge scores that seem off—ask AI to explain reasoning</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 2 (10 min): Matrix Mapping</strong></p>
+                        <ul>
+                            <li>Place each idea on the Feasibility × Impact grid in Mural</li>
+                            <li>Use AI scores as starting point, adjust based on your context</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 3 (10 min): Selection & Rationale</strong></p>
+                        <ul>
+                            <li>Identify top 2 ideas (prioritize high-impact quadrants)</li>
+                            <li>Document: Why these two? What trade-offs did you make?</li>
+                            <li>Capture any ideas to revisit later (parking lot)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 22: Refinement - Key Takeaways -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Key Takeaways: Refinement & Selection
+
+                ::: smartart Key Learnings CHECKLIST
+                intro: Key learnings from this section:
+                - [ ] **Structured scoring reduces bias:** Explicit criteria (feasibility, impact) prevent "loudest voice" or "personal favorite" from dominating decisions.
+                - [ ] **Visual mapping reveals trade-offs:** The 2×2 matrix makes opportunity costs visible. Choosing one idea often means deferring another—document that decision.
+                - [ ] **Override with rationale, not hunches:** When you disagree with AI scores, articulate why. "I have a gut feeling" is weak; "Our infrastructure doesn't support this" is actionable.
+                - [ ] **Selection is hypothesis, not certainty:** You're choosing what to validate next, not predicting the future. Stay humble and plan to learn quickly.
+                :::
+                </script>
+            </section>
+
+            <!-- Slide 23: Refinement - Reflection Questions -->
+            <section class="ultra-compact">
+                <h2>Reflection: Refinement & Selection</h2>
+                <div class="container">
+                    <div style="padding: 1em; background: white; border-radius: 8px;">
+                        <h3 style="margin-top: 0; font-size: 1em; margin-bottom: 0.4em; color: var(--ax-purple);">Reflection Questions</h3>
+                        <ol style="font-size: 0.75em; line-height: 1.3; margin: 0.3em 0; padding-left: 1.5em;">
+                            <li style="margin-bottom: 0.4em;">Where did AI scoring align with your intuition? Where did it diverge?</li>
+                            <li style="margin-bottom: 0.4em;">What criteria beyond feasibility/impact mattered to your selection?</li>
+                            <li style="margin-bottom: 0.4em;">How will you test whether your top two ideas truly have high impact?</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 24: Break -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>☕ Break</h1>
+                <h2>15 Minutes</h2>
+                <p style="font-size: 1.2em; margin-top: 2em;">Stretch, refresh, and get ready for designing artifacts!</p>
+            </section>
+
+            <!-- SECTION 4: DESIGNING AI-ASSISTED ARTIFACTS -->
+
+            <!-- Slide 25: Section Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>Part 4</h1>
+                <h2>Designing AI-Assisted Discovery Artifacts</h2>
+                <p style="font-size: 1.2em; margin-top: 1em;">From ideas to testable prototypes and research tools</p>
+            </section>
+
+            <!-- Slide 26: Artifacts - Goal -->
+            <section class="compact">
+                <h2>AI-Assisted Discovery Artifacts</h2>
+                <div class="container">
+                    <span class="section-badge">Part 4 of 5</span>
+
+                    <div class="two-col">
+                        <div>
+                            <h3 style="color: var(--ax-purple);">Goal</h3>
+                            <p>Produce <strong>one low-fidelity discovery artifact</strong> (prototype sketch, interview guide, survey, or journey map) to validate your top idea.</p>
+
+                            <h3 style="color: var(--ax-purple); margin-top: 1em;">The Process</h3>
+                            <ol>
+                                <li><strong>Choose artifact type</strong> aligned to your hypothesis</li>
+                                <li><strong>Draft with AI</strong> to create scaffold quickly</li>
+                                <li><strong>Refine for context:</strong> Adjust tone, scope, specificity</li>
+                                <li><strong>Peer feedback</strong> via "glow & grow" review</li>
+                                <li><strong>Reflect on process:</strong> How did AI help? Where did you add value?</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <div class="img-container">
+                                <img src="images/artifacts.png" alt="Discovery Artifacts">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 27: Artifact Types & Prompts -->
+            <section>
+                <h2>Artifact Scaffolding Prompts</h2>
+                <div class="container">
+                    <div class="grid grid-2col" style="gap: 0.35em;">
+                        <div class="card" style="padding: 0.35em;">
+                            <h3 style="font-size: 0.75em; margin-bottom: 0.2em;">Interview Guide</h3>
+                            <div class="prompt-box" style="padding: 0.3em; font-size: 0.55em; line-height: 1.2;">
+                                "Draft a 6-question interview guide to validate [idea]. Questions should probe behaviors, constraints, and success signals."
+                            </div>
+                        </div>
+                        <div class="card" style="padding: 0.35em;">
+                            <h3 style="font-size: 0.75em; margin-bottom: 0.2em;">Survey</h3>
+                            <div class="prompt-box" style="padding: 0.3em; font-size: 0.55em; line-height: 1.2;">
+                                "Produce a low-fi survey with 6-8 items (mix multiple choice and open-ended) to validate [hypothesis]."
+                            </div>
+                        </div>
+                        <div class="card" style="padding: 0.35em;">
+                            <h3 style="font-size: 0.75em; margin-bottom: 0.2em;">Journey Map</h3>
+                            <div class="prompt-box" style="padding: 0.3em; font-size: 0.55em; line-height: 1.2;">
+                                "Sketch a journey map for [persona] attempting [goal] in NovaFit. Include stages, tasks, emotions, breakpoints."
+                            </div>
+                        </div>
+                        <div class="card" style="padding: 0.35em;">
+                            <h3 style="font-size: 0.75em; margin-bottom: 0.2em;">Prototype Sketch</h3>
+                            <div class="prompt-box" style="padding: 0.3em; font-size: 0.55em; line-height: 1.2;">
+                                "Describe a low-fi prototype for [feature]. Include key screens, user flows, and interactions to test."
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card highlight ultra-compact" style="margin-top: 0.3em; padding: 0.4em;">
+                        <h3 style="font-size: 0.5em; margin-bottom: 0.2em;">Refinement Checklist</h3>
+                        <ul style="margin: 0.15em 0; padding-left: 1.1em;">
+                            <li style="margin: 0.1em 0; font-size: 0.5em; line-height: 1.25;">✓ Does it test your primary hypothesis?</li>
+                            <li style="margin: 0.1em 0; font-size: 0.5em; line-height: 1.25;">✓ Is the language appropriate for your target users?</li>
+                            <li style="margin: 0.1em 0; font-size: 0.5em; line-height: 1.25;">✓ Are questions/prompts open-ended enough to avoid bias?</li>
+                            <li style="margin: 0.1em 0; font-size: 0.5em; line-height: 1.25;">✓ Can you execute this in your timeframe and budget?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 28: Artifacts Activity -->
+            <section class="compact">
+                <h2>Activity: Design Your Artifact</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 30 minutes total</span>
+                        <h3>Select → Draft → Refine → Review</h3>
+
+                        <p><strong>Phase 1 (5 min): Artifact Selection</strong></p>
+                        <ul>
+                            <li>Pick one artifact type to validate your top idea</li>
+                            <li>Write down the specific hypothesis you're testing</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 2 (15 min): AI Drafting + Refinement</strong></p>
+                        <ul>
+                            <li>Use the appropriate prompt to generate scaffold</li>
+                            <li>Review AI output: adjust tone, add context-specific questions</li>
+                            <li>Ensure artifact aligns with hypothesis and user needs</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 3 (5 min): Peer Feedback</strong></p>
+                        <ul>
+                            <li><strong>Glow:</strong> What's working well?</li>
+                            <li><strong>Grow:</strong> What could be clearer or stronger?</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 4 (5 min): Process Reflection</strong></p>
+                        <ul>
+                            <li>How did AI accelerate your work? Where did you add critical value?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 29: Artifacts - Key Takeaways -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Key Takeaways: Discovery Artifacts
+
+                ::: smartart Key Learnings CHECKLIST
+                intro: Key learnings from this section:
+                - [ ] **AI jump-starts, humans sharpen:** AI gives you a draft in seconds. Your refinement—adjusting for tone, context, and hypothesis alignment—is where quality emerges.
+                - [ ] **Hypothesis clarity drives artifact quality:** If you're fuzzy on what you're testing, even the best AI scaffold won't help. Crisp hypothesis = crisp artifact.
+                - [ ] **Peer review surfaces blind spots:** You're close to your work; fresh eyes catch ambiguous questions, leading prompts, or missing elements.
+                - [ ] **Low-fi is a feature, not a bug:** Polished artifacts invite feedback on aesthetics, not substance. Rough scaffolds focus conversation on the right things.
+                :::
+                </script>
+            </section>
+
+            <!-- Slide 30: Artifacts - Reflection Questions -->
+            <section class="ultra-compact">
+                <h2>Reflection: Discovery Artifacts</h2>
+                <div class="container">
+                    <div style="padding: 1em; background: white; border-radius: 8px;">
+                        <h3 style="margin-top: 0; font-size: 1em; margin-bottom: 0.4em; color: var(--ax-purple);">Reflection Questions</h3>
+                        <ol style="font-size: 0.75em; line-height: 1.3; margin: 0.3em 0; padding-left: 1.5em;">
+                            <li style="margin-bottom: 0.4em;">What part of the artifact required the most human refinement? Why?</li>
+                            <li style="margin-bottom: 0.4em;">How will you ensure your artifact doesn't bias responses toward a desired answer?</li>
+                            <li style="margin-bottom: 0.4em;">When will you deploy this artifact, and with whom?</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: ETHICS & GUARDRAILS -->
+
+            <!-- Slide 31: Section Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>Part 5</h1>
+                <h2>AI Reflection & Ethical Guardrails</h2>
+                <p style="font-size: 1.2em; margin-top: 1em;">Responsible AI use with actionable safeguards</p>
+            </section>
+
+            <!-- Slide 32: Ethics - Goal -->
+            <section class="compact">
+                <h2>AI Reflection & Ethical Guardrails</h2>
+                <div class="container">
+                    <span class="section-badge">Part 5 of 5</span>
+
+                    <div class="two-col">
+                        <div>
+                            <h3 style="color: var(--ax-purple);">Goal</h3>
+                            <p>Map the <strong>benefits vs. risks</strong> of AI across discovery phases, and co-create <strong>2-3 actionable "if-then" guardrails</strong> for responsible use.</p>
+
+                            <h3 style="color: var(--ax-purple); margin-top: 1em;">The Process</h3>
+                            <ol>
+                                <li><strong>Map value:</strong> Where did AI add speed, creativity, or scale?</li>
+                                <li><strong>Map risks:</strong> Bias, blind spots, over-reliance, hallucinations</li>
+                                <li><strong>Note impacts:</strong> What happens if AI assumptions are wrong?</li>
+                                <li><strong>Draft guardrails:</strong> Concrete "if-then" rules with examples from your work</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <div class="img-container">
+                                <img src="images/ethics.png" alt="AI Ethics">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 33: Benefits vs Risks Map -->
+            <section class="ultra-compact">
+                <h2>Benefits vs. Risks Across Discovery</h2>
+                <div class="container">
+                    <div class="grid grid-2col">
+                        <div class="card highlight">
+                            <h3>✅ Benefits</h3>
+                            <ul>
+                                <li><strong>Speed:</strong> Hours → minutes for pattern mining and ideation</li>
+                                <li><strong>Scale:</strong> Process 100s of inputs without human bottleneck</li>
+                                <li><strong>Creativity:</strong> Surface ideas outside your usual frame</li>
+                                <li><strong>Consistency:</strong> Apply same criteria across all ideas</li>
+                                <li><strong>Documentation:</strong> Auto-generate rationales and records</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h3>⚠️ Risks</h3>
+                            <ul>
+                                <li><strong>Bias amplification:</strong> AI reflects patterns in training data</li>
+                                <li><strong>Blind spots:</strong> Missing cultural context or emerging signals</li>
+                                <li><strong>Over-reliance:</strong> Accepting AI output without critical review</li>
+                                <li><strong>Hallucinations:</strong> Plausible-sounding but false information</li>
+                                <li><strong>Homogenization:</strong> Converging on "safe" ideas that AI favors</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 8px;">
+                        <h3 style="margin-top: 0; font-size: 0.85em; margin-bottom: 0.2em;">Real-World Impact Example</h3>
+                        <p style="font-size: 0.7em; margin: 0.2em 0; line-height: 1.2;"><strong>Scenario:</strong> AI analysis of NovaFit feedback emphasizes "busy professionals" pain points because that segment is over-represented in your data.</p>
+                        <p style="font-size: 0.7em; margin: 0.2em 0; line-height: 1.2;"><strong>Consequence:</strong> You build features that exclude stay-at-home parents, students, or retirees—shrinking addressable market and missing diverse user needs.</p>
+                        <p style="font-size: 0.7em; margin: 0.2em 0; line-height: 1.2;"><strong>Guardrail needed:</strong> Audit data sources for demographic balance before analysis.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 34: Creating Guardrails -->
+            <section data-markdown class="super-compact">
+                <script type="text/template">
+## Crafting "If-Then" Guardrails
+
+Guardrails should be **specific, actionable, and tied to concrete examples.**
+
+::: smartart Guardrail Examples CAROUSEL
+cards: true
+height: 420px
+indicators: true
+controls: true
+icon=lucide:users | Data Diversity | **If** qualitative data lacks representation from minority users or edge-case scenarios, **Then** oversample interviews or surveys from those groups before running AI analysis. *Tie-in: NovaFit data skewed toward 30-40 age range; we'll add 10 interviews with 24-29 and 41-45 users.*
+icon=lucide:hand | Human Override | **If** AI scoring conflicts with domain expertise or strategic priorities, **Then** document the override rationale and review decision in next sprint retrospective. *Tie-in: AI rated "gamification badges" as low feasibility, but our eng team has a reusable system—we overrode to high feasibility.*
+icon=lucide:check-circle | Validation Check | **If** AI generates a "fact" about user behavior or market data, **Then** verify with primary sources (user interviews, analytics) before building on that assumption. *Tie-in: AI claimed "most users abandon fitness apps after 21 days"—we'll check our own retention curves before designing around this.*
+icon=lucide:shield-alert | Bias Audit | **If** a discovery artifact (interview guide, survey) was AI-drafted, **Then** have someone from a different background review for leading language or cultural assumptions. *Tie-in: Our AI-generated interview guide used "gym" language; peer feedback noted not all cultures have gym-centric fitness norms.*
+:::
+                </script>
+            </section>
+
+            <!-- Slide 35: Ethics Activity -->
+            <section class="compact">
+                <h2>Activity: Map & Mitigate</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 25 minutes total</span>
+                        <h3>Benefits, Risks, Guardrails</h3>
+
+                        <p><strong>Phase 1 (10 min): Map Benefits & Risks</strong></p>
+                        <ul>
+                            <li>In Mural "Ethics & Reflection" board, create two columns</li>
+                            <li>List where AI added value in your work today (left column)</li>
+                            <li>List potential risks or failure modes you noticed (right column)</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 2 (10 min): Draft Guardrails</strong></p>
+                        <ul>
+                            <li>Choose 2-3 risks that feel most relevant to your context</li>
+                            <li>Write "if-then" guardrails using the template</li>
+                            <li>Tie each to a concrete example from today's exercises</li>
+                        </ul>
+
+                        <p style="margin-top: 1em;"><strong>Phase 3 (5 min): Share & Refine</strong></p>
+                        <ul>
+                            <li>Share one guardrail with the group</li>
+                            <li>Get feedback: Is it specific enough? Actionable?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 36: Ethics - Key Takeaways -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Key Takeaways: Ethics & Guardrails
+
+                ::: smartart Key Learnings CHECKLIST
+                intro: Key learnings from this section:
+                - [ ] **Balanced reflection, not fear:** AI risks are real but manageable. The goal is informed use, not avoidance. Acknowledge both power and pitfalls.
+                - [ ] **Concrete > abstract:** "Be careful with bias" is useless. "If data lacks X, then oversample Y" is actionable. Specificity drives compliance.
+                - [ ] **Guardrails evolve:** Your first set won't be perfect. Revisit after each sprint or project. Learn from near-misses and update rules.
+                - [ ] **Ethics is a team sport:** One person's guardrails aren't enough. Diverse perspectives catch blind spots. Make review collaborative and ongoing.
+                :::
+                </script>
+            </section>
+
+            <!-- Slide 37: Ethics - Reflection Questions -->
+            <section class="ultra-compact">
+                <h2>Reflection: Ethics & Guardrails</h2>
+                <div class="container">
+                    <div style="padding: 1em; background: white; border-radius: 8px;">
+                        <h3 style="margin-top: 0; font-size: 1em; margin-bottom: 0.4em; color: var(--ax-purple);">Reflection Questions</h3>
+                        <ol style="font-size: 0.75em; line-height: 1.3; margin: 0.3em 0; padding-left: 1.5em;">
+                            <li style="margin-bottom: 0.4em;">Which risk feels most pressing in your organization? Why?</li>
+                            <li style="margin-bottom: 0.4em;">How will you communicate these guardrails to stakeholders or team members?</li>
+                            <li style="margin-bottom: 0.4em;">What process will you use to review and update guardrails over time?</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- KNOWLEDGE CHECKS -->
+
+            <!-- Slide 38: Knowledge Check - Question 1 -->
+            <section>
+                <h2>Knowledge Check - Question 1 of 4</h2>
+                <div class="container">
+                    <div class="quiz">
+                        <h4>Ethical Guardrails</h4>
+                        <p>Which of the following is an effective "if-then" guardrail for AI-assisted discovery?</p>
+                        <ul class="quiz-options">
+                            <li>A) Always use AI for everything</li>
+                            <li>B) Never trust AI outputs</li>
+                            <li>C) If qualitative data lacks diversity, then oversample underrepresented groups before AI analysis</li>
+                            <li>D) Only use AI for simple tasks</li>
+                        </ul>
+                        <div style="margin-top: 1em; padding: 0.8em; background: var(--ax-light-gray); border-radius: 8px;">
+                            <p style="margin: 0.3em 0; font-size: 0.9em; line-height: 1.3;"><strong>Correct Answer:</strong> C</p>
+                            <p style="font-size: 0.85em; margin: 0.3em 0; line-height: 1.3;"><strong>Rationale:</strong> Effective guardrails are specific, actionable, and address concrete risks. Option C provides a clear trigger condition and mitigation action.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 39: Knowledge Check - Question 2 -->
+            <section>
+                <h2>Knowledge Check - Question 2 of 4</h2>
+                <div class="container">
+                    <div class="quiz">
+                        <h4>Correlation to Action</h4>
+                        <p>NovaFit's AI analysis shows: "Users with sleep tracking enabled complete 30% more challenge workouts." What should you do FIRST?</p>
+                        <ul class="quiz-options">
+                            <li>A) Immediately build sleep tracking as the top priority feature</li>
+                            <li>B) Validate the correlation with user interviews to understand causation</li>
+                            <li>C) Ignore it—correlation doesn't matter</li>
+                            <li>D) Remove sleep tracking from the app</li>
+                        </ul>
+                        <div style="margin-top: 1em; padding: 0.8em; background: var(--ax-light-gray); border-radius: 8px;">
+                            <p style="margin: 0.3em 0; font-size: 0.9em; line-height: 1.3;"><strong>Correct Answer:</strong> B</p>
+                            <p style="font-size: 0.85em; margin: 0.3em 0; line-height: 1.3;"><strong>Rationale:</strong> Correlation ≠ causation. Validate with qualitative research before making product decisions. Perhaps motivated users enable all features, not that sleep tracking drives motivation.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 40: Knowledge Check - Question 3 -->
+            <section>
+                <h2>Knowledge Check - Question 3 of 4</h2>
+                <div class="container">
+                    <div class="quiz">
+                        <h4>Human Judgment + AI</h4>
+                        <p>During idea selection, AI rates a concept as "low feasibility" but your engineering team says it's easy given existing infrastructure. What should you do?</p>
+                        <ul class="quiz-options">
+                            <li>A) Trust AI—it has more data than your team</li>
+                            <li>B) Override the AI score, document the rationale, and proceed with high feasibility</li>
+                            <li>C) Discard the idea entirely</li>
+                            <li>D) Ask AI again until it agrees with your team</li>
+                        </ul>
+                        <div style="margin-top: 1em; padding: 0.8em; background: var(--ax-light-gray); border-radius: 8px;">
+                            <p style="margin: 0.3em 0; font-size: 0.9em; line-height: 1.3;"><strong>Correct Answer:</strong> B</p>
+                            <p style="font-size: 0.85em; margin: 0.3em 0; line-height: 1.3;"><strong>Rationale:</strong> Human expertise (especially context-specific like your tech stack) should override generic AI scoring. Document why for transparency and learning.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 41: Knowledge Check - Question 4 -->
+            <section>
+                <h2>Knowledge Check - Question 4 of 4</h2>
+                <div class="container">
+                    <div class="quiz">
+                        <h4>Bias Spotting</h4>
+                        <p style="margin-bottom: 0.6em; line-height: 1.3;">Name one potential bias that could emerge during AI-assisted problem discovery, and explain how you would catch it.</p>
+                        <div style="margin-top: 1em; padding: 0.8em; background: var(--ax-light-gray); border-radius: 8px;">
+                            <p style="margin: 0.3em 0; font-size: 0.9em; line-height: 1.3;"><strong>Sample Answer:</strong></p>
+                            <p style="font-size: 0.85em; margin: 0.3em 0; line-height: 1.3;"><strong>Bias:</strong> Selection bias—if your feedback data comes only from power users or vocal complainers, AI will surface problems specific to that group.</p>
+                            <p style="font-size: 0.85em; margin: 0.3em 0; line-height: 1.3;"><strong>How to catch:</strong> Audit data sources for demographic and behavioral diversity. If a segment is missing, proactively gather input from that group before finalizing problem statements.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CLOSING SLIDES -->
+
+            <!-- Slide 42: Threading It All Together -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Threading It All Together
+
+                ::: smartart Discovery Journey CHECKLIST
+                intro: <span style="font-size: 2em; align:left;">Trace the journey from messy feedback to validated discovery artifacts:</span>
+                - [ ] **Problems:** You used AI to mine patterns from qualitative data, then refined with human nuance to prioritize 2 problem statements.
+                - [ ] **Ideas:** AI helped generate 20-30 diverse ideas spanning MVPs, radical concepts, UX, and business models.
+                - [ ] **Selection:** AI scored ideas on feasibility and impact; you mapped them visually and selected top 2 with documented rationale.
+                - [ ] **Artifacts:** AI drafted a discovery scaffold (interview guide, survey, etc.); you refined for context and hypothesis alignment.
+                - [ ] **Guardrails:** You mapped benefits vs. risks and created actionable "if-then" rules to mitigate bias and over-reliance.
+                :::
+                </script>
+            </section>
+
+            <!-- Slide 43: Course Reflection -->
+            <section class="ultra-compact">
+                <h2>Course Reflection</h2>
+                <div class="container">
+                    <p style="font-size: 0.8em; margin-bottom: 0.4em; line-height: 1.2;">Take a moment to reflect on your experience:</p>
+
+                    <div class="activity">
+                        <h3>Individual Reflection (5 minutes)</h3>
+                        <ol>
+                            <li><strong>What surprised you?</strong> Where did AI exceed or fall short of your expectations?</li>
+                            <li><strong>What will you apply immediately?</strong> Pick one technique from today to use in your next project.</li>
+                            <li><strong>What questions remain?</strong> What aspects of AI-assisted discovery do you want to explore further?</li>
+                        </ol>
+                    </div>
+
+                    <div class="grid grid-2col" style="margin-top: 0.3em;">
+                        <div class="card highlight">
+                            <h3>Share (Optional)</h3>
+                            <p>Volunteer 1-2 key takeaways or "aha" moments with the group.</p>
+                        </div>
+                        <div class="card">
+                            <h3>Next Steps</h3>
+                            <ul>
+                                <li>Save your Mural boards for reference</li>
+                                <li>Document your guardrails in team wiki</li>
+                                <li>Schedule time to apply one technique this week</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 44: Q&A / Next Steps -->
+            <section>
+                <h2>Q&A & Next Steps</h2>
+                <div class="container">
+                    <div style="margin-bottom: 0.5em;">
+                        <h3 style="color: var(--ax-purple); font-size: 1.1em; margin-bottom: 0.2em;">Open Floor for Questions</h3>
+                        <p style="font-size: 0.75em; line-height: 1.2; margin: 0;">Let's discuss any remaining questions, challenges, or scenarios you'd like to explore.</p>
+                    </div>
+
+                    <div class="grid grid-2col" style="gap: 0.4em;">
+                        <div class="card" style="padding: 0.5em;">
+                            <h3 style="font-size: 0.9em; margin-bottom: 0.3em;">Continue Your Learning</h3>
+                            <ul style="margin: 0; padding-left: 1.2em;">
+                                <li style="margin: 0.15em 0; font-size: 0.7em; line-height: 1.3;"><strong>AI for Product Strategy:</strong> Roadmapping and vision with AI</li>
+                                <li style="margin: 0.15em 0; font-size: 0.7em; line-height: 1.3;"><strong>AI for Product Delivery:</strong> Sprint planning and execution</li>
+                                <li style="margin: 0.15em 0; font-size: 0.7em; line-height: 1.3;"><strong>AI for Product Analytics:</strong> Data-driven decisions at scale</li>
+                            </ul>
+                        </div>
+                        <div class="card highlight" style="padding: 0.5em;">
+                            <h3 style="font-size: 0.9em; margin-bottom: 0.3em;">Micro-Credential Pathway</h3>
+                            <p style="font-size: 0.7em; margin: 0.2em 0; line-height: 1.25;">This workshop is part of the <strong>AI for Products Skills Collection</strong>.</p>
+                            <p style="font-size: 0.7em; margin: 0.2em 0; line-height: 1.25;">Complete all modules to earn your <strong>AI Micro-credential</strong> from ICAgile.</p>
+                            <p style="font-size: 0.7em; margin: 0.4em 0 0 0; line-height: 1.25;"><strong>Prerequisites met:</strong> Foundations of AI (ICP-FAI)</p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 8px; text-align: center;">
+                        <h3 style="margin-top: 0; margin-bottom: 0.2em; font-size: 0.8em;">Stay Connected</h3>
+                        <p style="margin: 0.1em 0; font-size: 0.7em; line-height: 1.2;">AdaptiveX Community | <a href="https://adaptivex.com" style="color: var(--ax-purple);">adaptivex.com</a></p>
+                        <p style="font-size: 0.65em; margin: 0.2em 0 0 0; line-height: 1.2;">Share your success stories, challenges, and learnings with fellow practitioners.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 45: Thank You -->
+            <section class="title-slide">
+                <h1>Thank You!</h1>
+                <p class="subtitle">AI for Product Discovery</p>
+                <div style="margin-top: 2em;">
+                    <p style="font-size: 1.2em; color: white;">Keep exploring, keep learning, keep building.</p>
+                    <p style="font-size: 1em; color: var(--ax-yellow); margin-top: 1em;">Questions? Reach out to your instructor or AdaptiveX team.</p>
+                </div>
+                <div style="margin-top: 3em; font-size: 0.9em; opacity: 0.9;">
+                    <p>AI for Product Discovery V1.0 | © AdaptiveX 2025</p>
+                    <p>Part of the AI for Products Skills Collection</p>
+                </div>
+            </section>
+
+            <!-- Global Footer Configuration -->
+            <!-- This slide is processed by SmartArt to inject footer globally, but hidden from users via JS -->
+            <section data-markdown data-footer-config="true">
+                <script type="text/template">
+                ::: smartart AdaptiveX FOOTER
+                image: ../images/adaptivex-logo-icon.svg
+                global: true
+                :::
+                </script>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- ES Module Shims for import map support in older browsers -->
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+
+    <!-- Import Map - Resolves React and dependencies for XShadcn plugin -->
+    <script type="importmap">
+    {
+        "imports": {
+            "react": "https://esm.sh/react@18.2.0",
+            "react-dom": "https://esm.sh/react-dom@18.2.0",
+            "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+            "clsx": "https://esm.sh/clsx@2.0.0",
+            "tailwind-merge": "https://esm.sh/tailwind-merge@2.0.0",
+            "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime"
+        }
+    }
+    </script>
+
+    <!-- React and ReactDOM for XBackground plugin (UMD builds) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <script src="../../dist/reveal.js"></script>
+    <script src="../../plugin/notes/notes.js"></script>
+    <script src="../../plugin/markdown/markdown.js"></script>
+    <script src="../../plugin/highlight/highlight.js"></script>
+    <script src="../../plugin/smartart/smartart.js"></script>
+    <script src="../../plugin/llm-runner/llm-runner.js"></script>
+
+    <script type="module">
+        import XBackground from '../../plugin/xbackground/plugin/xbackground.js';
+        import XShadcn from '../../plugin/xshadcn/dist/xshadcn.js';
+
+        Reveal.initialize({
+            hash: true,
+            center: false,
+            transition: 'slide',
+            slideNumber: false,
+            progress: true,
+            width: 1280,
+            height: 720,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 2.0,
+
+            // LLM Runner configuration
+            llmRunner: {
+                serverUrl: 'ws://localhost:8001/ws',
+                defaultModel: 'claude-sonnet-4-5-20250929',
+                autoConnect: true,
+                persistContext: true
+            },
+
+            // XBackground configuration
+            xbackground: {
+                transition: 'fade',
+                transitionDuration: 1000,
+                lazy: true,
+                preload: 1
+            },
+
+            // XShadcn configuration
+            xshadcn: {
+                theme: 'light',
+                interactive: true,
+                dataBinding: true,
+                debug: false
+            },
+
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealSmartArt, RevealLLMRunner, XBackground, XShadcn]
+        });
+
+        // Auto-skip footer configuration slide
+        // This ensures the global footer config slide is processed by SmartArt but never shown to users
+        Reveal.on('ready', function() {
+            const slides = Reveal.getSlides();
+            const currentSlide = Reveal.getCurrentSlide();
+
+            // If we start on the footer config slide (last slide), navigate to first content slide
+            if (currentSlide && currentSlide.hasAttribute('data-footer-config')) {
+                Reveal.slide(0, 0);
+            }
+        });
+
+        // Prevent navigating TO the footer config slide
+        Reveal.on('slidechanged', function(event) {
+            if (event.currentSlide && event.currentSlide.hasAttribute('data-footer-config')) {
+                // Skip forward or backward depending on direction
+                const indices = Reveal.getIndices();
+                const totalSlides = Reveal.getSlides().length;
+
+                if (indices.h >= totalSlides - 1) {
+                    // If at or past the footer slide, go back one
+                    Reveal.slide(indices.h - 1, 0);
+                } else {
+                    // Otherwise skip forward
+                    Reveal.slide(indices.h + 1, 0);
+                }
+            }
+        });
+    </script>
+
+    <!-- LLM Runner Offcanvas Integration -->
+    <script>
+    /**
+     * LLM Runner Offcanvas Integration
+     *
+     * This script adds interactive "Run" buttons to prompt cards throughout the presentation.
+     * When clicked, an offcanvas drawer slides in from the right with the LLM Runner interface,
+     * pre-populated with the prompt text from the card.
+     *
+     * How to use:
+     * - Add class "prompt-box" to any element containing prompts
+     * - The script will automatically detect and add Run buttons
+     * - Customize prompt extraction by modifying extractPromptText() function
+     *
+     * Dependencies:
+     * - reveal.js
+     * - RevealLLMRunner plugin
+     * - CSS styles defined in <style> section above
+     */
+    (function() {
+        'use strict';
+
+        let llmRunnerPlugin = null;
+
+        // Wait for reveal.js and plugins to initialize
+        Reveal.on('ready', function() {
+            // Store reference to LLM Runner plugin
+            const plugins = Reveal.getPlugins();
+            console.log('[Offcanvas] Available plugins:', Object.keys(plugins));
+
+            llmRunnerPlugin = plugins['llm-runner'];
+            console.log('[Offcanvas] LLM Runner plugin:', llmRunnerPlugin);
+
+            if (llmRunnerPlugin) {
+                console.log('[Offcanvas] Plugin methods:', Object.keys(llmRunnerPlugin));
+                console.log('[Offcanvas] Has runPrompt:', typeof llmRunnerPlugin.runPrompt);
+                console.log('[Offcanvas] Is connected:', llmRunnerPlugin.isConnected());
+            } else {
+                console.error('[Offcanvas] LLM Runner plugin not found!');
+            }
+
+            initLLMOffcanvas();
+        });
+
+        /**
+         * Initialize the offcanvas drawer and add Run buttons to prompt cards
+         */
+        function initLLMOffcanvas() {
+            createOffcanvasElements();
+            addRunButtonsToPrompts();
+
+            // Re-add buttons when slides change
+            Reveal.on('slidechanged', addRunButtonsToPrompts);
+
+            // Close drawer when slides change
+            Reveal.on('slidechanged', closeLLMOffcanvas);
+        }
+
+        /**
+         * Create offcanvas drawer and overlay elements
+         */
+        function createOffcanvasElements() {
+            // Create offcanvas container
+            const offcanvas = document.createElement('div');
+            offcanvas.className = 'llm-offcanvas';
+            offcanvas.id = 'llm-offcanvas';
+            offcanvas.innerHTML = `
+                <div class="llm-offcanvas-header">
+                    <h3 id="llm-offcanvas-title">Run Prompt with AI</h3>
+                    <button class="llm-offcanvas-close" aria-label="Close">&times;</button>
+                </div>
+                <div class="llm-offcanvas-body">
+                    <div class="llm-offcanvas-prompt-display" id="offcanvas-prompt-display"></div>
+                    <div class="llm-offcanvas-editor-container">
+                        <textarea class="llm-offcanvas-editor" id="offcanvas-editor" placeholder="Edit your prompt here..."></textarea>
+                    </div>
+                    <div class="llm-offcanvas-actions">
+                        <button class="llm-runner-btn-primary" id="offcanvas-run-btn">Run</button>
+                        <button class="llm-runner-btn-ghost" id="offcanvas-clear-btn">Clear Output</button>
+                    </div>
+                    <div class="llm-offcanvas-output-container">
+                        <div class="llm-offcanvas-output" id="offcanvas-output"></div>
+                    </div>
+                </div>
+            `;
+
+            // ARIA attributes for accessibility
+            offcanvas.setAttribute('role', 'dialog');
+            offcanvas.setAttribute('aria-modal', 'true');
+            offcanvas.setAttribute('aria-labelledby', 'llm-offcanvas-title');
+
+            // Create overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'llm-offcanvas-overlay';
+            overlay.id = 'llm-offcanvas-overlay';
+
+            // Append to body
+            document.body.appendChild(overlay);
+            document.body.appendChild(offcanvas);
+
+            // Setup close handlers
+            const closeBtn = offcanvas.querySelector('.llm-offcanvas-close');
+            closeBtn.addEventListener('click', closeLLMOffcanvas);
+            overlay.addEventListener('click', closeLLMOffcanvas);
+
+            // Setup Run and Clear button handlers
+            const runBtn = offcanvas.querySelector('#offcanvas-run-btn');
+            const clearBtn = offcanvas.querySelector('#offcanvas-clear-btn');
+            const editor = offcanvas.querySelector('#offcanvas-editor');
+            const output = offcanvas.querySelector('#offcanvas-output');
+
+            runBtn.addEventListener('click', async () => {
+                const promptText = editor.value.trim();
+                if (!promptText) {
+                    output.innerHTML = '<div class="error">Please enter a prompt first.</div>';
+                    return;
+                }
+
+                // Disable button while running
+                runBtn.disabled = true;
+                runBtn.textContent = 'Running...';
+
+                output.innerHTML = '<div class="loading">Connecting to LLM...</div>';
+
+                try {
+                    console.log('[Offcanvas] Run button clicked');
+                    console.log('[Offcanvas] llmRunnerPlugin:', llmRunnerPlugin);
+
+                    // Check if plugin is available
+                    if (!llmRunnerPlugin) {
+                        console.error('[Offcanvas] Plugin is null/undefined');
+                        output.innerHTML = '<div class="error">LLM Runner plugin not loaded. Check browser console for details.</div>';
+                        return;
+                    }
+
+                    // Check if plugin is connected
+                    if (!llmRunnerPlugin.isConnected()) {
+                        console.error('[Offcanvas] Plugin not connected to WebSocket');
+                        output.innerHTML = '<div class="error">Not connected to LLM server. Trying to reconnect...</div>';
+
+                        // Try to reconnect
+                        llmRunnerPlugin.connect();
+
+                        // Wait a bit and check again
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+
+                        if (!llmRunnerPlugin.isConnected()) {
+                            output.innerHTML = '<div class="error">Failed to connect to LLM server at ws://localhost:8001/ws. Please ensure the server is running.</div>';
+                            return;
+                        }
+                    }
+
+                    // Check if runPrompt method exists
+                    if (!llmRunnerPlugin.runPrompt) {
+                        console.error('[Offcanvas] runPrompt method not found');
+                        console.log('[Offcanvas] Available methods:', Object.keys(llmRunnerPlugin));
+                        output.innerHTML = '<div class="error">runPrompt method not available. Plugin version mismatch?</div>';
+                        return;
+                    }
+
+                    console.log('[Offcanvas] Sending prompt to LLM...');
+
+                    // Clear output
+                    output.innerHTML = '';
+
+                    // Stream response chunks to output
+                    const streamCallback = (chunk) => {
+                        const chunkDiv = document.createElement('div');
+                        chunkDiv.className = 'stream-line';
+                        chunkDiv.textContent = chunk;
+                        output.appendChild(chunkDiv);
+
+                        // Auto-scroll to bottom
+                        output.scrollTop = output.scrollHeight;
+                    };
+
+                    // Run the prompt with streaming
+                    await llmRunnerPlugin.runPrompt(promptText, {
+                        model: 'claude-sonnet-4-5-20250929',
+                        onChunk: streamCallback
+                    });
+
+                    console.log('[Offcanvas] Prompt execution completed');
+
+                    // Success - change line styling
+                    const lines = output.querySelectorAll('.stream-line');
+                    if (lines.length > 0) {
+                        lines.forEach(line => {
+                            line.classList.remove('stream-line');
+                            line.classList.add('response');
+                        });
+                    }
+                } catch (error) {
+                    console.error('[Offcanvas] LLM error:', error);
+                    output.innerHTML = `<div class="error">Error: ${error.message || 'Failed to run prompt'}<br><small>Check browser console for details.</small></div>`;
+                } finally {
+                    // Re-enable button
+                    runBtn.disabled = false;
+                    runBtn.textContent = 'Run';
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                output.innerHTML = '';
+            });
+
+            // Keyboard shortcut: Escape to close
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && offcanvas.classList.contains('active')) {
+                    closeLLMOffcanvas();
+                }
+            });
+
+            // Focus trap: keep focus within offcanvas when open
+            function handleFocusTrap(e) {
+                if (e.key !== 'Tab' || !offcanvas.classList.contains('active')) return;
+                const focusable = offcanvas.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
+                if (!focusable.length) return;
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (e.shiftKey) {
+                    if (document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    }
+                } else {
+                    if (document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                }
+            }
+            document.addEventListener('keydown', handleFocusTrap);
+
+            // Small helper to focus first focusable element when opening
+            offcanvas.__focusFirst = () => {
+                const focusable = offcanvas.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
+                if (focusable.length) focusable[0].focus();
+            };
+        }
+
+        /**
+         * Find all prompt cards and add Run buttons to them
+         */
+        function addRunButtonsToPrompts() {
+            // Find all prompt boxes
+            const promptBoxes = document.querySelectorAll('.prompt-box');
+
+            promptBoxes.forEach(box => {
+                // Skip if already has a button
+                if (box.querySelector('.run-prompt-btn')) return;
+
+                // Extract prompt text
+                const promptData = extractPromptText(box);
+                if (!promptData.text) return;
+
+                // Create Run button
+                const runBtn = document.createElement('button');
+                runBtn.className = 'run-prompt-btn';
+                runBtn.textContent = 'Run';
+                runBtn.title = 'Run this prompt with AI';
+                runBtn.onclick = function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    openLLMOffcanvas(promptData);
+                };
+                box.appendChild(runBtn);
+            });
+        }
+
+        /**
+         * Extract prompt text and metadata from a prompt box element
+         * @param {HTMLElement} element - The prompt box element
+         * @returns {Object} Object with text, title, and context
+         */
+        function extractPromptText(element) {
+            let title = '';
+            let text = '';
+
+            // Look for <strong> tag for title
+            const strongTag = element.querySelector('strong');
+            if (strongTag) {
+                title = strongTag.textContent.trim();
+            }
+
+            // Get all text content, excluding the strong tag and any buttons
+            const clone = element.cloneNode(true);
+
+            // Remove button if present
+            const btn = clone.querySelector('.run-prompt-btn');
+            if (btn) btn.remove();
+
+            // Get text, removing the title; use innerText to preserve line breaks
+            text = (clone.innerText || clone.textContent || '').trim();
+
+            // Remove title from text if present
+            if (title) {
+                text = text.replace(title, '').trim();
+            }
+
+            // Clean up quotes if they wrap the entire text
+            text = text.replace(/^["'](.*)["']$/, '$1');
+
+            return {
+                title: title,
+                text: text,
+                context: getSlideContext()
+            };
+        }
+
+        /**
+         * Get context information about the current slide
+         * @returns {Object} Object with slide number and title
+         */
+        function getSlideContext() {
+            const indices = Reveal.getIndices();
+            const currentSlide = Reveal.getCurrentSlide();
+            const h2 = currentSlide.querySelector('h2');
+
+            return {
+                slideNumber: indices.h + 1,
+                slideTitle: h2 ? h2.textContent.trim() : 'Untitled Slide'
+            };
+        }
+
+        /**
+         * Open the offcanvas drawer with the given prompt
+         * @param {Object} promptData - Object containing prompt text, title, and context
+         */
+        function openLLMOffcanvas(promptData) {
+            const offcanvas = document.getElementById('llm-offcanvas');
+            const overlay = document.getElementById('llm-offcanvas-overlay');
+            const editor = document.getElementById('offcanvas-editor');
+            const output = document.getElementById('offcanvas-output');
+            const promptDisplay = document.getElementById('offcanvas-prompt-display');
+
+            // Safety check - ensure elements exist
+            if (!offcanvas || !overlay || !editor || !output || !promptDisplay) {
+                console.error('[LLM Offcanvas] Required elements not found. Reinitializing...');
+                createOffcanvasElements();
+                // Retry after recreation
+                setTimeout(() => openLLMOffcanvas(promptData), 100);
+                return;
+            }
+
+            // Build prompt display
+            let displayHTML = '';
+            if (promptData.title) {
+                displayHTML += `<strong>${promptData.title}</strong>`;
+            }
+            const safeText = escapeHtml(promptData.text).replace(/\n/g, '<br>');
+            displayHTML += `<div style="color: rgba(255,255,255,0.9);">${safeText}</div>`;
+            if (promptData.context) {
+                displayHTML += `<div style="margin-top: 0.5em; font-size: 0.85em; opacity: 0.7;">From: ${escapeHtml(promptData.context.slideTitle)}</div>`;
+            }
+
+            promptDisplay.innerHTML = displayHTML;
+
+            // Set prompt text in the editor
+            editor.value = promptData.text;
+
+            // Clear previous output
+            output.innerHTML = '';
+
+            // Show offcanvas
+            requestAnimationFrame(() => {
+                overlay.classList.add('active');
+                offcanvas.classList.add('active');
+                // move initial focus inside the drawer
+                if (offcanvas.__focusFirst) {
+                    setTimeout(() => offcanvas.__focusFirst(), 100);
+                }
+            });
+        }
+
+        /**
+         * Close the offcanvas drawer
+         */
+        function closeLLMOffcanvas() {
+            const offcanvas = document.getElementById('llm-offcanvas');
+            const overlay = document.getElementById('llm-offcanvas-overlay');
+
+            if (offcanvas) offcanvas.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+        }
+
+        /**
+         * Escape HTML to prevent XSS
+         * @param {string} text - Text to escape
+         * @returns {string} Escaped text
+         */
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        console.log('[LLM Offcanvas] Integration initialized');
+    })();
+    </script>
+</body>
+</html>

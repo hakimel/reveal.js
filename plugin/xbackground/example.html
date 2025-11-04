@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal.js with XBackground Plugin</title>
+    
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/theme/black.css">
+    
+    <!-- Custom styles for the backgrounds -->
+    <style>
+        .reveal {
+            background: transparent;
+        }
+        
+        .reveal .slides {
+            background: transparent;
+        }
+        
+        .reveal .slide-background {
+            background: transparent;
+        }
+        
+        /* Ensure text is readable over backgrounds */
+        .reveal h1, .reveal h2, .reveal h3 {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+        
+        .reveal p, .reveal li {
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+        
+        /* Loading and error states */
+        .xbg-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .xbg-error {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            color: #ff6666;
+            font-size: 14px;
+        }
+        
+        /* Ensure backgrounds are behind content */
+        .xbackground-container {
+            z-index: -1 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Hyperspeed background -->
+            <section data-xbackground="hyperspeed">
+                <h1>Welcome to the Future</h1>
+                <p>Experience the hyperspeed background effect</p>
+                <aside class="notes">
+                    This slide uses the hyperspeed effect with default settings
+                </aside>
+            </section>
+            
+            <!-- Slide 2: Aurora background with preset -->
+            <section data-xbackground="aurora:vibrant">
+                <h2>Northern Lights</h2>
+                <p>Aurora Borealis in your presentation</p>
+                <ul>
+                    <li>Beautiful color gradients</li>
+                    <li>Smooth animations</li>
+                    <li>Customizable intensity</li>
+                </ul>
+            </section>
+            
+            <!-- Slide 3: Custom configuration using JSON -->
+            <section data-xbackground='{"type":"dot-grid","config":{"spacing":40,"dotSize":4,"pulseSpeed":0.3}}'>
+                <h2>Dot Grid Network</h2>
+                <p>Custom configured background with JSON</p>
+                <pre><code>data-xbackground='{"type":"dot-grid","config":{...}}'</code></pre>
+            </section>
+            
+            <!-- Slide 4: Liquid Ether background -->
+            <section data-xbackground="liquid-ether:flowing">
+                <h2>Fluid Dynamics</h2>
+                <p>Mesmerizing liquid ether effect</p>
+            </section>
+            
+            <!-- Slide 5: Dark Veil background -->
+            <section data-xbackground="dark-veil:heavy">
+                <h2>Mysterious Atmosphere</h2>
+                <p>Create depth with the dark veil effect</p>
+            </section>
+            
+            <!-- Slide 6: Terminal background -->
+            <section data-xbackground="faulty-terminal:retro">
+                <h2>Retro Computing</h2>
+                <p>Old school terminal aesthetics</p>
+                <pre><code>console.log('Hello, World!');</code></pre>
+            </section>
+            
+            <!-- Slide 7: Iridescence background -->
+            <section data-xbackground="iridescence:rainbow">
+                <h2>Color Spectrum</h2>
+                <p>Iridescent color shifting effect</p>
+            </section>
+            
+            <!-- Slide 8: Dither background -->
+            <section data-xbackground="dither:retro">
+                <h2>Pixel Art Style</h2>
+                <p>Dithered rendering for that retro feel</p>
+            </section>
+            
+            <!-- Nested slides example -->
+            <section>
+                <section data-xbackground="hyperspeed:slow">
+                    <h2>Vertical Slides</h2>
+                    <p>Background effects work with nested slides too</p>
+                </section>
+                <section data-xbackground="aurora:subtle">
+                    <h2>Subtle Effects</h2>
+                    <p>Use subtle presets for less distraction</p>
+                </section>
+            </section>
+            
+            <!-- Regular slide without background -->
+            <section>
+                <h2>Standard Slide</h2>
+                <p>Not every slide needs a background effect</p>
+                <p>Mix and match as needed</p>
+            </section>
+        </div>
+    </div>
+    
+    <!-- React and ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Reveal.js -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.js"></script>
+    
+    <!-- XBackground Plugin -->
+    <script type="module">
+        import XBackground from './plugin/xbackground.js';
+        
+        // Initialize Reveal.js with the XBackground plugin
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: true,
+            transition: 'slide',
+            
+            // XBackground plugin configuration
+            xbackground: {
+                transition: 'fade',
+                transitionDuration: 1000,
+                lazy: true,
+                preload: 1,
+                debug: true,
+                showInOverview: true
+            },
+            
+            // Register the plugin
+            plugins: [ XBackground ]
+        });
+        
+        // Optional: Programmatic control of backgrounds
+        Reveal.on('ready', () => {
+            console.log('XBackground plugin loaded and ready');
+            
+            // You can access the plugin API
+            const xbg = Reveal.getPlugin('xbackground');
+            
+            // Example: Manually control backgrounds
+            // xbg.activateBackground(slideElement);
+            // xbg.deactivateBackground(slideElement);
+        });
+    </script>
+</body>
+</html>

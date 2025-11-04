@@ -1,0 +1,12 @@
+/**
+ * @license
+ * Copyright 2010-2025 Three.js Authors
+ * SPDX-License-Identifier: MIT
+ */
+
+/**
+ * postprocessing v6.37.8 build Fri Sep 12 2025
+ * https://github.com/pmndrs/postprocessing
+ * Copyright 2015-2025 Raoul van Rüschen
+ * @license Zlib
+ */

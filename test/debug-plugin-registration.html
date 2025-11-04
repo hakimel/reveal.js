@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Plugin Registration</title>
+    <link rel="stylesheet" href="../dist/reset.css">
+    <link rel="stylesheet" href="../dist/reveal.css">
+    <link rel="stylesheet" href="../dist/theme/black.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h2>Plugin Registration Test</h2>
+                <p>Check console for plugin details</p>
+            </section>
+        </div>
+    </div>
+
+    <script src="../dist/reveal.js"></script>
+    <script src="../plugin/llm-runner/llm-runner.js"></script>
+
+    <script>
+        console.log('=== Plugin Registration Debug ===');
+        console.log('RevealLLMRunner available:', typeof RevealLLMRunner);
+        console.log('RevealLLMRunner:', RevealLLMRunner);
+
+        if (typeof RevealLLMRunner === 'function') {
+            const pluginInstance = RevealLLMRunner();
+            console.log('Plugin instance:', pluginInstance);
+            console.log('Plugin ID:', pluginInstance.id);
+            console.log('Plugin methods:', Object.keys(pluginInstance));
+        }
+
+        Reveal.initialize({
+            plugins: [RevealLLMRunner]
+        });
+
+        Reveal.on('ready', function() {
+            console.log('=== After Reveal.initialize ===');
+            console.log('Reveal.getPlugins():', Reveal.getPlugins());
+
+            const plugins = Reveal.getPlugins();
+            console.log('Type of plugins:', typeof plugins);
+            console.log('Is array?', Array.isArray(plugins));
+            console.log('Keys:', Object.keys(plugins));
+
+            // Try different ways to access the plugin
+            console.log('plugins["llm-runner"]:', plugins['llm-runner']);
+            console.log('plugins[0]:', plugins[0]);
+            console.log('plugins.llm-runner:', plugins['llm-runner']);
+
+            // Check all plugin IDs
+            if (typeof plugins === 'object') {
+                for (let key in plugins) {
+                    console.log(`Plugin key: ${key}, value:`, plugins[key]);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

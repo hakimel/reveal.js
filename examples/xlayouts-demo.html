@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Reveal.js Xlayouts Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.0/dist/reveal.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.0/dist/theme/black.min.css">
+    <script src="../plugin/xlayouts/xlayouts.js"></script>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section class="xl-container">
+                <h1 class="xl-text-center">Xlayouts for Reveal.js</h1>
+                <p class="xl-text-center xl-font-weight-light">Advanced, Bootstrap-inspired layouts designed for presentation storytelling.</p>
+                <div class="xl-grid xl-grid-3 xl-g-3 xl-animate-stagger" data-xl-animate="stagger">
+                    <div class="xl-card">
+                        <h3 class="xl-card-header">Semantic Layouts</h3>
+                        <p class="xl-card-body">Drop-in patterns for comparisons, stats, timelines, processes, and more.</p>
+                    </div>
+                    <div class="xl-card" data-xl-highlight>
+                        <h3 class="xl-card-header">Utility Classes</h3>
+                        <p class="xl-card-body">Fine-tune spacing, alignment, and display without custom CSS.</p>
+                    </div>
+                    <div class="xl-card">
+                        <h3 class="xl-card-header">Responsive Ready</h3>
+                        <p class="xl-card-body">Orientation-aware helpers and breakpoint utilities for every screen.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Grid System Essentials</h2>
+                <div class="xl-grid xl-grid-3 xl-g-2 xl-align-stretch">
+                    <div class="xl-card">
+                        <h3 class="xl-card-header">Three Column</h3>
+                        <div class="xl-card-body">Ideal for balanced feature overviews with equal emphasis.</div>
+                    </div>
+                    <div class="xl-card">
+                        <h3 class="xl-card-header">Auto Fit</h3>
+                        <div class="xl-card-body">
+                            <div class="xl-grid xl-grid-auto xl-g-2">
+                                <div class="xl-card xl-p-2">Flexible</div>
+                                <div class="xl-card xl-p-2">Responsive</div>
+                                <div class="xl-card xl-p-2">Balanced</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="xl-card">
+                        <h3 class="xl-card-header">Gutters</h3>
+                        <div class="xl-card-body">Mix and match <code>xl-g-*</code>, <code>xl-gx-*</code>, and <code>xl-gy-*</code> for precise spacing.</div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>12-Column Layout</h2>
+                <div class="xl-row xl-g-3">
+                    <div class="xl-card xl-col-8">
+                        <h3 class="xl-card-header">Primary Content</h3>
+                        <div class="xl-card-body">Span eight columns to give your main story breathing room while keeping supporting details nearby.</div>
+                    </div>
+                    <div class="xl-card xl-col-4">
+                        <h3 class="xl-card-header">Sidebar</h3>
+                        <div class="xl-card-body">Reserve four columns for callouts, quotes, or quick metrics.</div>
+                    </div>
+                </div>
+                <div class="xl-row xl-g-3 xl-my-3">
+                    <div class="xl-card xl-col-6 xl-offset-3 xl-text-center">
+                        <h3 class="xl-card-header">Centered Content</h3>
+                        <div class="xl-card-body">Offsets help create balanced hero statements or spotlight elements.</div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Comparison Layout</h2>
+                <div class="xl-comparison" data-xl-animate="stagger">
+                    <div class="xl-card" data-xl-comparison-item>
+                        <h3>Starter</h3>
+                        <ul>
+                            <li>Core templates</li>
+                            <li>Manual layout control</li>
+                            <li>Email export</li>
+                        </ul>
+                    </div>
+                    <div class="xl-card" data-xl-comparison-item data-xl-highlight>
+                        <h3>Pro</h3>
+                        <ul>
+                            <li>Everything in Starter</li>
+                            <li>AI slide generation</li>
+                            <li>Custom theme sync</li>
+                        </ul>
+                    </div>
+                    <div class="xl-card" data-xl-comparison-item>
+                        <h3>Enterprise</h3>
+                        <ul>
+                            <li>Advanced permissions</li>
+                            <li>Analytics dashboards</li>
+                            <li>Dedicated support</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section data-xl-layout="stats">
+                <h2>Metrics Highlight</h2>
+                <div data-xl-stat-value="$2.3M">Annual Revenue</div>
+                <div data-xl-stat-value="85%">Customer Satisfaction</div>
+                <div data-xl-stat-value="47K">Monthly Active Users</div>
+            </section>
+
+            <section data-xl-layout="timeline">
+                <h2>Roadmap</h2>
+                <div data-xl-timeline-date="Q1 2024">
+                    <strong>Launch Xlayouts</strong>
+                    <p>Introduce semantic layouts and utility-first styling.</p>
+                </div>
+                <div data-xl-timeline-date="Q2 2024">
+                    <strong>AI Integrations</strong>
+                    <p>Automate layout suggestions via Claude and GPT workflows.</p>
+                </div>
+                <div data-xl-timeline-date="Q3 2024">
+                    <strong>Dynamic Themes</strong>
+                    <p>Deliver adaptive theming for brand-safe slides.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>Process Flow</h2>
+                <div class="xl-process xl-g-3 xl-animate-stagger" data-xl-animate="stagger">
+                    <div class="xl-card">Plan</div>
+                    <div class="xl-card">Design</div>
+                    <div class="xl-card">Build</div>
+                    <div class="xl-card">Review</div>
+                    <div class="xl-card">Launch</div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Utility Helpers</h2>
+                <div class="xl-grid xl-grid-2 xl-g-4">
+                    <div class="xl-card xl-p-4">
+                        <h3 class="xl-card-header">Spacing</h3>
+                        <p class="xl-card-body">Use <code>xl-p*</code> and <code>xl-m*</code> utilities to control whitespace within any layout element.</p>
+                    </div>
+                    <div class="xl-card xl-p-4">
+                        <h3 class="xl-card-header">Alignment</h3>
+                        <p class="xl-card-body">Combine <code>xl-justify-*</code> and <code>xl-align-*</code> helpers to align content precisely in grids or flex containers.</p>
+                    </div>
+                </div>
+                <div class="xl-grid xl-grid-3 xl-g-2 xl-my-3 xl-text-center xl-portrait-stack">
+                    <div class="xl-card xl-p-3">Portrait Stack</div>
+                    <div class="xl-card xl-p-3">Orientation-aware</div>
+                    <div class="xl-card xl-p-3 xl-portrait-hide">Hidden in Portrait</div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Fragments &amp; Animations</h2>
+                <div class="xl-grid xl-grid-3 xl-g-3">
+                    <div class="fragment xl-card xl-fade-in">
+                        <h3 class="xl-card-header">Fragment One</h3>
+                        <p class="xl-card-body">Appears with a fade-in using fragment support.</p>
+                    </div>
+                    <div class="fragment xl-card xl-fade-in">
+                        <h3 class="xl-card-header">Fragment Two</h3>
+                        <p class="xl-card-body">Sequential reveal keeps the narrative focused.</p>
+                    </div>
+                    <div class="fragment xl-card xl-fade-in">
+                        <h3 class="xl-card-header">Fragment Three</h3>
+                        <p class="xl-card-body">Mix fragments with semantic layouts effortlessly.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.0/dist/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            plugins: [ XlayoutsPlugin ]
+        });
+    </script>
+</body>
+</html>

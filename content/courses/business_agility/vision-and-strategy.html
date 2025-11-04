@@ -1,0 +1,2386 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision and Strategy | Business Agility Foundations Workshop</title>
+
+    <!-- Reveal.js Core CSS -->
+    <link rel="stylesheet" href="../../../dist/reset.css">
+    <link rel="stylesheet" href="../../../dist/reveal.css">
+    <link rel="stylesheet" href="../../../dist/theme/black.css">
+</head>
+
+<body>
+    <!-- Viewport Height Fix for Mobile -->
+    <script>
+    (function() {
+        function setViewportHeightVar() {
+            try {
+                document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
+            } catch (e) { /* noop */ }
+        }
+        window.addEventListener('resize', setViewportHeightVar, { passive: true });
+        window.addEventListener('orientationchange', setViewportHeightVar);
+        setViewportHeightVar();
+    })();
+    </script>
+
+    <style>
+        /* ====================================
+           ADAPTIVEX BRAND COLORS
+           ==================================== */
+        :root {
+            --ax-purple: #6B3FA0;
+            --ax-yellow: #F9C80E;
+            --ax-dark-gray: #2C2C2C;
+            --ax-mid-gray: #808080;
+            --ax-light-gray: #F5F5F5;
+        }
+
+        /* ====================================
+           BASE TYPOGRAPHY
+           ==================================== */
+        body, .reveal {
+            font-family: 'Averta', Arial, Helvetica, sans-serif;
+            color: var(--ax-dark-gray);
+        }
+
+        .reveal {
+            background-color: #fff;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            color: var(--ax-purple);
+            font-weight: 700;
+            text-transform: none;
+            margin-bottom: 0.5em;
+        }
+
+        .reveal h1 {
+            font-size: 2em;
+            line-height: 1.2;
+        }
+
+        .reveal h2 {
+            font-size: 1.4em;
+            line-height: 1.1;
+            margin-bottom: 0.3em;
+        }
+
+        .reveal h3 {
+            font-size: 1em;
+            line-height: 1.2;
+        }
+
+        .reveal p, .reveal ul, .reveal ol {
+            color: var(--ax-dark-gray);
+            font-size: 0.8em;
+            line-height: 1.25;
+            margin: 0.2em 0;
+        }
+
+        .reveal ul, .reveal ol {
+            margin-left: 1em;
+            margin-top: 0.2em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal li {
+            margin: 0.1em 0;
+            line-height: 1.25;
+        }
+
+        .reveal strong {
+            color: var(--ax-purple);
+            font-weight: 600;
+        }
+
+        .reveal .highlight-yellow {
+            color: var(--ax-yellow);
+            font-weight: 600;
+        }
+
+        /* ====================================
+           TITLE SLIDE
+           ==================================== */
+        .title-slide {
+            background: linear-gradient(135deg, var(--ax-purple) 0%, #4a2870 100%);
+            color: white !important;
+            text-align: center;
+            padding: 1em !important;
+        }
+
+        .title-slide h1 {
+            color: white !important;
+            font-size: 2.5em;
+        }
+
+        .title-slide h2,
+        .title-slide p {
+            color: white !important;
+        }
+
+        .title-slide .subtitle {
+            color: var(--ax-yellow) !important;
+            font-size: 1.1em;
+            margin-top: 0.8em;
+        }
+
+        /* ====================================
+           SECTION DIVIDER SLIDES
+           ==================================== */
+        .section-divider {
+            color: white !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            justify-content: center !important;
+            height: 100% !important;
+            padding-left: 3em !important;
+        }
+
+        .section-divider h1 {
+            color: white !important;
+            font-size: 2.5em;
+            margin-bottom: 0.3em;
+            text-align: left;
+        }
+
+        .section-divider h2 {
+            color: white !important;
+            font-size: 1.8em;
+            margin-bottom: 0.3em;
+            text-align: left;
+        }
+
+        .section-divider p {
+            color: white !important;
+            text-align: left;
+        }
+
+        /* ====================================
+           GRADIENT BACKGROUND SLIDES
+           ==================================== */
+        [data-background-gradient] h1,
+        [data-background-gradient] h2,
+        [data-background-gradient] h3,
+        [data-background-gradient] p,
+        [data-background-gradient] ul,
+        [data-background-gradient] li {
+            color: white !important;
+        }
+
+        /* ====================================
+           CONTENT SLIDES - LAYOUT
+           ==================================== */
+        .reveal .slides section {
+            text-align: left;
+            padding: 0.3em 0.5em;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        /* Automatic bottom padding when footer exists */
+        .reveal .slides section:has(.smartart[data-layout="footer"]) {
+            padding-bottom: calc(clamp(20px, 4vh, 32px) + clamp(12px, 2.4vh, 24px));
+        }
+
+        /* Fallback for browsers without :has() */
+        @supports not selector(:has(*)) {
+            .reveal .slides section {
+                padding-bottom: calc(clamp(20px, 4vh, 32px) + clamp(12px, 2.4vh, 24px));
+            }
+        }
+
+        /* Hide footer on special slides */
+        .reveal .slides section.title-slide .smartart[data-layout="footer"],
+        .reveal .slides section.section-divider .smartart[data-layout="footer"] {
+            display: none;
+        }
+
+        .reveal .slides section.title-slide,
+        .reveal .slides section.section-divider {
+            padding-bottom: 0.3em !important;
+        }
+
+        /* Compact mode adjustments */
+        .reveal .slides section.compact,
+        .reveal .slides section.super-compact,
+        .reveal .slides section.ultra-compact {
+            padding-bottom: calc(clamp(20px, 4vh, 32px) + clamp(8px, 1.6vh, 16px));
+        }
+
+        /* Purple header bar for h2 titles */
+        section:has(h2):not(.section-divider):not(.title-slide):not(:has(.smartart--hero)) h2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            color: white !important;
+            background: var(--ax-purple);
+            padding: 0.4em 1em;
+            margin: 0;
+            font-size: 1.2em;
+            z-index: 20;
+            line-height: 1.3;
+            text-align: left !important;
+        }
+
+        section:has(h2):not(.section-divider):not(.title-slide) .container {
+            margin-top: 2.5em;
+        }
+
+        section:has(h2):not(.section-divider):not(.title-slide) .smartart {
+            margin-top: 2.8em;
+        }
+
+        /* ====================================
+           CONTAINER & GRID SYSTEMS
+           ==================================== */
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container > p {
+            margin: 0.3em 0;
+        }
+
+        .container > *:first-child {
+            margin-top: 0;
+        }
+
+        .container > *:last-child {
+            margin-bottom: 0;
+        }
+
+        .grid {
+            display: grid;
+            gap: 0.5em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .grid-2col {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-3col {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5em;
+            align-items: start;
+        }
+
+        /* ====================================
+           CARD COMPONENT
+           ==================================== */
+        .card {
+            background: white;
+            border: 2px solid var(--ax-purple);
+            border-radius: 8px;
+            padding: 0.5em;
+            box-sizing: border-box;
+            overflow: hidden;
+            height: auto;
+            min-height: 0;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 0.9em;
+            color: var(--ax-purple);
+            margin-bottom: 0.2em;
+            line-height: 1.15;
+        }
+
+        .card p, .card ul {
+            font-size: 0.75em;
+            margin: 0.2em 0;
+            line-height: 1.2;
+        }
+
+        .card ul {
+            padding-left: 1em;
+        }
+
+        .card li {
+            margin: 0.1em 0;
+            line-height: 1.2;
+        }
+
+        .card.highlight {
+            border-color: var(--ax-yellow);
+            background: linear-gradient(to bottom, #fff 0%, #fffef5 100%);
+        }
+
+        .card.highlight h3 {
+            color: var(--ax-yellow);
+        }
+
+        /* ====================================
+           ACTIVITY COMPONENT
+           ==================================== */
+        .activity {
+            background: var(--ax-light-gray);
+            border-left: 5px solid var(--ax-yellow);
+            padding: 0.5em;
+            margin: 0.3em 0;
+            border-radius: 4px;
+        }
+
+        .activity h3 {
+            color: var(--ax-yellow);
+            margin-top: 0;
+            font-size: 0.9em;
+            margin-bottom: 0.2em;
+            line-height: 1.15;
+        }
+
+        .activity .time {
+            background: var(--ax-yellow);
+            color: var(--ax-dark-gray);
+            padding: 0.15em 0.4em;
+            border-radius: 20px;
+            font-size: 0.65em;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.2em;
+        }
+
+        .activity p, .activity ol, .activity ul {
+            font-size: 0.7em;
+            margin: 0.2em 0;
+            line-height: 1.2;
+        }
+
+        .activity ol, .activity ul {
+            padding-left: 1.2em;
+            margin-left: 0;
+        }
+
+        .activity li {
+            margin: 0.15em 0;
+            line-height: 1.3;
+            padding-left: 0.2em;
+        }
+
+        /* Ensure list numbers and bullets don't overflow */
+        .activity ol li {
+            padding-left: 0;
+        }
+
+        /* ====================================
+           SECTION BADGE
+           ==================================== */
+        .section-badge {
+            background: var(--ax-yellow);
+            color: var(--ax-dark-gray);
+            padding: 0.2em 0.5em;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.2em;
+        }
+
+        /* ====================================
+           IMAGES
+           ==================================== */
+        .reveal img {
+            max-width: 100%;
+            max-height: 380px;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            object-fit: contain;
+            margin: 0 auto;
+        }
+
+        .img-container {
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .img-container img {
+            max-height: 330px;
+        }
+
+        /* ====================================
+           COMPACT MODES
+           ==================================== */
+        /* COMPACT: Moderate density */
+        .reveal section.compact h2 {
+            font-size: 1.3em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal section.compact .grid {
+            gap: 0.4em;
+        }
+
+        .reveal section.compact p,
+        .reveal section.compact li {
+            font-size: 0.68em;
+            margin: 0.15em 0;
+            line-height: 1.2;
+        }
+
+        .reveal section.compact .activity {
+            padding: 0.45em;
+        }
+
+        .reveal section.compact .activity ol,
+        .reveal section.compact .activity ul {
+            padding-left: 1em;
+        }
+
+        .reveal section.compact .activity li {
+            font-size: 0.9em;
+            line-height: 1.25;
+        }
+
+        /* ULTRA-COMPACT: High density */
+        .reveal section.ultra-compact h2 {
+            font-size: 1.15em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal section.ultra-compact .grid {
+            gap: 0.3em;
+        }
+
+        .reveal section.ultra-compact p,
+        .reveal section.ultra-compact li {
+            font-size: 0.58em;
+            margin: 0.08em 0;
+            line-height: 1.1;
+        }
+
+        /* ====================================
+           SMARTART STYLING OVERRIDES
+           ==================================== */
+        /* LINED Layout */
+        .reveal .smartart[data-layout="lined"] .smartart__list {
+            background: white !important;
+            border: 1px solid rgba(107, 63, 160, 0.15) !important;
+        }
+
+        .reveal .smartart[data-layout="lined"] .smartart__list-item {
+            color: var(--ax-dark-gray) !important;
+        }
+
+        .reveal .smartart[data-layout="lined"] .smartart__intro {
+            color: var(--ax-dark-gray) !important;
+            text-align: left !important;
+            margin-bottom: 0.8em !important;
+        }
+
+        /* ACCORDION Layout */
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion {
+            background: white !important;
+            border: 2px solid var(--ax-purple) !important;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-button {
+            background: rgba(107, 63, 160, 0.05) !important;
+            color: var(--ax-purple) !important;
+            font-weight: 600;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-button:hover {
+            background: rgba(107, 63, 160, 0.12) !important;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-button[aria-expanded="true"] {
+            background: var(--ax-purple) !important;
+            color: white !important;
+        }
+
+        /* CHECKLIST Layout */
+        .reveal .smartart[data-layout="checklist"] .smartart__list {
+            text-align: left;
+        }
+
+        .reveal .smartart__checklist-item {
+            background: white !important;
+            border: 2px solid var(--ax-purple) !important;
+            color: var(--ax-dark-gray) !important;
+        }
+
+        .reveal .smartart__checklist-checkbox {
+            border: 2px solid var(--ax-purple) !important;
+        }
+
+        .reveal .smartart__checklist-checkbox:checked {
+            background: var(--ax-purple) !important;
+        }
+
+        /* ====================================
+           FOOTER CONFIGURATION
+           ==================================== */
+        section[data-footer-config="true"] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
+
+        .section-divider .smartart[data-layout="footer"],
+        [data-xbackground="aurora"] .smartart[data-layout="footer"] {
+            display: none !important;
+        }
+
+        /* ====================================
+           RESPONSIVE BREAKPOINTS
+           ==================================== */
+        @media screen and (max-width: 1400px) {
+            .reveal h1 { font-size: 1.8em; }
+            .reveal h2 { font-size: 1.5em; }
+            .grid { gap: 0.8em; }
+        }
+
+        @media screen and (max-width: 1000px) {
+            .reveal h1 { font-size: 1.6em; }
+            .reveal h2 { font-size: 1.4em; }
+            .two-col {
+                grid-template-columns: 1fr;
+                gap: 0.8em;
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+            .reveal h1 { font-size: 1.4em; }
+            .reveal h2 { font-size: 1.2em; }
+            .reveal h3 { font-size: 1em; }
+        }
+
+        /* Viewport height responsive adjustments */
+        @media screen and (max-height: 800px) {
+            .reveal { font-size: 0.9em; }
+            .card { padding: 0.45em; }
+            .grid { gap: 0.45em; }
+        }
+
+        @media screen and (max-height: 700px) {
+            .reveal { font-size: 0.85em; }
+            .card { padding: 0.4em; }
+            .grid { gap: 0.4em; }
+        }
+
+        @media screen and (max-height: 600px) {
+            .reveal { font-size: 0.75em; }
+            .card { padding: 0.35em; }
+            .grid { gap: 0.35em; }
+            .reveal section.compact { font-size: 0.65em; }
+            .reveal section.ultra-compact { font-size: 0.55em; }
+        }
+
+        /* ====================================
+           BOX MODEL & OVERFLOW
+           ==================================== */
+        * {
+            box-sizing: border-box;
+        }
+
+        .reveal .slides section > * {
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- SLIDE 1: Title Slide -->
+            <section data-markdown data-xbackground="aurora" data-background-color="#000000">
+                <script type="text/template">
+                ::: smartart Vision and Strategy HERO
+                heading: Module 3: Vision and Strategy
+                subtitle: Business Agility Foundations (ICP-BAF)
+                background: none
+                :::
+                </script>
+                <aside class="notes">
+                    Welcome participants back. This module builds on Module 2's team alignment foundation. We're moving from "who we are as a team" to "where we're going and how we'll get there". Duration: 3 hours with one major hands-on activity. This is where strategic clarity meets customer focus.
+                </aside>
+            </section>
+
+            <!-- SLIDE 2: Module Overview -->
+            <section>
+                <h2>Module 3 Overview</h2>
+                <div class="container">
+                    <div class="two-col">
+                        <div>
+                            <h3>What We'll Cover:</h3>
+                            <ul>
+                                <li>Compelling visions and clarity of purpose</li>
+                                <li>Customer empathy and value creation</li>
+                                <li>Envisioning the future state</li>
+                                <li><strong>Major Activity:</strong> Foundations Sprint</li>
+                            </ul>
+                            <p style="margin-top: 0.5em;"><strong>Why It Matters:</strong><br>
+                            Agile teams need clear direction + customer focus to make fast, effective decisions</p>
+                        </div>
+                        <div class="img-container">
+                            <img src="assets/images/strategic-planning-session.png" alt="Strategic Planning Session">
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Strategic clarity is what enables autonomy. Without clear vision and customer understanding, teams can't self-organize effectively. The Foundations Sprint activity (60 minutes) is the centerpiece of this module. By end of module, participants will have practical tools for strategic thinking. Timing: 45 min + 45 min + 30 min + 60 min = 3 hours.
+                </aside>
+            </section>
+
+            <!-- SLIDE 3: Learning Objectives -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Learning Objectives
+
+                ::: smartart Learning Objectives LINED
+                intro: By the end of this module, you will be able to:
+                - Vision Importance | Articulate the importance of compelling visions for organizational alignment | icon=lucide:target
+                - Customer Empathy | Apply customer empathy tools (personas, journey maps, empathy maps, value propositions) | icon=lucide:users
+                - Future Envisioning | Use backcasting to envision future state and plan backwards | icon=lucide:trending-up
+                - Foundations Sprint | Execute Foundations Sprint methodology to create strategic focus | icon=lucide:zap
+                :::
+                </script>
+                <aside class="notes">
+                    These objectives align with ICAgile learning outcomes. Mix of conceptual understanding (vision, empathy) and practical application (tools, sprint). Connect to business agility: clear direction + customer focus = effective autonomy. Ask: "How many of you have a clear, compelling vision for your team or function?" Ask: "How many regularly use customer empathy tools in your work?"
+                </aside>
+            </section>
+
+            <!-- SLIDE 4: Section 1 Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>Section 1</h1>
+                <h2>Compelling Vision and Clarity of Purpose</h2>
+                <p style="font-size: 1.2em; margin-top: 1em;">Duration: 45 minutes</p>
+                <aside class="notes">
+                    This section is foundational for everything else in the module. Vision provides the "North Star" for autonomous decision-making. We'll explore what makes a vision compelling and practice crafting one. Timing: 45 minutes total (20 min content, 15 min activity, 10 min discussion).
+                </aside>
+            </section>
+
+            <!-- SLIDE 5: Section 1 Learning Objectives -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Section 1 Learning Objectives
+
+                ::: smartart Section 1 Objectives LINED
+                intro: In this section, you will:
+                - Align Organizations | Communicate the importance of aligning organizations around a crisp, believable, compelling and inspiring vision | icon=lucide:compass
+                - Vision Methods | Experience methods for creating such visions | icon=lucide:lightbulb
+                - Engage Teams | Articulate vision in ways that engage and motivate teams | icon=lucide:users-2
+                :::
+                </script>
+                <aside class="notes">
+                    This section is foundational for everything else in the module. Vision provides the "North Star" for autonomous decision-making. We'll explore what makes a vision compelling and practice crafting one. Timing: 45 minutes total (20 min content, 15 min activity, 10 min discussion).
+                </aside>
+            </section>
+
+            <!-- SLIDE 6: Why Vision Matters -->
+            <section class="ultra-compact">
+                <h2>Why Vision Matters</h2>
+                <div class="container">
+                    <p><strong>In VUCA environments, vision provides:</strong></p>
+                    <div class="grid grid-2col">
+                        <div class="card">
+                            <h3>Inspiration</h3>
+                            <p>Motivates teams to stretch beyond current capabilities</p>
+                        </div>
+                        <div class="card">
+                            <h3>Engagement</h3>
+                            <p>Creates emotional connection to the work</p>
+                        </div>
+                        <div class="card">
+                            <h3>Commitment</h3>
+                            <p>Builds dedication even when challenges arise</p>
+                        </div>
+                        <div class="card">
+                            <h3>Cohesion</h3>
+                            <p>Aligns diverse teams around common direction</p>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Remember VUCA from Module 1: Volatility, Uncertainty, Complexity, Ambiguity. In turbulent environments, vision is the anchor. Without vision, teams default to short-term, reactive thinking. With vision, teams can make decisions autonomously aligned to larger purpose. Source: ICAgile learning outcomes. Ask: "Think about a time you were part of team with compelling vision vs one without - what was different?"
+                </aside>
+            </section>
+
+            <!-- SLIDE 7: What Vision Is (and Isn't) -->
+            <section class="ultra-compact">
+                <h2>What Vision Is (and Isn't)</h2>
+                <div class="container">
+                    <div class="two-col">
+                        <div class="card">
+                            <h3>Vision IS:</h3>
+                            <ul>
+                                <li>A clear picture of a desired future state</li>
+                                <li>Inspiring and aspirational</li>
+                                <li>A guide for decision-making</li>
+                                <li>Focused on the "what" (what we want to create)</li>
+                            </ul>
+                        </div>
+                        <div class="card highlight">
+                            <h3>Vision is NOT:</h3>
+                            <ul>
+                                <li>Mission (why we exist)</li>
+                                <li>Strategy (how we'll get there)</li>
+                                <li>Goals (specific measurable targets)</li>
+                                <li>Tactics (specific actions)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Many organizations confuse these terms. Vision: Where are we going? What does success look like? Mission: Why do we exist? What's our fundamental purpose? Strategy: How will we achieve the vision? What's our approach? Goals: What specific, measurable outcomes mark progress? Example: Amazon vision "To be Earth's most customer-centric company" vs their strategy (logistics, tech, marketplace).
+                </aside>
+            </section>
+
+            <!-- SLIDE 8: CRISP Characteristics -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Characteristics of Compelling Visions
+
+                ::: smartart CRISP Framework CHECKLIST
+                intro: Use the CRISP criteria to evaluate vision statements:
+                - [ ] **Crisp:** Clear, specific, easy to visualize
+                - [ ] **Realistic:** Believable given resources and context
+                - [ ] **Inspiring:** Energizes and motivates people
+                - [ ] **Specific:** Concrete enough to guide decisions
+                - [ ] **Purposeful:** Connected to meaningful outcomes
+                :::
+                </script>
+                <aside class="notes">
+                    Use CRISP as a checklist for evaluating vision statements. Crisp: "Be the best" is vague; "Transform how HR delivers value through data-driven insights" is crisp. Realistic: Should stretch capabilities but not feel impossible. Inspiring: Should make people excited to come to work. Specific: Should help answer "should we do this project?" questions. Purposeful: Should connect to impact that matters. We'll use these criteria in our practice exercise.
+                </aside>
+            </section>
+
+            <!-- SLIDE 9: Vision Enables Decentralized Decision-Making -->
+            <section class="compact">
+                <h2>Vision Enables Decentralized Decision-Making</h2>
+                <div class="container">
+                    <div class="two-col">
+                        <div>
+                            <h3 style="color: var(--ax-purple);">Traditional Approach</h3>
+                            <p>Leadership makes all strategic decisions → slow, bottlenecked</p>
+
+                            <h3 style="color: var(--ax-purple); margin-top: 0.5em;">With Clear Vision</h3>
+                            <p>Teams make decisions aligned to vision → fast, scalable</p>
+
+                            <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 6px;">
+                                <p><strong>The Connection:</strong> Vision acts as guardrails for autonomous teams</p>
+                            </div>
+                        </div>
+                        <div class="img-container">
+                            <img src="assets/images/vision-compass-concept.png" alt="Vision as Compass">
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    This is critical for business agility. When vision is clear and shared, you can trust teams to make good decisions. Teams ask: "Does this move us toward our vision?" instead of "What does my boss want?" Example: If marketing vision is "Create experiences customers love to share," team can decide whether to invest in viral campaign feature. Clarity = Speed. Ask: "What decisions could your team make faster if you had clearer vision?"
+                </aside>
+            </section>
+
+            <!-- SLIDE 10: Example - Marketing Vision -->
+            <section class="compact">
+                <h2>Example: Marketing Department Vision</h2>
+                <div class="container">
+                    <div class="card" style="background: #f8f8f8;">
+                        <h3 style="color: #999;">Weak:</h3>
+                        <p>"Be a world-class marketing organization"</p>
+                    </div>
+
+                    <div class="card" style="margin-top: 0.5em;">
+                        <h3>Strong:</h3>
+                        <p>"Create marketing experiences so valuable that customers seek them out, share them enthusiastically, and see us as trusted partners in their success"</p>
+                    </div>
+
+                    <h3 style="margin-top: 0.5em;">Why it's better:</h3>
+                    <ul>
+                        <li>✓ Specific behaviors (seek out, share, trust)</li>
+                        <li>✓ Customer-focused</li>
+                        <li>✓ Guides decisions (does this create value customers want to share?)</li>
+                        <li>✓ Inspires (aim for partner status, not just vendor)</li>
+                    </ul>
+                </div>
+                <aside class="notes">
+                    Notice how the strong version gives clear decision criteria. "Should we do this email blast?" → "Would customers seek this out and share it?" "Should we sponsor this event?" → "Will this build trusted partner perception?" The weak version could mean anything - doesn't guide action. Invite participants to critique: what makes it compelling to them? Time check: 15 minutes elapsed, 30 to go.
+                </aside>
+            </section>
+
+            <!-- SLIDE 11: Example - HR Transformation Vision -->
+            <section class="compact">
+                <h2>Example: HR Transformation Vision</h2>
+                <div class="container">
+                    <div class="card" style="background: #f8f8f8;">
+                        <h3 style="color: #999;">Weak:</h3>
+                        <p>"Modernize HR to support business growth"</p>
+                    </div>
+
+                    <div class="card" style="margin-top: 0.5em;">
+                        <h3>Strong:</h3>
+                        <p>"Transform HR from administrative function to strategic partner that unlocks human potential, enabling every employee to do their best work and every leader to build high-performing teams"</p>
+                    </div>
+
+                    <h3 style="margin-top: 0.5em;">Why it's better:</h3>
+                    <ul>
+                        <li>✓ Defines the shift (administrative → strategic partner)</li>
+                        <li>✓ Specific outcomes (unlock potential, best work, high-performing teams)</li>
+                        <li>✓ Employee and leader focused</li>
+                        <li>✓ Inspiring purpose (human potential)</li>
+                    </ul>
+                </div>
+                <aside class="notes">
+                    Notice the "from-to" structure helps clarify the transformation. "Strategic partner" is more specific than "modern". "Unlock human potential" connects to meaningful purpose. Clear enough to guide priorities: data analytics over process compliance. Ask: "How does this help HR decide what projects to prioritize?"
+                </aside>
+            </section>
+
+            <!-- SLIDE 12: Example - Finance Vision -->
+            <section class="compact">
+                <h2>Example: Finance Vision</h2>
+                <div class="container">
+                    <div class="card" style="background: #f8f8f8;">
+                        <h3 style="color: #999;">Weak:</h3>
+                        <p>"Provide accurate financial reporting and control"</p>
+                    </div>
+
+                    <div class="card" style="margin-top: 0.5em;">
+                        <h3>Strong:</h3>
+                        <p>"Become the trusted insight partner that empowers business leaders to make faster, smarter decisions through real-time financial clarity and predictive analytics"</p>
+                    </div>
+
+                    <h3 style="margin-top: 0.5em;">Why it's better:</h3>
+                    <ul>
+                        <li>✓ Relationship change (control → partner)</li>
+                        <li>✓ Business outcome focus (faster, smarter decisions)</li>
+                        <li>✓ Specific capabilities (real-time, predictive)</li>
+                        <li>✓ Shifts from backward-looking to forward-looking</li>
+                    </ul>
+                </div>
+                <aside class="notes">
+                    Traditional finance = scorekeepers looking backward. Agile finance = strategic partners enabling speed. "Faster, smarter decisions" is outcome that business leaders care about. "Real-time" and "predictive" suggest specific capability investments. Ask: "Finance professionals in room - how would this change your prioritization?"
+                </aside>
+            </section>
+
+            <!-- SLIDE 13: Reflection - Your Current Vision -->
+            <section class="compact">
+                <h2>Reflection: Your Current Vision</h2>
+                <div class="container">
+                    <div class="activity">
+                        <h3>Think about your team or function:</h3>
+                        <ol>
+                            <li>Do you have a clear, written vision?</li>
+                            <li>If yes, rate it on CRISP criteria (1-5 each)</li>
+                            <li>If no, what makes it hard to articulate?</li>
+                            <li>How would a clearer vision change day-to-day decisions?</li>
+                        </ol>
+                        <p style="margin-top: 0.5em;"><strong>Turn to a partner and share (3 minutes)</strong></p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Give them 2 minutes to think individually first. Then 3 minutes to discuss in pairs. Walk around and listen to conversations. This surfaces current state and makes the need real. Don't skip this - makes the next exercise more meaningful. Time check: 20 minutes elapsed, 25 to go.
+                </aside>
+            </section>
+
+            <!-- SLIDE 14: Activity - Vision Crafting -->
+            <section>
+                <h2>Activity: Vision Crafting (15 minutes)</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 15 minutes</span>
+                        <h3>Draft a Compelling Vision</h3>
+                        <p><strong>Choose a scenario:</strong></p>
+                        <ul>
+                            <li>Your team/function</li>
+                            <li>A project you're leading</li>
+                            <li>An initiative you want to start</li>
+                        </ul>
+
+                        <p style="margin-top: 0.5em;"><strong>Use this template:</strong></p>
+                        <p style="background: white; padding: 0.5em; border-radius: 4px; font-style: italic;">
+                        "[Transform/Create/Become] [from what to what], enabling [who] to [do what / achieve what], through [key capabilities or approaches]"
+                        </p>
+
+                        <p style="margin-top: 0.5em;"><strong>Work individually for 10 minutes, then share in small groups</strong></p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Provide template on slide and in handout. Encourage specific, concrete language. Remind them of CRISP criteria. 10 minutes individual work (silent). 5 minutes small group sharing (3-4 people). Ask them to give peer feedback using CRISP checklist. This is practice, not perfection - drafts are fine. Supplies: Worksheets with template and CRISP checklist. Time check: will use 15 minutes, leaving 10 for debrief.
+                </aside>
+            </section>
+
+            <!-- SLIDE 15: Debrief - Vision Crafting -->
+            <section>
+                <h2>Debrief: Vision Crafting</h2>
+                <div class="container">
+                    <div class="two-col">
+                        <div>
+                            <h3>Volunteers share:</h3>
+                            <ul>
+                                <li>Your vision statement</li>
+                                <li>What was challenging?</li>
+                                <li>What made it compelling?</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>Group discussion:</h3>
+                            <ul>
+                                <li>How would this vision guide your decisions?</li>
+                                <li>What would you need to communicate it effectively?</li>
+                                <li>How do you get team buy-in?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Get 2-3 volunteers to share their vision statements. Invite group to give feedback using CRISP criteria. Common challenges: Being specific vs vague, balancing inspiring vs realistic. Key insight: The process of crafting forces clarity. Connect to next section: Vision sets direction, customer empathy ensures it's the right direction. Time check: 45 minutes total for Section 1. TRANSITION: "Now we have compelling visions - but how do we ensure they create real value for customers?"
+                </aside>
+            </section>
+
+            <!-- SLIDE 16: Section 2 Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>Section 2</h1>
+                <h2>Customer Empathy and Value Creation</h2>
+                <p style="font-size: 1.2em; margin-top: 1em;">Duration: 45 minutes</p>
+                <aside class="notes">
+                    This section is about grounding strategy in customer reality. Vision without customer empathy = building what you think they want, not what they need. We'll introduce 4 core tools and practice with one. Timing: 25 min concepts + 15 min activity + 5 min debrief.
+                </aside>
+            </section>
+
+            <!-- SLIDE 17: Section 2 Learning Objectives -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Section 2 Learning Objectives
+
+                ::: smartart Section 2 Objectives LINED
+                intro: In this section, you will:
+                - Develop Empathy | Explain the values, principles, tools and techniques needed to develop empathy | icon=lucide:heart
+                - Apply Tools | Apply tools: persona maps, customer journey maps, empathy maps, value propositions | icon=lucide:wrench
+                - Internal Customers | Recognize that everyone between you and the customer is an internal customer | icon=lucide:users
+                :::
+                </script>
+                <aside class="notes">
+                    This section is about grounding strategy in customer reality. Vision without customer empathy = building what you think they want, not what they need. We'll introduce 4 core tools and practice with one. Timing: 25 min concepts + 15 min activity + 5 min debrief.
+                </aside>
+            </section>
+
+            <!-- SLIDE 18: Why Customer Empathy Matters -->
+            <section>
+                <h2>Why Customer Empathy Matters</h2>
+                <div class="container">
+                    <div class="card">
+                        <h3>Value is subjective</h3>
+                        <ul>
+                            <li>What's valuable to one customer may not be to another</li>
+                            <li>Value depends on context, timing, needs, and alternatives</li>
+                            <li>We can't define value - only customers can</li>
+                        </ul>
+                    </div>
+
+                    <div class="card highlight" style="margin-top: 0.5em;">
+                        <h3>Customer focus is a core capability for business agility</h3>
+                        <ul>
+                            <li>Enables fast feedback and learning</li>
+                            <li>Reduces waste (building wrong things)</li>
+                            <li>Builds loyalty and advocacy</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Source: ICAgile learning outcomes emphasize value is subjective. Example: Same hotel room - business traveler values wifi, vacationer values pool, parent values adjoining rooms. Traditional approach: We define value based on features we build. Agile approach: We discover value by understanding customers. Ask: "When have you built something you thought was valuable but customers didn't use it?" This section gives tools to prevent that.
+                </aside>
+            </section>
+
+            <!-- SLIDE 19: What is Customer Empathy -->
+            <section>
+                <h2>What is Customer Empathy?</h2>
+                <div class="container">
+                    <p><strong>Customer Empathy:</strong> Deep understanding of customer's context, needs, pains, and aspirations</p>
+
+                    <div class="two-col" style="margin-top: 0.5em;">
+                        <div class="card">
+                            <h3 style="color: #999;">It's not:</h3>
+                            <ul>
+                                <li>Surveys and statistics (those are data)</li>
+                                <li>Assuming you know because you're like them</li>
+                                <li>Focus groups where people say what they think you want to hear</li>
+                            </ul>
+                        </div>
+                        <div class="card highlight">
+                            <h3>It is:</h3>
+                            <ul>
+                                <li>Direct observation and conversation</li>
+                                <li>Understanding their world, not just your product</li>
+                                <li>Seeing through their eyes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Empathy = "feeling with" not "feeling for" (sympathy). Requires getting out of your own perspective. Example: Watching someone use your website vs asking "do you like our website?" Empathy precedes innovation - can't solve problems you don't understand. Ask: "Who are your customers - internal or external?"
+                </aside>
+            </section>
+
+            <!-- SLIDE 20: Internal vs External Customers -->
+            <section class="compact">
+                <h2>Internal vs External Customers</h2>
+                <div class="container">
+                    <div class="two-col">
+                        <div>
+                            <div class="card">
+                                <h3>External Customers:</h3>
+                                <p>End users who consume your product/service</p>
+                            </div>
+
+                            <div class="card" style="margin-top: 0.5em;">
+                                <h3>Internal Customers:</h3>
+                                <p>Everyone between you and the end customer who depends on your work</p>
+                            </div>
+
+                            <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 6px;">
+                                <p><strong>Key Insight:</strong> If you're not directly serving external customers, your internal customers are just as important</p>
+                            </div>
+                        </div>
+                        <div class="img-container">
+                            <img src="assets/images/customer-empathy-concept.png" alt="Customer Empathy">
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Most people in this room likely have internal customers (other departments). HR customers: Employees and leaders. Finance customers: Business unit leaders, executives. Marketing customers: Might be both external and internal. IT customers: Internal users of systems. Your internal customers' success contributes to external customer success. "We all win together" - value chain thinking. Ask: "Who depends on your work? List 3 internal customers."
+                </aside>
+            </section>
+
+            <!-- SLIDE 21: Customer Empathy Tools Overview -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Customer Empathy Tools Overview
+
+                ::: smartart Four Core Tools ACCORDION
+                intro: We'll explore each tool, then practice with Empathy Maps:
+                [*] Persona Maps | Who is the customer? Create semi-fictional representations of ideal customers
+                Empathy Maps | What do they think, feel, say, do? Understand their inner world
+                Customer Journey Maps | What's their experience over time? Visualize touchpoints and emotions
+                Value Proposition Canvas | What value do we promise? Align what we offer to what they need
+                :::
+                </script>
+                <aside class="notes">
+                    These are complementary tools, not alternatives. Persona: Understand who (demographics, goals, context). Empathy Map: Understand inner world (thoughts, feelings, motivations). Journey Map: Understand experience over time (touchpoints, emotions, pain points). Value Proposition: Align what we offer to what they need. All four together create comprehensive understanding. Time check: 10 minutes into Section 2.
+                </aside>
+            </section>
+
+            <!-- SLIDE 22: Tool 1 - Persona Maps -->
+            <section class="compact">
+                <h2>Tool 1: Persona Maps</h2>
+                <div class="container">
+                    <div class="two-col">
+                        <div>
+                            <p><strong>Purpose:</strong> Create semi-fictional representation of ideal customer</p>
+
+                            <h3>Key Elements:</h3>
+                            <ul>
+                                <li>Name, role, demographics</li>
+                                <li>Goals and motivations</li>
+                                <li>Pain points and frustrations</li>
+                                <li>Context and constraints</li>
+                                <li>How they make decisions</li>
+                            </ul>
+
+                            <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 6px;">
+                                <p><strong>Example (HR):</strong> "Sarah, Department Manager - Needs to hire quickly but struggles with slow approval processes. Values efficiency and candidate experience. Makes decisions based on time-to-hire metrics."</p>
+                            </div>
+                        </div>
+                        <div class="img-container">
+                            <img src="assets/images/persona-map-template.png" alt="Persona Map Template">
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Personas make abstract "users" concrete and memorable. "What would Sarah think?" is easier than "what would users think?" Should be based on research, not assumptions. Include photo and quote to make them feel real. Keep 2-3 primary personas, not 20. Use in meetings: "Does this serve Sarah's needs?" Template will be in take-home materials.
+                </aside>
+            </section>
+
+            <!-- SLIDE 23: Tool 2 - Empathy Maps -->
+            <section class="compact">
+                <h2>Tool 2: Empathy Maps</h2>
+                <div class="container">
+                    <div class="two-col">
+                        <div>
+                            <p><strong>Purpose:</strong> Understand what customer thinks, feels, says, does</p>
+
+                            <h3>Four Quadrants:</h3>
+                            <ul>
+                                <li><strong>Think & Feel:</strong> Inner world, worries, aspirations</li>
+                                <li><strong>See:</strong> What they observe in environment</li>
+                                <li><strong>Say & Do:</strong> Public behavior and statements</li>
+                                <li><strong>Hear:</strong> What others tell them</li>
+                            </ul>
+
+                            <h3>Bottom Section:</h3>
+                            <ul>
+                                <li><strong>Pains:</strong> Frustrations, obstacles, fears</li>
+                                <li><strong>Gains:</strong> Wants, needs, success measures</li>
+                            </ul>
+                        </div>
+                        <div class="img-container">
+                            <img src="assets/images/empathy-map-canvas.png" alt="Empathy Map Canvas">
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Created by XPLANE, popularized by Strategyzer. Helps get inside customer's head. Think/Feel vs Say/Do reveals gaps (what they won't admit publicly). See and Hear provide context that shapes their perspective. Pains and Gains summarize what matters most. Best done based on actual interviews or observations. We'll practice this tool in our activity. Visual: Show empathy map template.
+                </aside>
+            </section>
+
+            <!-- SLIDE 24: Tool 3 - Customer Journey Maps -->
+            <section class="compact">
+                <h2>Tool 3: Customer Journey Maps</h2>
+                <div class="container">
+                    <div class="two-col">
+                        <div>
+                            <p><strong>Purpose:</strong> Visualize customer's experience over time</p>
+
+                            <h3>Elements:</h3>
+                            <ul>
+                                <li><strong>Stages:</strong> Phases of experience (Awareness → Consideration → Purchase → Use → Advocacy)</li>
+                                <li><strong>Touchpoints:</strong> Where they interact with you</li>
+                                <li><strong>Emotions:</strong> How they feel at each stage (emotional curve)</li>
+                                <li><strong>Pain Points:</strong> Where things go wrong</li>
+                                <li><strong>Opportunities:</strong> Where you could improve</li>
+                            </ul>
+
+                            <p style="margin-top: 0.5em;"><strong>Example (HR):</strong> New employee onboarding journey from job offer to 90-day mark</p>
+                        </div>
+                        <div class="img-container">
+                            <img src="assets/images/customer-journey-map.png" alt="Customer Journey Map">
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Journey maps reveal disconnects between stages. Example: Marketing creates excitement, but onboarding is disappointing. Emotional curve is key - where do they get frustrated or delighted? Often reveals that pain points are in transitions between stages. Example: HR onboarding gap between offer acceptance and first day (lost excitement). Should include both what IS happening and what you WANT to happen. Cross-functional tool - reveals handoff problems. Template in materials.
+                </aside>
+            </section>
+
+            <!-- SLIDE 25: Tool 4 - Value Proposition Canvas -->
+            <section class="compact">
+                <h2>Tool 4: Value Proposition Canvas</h2>
+                <div class="container">
+                    <div class="two-col">
+                        <div>
+                            <p><strong>Purpose:</strong> Align what you offer with what customers need</p>
+
+                            <h3>Customer Side (Profile):</h3>
+                            <ul>
+                                <li>Customer jobs (tasks they want to accomplish)</li>
+                                <li>Pains (obstacles and frustrations)</li>
+                                <li>Gains (desired outcomes and benefits)</li>
+                            </ul>
+
+                            <h3>Value Side (Map):</h3>
+                            <ul>
+                                <li>Products/Services (what you offer)</li>
+                                <li>Pain relievers (how you address pains)</li>
+                                <li>Gain creators (how you create gains)</li>
+                            </ul>
+
+                            <p style="margin-top: 0.5em;"><strong>Success = Fit between profile and map</strong></p>
+                        </div>
+                        <div class="img-container">
+                            <img src="assets/images/value-proposition-canvas.png" alt="Value Proposition Canvas">
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Created by Strategyzer (Alex Osterwalder). Left side: Understand customer deeply. Right side: Design value proposition to match. Fit = your pain relievers match their pains, your gain creators match their gains. Common mistake: Starting with what we offer instead of what they need. Example: Customer job "evaluate vendor options quickly" → your pain reliever "free trial, no credit card needed". Tool helps test: Are we solving problems they actually have? Template available in Business Model Generation book and online.
+                </aside>
+            </section>
+
+            <!-- SLIDE 26: Quick Example - Finance Team Empathy Map -->
+            <section class="ultra-compact">
+                <h2>Quick Example: Finance Team Empathy Map</h2>
+                <div class="container">
+                    <p><strong>Scenario:</strong> Business unit leader as internal customer of finance</p>
+
+                    <div class="grid grid-2col">
+                        <div class="card">
+                            <h3>Think & Feel:</h3>
+                            <p>"I need budget answers fast to make decisions, but finance takes weeks"</p>
+                        </div>
+                        <div class="card">
+                            <h3>See:</h3>
+                            <p>Competitors moving faster, opportunities slipping away</p>
+                        </div>
+                        <div class="card">
+                            <h3>Say & Do:</h3>
+                            <p>Asks for budget updates repeatedly, workarounds finance with assumptions</p>
+                        </div>
+                        <div class="card">
+                            <h3>Hear:</h3>
+                            <p>CEO asking for faster decision-making, finance saying "we need complete data"</p>
+                        </div>
+                    </div>
+
+                    <div class="two-col" style="margin-top: 0.3em;">
+                        <div class="card highlight">
+                            <h3>Pains:</h3>
+                            <p>Slow responses, lack of predictive insights, feeling controlled not supported</p>
+                        </div>
+                        <div class="card highlight">
+                            <h3>Gains:</h3>
+                            <p>Speed, predictive analytics, trusted partnership</p>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    This is what empathy reveals - the gap between finance and business leader perspectives. Business leader sees finance as bottleneck, not partner. Finance might see themselves as ensuring accuracy and control. Empathy map helps finance understand the customer experience. Connect to vision: "trusted insight partner for faster decisions" addresses these pains/gains. This is preparation for our practice activity. Time check: 20 minutes into section 2.
+                </aside>
+            </section>
+
+            <!-- SLIDE 27: Activity - Create an Empathy Map -->
+            <section>
+                <h2>Activity: Create an Empathy Map (15 minutes)</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 15 minutes</span>
+                        <h3>Create an Empathy Map for Your Customer</h3>
+
+                        <p><strong>Choose a customer (internal or external):</strong></p>
+                        <ul>
+                            <li>Someone whose work depends on what you deliver</li>
+                            <li>Someone you want to serve better</li>
+                            <li>Someone for an initiative you're planning</li>
+                        </ul>
+
+                        <p style="margin-top: 0.5em;"><strong>Complete an Empathy Map:</strong></p>
+                        <ol>
+                            <li>Think & Feel</li>
+                            <li>See</li>
+                            <li>Say & Do</li>
+                            <li>Hear</li>
+                            <li>Pains</li>
+                            <li>Gains</li>
+                        </ol>
+
+                        <p style="margin-top: 0.5em;"><strong>Work in pairs</strong> - 10 minutes creating, 5 minutes sharing with another pair</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Provide empathy map templates (paper or Miro). Encourage choosing real customer they know well. If they don't have direct customer knowledge, work from best understanding. Pairs collaborate - one person's customer, both contribute ideas. Then share with another pair for feedback. Listen for: Are pains/gains specific enough? Do think/feel reveal insights? Supplies: Empathy map templates, markers, sticky notes. Time: 10 min working + 5 min sharing = 15 minutes. Time check: Will complete at 35 minutes into section.
+                </aside>
+            </section>
+
+            <!-- SLIDE 28: Debrief - Empathy Mapping -->
+            <section>
+                <h2>Debrief: Empathy Mapping</h2>
+                <div class="container">
+                    <div class="two-col">
+                        <div>
+                            <h3>What did you discover?</h3>
+                            <ul>
+                                <li>Surprises about your customer?</li>
+                                <li>Gaps in your knowledge?</li>
+                                <li>New ideas for how to serve them better?</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>How might this change your approach?</h3>
+
+                            <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 6px;">
+                                <p><strong>Connection to business agility:</strong><br>
+                                Customer empathy enables fast experimentation - you test with real needs, not assumptions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Get 2-3 pairs to share their maps and insights. Common discoveries: "I realized I don't know what they're hearing from others". Common gaps: "I've never observed them actually using what I deliver". Action: What would you need to do to fill knowledge gaps? (Interviews, observation, etc.). Connect to agility: Empathy → better hypotheses → faster learning. Time check: 45 minutes total for Section 2. TRANSITION: "Now we understand our customers and have compelling vision - how do we plan the journey from here to there?"
+                </aside>
+            </section>
+
+            <!-- SLIDE 29: Section 3 Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>Section 3</h1>
+                <h2>Envisioning the Future State</h2>
+                <p style="font-size: 1.2em; margin-top: 1em;">Duration: 30 minutes</p>
+                <aside class="notes">
+                    This section introduces backcasting methodology. Complements vision (what) with pathway (how to get there). Shorter section (30 min) - introduces concept, we'll apply it in Foundations Sprint. Timing: 15 min concepts + 10 min guided exercise + 5 min debrief.
+                </aside>
+            </section>
+
+            <!-- SLIDE 30: Section 3 Learning Objectives -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Section 3 Learning Objectives
+
+                ::: smartart Section 3 Objectives LINED
+                intro: In this section, you will:
+                - Future State | Envision the future state of business agility | icon=lucide:eye
+                - Backcasting | Learn ways to look backwards from that future to craft a compelling path | icon=lucide:arrow-left
+                - Team Application | Gain understanding of why and how to use this activity with teams | icon=lucide:users
+                :::
+                </script>
+                <aside class="notes">
+                    This section introduces backcasting methodology. Complements vision (what) with pathway (how to get there). Shorter section (30 min) - introduces concept, we'll apply it in Foundations Sprint. Timing: 15 min concepts + 10 min guided exercise + 5 min debrief.
+                </aside>
+            </section>
+
+            <!-- SLIDE 31: Traditional Planning vs Backcasting -->
+            <section class="compact">
+                <h2>Traditional Planning vs Backcasting</h2>
+                <div class="container">
+                    <div class="two-col">
+                        <div>
+                            <div class="card">
+                                <h3>Traditional (Forecasting):</h3>
+                                <p>Start with current state → project forward → see where you end up</p>
+                            </div>
+
+                            <div class="card highlight" style="margin-top: 0.5em;">
+                                <h3>Backcasting:</h3>
+                                <p>Define desired future state → work backward → identify path to get there</p>
+                            </div>
+
+                            <h3 style="margin-top: 0.5em;">Why backcasting is powerful:</h3>
+                            <ul>
+                                <li>More creative (not constrained by current limitations)</li>
+                                <li>More motivating (inspiring future pulls you forward)</li>
+                                <li>More strategic (focused on destination, not just incremental progress)</li>
+                            </ul>
+                        </div>
+                        <div class="img-container">
+                            <img src="assets/images/future-vision-concept.png" alt="Future Vision">
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Forecasting asks "Where are current trends taking us?" Backcasting asks "Where do we want to be?" then "What needs to change?" Example: Forecasting = "We'll have 10% more automation by next year". Backcasting = "In 3 years we're fully automated, working backwards what capabilities do we need?" Backcasting especially valuable in complex, uncertain environments. Source: ICAgile learning outcomes. Ask: "Which approach do you typically use in your planning?"
+                </aside>
+            </section>
+
+            <!-- SLIDE 32: How Backcasting Works -->
+            <section data-markdown>
+                <script type="text/template">
+                ## How Backcasting Works
+
+                ::: smartart Backcasting Process CHECKLIST
+                intro: Three-step process for backcasting:
+                - [ ] **Step 1: Envision the Future State** - What does success look like in 2-3 years? What's different about how we work? What value are we creating?
+                - [ ] **Step 2: Identify Capabilities Needed** - What skills, behaviors, practices enable that future? What systems, tools, processes? What culture and mindset?
+                - [ ] **Step 3: Map the Path** - Working backward, what are the major milestones? What's the sequence? What depends on what? What can we start now?
+                :::
+                </script>
+                <aside class="notes">
+                    Step 1 is where vision comes in - specific, compelling picture. Step 2 is capability gap analysis - what do we need that we don't have? Step 3 is roadmap creation - turning aspiration into plan. Key: Don't need to plan every detail, just major capability shifts. Example: Future state "real-time financial insights" → need "automated data pipeline" → need "data architecture redesign" → can start "current state data audit". Makes big visions feel achievable by breaking them down. Time check: 7 minutes into Section 3.
+                </aside>
+            </section>
+
+            <!-- SLIDE 33: Example - Marketing Agility Future State -->
+            <section class="ultra-compact">
+                <h2>Example: Marketing Agility Future State</h2>
+                <div class="container">
+                    <div class="card">
+                        <h3>Future State (2 years):</h3>
+                        <p>"Marketing operates with 2-week iteration cycles, testing 10+ experiments per month, with real-time performance dashboards and autonomous team decision-making"</p>
+                    </div>
+
+                    <div class="card" style="margin-top: 0.3em;">
+                        <h3>Capabilities Needed:</h3>
+                        <ul>
+                            <li>Rapid experimentation platform and processes</li>
+                            <li>Data analytics infrastructure</li>
+                            <li>Team skills in hypothesis testing</li>
+                            <li>Decision-making authority and trust</li>
+                            <li>Agile marketing framework adoption</li>
+                        </ul>
+                    </div>
+
+                    <div class="card highlight" style="margin-top: 0.3em;">
+                        <h3>Path Backward:</h3>
+                        <p><strong>Q4 2027:</strong> Full autonomous operations<br>
+                        <strong>Q2 2027:</strong> All teams running experiments<br>
+                        <strong>Q4 2026:</strong> Platform launched, 2 pilot teams<br>
+                        <strong>Q2 2026:</strong> Skills training, platform selection<br>
+                        <strong>Q1 2026 (Now):</strong> Current state assessment, vision alignment</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Notice how specific the future state is - measurable, observable. Capabilities span tech (platform), skills (testing), process (framework), culture (trust). Working backward creates sequence: trust before autonomy, platform before experiments. Quarterly milestones, not daily tasks - strategic not tactical. This becomes the roadmap that guides prioritization. Ask: "What would need to be in place for your team to operate more agilely?"
+                </aside>
+            </section>
+
+            <!-- SLIDE 34: Example - HR Transformation Future State -->
+            <section class="ultra-compact">
+                <h2>Example: HR Transformation Future State</h2>
+                <div class="container">
+                    <div class="card">
+                        <h3>Future State (3 years):</h3>
+                        <p>"HR delivers predictive insights on talent needs 6 months ahead, employees rate HR as their most valuable partner (90%+ satisfaction), leaders use HR data in every strategic decision"</p>
+                    </div>
+
+                    <div class="card" style="margin-top: 0.3em;">
+                        <h3>Capabilities Needed:</h3>
+                        <ul>
+                            <li>People analytics platform and expertise</li>
+                            <li>Predictive modeling skills</li>
+                            <li>Trusted advisor relationships with leaders</li>
+                            <li>Employee-centric service design</li>
+                            <li>Proactive vs reactive operating model</li>
+                        </ul>
+                    </div>
+
+                    <div class="card highlight" style="margin-top: 0.3em;">
+                        <h3>Path Backward:</h3>
+                        <p><strong>2028:</strong> Predictive operations fully embedded<br>
+                        <strong>2027:</strong> Analytics platform live, pilot programs<br>
+                        <strong>2026:</strong> Skills development, relationship building, platform build<br>
+                        <strong>2025 (Now):</strong> Assess current state, build vision alignment, secure investment</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Notice this addresses both technical (platform, analytics) and relational (trusted advisor). "90%+ satisfaction" is specific measure that can be tracked. Path shows major shifts: reactive → proactive, administrative → strategic. Working backward reveals: Can't jump to predictive without platform and skills. Roadmap helps communicate to stakeholders: "Here's why we need these investments". This is how you connect inspiring vision to practical steps.
+                </aside>
+            </section>
+
+            <!-- SLIDE 35: Guided Exercise - Future State Visualization -->
+            <section class="compact">
+                <h2>Guided Exercise: Future State Visualization (10 minutes)</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 10 minutes</span>
+                        <h3>Visualize Your Future State</h3>
+
+                        <p><strong>Close your eyes and imagine...</strong></p>
+                        <p style="font-style: italic;">It's 2 years from now. Your team or function has successfully adopted business agility.</p>
+
+                        <ul>
+                            <li>What does a typical day look like?</li>
+                            <li>How do decisions get made differently?</li>
+                            <li>What are you delivering that you couldn't before?</li>
+                            <li>How do customers (internal or external) describe working with you?</li>
+                            <li>What capabilities made this possible?</li>
+                        </ul>
+
+                        <p style="margin-top: 0.5em;"><strong>Open your eyes - write down your future state</strong> (5 minutes)</p>
+
+                        <p><strong>Pair share:</strong> Your future state and 2-3 key capabilities needed (5 minutes)</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Create quiet, reflective environment for visualization. Speak slowly, leave pauses. Guide them: "Be specific. What do you see? What do you hear?" After visualization, give 5 minutes to capture in writing. Encourage detail: not just "we're agile" but "we run 2-week sprints". Then 5 minutes to share with partner and discuss capabilities. Partners help each other identify capability gaps. This surfaces personal vision that can inform team vision. Time check: Will use 10 minutes, 5 remaining for debrief.
+                </aside>
+            </section>
+
+            <!-- SLIDE 36: Debrief - From Vision to Reality -->
+            <section>
+                <h2>Debrief: From Vision to Reality</h2>
+                <div class="container">
+                    <div class="grid grid-2col">
+                        <div class="card">
+                            <h3>Key Insights:</h3>
+                            <ul>
+                                <li>Future state must be specific enough to plan backward from</li>
+                                <li>Capabilities include tech, skills, process, AND culture</li>
+                                <li>The gap between current and future reveals the work</li>
+                            </ul>
+                        </div>
+                        <div class="card highlight">
+                            <h3>Application:</h3>
+                            <ul>
+                                <li>Use backcasting for strategic planning</li>
+                                <li>Use with teams to create shared roadmap</li>
+                                <li>Revisit regularly as future state evolves</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 6px;">
+                        <p><strong>Connection to next section:</strong> Foundations Sprint is one method to create strategic clarity and focus</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Ask: "What capabilities appeared in multiple people's future states?" Common themes: autonomy, speed, data, customer focus. Key insight: You can't build future state all at once - sequencing matters. Backcasting reveals dependencies: trust before autonomy, skills before tools. This ties to business agility: iterative approach to transformation. Time check: 30 minutes for Section 3 complete. TRANSITION: "We're now ready for our major activity - Foundations Sprint, which brings together vision, customer focus, and strategic clarity". Break recommendation: 10-minute break before the 60-minute Foundation Sprint activity.
+                </aside>
+            </section>
+
+            <!-- SLIDE 37: Break -->
+            <section>
+                <h2>Break (10 minutes)</h2>
+                <div class="container">
+                    <div class="activity">
+                        <h3>When we return:</h3>
+                        <p>Foundations Sprint Activity (60 minutes)</p>
+
+                        <h3 style="margin-top: 0.5em;">Get ready:</h3>
+                        <ul>
+                            <li>Form groups of 4-6</li>
+                            <li>Bring a project, initiative, or challenge to work on</li>
+                            <li>Be ready for fast-paced, structured strategic thinking</li>
+                        </ul>
+                    </div>
+
+                    <div class="img-container" style="margin-top: 0.5em;">
+                        <img src="assets/images/team-workshop-activity.png" alt="Workshop Activity">
+                    </div>
+                </div>
+                <aside class="notes">
+                    This is good break point - 1.5 hours complete, 1.5 hours to go. During break, set up for Foundation Sprint activity. Prepare: Miro boards or poster templates. Prepare: Sticky notes, markers, voting dots. Consider room setup: tables for groups of 4-6. When they return, groups should be ready to dive in. Activity is time-boxed and fast-paced - energy is important.
+                </aside>
+            </section>
+
+            <!-- SLIDE 38: Section 4 Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>Section 4</h1>
+                <h2>Activity - Foundations Sprint</h2>
+                <p style="font-size: 1.2em; margin-top: 1em;">Duration: 60 minutes</p>
+                <aside class="notes">
+                    Foundation Sprint source: Lenny's Podcast episode with Jake Knapp and JZ. Used with startups but highly applicable to any strategic initiative. Helps teams get clarity on what matters most. Core insight: Slow down to think clearly, so you can move faster long-term. Today we'll focus on key exercises that create strategic focus. Output: Clear understanding of who you serve, how you differentiate, and how to evaluate options. Time: 60 minutes including intro and debrief.
+                </aside>
+            </section>
+
+            <!-- SLIDE 39: Section 4 Overview -->
+            <section class="compact">
+                <h2>Section 4 Overview</h2>
+                <div class="container">
+                    <div class="two-col">
+                        <div>
+                            <h3>What is Foundations Sprint?</h3>
+                            <p>A time-boxed process to create strategic clarity through three phases:</p>
+                            <ol>
+                                <li><strong>The Basics</strong> - Customer, problem, competition</li>
+                                <li><strong>Differentiation</strong> - How you'll stand out</li>
+                                <li><strong>Magic Lenses</strong> - How to evaluate approaches</li>
+                            </ol>
+
+                            <p style="margin-top: 0.5em;"><strong>Created by:</strong> Jake Knapp (Google Meet, Design Sprint) and John Zeratsky (Google Ventures)</p>
+
+                            <p><strong>Full version:</strong> 10 hours over 2 days<br>
+                            <strong>Today:</strong> 60-minute abbreviated version focused on core insights</p>
+                        </div>
+                        <div class="img-container">
+                            <img src="assets/images/foundations-sprint-board.png" alt="Foundations Sprint Board">
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Foundation Sprint source: Lenny's Podcast episode with Jake Knapp and JZ. Used with startups but highly applicable to any strategic initiative. Helps teams get clarity on what matters most. Core insight: Slow down to think clearly, so you can move faster long-term. Today we'll focus on key exercises that create strategic focus. Output: Clear understanding of who you serve, how you differentiate, and how to evaluate options. Time: 60 minutes including intro and debrief.
+                </aside>
+            </section>
+
+            <!-- SLIDE 40: Why Foundations Sprint Matters -->
+            <section>
+                <h2>Why Foundations Sprint Matters</h2>
+                <div class="container">
+                    <div class="card">
+                        <h3>The Problem:</h3>
+                        <p>"Most teams rush to build without clarity on basics, creating generic solutions that don't stand out"</p>
+                    </div>
+
+                    <div class="card highlight" style="margin-top: 0.5em;">
+                        <h3>The Solution:</h3>
+                        <p>Slow down for strategic thinking → create radical clarity → move faster with confidence</p>
+                    </div>
+
+                    <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 6px;">
+                        <p><strong>Key Insight from Jake Knapp:</strong><br>
+                        "AI makes building fast, but products become generic. Slowing down for deep thinking makes you faster long-term."</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Source: Video timestamp 0:40-1:01. Common pattern: Teams skip strategy, jump to execution, realize later it's wrong. Foundation Sprint prevents this by front-loading strategic clarity. 10 hours seems slow, but saves months of building wrong thing. For us: 60 minutes of strategic thinking will clarify next steps. Ask: "How many of you have worked on projects where you later realized you were building the wrong thing?" Foundation Sprint prevents that.
+                </aside>
+            </section>
+
+            <!-- SLIDE 41: Foundation Sprint Three Phases -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Foundation Sprint: Three Phases
+
+                ::: smartart Sprint Phases ACCORDION
+                intro: These three phases build on each other:
+                [*] Phase 1: The Basics (20 min today) | Who's your customer? What problem are you solving? What's the competition? What are your advantages?
+                Phase 2: Differentiation (25 min today) | How will you stand out? What's your 2x2 positioning? What makes you radically different?
+                Phase 3: Magic Lenses (10 min today) | How do you evaluate options? What lens matters most?
+                :::
+                </script>
+                <aside class="notes">
+                    These three phases build on each other. Basics = foundation and warm-up. Differentiation = heart of the sprint, where most value comes from. Magic Lenses = decision-making framework. Together they create "founding hypothesis" - your strategic thesis to test. Original sprint: ~3 hours basics, ~4 hours differentiation, ~2 hours lenses, ~1 hour synthesis. Today: Abbreviated but covers key concepts. Let's dive into each phase.
+                </aside>
+            </section>
+
+            <!-- SLIDE 42: How We'll Work -->
+            <section>
+                <h2>How We'll Work: "Work Alone Together"</h2>
+                <div class="container">
+                    <div class="card">
+                        <h3>The Method:</h3>
+                        <ol>
+                            <li><strong>Silent individual work</strong> - Everyone writes their own ideas (no talking!)</li>
+                            <li><strong>Vote</strong> - Everyone places dots on ideas they like</li>
+                            <li><strong>Decider</strong> - One person makes final call</li>
+                        </ol>
+                    </div>
+
+                    <div class="card highlight" style="margin-top: 0.5em;">
+                        <h3>Why it works:</h3>
+                        <ul>
+                            <li>Gets diverse perspectives (not groupthink)</li>
+                            <li>Moves through decisions quickly</li>
+                            <li>Saves decision-making energy</li>
+                            <li>Introverts and extroverts equally heard</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Source: Video timestamp 21:17-22:14. This is key facilitation method throughout Foundation Sprint. Silence is critical - prevents loudest voice from dominating. Voting surfaces patterns without long debate. Decider role (usually team lead or sponsor) breaks ties and maintains momentum. Example: "Who's the customer?" - everyone writes their answer silently, then we vote, then decider confirms. Feels awkward at first but creates better decisions faster. We'll practice this throughout activity. Time check: 10 minutes into Section 4, ready to start activity.
+                </aside>
+            </section>
+
+            <!-- SLIDE 43: Activity Setup -->
+            <section>
+                <h2>Activity Setup: Form Groups and Choose Scenario</h2>
+                <div class="container">
+                    <div class="activity">
+                        <h3>Setup Instructions:</h3>
+                        <p><strong>Group Size:</strong> 4-6 people</p>
+
+                        <p style="margin-top: 0.5em;"><strong>Choose a scenario to work on:</strong></p>
+                        <ul>
+                            <li>A new initiative or project starting soon</li>
+                            <li>An existing product/service you want to improve</li>
+                            <li>A strategic challenge or opportunity you're facing</li>
+                            <li>A transformation you're planning</li>
+                        </ul>
+
+                        <p style="margin-top: 0.5em;"><strong>Designate a Decider:</strong> Usually team lead, project sponsor, or most senior person</p>
+
+                        <p style="margin-top: 0.5em;"><strong>You'll need:</strong> Sticky notes, markers, voting dots, template worksheets</p>
+
+                        <p style="margin-top: 0.5em; font-size: 1.2em; color: var(--ax-purple);"><strong>Let's begin!</strong></p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Give groups 2-3 minutes to form and choose scenario. Encourage real scenarios they care about - more engagement. Remind: Choose something with clear customer and competition. Decider role is important - should be someone with decision authority. Check: Does each group have supplies? Distribute: Basics worksheet, Differentiation worksheet, 2x2 chart template. Facilitator should circulate during activity to keep groups on time. Time check: Setup should take 3-5 minutes max.
+                </aside>
+            </section>
+
+            <!-- SLIDE 44: Phase 1 - The Basics -->
+            <section class="ultra-compact">
+                <h2>Phase 1: The Basics (20 minutes)</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 20 minutes</span>
+                        <h3>Answer these questions using "Work Alone Together":</h3>
+
+                        <ol>
+                            <li><strong>Who is your most important customer?</strong> (3 min)</li>
+                            <li><strong>What problem are you solving for them?</strong> (3 min)</li>
+                            <li><strong>Who is the competition?</strong> (3 min)</li>
+                            <li><strong>How do they solve it today?</strong> (Alternatives/workarounds) (3 min)</li>
+                            <li><strong>What are YOUR advantages?</strong> (Insight, motivation, special capabilities) (5 min)</li>
+                        </ol>
+
+                        <p style="margin-top: 0.5em;"><strong>For each question:</strong><br>
+                        2 min silent writing → 30 sec voting → 30 sec decider confirms</p>
+
+                        <p style="margin-top: 0.5em; font-size: 1.2em; color: var(--ax-purple);"><strong>START NOW!</strong></p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Time each question strictly - use timer. Announce: "Silent writing - 2 minutes, go!" Then: "Put dots on your top choices - 30 seconds!" Then: "Decider, what's your call?" Keep energy high and pace fast. Circulate: Are groups being specific enough? Common issue: "Customer" too broad → push for specific segment. Source: Video 14:54-15:41 - "Almost embarrassingly simple but teams have different answers". By end you should have clear 1-sentence answers to each question. Advantages are foundation for differentiation - capture all ideas. Time check: 20 minutes for full Basics phase.
+                </aside>
+            </section>
+
+            <!-- SLIDE 45: Phase 2 - Differentiation Introduction -->
+            <section>
+                <h2>Phase 2: Differentiation - Introduction (2 minutes)</h2>
+                <div class="container">
+                    <p style="font-size: 1.2em; margin-bottom: 0.5em;"><strong>Now the heart of the Foundation Sprint:</strong></p>
+
+                    <div style="padding: 0.8em; background: var(--ax-light-gray); border-left: 5px solid var(--ax-purple); border-radius: 4px;">
+                        <p style="font-size: 1.1em; font-style: italic; margin: 0;">
+                        "People's default is to ignore new things. You need RADICAL DIFFERENTIATION to break through."<br>
+                        <span style="font-size: 0.9em;">— Jake Knapp</span>
+                        </p>
+                    </div>
+
+                    <p style="margin-top: 0.5em;"><strong>Your challenge:</strong><br>
+                    Create a clear promise from customer's perspective that sets you apart from all alternatives</p>
+
+                    <p><strong>Key requirement:</strong><br>
+                    You must be able to deliver AND customers must care</p>
+                </div>
+                <aside class="notes">
+                    Source: Video 29:46-30:48. This is most important phase - where real strategic clarity comes from. Differentiation must be: 1. From customer's perspective (not "we use AI" but "you get answers 10x faster"), 2. Specific and measurable, 3. Something you can actually deliver, 4. Something customers actually value (not just cool to you). We'll use two tools: Classic differentiators + Custom differentiators. Then create 2x2 chart to visualize positioning. Time: 25 minutes for full differentiation phase.
+                </aside>
+            </section>
+
+            <!-- SLIDE 46: Classic Differentiators Checklist -->
+            <section class="compact">
+                <h2>Classic Differentiators Checklist (5 minutes)</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 5 minutes</span>
+                        <h3>Rate yourself and competitors on these continuums (1-5):</h3>
+
+                        <ul>
+                            <li>Fast ↔ Slow</li>
+                            <li>Smart ↔ Not so smart</li>
+                            <li>Easy to use ↔ Hard to use</li>
+                            <li>Free ↔ Expensive</li>
+                            <li>Focused ↔ One size fits all</li>
+                            <li>Simple ↔ Complicated</li>
+                            <li>Integrated ↔ Siloed</li>
+                        </ul>
+
+                        <p style="margin-top: 0.5em;"><strong>Which 1-2 can you be RADICALLY better at?</strong></p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Source: Video 31:31-32:14, 39:07-39:34. Give groups 5 minutes to score themselves and 2-3 main competitors. Key: Be honest - you don't need to win on everything. Look for where you can be notably better (4-5 points different). Example: Competitor is 2/5 on "fast", you could be 5/5 → good differentiator. Caution: Don't claim 5/5 on everything - not credible. Push for realistic self-assessment. Source: Video 43:49-44:22 "Don't need to be best on ALL differentiators". Circle the 1-2 where you have biggest advantage. Supplies: Classic differentiators worksheet.
+                </aside>
+            </section>
+
+            <!-- SLIDE 47: Custom Differentiators -->
+            <section class="compact">
+                <h2>Custom Differentiators (10 minutes)</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 10 minutes</span>
+                        <h3>Create YOUR OWN differentiators specific to your context</h3>
+
+                        <p><strong>Format:</strong> [Good state] ↔ [Bad state]</p>
+
+                        <p style="margin-top: 0.5em;"><strong>Examples from video:</strong></p>
+                        <ul>
+                            <li>Networked ↔ Siloed</li>
+                            <li>Painless growth ↔ Labor-intensive growth</li>
+                            <li>Works out of the box ↔ Requires setup</li>
+                            <li>Mobile first ↔ Desktop only</li>
+                        </ul>
+
+                        <p style="margin-top: 0.5em;"><strong>Your turn:</strong> Create 3-5 custom differentiators and score them</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Source: Video 32:08-32:48, 46:17-47:43. Custom differentiators are often more powerful than classic ones. They "create new lens on reality for customers". Think: What continuum would show you in best light? Example (HR): "Proactive talent insights ↔ Reactive hiring support". Example (Finance): "Real-time predictive ↔ Monthly backward-looking". Work alone together: 5 min brainstorm differentiators, 3 min score, 2 min vote on top 2. Look for differentiators that: 1. Customers care about (not just cool to you), 2. You can credibly claim advantage, 3. Competition can't easily copy. This creates your unique strategic positioning.
+                </aside>
+            </section>
+
+            <!-- SLIDE 48: Create Your 2x2 Differentiation Chart -->
+            <section class="compact">
+                <h2>Create Your 2x2 Differentiation Chart (10 minutes)</h2>
+                <div class="container">
+                    <div class="activity">
+                        <span class="time">⏱ 10 minutes</span>
+                        <h3>Position yourself against competitors</h3>
+
+                        <p><strong>Choose your top 2 differentiators as axes:</strong></p>
+                        <ul>
+                            <li>Horizontal axis: Differentiator #1</li>
+                            <li>Vertical axis: Differentiator #2</li>
+                        </ul>
+
+                        <p style="margin-top: 0.5em;"><strong>Plot competitors:</strong></p>
+                        <ul>
+                            <li>Where does each alternative land?</li>
+                            <li>Goal: Put all competitors in "Loserville" (the L-shaped bottom-left area)</li>
+                            <li>Put yourself in top-right</li>
+                        </ul>
+
+                        <p style="margin-top: 0.5em;"><strong>Test:</strong></p>
+                        <ul>
+                            <li>Can you actually deliver on this positioning?</li>
+                            <li>Do customers care about these dimensions?</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Source: Video 31:02-34:46. "Loserville" = the three quadrants that aren't top-right (video 34:02). This is the iconic 2x2 positioning chart. Reference: Steve Jobs iPhone intro slide - smartphone vs not smart, easy vs hard. Example: If your axes are "Fast vs Slow" and "Personalized vs Generic": Top-right: Fast + Personalized (you), Competitors might be: Fast + Generic, Slow + Personalized, Slow + Generic. Key test: "If we view the world through these two dimensions, do we win?" If competitors also in top-right, choose different differentiators. Supplies: 2x2 chart template. Have groups draw chart on poster or Miro board. Time: 10 minutes to create and refine.
+                </aside>
+            </section>
+
+            <!-- SLIDE 49: Phase 3 - Magic Lenses Introduction -->
+            <section class="compact">
+                <h2>Phase 3: Magic Lenses Introduction (10 minutes)</h2>
+                <div class="container">
+                    <p><strong>The Challenge:</strong><br>
+                    Multiple approaches could solve the same problem for the same customer - how do you choose?</p>
+
+                    <p><strong>The Solution:</strong> Evaluate options through different "lenses"</p>
+
+                    <div class="grid grid-2col" style="margin-top: 0.5em;">
+                        <div class="card">
+                            <h3>Five Lenses:</h3>
+                            <ol>
+                                <li><strong>Customer:</strong> Easy to use vs perfect solution</li>
+                                <li><strong>Pragmatic:</strong> Cheap and fast to market</li>
+                                <li><strong>Growth:</strong> Reach most customers, easy to adopt</li>
+                                <li><strong>Money:</strong> Long-term value, biggest audience</li>
+                                <li><strong>Differentiation:</strong> Delivers on your positioning</li>
+                            </ol>
+                        </div>
+                        <div class="img-container">
+                            <img src="assets/images/vision-framework-template.png" alt="Magic Lenses Framework">
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Source: Video 54:54-56:27. This phase helps when you have multiple paths forward. Example: Should we build mobile app or web app first? Each lens reveals different priorities. Customer lens: Mobile might be easier to use. Pragmatic lens: Web might be faster to market. Growth lens: Mobile might reach more people. Money lens: Web might have better long-term value. Differentiation lens: Which delivers on our promise? Use lenses to score options, then discuss which lens matters most for this decision. Time: We'll do quick intro and demo, groups can apply to their scenarios.
+                </aside>
+            </section>
+
+            <!-- SLIDE 50: Magic Lenses Quick Exercise -->
+            <section class="compact">
+                <h2>Magic Lenses Quick Exercise</h2>
+                <div class="container">
+                    <div class="activity">
+                        <h3>Apply the Magic Lenses</h3>
+
+                        <p><strong>Think of 2-3 different approaches to your challenge</strong></p>
+
+                        <p style="margin-top: 0.5em;"><strong>Score each approach (1-5) on each lens:</strong></p>
+                        <ul>
+                            <li>Customer lens</li>
+                            <li>Pragmatic lens</li>
+                            <li>Growth lens</li>
+                            <li>Money lens</li>
+                            <li>Differentiation lens</li>
+                        </ul>
+
+                        <p style="margin-top: 0.5em;"><strong>Discuss: Which lens matters most for this decision?</strong></p>
+
+                        <p><strong>What does that suggest about your approach?</strong></p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Give groups 7-8 minutes for this exercise. Example approaches (Marketing): Influencer campaign vs content marketing vs paid ads. Example approaches (HR): Build internal tool vs buy external platform vs hybrid. Scoring reveals trade-offs. Key question: Which lens is most important given your context and goals? If differentiation is "fast", then pragmatic lens (cheap/fast) might align. If differentiation is "perfect solution", customer lens matters most. This creates framework for decision-making going forward. No single right answer - clarity on priorities is the goal. Supplies: Magic lenses worksheet.
+                </aside>
+            </section>
+
+            <!-- SLIDE 51: Debrief - Foundations Sprint -->
+            <section class="compact">
+                <h2>Debrief: Foundations Sprint (5 minutes)</h2>
+                <div class="container">
+                    <div class="card">
+                        <h3>Each group shares (30 seconds each):</h3>
+                        <ul>
+                            <li>Your customer and problem</li>
+                            <li>Your 2x2 positioning (top 2 differentiators)</li>
+                            <li>One key insight from the exercise</li>
+                        </ul>
+                    </div>
+
+                    <div class="card highlight" style="margin-top: 0.5em;">
+                        <h3>Full group discussion:</h3>
+                        <ul>
+                            <li>What was most valuable?</li>
+                            <li>What was most challenging?</li>
+                            <li>How will you use this in your work?</li>
+                        </ul>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Give each group 30 seconds to share highlights. Keep fast - not full presentations. Listen for: Clarity, specificity, differentiation. Common valuable insights: "We didn't agree on customer," "Differentiation we chose surprised us". Common challenges: "Hard to be specific," "Wanted to be great at everything". Key learning: Strategic clarity requires hard choices. Application: Use Basics to align teams, use 2x2 for positioning, use lenses for decisions. This is abbreviated version - full 10-hour sprint goes much deeper. Provide: Link to full Foundation Sprint resources for those interested. Time check: 60 minutes total for activity.
+                </aside>
+            </section>
+
+            <!-- SLIDE 52: Foundations Sprint Key Takeaways -->
+            <section>
+                <h2>Foundations Sprint: Key Takeaways</h2>
+                <div class="container">
+                    <p><strong>Basics:</strong> Clarity on customer, problem, competition, advantages</p>
+                    <p><strong>Differentiation:</strong> Radical clarity on how you're different (2x2 chart)</p>
+                    <p><strong>Magic Lenses:</strong> Framework for evaluating approaches</p>
+
+                    <div style="margin-top: 0.5em; padding: 0.8em; background: var(--ax-light-gray); border-radius: 8px;">
+                        <h3 style="margin-top: 0;">The Founding Hypothesis Format:</h3>
+                        <p style="font-style: italic; font-size: 0.9em;">
+                        "If we solve [this problem] for [this customer] with [this approach], we think they'll choose us over competitors because of [differentiator 1] and [differentiator 2]"
+                        </p>
+                    </div>
+
+                    <p style="margin-top: 0.5em;"><strong>Next Steps:</strong> Test your hypothesis with customers!</p>
+                </div>
+                <aside class="notes">
+                    Source: Founding hypothesis format from video 16:35-16:47. This one sentence captures entire strategic thesis. Example: "If we solve slow decision-making for business unit leaders with real-time predictive analytics, they'll choose us over traditional finance because we're FAST and PREDICTIVE". The hypothesis is meant to be tested, not just stated. Business agility connection: Create hypothesis → test → learn → adapt. Encourage participants to complete founding hypothesis after session. Provide: Template for founding hypothesis in take-home materials. Time check: Ready for module summary.
+                </aside>
+            </section>
+
+            <!-- SLIDE 53: Module 3 Summary Title -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>Module 3 Summary</h1>
+                <h2>Vision and Strategy</h2>
+                <aside class="notes">
+                    Review each section briefly. Ask: "What's one thing you'll apply from this module?" Connect the sections: Vision + Customer Empathy + Future State + Strategic Focus = Business Agility. These tools enable autonomous, customer-focused teams to move fast. All tie back to business agility foundations from Module 1-2.
+                </aside>
+            </section>
+
+            <!-- SLIDE 54: What We Covered -->
+            <section class="ultra-compact">
+                <h2>What We Covered</h2>
+                <div class="container">
+                    <div class="grid grid-2col">
+                        <div class="card">
+                            <h3>Section 1: Compelling Vision</h3>
+                            <ul>
+                                <li>Vision provides direction for autonomous teams</li>
+                                <li>CRISP criteria for effective visions</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h3>Section 2: Customer Empathy</h3>
+                            <ul>
+                                <li>Four core tools: Personas, empathy maps, journey maps, value propositions</li>
+                                <li>Internal customers matter too</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h3>Section 3: Future State</h3>
+                            <ul>
+                                <li>Backcasting from desired future</li>
+                                <li>Capability gap analysis</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h3>Section 4: Foundations Sprint</h3>
+                            <ul>
+                                <li>Basics, Differentiation, Magic Lenses</li>
+                                <li>Created strategic clarity</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Review each section briefly. Ask: "What's one thing you'll apply from this module?" Connect the sections: Vision + Customer Empathy + Future State + Strategic Focus = Business Agility. These tools enable autonomous, customer-focused teams to move fast. All tie back to business agility foundations from Module 1-2.
+                </aside>
+            </section>
+
+            <!-- SLIDE 55: Key Insights -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Key Insights
+
+                ::: smartart Module Insights CHECKLIST
+                intro: Core insights from this module:
+                - [ ] **Vision without customer empathy = building the wrong thing clearly**
+                - [ ] **Strategic clarity is what enables speed** (autonomy without vision = chaos)
+                - [ ] **Differentiation must be radical, not incremental**
+                - [ ] **Work alone together creates better decisions faster**
+                - [ ] **Backcasting makes inspiring futures feel achievable**
+                :::
+                </script>
+                <aside class="notes">
+                    These are integrative insights across the module. #1: You need both vision AND customer focus. #2: This is core agility principle - clarity enables autonomy. #3: From Foundation Sprint - "good enough" doesn't break through. #4: Facilitation method that produces better results. #5: Planning technique that bridges aspiration and action. Ask: "Which insight resonates most with you?"
+                </aside>
+            </section>
+
+            <!-- SLIDE 56: Tools You Can Use Tomorrow -->
+            <section class="ultra-compact">
+                <h2>Tools You Can Use Tomorrow</h2>
+                <div class="container">
+                    <div class="grid grid-3col">
+                        <div class="card">
+                            <h3>Vision Tools</h3>
+                            <ul>
+                                <li>✓ Vision CRISP checklist</li>
+                                <li>✓ Vision crafting template</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h3>Customer Tools</h3>
+                            <ul>
+                                <li>✓ Empathy map template</li>
+                                <li>✓ Customer journey map</li>
+                                <li>✓ Persona template</li>
+                                <li>✓ Value proposition canvas</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h3>Strategy Tools</h3>
+                            <ul>
+                                <li>✓ Future state visualization</li>
+                                <li>✓ Backcasting timeline</li>
+                                <li>✓ Foundations Sprint basics</li>
+                                <li>✓ 2x2 differentiation chart</li>
+                                <li>✓ Magic lenses framework</li>
+                                <li>✓ Founding hypothesis template</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 0.5em; text-align: center;"><strong>All templates in your take-home materials</strong></p>
+                </div>
+                <aside class="notes">
+                    Emphasize practical application. These aren't just concepts - they're tools. Encourage: Try one tool this week. Recommend starting with empathy map - quick and high value. Or use 2x2 chart to clarify positioning for current initiative. Resources: Provide digital templates, links to Miro boards, how-to guides. Community: Share examples with cohort for feedback.
+                </aside>
+            </section>
+
+            <!-- SLIDE 57: Connections to Business Agility -->
+            <section class="compact">
+                <h2>Connections to Business Agility</h2>
+                <div class="container">
+                    <div class="card">
+                        <h3>Module 1:</h3>
+                        <p>VUCA environment requires clear vision to navigate complexity</p>
+                    </div>
+
+                    <div class="card" style="margin-top: 0.5em;">
+                        <h3>Module 2:</h3>
+                        <p>Aligned teams with growth mindset can execute strategic vision</p>
+                    </div>
+
+                    <div class="card highlight" style="margin-top: 0.5em;">
+                        <h3>Module 3 (today):</h3>
+                        <p>Vision + Customer Empathy + Strategic Focus = Foundation for agility</p>
+                    </div>
+
+                    <p style="margin-top: 0.5em;"><strong>Coming up:</strong></p>
+                    <ul>
+                        <li><strong>Module 4:</strong> Experimentation and learning (test your hypotheses)</li>
+                        <li><strong>Module 5:</strong> Agile frameworks and practices (deliver iteratively)</li>
+                    </ul>
+                </div>
+                <aside class="notes">
+                    Show how modules build on each other. Module 1: Why agility (VUCA, complexity, change). Module 2: Who we are (team alignment, culture). Module 3: Where we're going (vision, strategy, customer focus). Module 4: How we learn (experiments, feedback). Module 5: How we work (frameworks, practices). This is comprehensive business agility journey. Each module provides foundation for next.
+                </aside>
+            </section>
+
+            <!-- SLIDE 58: Reflection Questions -->
+            <section>
+                <h2>Reflection Questions</h2>
+                <div class="container">
+                    <div class="activity">
+                        <h3>Individual reflection (3 minutes):</h3>
+
+                        <ol>
+                            <li>What's one insight you'll apply in your work this week?</li>
+                            <li>What tool or technique resonated most?</li>
+                            <li>What conversation do you need to have with your team?</li>
+                            <li>What's unclear or what do you want to explore more?</li>
+                        </ol>
+
+                        <p style="margin-top: 0.5em;"><strong>Capture your thoughts - we'll share a few</strong></p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Give 3 minutes silent reflection. Encourage writing down answers. This helps consolidate learning. After 3 minutes, invite 3-4 volunteers to share. Listen for: Specific actions, genuine insights, areas of confusion. Address any confusion or questions. Capture themes for post-module follow-up.
+                </aside>
+            </section>
+
+            <!-- SLIDE 59: Action Commitments -->
+            <section>
+                <h2>Action Commitments</h2>
+                <div class="container">
+                    <p><strong>What will you do with this knowledge?</strong></p>
+
+                    <div class="card">
+                        <h3>Options to consider:</h3>
+                        <ul>
+                            <li>Run an empathy mapping session with your team</li>
+                            <li>Draft or refine your team's vision using CRISP criteria</li>
+                            <li>Complete full Foundations Sprint for an initiative (10 hours over 2 days)</li>
+                            <li>Create customer journey map for key process</li>
+                            <li>Use backcasting for strategic planning</li>
+                            <li>Apply magic lenses to current decision</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: 0.5em; padding: 0.5em; background: var(--ax-light-gray); border-radius: 6px;">
+                        <p><strong>Write down ONE commitment to take action</strong></p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Learning without action is wasted. Ask them to write specific commitment. "I will [specific action] by [specific date] with [specific people]". Example: "I will run empathy mapping workshop with my team by end of month". Example: "I will create 2x2 differentiation chart for Q2 initiative this week". Optional: Have them share commitment with partner for accountability. Collect commitments (optional) - can follow up in learning community. Time: 3-5 minutes for this exercise.
+                </aside>
+            </section>
+
+            <!-- SLIDE 60: Resources for Continued Learning -->
+            <section class="compact">
+                <h2>Resources for Continued Learning</h2>
+                <div class="container">
+                    <div class="grid grid-2col">
+                        <div class="card">
+                            <h3>Foundations Sprint:</h3>
+                            <ul>
+                                <li>Full methodology and templates at foundationsprint.com</li>
+                                <li>Lenny's Podcast episode with Jake Knapp and John Zeratsky</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h3>Customer Empathy Tools:</h3>
+                            <ul>
+                                <li>Strategyzer.com - Value Proposition Canvas, Business Model Canvas</li>
+                                <li>XPLANE Empathy Map resources</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card highlight" style="margin-top: 0.5em;">
+                        <h3>Vision and Strategy:</h3>
+                        <ul>
+                            <li>"Start with Why" - Simon Sinek</li>
+                            <li>"Good Strategy, Bad Strategy" - Richard Rumelt</li>
+                        </ul>
+                    </div>
+
+                    <p style="margin-top: 0.5em; text-align: center;"><strong>All links and templates in course materials</strong></p>
+                </div>
+                <aside class="notes">
+                    Provide specific, actionable resources. Foundation Sprint: Actual templates and Miro boards available. Strategyzer: Free tools and canvases online. Books: Practical guides for vision and strategy. Encourage: Don't learn alone - use cohort, share experiences. Create space for questions about resources.
+                </aside>
+            </section>
+
+            <!-- SLIDE 61: Questions and Discussion -->
+            <section class="compact">
+                <h2>Questions and Discussion</h2>
+                <div class="container">
+                    <p><strong>Open floor for questions</strong></p>
+
+                    <div class="card">
+                        <h3>Topics we can explore:</h3>
+                        <ul>
+                            <li>Clarification on any concepts</li>
+                            <li>How to apply tools in your specific context</li>
+                            <li>Facilitation tips for running these exercises</li>
+                            <li>Connections to your organization's initiatives</li>
+                            <li>Deep dives on specific tools</li>
+                        </ul>
+                    </div>
+
+                    <div class="img-container" style="margin-top: 0.5em;">
+                        <img src="assets/images/team-celebration-success.png" alt="Team Discussion">
+                    </div>
+                </div>
+                <aside class="notes">
+                    Reserve 10-15 minutes for Q&A. Encourage specific questions over general. If question is context-specific, invite others with similar context to contribute. Capture questions you can't fully answer - follow up in learning community. Be comfortable saying "I don't know - let's explore that together". Watch for patterns in questions - reveals what needs more clarity.
+                </aside>
+            </section>
+
+            <!-- SLIDE 62: Thank You -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>Thank You!</h1>
+                <h2>Module 3 Complete: Vision and Strategy ✓</h2>
+                <p style="font-size: 1.2em; margin-top: 1em;">See you in Module 4: Experimentation and Test & Learn</p>
+
+                <div style="margin-top: 2em; padding: 1em; background: rgba(255, 255, 255, 0.1); border-radius: 8px;">
+                    <p style="margin: 0;">Remember: Strategic clarity enables autonomous speed.<br>
+                    Customer empathy ensures you build the right things.</p>
+                </div>
+
+                <p style="font-size: 0.9em; margin-top: 2em;">Keep the conversation going in our learning community!</p>
+                <aside class="notes">
+                    Celebrate completion of dense, valuable module. Remind them of practical tools they now have. Preview Module 4: Will build on strategic clarity with experimentation. Encourage peer learning between modules. Thank them for engagement, energy, vulnerability in sharing. End on inspiring note: They now have frameworks used by high-performing teams. Logistics: Timing of next module, any homework, community platform. Close with energy and appreciation.
+                </aside>
+            </section>
+
+            <!-- SLIDE 63: Appendix Title -->
+            <section>
+                <h2>Appendix: Additional Resources</h2>
+                <div class="container">
+                    <p>The following slides contain reference materials and templates for your use</p>
+                </div>
+            </section>
+
+            <!-- SLIDE 64: Foundation Sprint Full Overview -->
+            <section class="ultra-compact">
+                <h2>Appendix: Foundation Sprint Full Overview</h2>
+                <div class="container">
+                    <h3>Full 10-hour Foundation Sprint Schedule:</h3>
+
+                    <div class="card">
+                        <h3>Day 1 (~5 hours):</h3>
+                        <ul>
+                            <li>Morning: The Basics (customer, problem, competition, advantages)</li>
+                            <li>Afternoon: Differentiation (classic + custom differentiators, 2x2 chart)</li>
+                            <li>End of day: Mini manifesto</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="margin-top: 0.3em;">
+                        <h3>Day 2 (~5 hours):</h3>
+                        <ul>
+                            <li>Morning: Magic Lenses (evaluate approaches)</li>
+                            <li>Midday: Founding Hypothesis (mad libs format)</li>
+                            <li>Afternoon: Next steps and testing plan</li>
+                        </ul>
+                    </div>
+
+                    <p style="margin-top: 0.5em;"><strong>Output:</strong> Founding hypothesis ready to test</p>
+                </div>
+                <aside class="notes">
+                    This is reference for those who want to run full sprint. Today's 60 minutes touched on key concepts. Full sprint goes much deeper with iteration and refinement. Requires: Core team, cleared calendars, experienced facilitator. Best done at project start or major pivot point. Resources provided for those who want to facilitate full sprint. Can also hire certified facilitators.
+                </aside>
+            </section>
+
+            <!-- SLIDE 65: Empathy Map Template -->
+            <section class="ultra-compact">
+                <h2>Appendix: Empathy Map Template</h2>
+                <div class="container">
+                    <pre style="background: var(--ax-light-gray); padding: 0.5em; border-radius: 8px; font-size: 0.6em;">
+[CUSTOMER NAME/ROLE]
+
+┌─────────────────────┬─────────────────────┐
+│   THINK & FEEL      │       SEE           │
+│                     │                     │
+│  What matters?      │  What do they       │
+│  Worries?           │  observe?           │
+│  Aspirations?       │  Environment?       │
+│                     │                     │
+├─────────────────────┼─────────────────────┤
+│   SAY & DO          │      HEAR           │
+│                     │                     │
+│  Public behavior?   │  What do others     │
+│  Stated needs?      │  tell them?         │
+│  Actions?           │  Influencers?       │
+│                     │                     │
+└─────────────────────┴─────────────────────┘
+
+PAINS:                     GAINS:
+- Frustrations            - Wants
+- Obstacles               - Needs
+- Fears                   - Success measures
+                    </pre>
+                </div>
+                <aside class="notes">
+                    Reference template for participants. Can be drawn on paper, whiteboard, or Miro. Best used with real customer insights from interviews/observation. Fill out collaboratively with team. Use to guide product/service design decisions. Revisit and update as you learn more.
+                </aside>
+            </section>
+
+            <!-- SLIDE 66: 2x2 Differentiation Chart Template -->
+            <section class="ultra-compact">
+                <h2>Appendix: 2x2 Differentiation Chart Template</h2>
+                <div class="container">
+                    <pre style="background: var(--ax-light-gray); padding: 0.5em; border-radius: 8px; font-size: 0.6em;">
+     │
+  5  │                    ★ YOU
+     │                (Top Right)
+     │
+  4  │
+     │
+  3  │
+     │            "LOSERVILLE"
+  2  │         (Other 3 quadrants)
+     │
+  1  │
+     │
+  0  └──────────────────────────────
+     0    1    2    3    4    5
+
+     [Differentiator 1] →
+
+     ↑ [Differentiator 2]
+                    </pre>
+                    <p style="margin-top: 0.5em;">Choose differentiators where you can be 4-5 and competitors are 1-3. Plot 3-5 main competitors. Goal: You in top-right, everyone else in bottom-left area.</p>
+                </div>
+                <aside class="notes">
+                    Reference template. Choose differentiators where you can be 4-5 and competitors are 1-3. Plot 3-5 main competitors or alternatives. Goal: You in top-right, everyone else in bottom-left area (L-shape). If competitors also in top-right, choose different differentiators. Use this chart in marketing, positioning, strategic planning. Test with customers: Do they perceive these dimensions?
+                </aside>
+            </section>
+
+            <!-- SLIDE 67: Founding Hypothesis Template -->
+            <section>
+                <h2>Appendix: Founding Hypothesis Template</h2>
+                <div class="container">
+                    <div style="padding: 1em; background: var(--ax-light-gray); border-radius: 8px;">
+                        <p style="font-size: 0.9em;"><strong>If we solve</strong> [SPECIFIC PROBLEM]</p>
+                        <p style="font-size: 0.9em;"><strong>for</strong> [SPECIFIC CUSTOMER]</p>
+                        <p style="font-size: 0.9em;"><strong>with</strong> [SPECIFIC APPROACH]</p>
+                        <p style="font-size: 0.9em;"><strong>we think they'll choose us over</strong> [SPECIFIC ALTERNATIVES]</p>
+                        <p style="font-size: 0.9em;"><strong>because of</strong> [DIFFERENTIATOR 1] <strong>and</strong> [DIFFERENTIATOR 2]</p>
+                    </div>
+
+                    <hr style="margin: 1em 0;">
+
+                    <div class="card">
+                        <h3>Example:</h3>
+                        <p>If we solve <strong>slow, reactive financial reporting</strong> for <strong>business unit leaders</strong> with <strong>real-time predictive analytics dashboards</strong>, we think they'll choose us over <strong>traditional monthly reports</strong> because we're <strong>10x FASTER</strong> and <strong>PREDICTIVE not reactive</strong>.</p>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Mad libs format makes it simple to complete. Must be specific - no generic language. This becomes your strategic hypothesis to test. Share with stakeholders to align on direction. Use to guide prioritization: Does this work support our hypothesis? Revisit quarterly: Is hypothesis still valid based on what we've learned? Format source: Video 16:35-16:47.
+                </aside>
+            </section>
+
+            <!-- FOOTER CONFIGURATION (Hidden Slide) -->
+            <section data-markdown data-footer-config="true">
+                <script type="text/template">
+                ::: smartart AdaptiveX FOOTER
+                title: Vision and Strategy
+                module: Module 3 • Business Agility Foundations (ICP-BAF)
+                :::
+                </script>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- React and ReactDOM (Required by XBackground Plugin) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Reveal.js Core JavaScript -->
+    <script src="../../../dist/reveal.js"></script>
+    <script src="../../../plugin/markdown/markdown.js"></script>
+    <script src="../../../plugin/highlight/highlight.js"></script>
+    <script src="../../../plugin/notes/notes.js"></script>
+
+    <!-- SmartArt Plugin (Required for HERO, LINED, ACCORDION, CHECKLIST, FOOTER) -->
+    <script src="../../../plugin/smartart/smartart.js"></script>
+
+    <!-- Initialize Reveal.js with ES6 Module for XBackground Plugin -->
+    <script type="module">
+        // Import XBackground plugin as ES6 module
+        import XBackground from '../../../plugin/xbackground/plugin/xbackground.js';
+
+        // Initialize Reveal.js
+        Reveal.initialize({
+            // Viewport configuration for optimal content visibility
+            width: 1280,
+            height: 720,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 2.0,
+
+            hash: true,
+            controls: true,
+            progress: true,
+            center: false,
+            transition: 'slide',
+
+            // XBackground plugin configuration
+            xbackground: {
+                transition: 'fade',
+                transitionDuration: 1000,
+                lazy: true,
+                preload: 1,
+                debug: false
+            },
+
+            // Plugin configuration
+            plugins: [
+                RevealMarkdown,
+                RevealHighlight,
+                RevealNotes,
+                RevealSmartArt,
+                XBackground  // Use the imported ES6 module
+            ],
+
+            // Markdown plugin configuration
+            markdown: {
+                smartypants: true
+            }
+        });
+    </script>
+</body>
+</html>

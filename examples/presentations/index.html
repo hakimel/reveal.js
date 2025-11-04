@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced 2x2 Quadrant</title>
+    <script src="quadrant-matrix.js" defer></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            font-family: sans-serif;
+            box-sizing: border-box;
+        }
+        
+        /* Make the component take up space but not overflow */
+        .my-matrix {
+            width: 80vw;
+            height: 70vh;
+            max-width: 700px;
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body>
+
+    <quadrant-matrix class="my-matrix">
+        <div slot="y-axis">Importance</div>
+        <div slot="x-axis">Urgency</div>
+
+        <div slot="quadrant-1">
+            <h3>Urgent & Important</h3>
+            <p>Do these tasks now.</p>
+        </div>
+        <div slot="quadrant-2">
+            <h3>Important, Not Urgent</h3>
+            <p>Schedule time for these.</p>
+        </div>
+        <div slot="quadrant-3">
+            <h3>Urgent, Less Important</h3>
+            <p>Delegate or minimize these.</p>
+        </div>
+        <div slot="quadrant-4">
+            <h3>Neither Urgent Nor Important</h3>
+            <p>Eliminate these.</p>
+        </div>
+    </quadrant-matrix>
+
+</body>
+</html>

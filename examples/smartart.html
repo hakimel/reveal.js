@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>reveal.js - SmartArt Plugin Demo</title>
+
+	<!-- Reveal.js core CSS -->
+	<link rel="stylesheet" href="../dist/reset.css">
+	<link rel="stylesheet" href="../dist/reveal.css">
+
+	<!-- Theme -->
+	<link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+
+	<style>
+		/* Demo-specific styles */
+		.reveal section.center-content {
+			text-align: center;
+		}
+		.reveal section.title-slide h1 {
+			font-size: 3em;
+			margin-bottom: 0.5em;
+		}
+		.reveal section.title-slide p {
+			font-size: 1.5em;
+			color: #666;
+		}
+
+		/* Left-aligned hero text */
+		.reveal .left-aligned-hero .smartart__hero-content {
+			text-align: left;
+		}
+		.reveal .left-aligned-hero .smartart__hero-heading {
+			text-align: left;
+		}
+		.reveal .left-aligned-hero .smartart__hero-intro {
+			text-align: left;
+		}
+		.reveal .left-aligned-hero .smartart__hero-actions {
+			justify-content: flex-start;
+		}
+	</style>
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<!-- Global Navbar Example -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart AdaptiveX NAVBAR
+				subtitle: Beautiful components for reveal.js
+				align: center
+				:::
+				</script>
+			</section>
+
+			<!-- Title Slide -->
+			<section class="center-content title-slide">
+				<h1>SmartArt Plugin</h1>
+				<p>Responsive Grid & List Layouts for Reveal.js</p>
+				<small>Navigate with arrow keys or swipe</small>
+			</section>
+
+			<!-- Grid Layout Demo -->
+			<section data-markdown>
+				<script type="text/template">
+				## Enterprise Solutions
+
+				::: smartart Digital Transformation GRID
+				intro: Comprehensive services designed to accelerate your organization's journey into the digital age.
+				Cloud Infrastructure | Scalable and secure cloud architecture with 99.9% uptime. | icon=lucide:cloud | Learn More | https://example.com/cloud
+				Data Analytics | Transform data into actionable insights with AI-powered analytics. | icon=lucide:line-chart | Explore Services | https://example.com/data
+				Cyber Security | Enterprise-grade protection for your digital assets. | icon=lucide:shield-check | View Solutions | https://example.com/security
+				DevOps Engineering | Streamline development with CI/CD and automation. | icon=lucide:laptop-minimal | Get Started | https://example.com/devops
+				:::
+				</script>
+			</section>
+
+			<!-- 6-Card Grid Demo -->
+			<section data-markdown>
+				<script type="text/template">
+				## Complete Service Portfolio
+
+				::: smartart Full Suite GRID
+				intro: Our comprehensive range of services across six key areas.
+				Cloud | Scalable infrastructure | icon=lucide:cloud | Details
+				Analytics | Data insights | icon=lucide:line-chart | Learn
+				Security | Asset protection | icon=lucide:shield-check | Info
+				DevOps | CI/CD automation | icon=lucide:laptop-minimal | View
+				Support | 24/7 monitoring | icon=lucide:headset | Contact
+				Network | Connectivity | icon=lucide:network | More
+				:::
+				</script>
+			</section>
+
+			<!-- Horizontal Layout Demo -->
+			<section data-markdown>
+				<script type="text/template">
+				## AI Consulting Services
+
+				::: smartart Featured Offerings LR
+				intro: Expert guidance on leveraging artificial intelligence responsibly and effectively.
+				icon=lucide:brain | Strategy & Planning | Develop AI roadmaps aligned with business objectives. | Book Consultation | https://example.com/strategy
+				icon=lucide:workflow | Implementation | Deploy AI solutions with proven methodologies. | View Process | https://example.com/implementation
+				icon=lucide:graduation-cap | Training & Workshops | Empower teams through hands-on AI training. | Explore Programs | https://example.com/training
+				:::
+				</script>
+			</section>
+
+			<!-- Lined List Demo -->
+			<section data-markdown>
+				<script type="text/template">
+				## Q3 Project Roadmap
+
+				::: smartart Development Priorities LINED
+				intro: Key initiatives driving product innovation and customer value this quarter.
+				- Design System Refresh | Modernize UI components with updated brand guidelines and accessibility standards. | icon=lucide:brush
+				- API Integration Testing | Complete end-to-end testing of payment gateway integrations. | icon=lucide:server-cog
+				- Marketing Campaign Launch | Execute multi-channel Q3 campaign with creative asset rollout. | icon=lucide:megaphone
+				- User Onboarding Flow | Redesign sign-up experience to reduce friction and increase conversion. | icon=lucide:user-check
+				- Mobile App Performance | Optimize load times and reduce memory footprint by 30%. | icon=lucide:smartphone
+				- Security Audit | Conduct comprehensive security review and implement recommendations. | icon=lucide:shield-alert
+				:::
+				</script>
+			</section>
+
+			<!-- Dark Theme Slide - Grid -->
+			<section data-markdown data-background="#1e293b">
+				<script type="text/template">
+				## Innovation Labs
+
+				::: smartart Research & Development GRID
+				intro: Exploring cutting-edge technologies to shape the future of digital experiences.
+				Machine Learning | Advanced ML models powering intelligent automation and predictive analytics. | icon=lucide:cpu | Explore | https://example.com/ml
+				Quantum Computing | Investigating quantum algorithms for complex optimization problems. | icon=lucide:atom | Research | https://example.com/quantum
+				AR/VR Experiences | Creating immersive digital experiences for training and entertainment. | icon=lucide:glasses | Demo | https://example.com/arvr
+				Blockchain Solutions | Distributed ledger technology for secure and transparent transactions. | icon=lucide:blocks | Details | https://example.com/blockchain
+				:::
+				</script>
+			</section>
+
+			<!-- Dark Theme Slide - Lined List -->
+			<section data-markdown data-background="#2d3748">
+				<script type="text/template">
+				## Team Achievements
+
+				::: smartart Recent Milestones LINED
+				intro: Celebrating our team's outstanding accomplishments and contributions.
+				- Product Launch | Successfully launched v2.0 with 50K+ signups in first week. | icon=lucide:rocket
+				- Customer Satisfaction | Achieved 4.8/5.0 rating across all support channels. | icon=lucide:star
+				- Code Quality | Reduced technical debt by 40% through systematic refactoring. | icon=lucide:code
+				- Team Growth | Onboarded 15 talented engineers across 3 continents. | icon=lucide:users
+				- Performance Gains | Improved app load time by 60% through optimization. | icon=lucide:zap
+				:::
+				</script>
+			</section>
+
+			<!-- Vertical Layout Demo -->
+			<section data-markdown>
+				<script type="text/template">
+				## Product Features
+
+				::: smartart Key Capabilities TB
+				intro: Essential features that make our platform powerful and easy to use.
+				Real-time Collaboration | Work together seamlessly with live editing and instant sync. | icon=lucide:users-round | Try It | https://example.com/collab
+				Advanced Analytics | Gain deep insights with customizable dashboards and reports. | icon=lucide:chart-bar | View Demo | https://example.com/analytics
+				Enterprise Security | Bank-level encryption and compliance with SOC 2 Type II. | icon=lucide:lock | Security | https://example.com/security
+				API Integrations | Connect with 500+ tools through our robust API ecosystem. | icon=lucide:plug | Browse | https://example.com/integrations
+				:::
+				</script>
+			</section>
+
+			<!-- Compact Layout -->
+			<section data-markdown>
+				<script type="text/template">
+				## Quick Links
+
+				::: smartart Resources LR
+				intro: Access documentation, support, and community resources.
+				icon=lucide:book-open | Documentation | Comprehensive guides and API references.
+				icon=lucide:life-buoy | Support Center | 24/7 help and troubleshooting.
+				icon=lucide:message-circle | Community | Join discussions and share knowledge.
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Layout Demo - Technology Platform -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Welcome to Our Platform HERO
+				intro: Quickly design and customize responsive mobile-first presentations with SmartArt, featuring flexible layouts, beautiful components, and powerful reveal.js integration.
+				image: https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=600&fit=crop&q=80
+				cta: Get Started | https://example.com/start
+				cta2: Learn More | https://example.com/docs
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Layout Demo - Business Analytics -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Transform Your Business HERO
+				intro: Leverage cutting-edge cloud infrastructure and AI-powered analytics to accelerate digital transformation and drive sustainable growth across your organization.
+				image: https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&q=80
+				cta: Start Free Trial | https://example.com/trial
+				cta2: View Pricing | https://example.com/pricing
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Layout Demo - Developer Platform (Dark Theme) -->
+			<section data-markdown data-background="#0f172a">
+				<script type="text/template">
+				::: smartart Innovate with Confidence HERO
+				intro: Build next-generation applications with our enterprise-grade developer platform. Deploy globally in seconds with built-in CI/CD, monitoring, and collaboration tools.
+				image: https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop&q=80
+				cta: Explore Platform | https://example.com/platform
+				cta2: Contact Sales | https://example.com/contact
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Layout Demo - Healthcare Innovation -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Healthcare Innovation HERO
+				intro: Revolutionize patient care with AI-driven diagnostics and seamless electronic health record integration designed for modern healthcare providers.
+				image: https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop&q=80
+				cta: Request Demo | https://example.com/demo
+				cta2: Documentation | https://example.com/docs
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Layout Demo - Left Aligned Education -->
+			<section data-markdown class="left-aligned-hero">
+				<script type="text/template">
+				::: smartart Empower Your Learning Journey HERO
+				intro: Access world-class courses taught by industry experts. Learn at your own pace with interactive content, hands-on projects, and personalized feedback from instructors.
+				image: https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop&q=80
+				cta: Browse Courses | https://example.com/courses
+				cta2: Start Learning | https://example.com/signup
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Layout Demo - Left Aligned E-commerce (Dark) -->
+			<section data-markdown data-background="#1e293b" class="left-aligned-hero">
+				<script type="text/template">
+				::: smartart Scale Your Online Store HERO
+				intro: Launch and grow your e-commerce business with powerful tools for inventory management, payment processing, and customer analytics. Join thousands of successful merchants.
+				image: https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop&q=80
+				cta: Get Started Free | https://example.com/signup
+				cta2: View Features | https://example.com/features
+				:::
+				</script>
+			</section>
+
+			<!-- Checklist - Project Tasks -->
+			<section data-markdown>
+				<script type="text/template">
+				## Sprint Tasks
+
+				::: smartart Development Priorities CHECKLIST
+				intro: Select the tasks you have completed this sprint.
+				- [x] Design the homepage mockup
+				- [x] Develop the user authentication flow
+				- [ ] Set up the database schema
+				- [ ] Write API documentation
+				- [ ] Deploy application to staging environment
+				:::
+				</script>
+			</section>
+
+			<!-- Checklist - Dark Theme -->
+			<section data-markdown data-background="#0f172a">
+				<script type="text/template">
+				## Feature Checklist
+
+				::: smartart Required Features CHECKLIST
+				intro: Track completion of core features for the v2.0 release.
+				- [x] User registration and login
+				- [x] Dashboard with analytics
+				- [ ] Multi-language support
+				- [ ] Dark mode toggle
+				- [ ] Export to PDF functionality
+				- [ ] Real-time notifications
+				:::
+				</script>
+			</section>
+
+			<!-- Compact Checklist -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Quick Checklist CHECKLIST
+				- [x] Review pull requests
+				- [ ] Update documentation
+				- [ ] Run integration tests
+				- [x] Deploy to production
+				:::
+				</script>
+			</section>
+
+			<!-- Checklist - Meeting Agenda -->
+			<section data-markdown>
+				<script type="text/template">
+				## Team Meeting Agenda
+
+				::: smartart Action Items CHECKLIST
+				intro: Items to discuss in today's standup meeting.
+				- [x] Review last sprint achievements
+				- [x] Assign new sprint tasks
+				- [ ] Discuss API architecture changes
+				- [ ] Plan client demo for Friday
+				- [ ] Update project timeline
+				- [ ] Review budget allocation
+				:::
+				</script>
+			</section>
+
+			<!-- Roadmap - Product Launch -->
+			<section data-markdown>
+				<script type="text/template">
+				## Product Roadmap
+
+				::: smartart 2024 Launch Timeline ROADMAP
+				intro: Our journey from concept to market expansion.
+				- [x] Foundation | Concept, research, and planning phase. | icon=lucide:lightbulb
+				- [x] Development | Core feature implementation and alpha testing. | icon=lucide:code
+				- [~] Launch | Beta release, marketing push, and public launch. | icon=lucide:rocket
+				- [ ] Growth | User feedback implementation, scaling infrastructure. | icon=lucide:trending-up
+				- [ ] Expansion | New feature verticals, market expansion. | icon=lucide:globe
+				:::
+				</script>
+			</section>
+
+			<!-- Roadmap - Dark Theme -->
+			<section data-markdown data-background="#0f172a">
+				<script type="text/template">
+				## Development Roadmap
+
+				::: smartart Q1-Q4 2024 ROADMAP
+				- [x] Q1 | MVP release with core features | icon=lucide:check-circle
+				- [x] Q2 | API integrations and mobile app | icon=lucide:smartphone
+				- [~] Q3 | Enterprise features and SSO | icon=lucide:building
+				- [ ] Q4 | AI-powered analytics | icon=lucide:brain
+				:::
+				</script>
+			</section>
+
+			<!-- Compact Roadmap -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Project Milestones ROADMAP
+				- [x] Research | Market analysis completed
+				- [x] Design | UI/UX mockups approved
+				- [~] Build | Development in progress
+				- [ ] Test | QA phase pending
+				- [ ] Deploy | Production release
+				:::
+				</script>
+			</section>
+
+			<!-- Roadmap - Detailed Example -->
+			<section data-markdown>
+				<script type="text/template">
+				## Engineering Roadmap
+
+				::: smartart 2024 Goals ROADMAP
+				intro: Major engineering initiatives for the year.
+				- [x] Infrastructure | Migrated to Kubernetes cluster for better scalability | icon=lucide:server
+				- [x] Security | Implemented OAuth 2.0 and two-factor authentication | icon=lucide:shield
+				- [~] Performance | Optimizing database queries and caching layer | icon=lucide:zap
+				- [ ] Mobile | Native iOS and Android app development | icon=lucide:smartphone
+				- [ ] AI Features | Machine learning model integration | icon=lucide:cpu
+				:::
+				</script>
+			</section>
+
+			<!-- Pricing Cards - Standard -->
+			<section data-markdown>
+				<script type="text/template">
+				## Choose Your Plan
+
+				::: smartart Pricing Plans PRICING
+				intro: Select the perfect plan for your needs.
+				- Basic | $9/month | Best for individuals and small projects. | Choose Basic | Core Feature 1; Core Feature 2; Basic Support; Email notifications
+				- [*] Pro | $29/month | Perfect for professionals and growing teams. | Get Started | All Basic Features; Advanced Collaboration; Integration Features; Priority Support; Custom workflows
+				- Enterprise | Contact Us | Designed for large organizations. | Contact Sales | All Pro Features; Premium Support; Advanced Security; Custom Solutions; Dedicated account manager
+				:::
+				</script>
+			</section>
+
+			<!-- Pricing Cards - Dark Theme -->
+			<section data-markdown data-background="#0f172a">
+				<script type="text/template">
+				## Flexible Pricing
+
+				::: smartart Choose Your Tier PRICING
+				intro: Plans that scale with your business needs.
+				- Starter | $0/month | For trying out our platform. | Start Free | 100 API calls/month; Basic analytics; Community support
+				- [!] Business | $99/month | For scaling teams. | Start Trial | Unlimited API calls; Advanced analytics; Priority support; Custom integrations; Team collaboration
+				- Enterprise | Custom | For large organizations. | Contact Us | Everything in Business; Dedicated support; SLA guarantees; On-premise deployment; Custom training
+				:::
+				</script>
+			</section>
+
+			<!-- Pricing - 2 Cards -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Simple Pricing PRICING
+				- Personal | $15/month | For individual creators. | Get Started | Unlimited projects; 100GB storage; Basic support; Mobile app access
+				- [*] Team | $49/month | For collaborative teams. | Try Free | Everything in Personal; Unlimited storage; Team collaboration; Priority support; Advanced features; API access
+				:::
+				</script>
+			</section>
+
+			<!-- Pricing - Compact Example -->
+			<section data-markdown>
+				<script type="text/template">
+				## SaaS Pricing
+
+				::: smartart Subscription Tiers PRICING
+				- Free | $0 | Perfect for getting started | Sign Up | 5 projects; 1GB storage; Community support
+				- Pro | $19/month | For serious users | Upgrade | 50 projects; 50GB storage; Priority support; Advanced features
+				- [*] Team | $79/month | Best value for teams | Start Trial | Unlimited projects; 500GB storage; Team features; Premium support; API access
+				:::
+				</script>
+			</section>
+
+			<!-- Stats/Dashboard - Light Theme -->
+			<section data-markdown>
+				<script type="text/template">
+				## Dashboard Metrics
+
+				::: smartart Key Performance Indicators STATS
+				intro: Track your business performance with these essential metrics.
+				- Downloads | 31K | From Feb 1 - Feb 28 | icon=lucide:cloud-download
+				- New Users | 4,200 | ↑ +15% from last month | icon=lucide:user-plus
+				- New Registers | 1,200 | ↓ -3% from last month | icon=lucide:clipboard-list
+				:::
+				</script>
+			</section>
+
+			<!-- Stats/Dashboard - Dark Theme -->
+			<section data-markdown data-background="#0f172a">
+				<script type="text/template">
+				## Analytics Overview
+
+				::: smartart Monthly Performance STATS
+				intro: Review your monthly analytics and growth trends.
+				- Total Revenue | $127K | ↑ +22% vs last month | icon=lucide:dollar-sign | color=green
+				- Active Projects | 48 | ↑ +8 new this month | icon=lucide:folder | color=blue
+				- Team Members | 156 | ↑ +12 joined recently | icon=lucide:users | color=purple
+				- Completion Rate | 94% | ↑ +2% improvement | icon=lucide:check-circle | color=teal
+				:::
+				</script>
+			</section>
+
+			<!-- Stats - Compact (2 cards) -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Quick Stats STATS
+				- API Calls | 2.4M | ↑ +18% growth | icon=lucide:activity
+				- Uptime | 99.98% | Excellent performance | icon=lucide:server | color=green
+				:::
+				</script>
+			</section>
+
+			<!-- Stats - Detailed Example -->
+			<section data-markdown>
+				<script type="text/template">
+				## E-commerce Dashboard
+
+				::: smartart Sales Performance STATS
+				intro: Real-time insights into your store's performance metrics.
+				- Total Sales | $89,432 | ↑ +24% vs last month | icon=lucide:trending-up | color=green
+				- Orders | 1,247 | ↑ +156 new orders | icon=lucide:shopping-cart | color=blue
+				- Conversion Rate | 3.8% | ↓ -0.2% decrease | icon=lucide:target | color=orange
+				- Avg Order Value | $71.67 | ↑ +$4.23 increase | icon=lucide:dollar-sign | color=purple
+				- Customer Reviews | 4.7/5 | Based on 892 reviews | icon=lucide:star | color=orange
+				- Return Rate | 2.1% | ↓ -0.5% improvement | icon=lucide:rotate-ccw | color=teal
+				:::
+				</script>
+			</section>
+
+			<!-- Accordion - FAQ Demo -->
+			<section data-markdown>
+				<script type="text/template">
+				## Frequently Asked Questions
+
+				::: smartart Product FAQ ACCORDION
+				intro: Common questions and answers about our product.
+				[*] What is AdaptiveX? | AdaptiveX is a set of SmartArt components for reveal.js to build common UI patterns.
+				What browsers are supported? | All modern browsers including Chromium, Firefox, and Safari.
+				Can I customize styles? | Yes. You can override CSS variables or extend the theme.
+				:::
+				</script>
+			</section>
+
+			<!-- Carousel - Product Showcase -->
+			<section data-markdown>
+				<script type="text/template">
+				## Product Showcase
+
+				::: smartart Highlights CAROUSEL
+				autoplay: true
+				interval: 3500
+				height: 340px
+				indicators: true
+				controls: true
+				https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600 | Build Faster | Modern workflows
+				https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1600 | Insightful | Turn data into action
+				https://images.unsplash.com/photo-1522199710521-72d69614c702?q=80&w=1600 | Collaborative | Work as one team
+				:::
+				</script>
+			</section>
+
+			<!-- Carousel - Text Cards (Announcements) -->
+			<section data-markdown>
+				<script type="text/template">
+				## Announcements
+
+				::: smartart What’s New CAROUSEL
+				cards: true
+				height: 320px
+				indicators: true
+				controls: true
+				icon=lucide:megaphone | Public roadmap launched | Track planned features and vote on ideas. | View Roadmap | https://example.com/roadmap
+				icon=lucide:users | Team workspaces | Organize projects by team with role-based access. | Learn More | https://example.com/workspaces
+				icon=lucide:zap | Performance boost | Up to 45% faster loads across dashboards. | Read Details | https://example.com/performance
+				:::
+				</script>
+			</section>
+
+			<!-- Drawer / Offcanvas Example -->
+			<section data-markdown>
+				<script type="text/template">
+				## Need Help?
+
+				::: smartart Support Menu OFFCANVAS
+				position: end
+				size: 360px
+				backdrop: true
+				keyboard: true
+				toggle: Open Support Menu
+				Getting Started | Read our quickstart guide | Docs | https://example.com/docs
+				Contact | Reach us at support@example.com
+				Status | View uptime and incidents | Status Page | https://status.example.com
+				:::
+				</script>
+			</section>
+
+			<!-- Modal Example -->
+			<section data-markdown>
+				<script type="text/template">
+				## Info Modal
+
+				::: smartart Product Notes MODAL
+				intro: Demonstrates a Bootstrap-like modal built into SmartArt.
+				size: lg
+				toggle: View Notes
+				backdrop: true
+				keyboard: true
+				cta: Save Changes | https://example.com/save
+				cta2: Cancel | #
+				Release Notes | Latest release includes performance improvements and UI polish.
+				Docs | Read the docs for more details. | Read Docs | https://example.com/docs
+				:::
+				</script>
+			</section>
+
+			<!-- Final Slide -->
+			<section class="center-content" data-markdown>
+				<script type="text/template">
+				## SmartArt Features
+
+				✅ **Responsive Design** - Fluid grids adapt to any screen size
+				✅ **Dark Theme Support** - Beautiful on light and dark backgrounds
+				✅ **Multiple Layouts** - GRID, LINED, LR, TB, HERO, CHECKLIST, ROADMAP, PRICING, STATS orientations
+				✅ **Hero Sections** - Bootstrap-style heroes with images and CTAs
+				✅ **Interactive Checklists** - Task lists with checkbox states
+				✅ **Timeline Roadmaps** - Beautiful milestone visualization with progress tracking
+				✅ **Pricing Cards** - Beautiful comparison tables with featured plans
+				✅ **Stats/Dashboard** - Clean metric cards with trend indicators
+				✅ **Unsplash Integration** - Easy image sourcing with unsplash:keyword
+				✅ **Icon Integration** - Lucide icons via Iconify CDN
+				✅ **No Overflow** - Content scales perfectly on all devices
+				✅ **Accessible** - Proper ARIA roles and semantic HTML
+
+				---
+
+				### View Source
+				Check `examples/smartart.html` for implementation details
+				</script>
+			</section>
+
+		</div>
+	</div>
+
+	<script src="../dist/reveal.js"></script>
+	<script src="../plugin/markdown/markdown.js"></script>
+	<script src="../plugin/notes/notes.js"></script>
+	<script src="../plugin/smartart/smartart.js"></script>
+
+	<script>
+		Reveal.initialize({
+			hash: true,
+			controls: true,
+			progress: true,
+			center: false,
+			transition: 'slide',
+			plugins: [ RevealMarkdown, RevealNotes, RevealSmartArt ]
+		});
+	</script>
+</body>
+</html>

@@ -1,4 +1,5 @@
 .idea/
+.claude/
 *.iml
 *.iws
 *.eml
@@ -9,3 +10,4 @@ log/*.log
 tmp/**
 node_modules/
 .sass-cache
+.env

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal.js with XShadcn Plugin - Interactive UI Components</title>
+    
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="../dist/reveal.css">
+    <link rel="stylesheet" href="../dist/theme/white.css">
+    
+    <!-- Custom styles -->
+    <style>
+        /* Ensure components are interactive */
+        .reveal .slides section {
+            pointer-events: auto;
+        }
+        
+        /* Component containers */
+        .component-demo {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        /* Make sure fragments work with components */
+        .fragment.xshadcn-container {
+            visibility: visible !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Title Slide with Card Component -->
+            <section data-xshadcn-slide='{"component":"Card","props":{"className":"max-w-lg mx-auto"}}'>
+                <h1>XShadcn Plugin Demo</h1>
+                <p>Interactive shadcn/ui Components in Reveal.js</p>
+                <div class="mt-8">
+                    <span data-xshadcn='{"component":"Badge","variant":"secondary"}'>v1.0.0</span>
+                    <span data-xshadcn='{"component":"Badge","props":{"className":"ml-2"}}'>React Powered</span>
+                </div>
+            </section>
+            
+            <!-- Button Components Demo -->
+            <section>
+                <h2>Interactive Buttons</h2>
+                <p>Click the buttons to see them in action!</p>
+                <div class="component-demo">
+                    <span data-xshadcn="button:primary">Primary</span>
+                    <span data-xshadcn='{"component":"Button","variant":"secondary"}'>Secondary</span>
+                    <span data-xshadcn='{"component":"Button","variant":"outline"}'>Outline</span>
+                    <span data-xshadcn='{"component":"Button","variant":"ghost"}'>Ghost</span>
+                    <span data-xshadcn='{"component":"Button","variant":"destructive"}'>Danger</span>
+                </div>
+                <div class="fragment">
+                    <p>Large buttons:</p>
+                    <div class="component-demo">
+                        <span data-xshadcn='{"component":"Button","props":{"size":"lg"}}'>Large Button</span>
+                        <span data-xshadcn='{"component":"Button","props":{"size":"sm","variant":"secondary"}}'>Small Button</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Form Components Demo -->
+            <section>
+                <h2>Form Components</h2>
+                <div class="component-demo" style="flex-direction: column; max-width: 400px; margin: 0 auto;">
+                    <div style="width: 100%;">
+                        <label class="text-sm">Enter your name:</label>
+                        <span data-xshadcn='{"component":"Input","props":{"placeholder":"John Doe","className":"mt-1"}}'></span>
+                    </div>
+                    
+                    <div class="fragment" style="width: 100%; margin-top: 1rem;">
+                        <label class="text-sm">Enable notifications:</label>
+                        <div class="mt-2">
+                            <span data-xshadcn="switch"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="fragment" style="width: 100%; margin-top: 1rem;">
+                        <label class="text-sm">Volume:</label>
+                        <span data-xshadcn='{"component":"Slider","props":{"min":0,"max":100,"className":"mt-2"}}'></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cards and Metrics -->
+            <section>
+                <h2>Metrics Dashboard</h2>
+                <div class="component-grid">
+                    <span data-xshadcn='{"component":"Metrics","props":{"title":"Total Revenue","value":"$45,231","change":12.5}}'></span>
+                    <span data-xshadcn='{"component":"Metrics","props":{"title":"Active Users","value":"2,350","change":-4.3}}'></span>
+                    <span data-xshadcn='{"component":"Metrics","props":{"title":"Conversion Rate","value":"3.2%","change":8.1}}'></span>
+                    <span data-xshadcn='{"component":"Metrics","props":{"title":"Avg. Session","value":"4m 32s","change":2.4}}'></span>
+                </div>
+            </section>
+
+            <!-- Stat Cards -->
+            <section>
+                <h2>Statistics Overview</h2>
+                <div class="component-grid">
+                    <span data-xshadcn='{
+                        "component":"StatCard",
+                        "props":{
+                            "label":"Total Sales",
+                            "value":"$12,345",
+                            "description":"Last 30 days",
+                            "trend":15.3
+                        }
+                    }'></span>
+                    <span data-xshadcn='{
+                        "component":"StatCard",
+                        "props":{
+                            "label":"New Customers",
+                            "value":"573",
+                            "description":"This month",
+                            "trend":-2.4
+                        }
+                    }'></span>
+                </div>
+            </section>
+
+            <!-- Progress and Charts -->
+            <section>
+                <h2>Data Visualization</h2>
+                <div style="max-width: 600px; margin: 0 auto;">
+                    <h3>Project Progress</h3>
+                    <div class="mb-4">
+                        <label class="text-sm">Development</label>
+                        <span data-xshadcn='{"component":"Progress","props":{"value":75}}'></span>
+                    </div>
+                    <div class="mb-4 fragment">
+                        <label class="text-sm">Testing</label>
+                        <span data-xshadcn='{"component":"Progress","props":{"value":45}}'></span>
+                    </div>
+                    <div class="mb-4 fragment">
+                        <label class="text-sm">Documentation</label>
+                        <span data-xshadcn='{"component":"Progress","props":{"value":90}}'></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chart Demo -->
+            <section>
+                <h2>Sales Chart</h2>
+                <div style="max-width: 600px; margin: 2rem auto;">
+                    <span data-xshadcn='{
+                        "component":"Chart",
+                        "props":{
+                            "type":"bar",
+                            "data":[
+                                {"label":"Jan","value":65},
+                                {"label":"Feb","value":85},
+                                {"label":"Mar","value":75},
+                                {"label":"Apr","value":95},
+                                {"label":"May","value":88}
+                            ]
+                        }
+                    }'></span>
+                </div>
+                <div class="fragment" style="max-width: 600px; margin: 2rem auto;">
+                    <span data-xshadcn='{
+                        "component":"Chart",
+                        "props":{
+                            "type":"line",
+                            "data":[
+                                {"label":"Q1","value":45},
+                                {"label":"Q2","value":52},
+                                {"label":"Q3","value":48},
+                                {"label":"Q4","value":61}
+                            ]
+                        }
+                    }'></span>
+                </div>
+            </section>
+
+            <!-- Alerts and Badges -->
+            <section>
+                <h2>Feedback Components</h2>
+                <div style="max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+                    <span data-xshadcn='{"component":"Alert","props":{"children":"This is a default alert message."}}'></span>
+                    
+                    <div class="fragment mt-4">
+                        <span data-xshadcn='{
+                            "component":"Alert",
+                            "variant":"destructive",
+                            "props":{"children":"Error: Failed to save changes."}
+                        }'></span>
+                    </div>
+                    
+                    <div class="fragment mt-4 component-demo">
+                        <span data-xshadcn="badge">Default</span>
+                        <span data-xshadcn='{"component":"Badge","variant":"secondary"}'>Secondary</span>
+                        <span data-xshadcn='{"component":"Badge","variant":"destructive"}'>Error</span>
+                        <span data-xshadcn='{"component":"Badge","variant":"outline"}'>Outline</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Terminal Component -->
+            <section>
+                <h2>Terminal Demo</h2>
+                <div style="max-width: 700px; margin: 0 auto;">
+                    <span data-xshadcn='{
+                        "component":"Terminal",
+                        "props":{
+                            "commands":[
+                                {"prompt":true,"text":"npm install xshadcn-plugin"},
+                                {"type":"output","text":"+ xshadcn-plugin@1.0.0"},
+                                {"type":"output","text":"added 23 packages in 2.341s"},
+                                {"prompt":true,"text":"npm run build"},
+                                {"type":"output","text":"Building plugin..."},
+                                {"type":"output","text":"✓ Build completed successfully"}
+                            ]
+                        }
+                    }'></span>
+                </div>
+            </section>
+
+            <!-- Timeline Component -->
+            <section>
+                <h2>Project Timeline</h2>
+                <div style="max-width: 600px; margin: 0 auto;">
+                    <span data-xshadcn='{
+                        "component":"Timeline",
+                        "props":{
+                            "events":[
+                                {
+                                    "date":"January 2024",
+                                    "title":"Project Kickoff",
+                                    "description":"Initial planning and requirements gathering"
+                                },
+                                {
+                                    "date":"March 2024",
+                                    "title":"Development Phase",
+                                    "description":"Core functionality implementation"
+                                },
+                                {
+                                    "date":"May 2024",
+                                    "title":"Beta Release",
+                                    "description":"First public beta with early adopters"
+                                },
+                                {
+                                    "date":"July 2024",
+                                    "title":"Launch",
+                                    "description":"Official v1.0 release"
+                                }
+                            ]
+                        }
+                    }'></span>
+                </div>
+            </section>
+
+            <!-- Combined Components -->
+            <section>
+                <h2>Component Composition</h2>
+                <div class="component-demo" style="flex-direction: column;">
+                    <div style="max-width: 400px; width: 100%;">
+                        <span data-xshadcn='{
+                            "component":"Card",
+                            "props":{
+                                "className":"p-6",
+                                "children":"<h3 class=\"text-lg font-semibold mb-4\">Newsletter Signup</h3><div class=\"space-y-4\"><input type=\"email\" placeholder=\"Enter your email\" class=\"w-full px-3 py-2 border rounded\"/><button class=\"w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700\">Subscribe</button></div>"
+                            }
+                        }'></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- State Management Demo -->
+            <section>
+                <h2>Shared State Demo</h2>
+                <p>Components can share state across slides!</p>
+                <div class="component-demo">
+                    <span data-xshadcn='{"component":"Button","props":{"bindToGlobal":true}}'>
+                        Click to Update Counter
+                    </span>
+                </div>
+                <p class="fragment">Navigate to the next slide to see the shared state...</p>
+            </section>
+
+            <!-- State Display -->
+            <section>
+                <h2>State Persists!</h2>
+                <p>The button on the previous slide was clicked:</p>
+                <div class="component-demo">
+                    <span data-xshadcn='{"component":"Badge","props":{"className":"text-lg px-4 py-2"}}'>
+                        <span id="click-counter">0</span> times
+                    </span>
+                </div>
+                <p>State is preserved across slide transitions!</p>
+            </section>
+
+            <!-- Typography Components -->
+            <section>
+                <h2>Typography</h2>
+                <div style="max-width: 600px; margin: 0 auto; text-align: left;">
+                    <span data-xshadcn='{"component":"Heading","props":{"level":1,"children":"Heading 1"}}'></span>
+                    <span data-xshadcn='{"component":"Heading","props":{"level":2,"children":"Heading 2"}}'></span>
+                    <span data-xshadcn='{"component":"Paragraph","props":{"children":"This is a paragraph with shadcn styling. It includes proper typography and color settings for both light and dark modes."}}'></span>
+                    <span data-xshadcn='{"component":"Blockquote","props":{"children":"This is a blockquote component with proper styling and indentation."}}'></span>
+                    <p>Inline code: <span data-xshadcn='{"component":"Code","props":{"children":"npm install"}}'></span></p>
+                </div>
+            </section>
+
+            <!-- Conclusion -->
+            <section>
+                <h1>Thank You!</h1>
+                <p>XShadcn brings the power of shadcn/ui to Reveal.js</p>
+                <div class="component-demo">
+                    <span data-xshadcn='{"component":"Button","props":{"size":"lg"}}'>Get Started</span>
+                    <span data-xshadcn='{"component":"Button","variant":"outline","props":{"size":"lg"}}'>Documentation</span>
+                </div>
+                <div class="mt-8">
+                    <span data-xshadcn='{"component":"Badge"}'>React</span>
+                    <span data-xshadcn='{"component":"Badge","props":{"className":"ml-2"}}'>Tailwind</span>
+                    <span data-xshadcn='{"component":"Badge","props":{"className":"ml-2"}}'>shadcn/ui</span>
+                    <span data-xshadcn='{"component":"Badge","props":{"className":"ml-2"}}'>Reveal.js</span>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <!-- ES Module Shims - Polyfill for import maps (ensures cross-browser compatibility) -->
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+
+    <!-- Import Map - Must come before any module scripts -->
+    <script type="importmap">
+    {
+        "imports": {
+            "react": "https://esm.sh/react@18.2.0",
+            "react-dom": "https://esm.sh/react-dom@18.2.0",
+            "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+            "clsx": "https://esm.sh/clsx@2.0.0",
+            "tailwind-merge": "https://esm.sh/tailwind-merge@2.0.0"
+        }
+    }
+    </script>
+
+    <!-- Reveal.js -->
+    <script src="../dist/reveal.js"></script>
+
+    <!-- XShadcn Plugin - Uses ES modules with import maps -->
+    <script type="module">
+        import XShadcn from '../plugin/xshadcn/dist/xshadcn.js';
+        
+        // Initialize Reveal.js with the XShadcn plugin
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: true,
+            transition: 'slide',
+            
+            // XShadcn plugin configuration
+            xshadcn: {
+                theme: 'light',
+                defaultAnimation: 'fade',
+                animationDuration: 300,
+                interactive: true,
+                dataBinding: true,
+                globalState: {
+                    clickCounter: 0
+                },
+                debug: true
+            },
+            
+            // Register the plugin
+            plugins: [ XShadcn ]
+        });
+        
+        // Example of using the plugin API
+        Reveal.on('ready', () => {
+            console.log('XShadcn plugin loaded');
+            
+            const xshadcn = Reveal.getPlugin('xshadcn');
+            
+            // Example: Update global state programmatically
+            let counter = 0;
+            setInterval(() => {
+                const currentCount = xshadcn.getGlobalState('button_clicks') || 0;
+                document.getElementById('click-counter')?.textContent = currentCount;
+            }, 100);
+        });
+        
+        // Listen for component events
+        Reveal.on('xshadcn-mounted', (event) => {
+            console.log('Component mounted:', event.data.componentId);
+        });
+    </script>
+</body>
+</html>

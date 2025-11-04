@@ -1,0 +1,1 @@
+export const __webpack_esm_id__=579;export const __webpack_esm_ids__=[579];export const __webpack_esm_modules__={579:(e,_,c)=>{c.r(_),c.d(_,{default:()=>t});var s=c(156);const t=()=>s.createElement("div",null,"Iridescence Background")}};

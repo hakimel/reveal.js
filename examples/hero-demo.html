@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SmartArt HERO Layout Demo</title>
+
+	<!-- Reveal.js core CSS -->
+	<link rel="stylesheet" href="../dist/reset.css">
+	<link rel="stylesheet" href="../dist/reveal.css">
+
+	<!-- Theme -->
+	<link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+
+	<style>
+		.reveal section.center-content {
+			text-align: center;
+		}
+		.reveal section.title-slide h1 {
+			font-size: 3em;
+			margin-bottom: 0.5em;
+		}
+		.reveal section.title-slide p {
+			font-size: 1.5em;
+			color: #666;
+		}
+	</style>
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<!-- Title Slide -->
+			<section class="center-content title-slide">
+				<h1>HERO Layout</h1>
+				<p>Bootstrap-Style Hero Sections for Reveal.js</p>
+				<small>Navigate with arrow keys or swipe</small>
+			</section>
+
+			<!-- Hero Example 1 - Unsplash Technology -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Welcome to Our Platform HERO
+				intro: Quickly design and customize responsive mobile-first presentations with SmartArt, featuring flexible layouts, beautiful components, and powerful reveal.js integration.
+				image: unsplash:technology
+				cta: Get Started | https://example.com/start
+				cta2: Learn More | https://example.com/docs
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Example 2 - Direct Image URL -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Transform Your Business HERO
+				intro: Leverage cutting-edge cloud infrastructure and AI-powered analytics to accelerate digital transformation and drive sustainable growth across your organization.
+				image: https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=600&fit=crop
+				cta: Start Free Trial | https://example.com/trial
+				cta2: View Pricing | https://example.com/pricing
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Example 3 - Dark Theme -->
+			<section data-markdown data-background="#0f172a">
+				<script type="text/template">
+				::: smartart Innovate with Confidence HERO
+				intro: Build next-generation applications with our enterprise-grade developer platform. Deploy globally in seconds with built-in CI/CD, monitoring, and collaboration tools.
+				image: unsplash:developer
+				cta: Explore Platform | https://example.com/platform
+				cta2: Contact Sales | https://example.com/contact
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Example 4 - Healthcare -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Healthcare Innovation HERO
+				intro: Revolutionize patient care with AI-driven diagnostics and seamless electronic health record integration designed for modern healthcare providers.
+				image: unsplash:healthcare
+				cta: Request Demo | https://example.com/demo
+				cta2: Documentation | https://example.com/docs
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Example 5 - Business Analytics -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Data-Driven Decisions HERO
+				intro: Unlock powerful insights from your data with advanced analytics and machine learning. Make informed decisions faster with real-time dashboards and predictive modeling.
+				image: unsplash:analytics
+				cta: View Demo | https://example.com/demo
+				cta2: Try Free | https://example.com/trial
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Example 6 - E-commerce -->
+			<section data-markdown data-background="#1e3a8a">
+				<script type="text/template">
+				::: smartart Scale Your Online Store HERO
+				intro: Everything you need to launch, grow, and manage a successful e-commerce business. From payment processing to inventory management, we've got you covered.
+				image: unsplash:ecommerce
+				cta: Start Selling | https://example.com/signup
+				cta2: Explore Features | https://example.com/features
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Example 7 - Single CTA -->
+			<section data-markdown>
+				<script type="text/template">
+				::: smartart Education Platform HERO
+				intro: Empower learners worldwide with interactive courses, live sessions, and AI-powered personalized learning paths designed for maximum engagement and retention.
+				image: unsplash:education
+				cta: Browse Courses | https://example.com/courses
+				:::
+				</script>
+			</section>
+
+			<!-- Hero Example 8 - Without Image (Content Only) -->
+			<section data-markdown data-background="#f8f9fa">
+				<script type="text/template">
+				::: smartart Simple Call to Action HERO
+				intro: Sometimes less is more. Create clean, focused hero sections with just a heading, description, and call-to-action buttons.
+				cta: Primary Action | https://example.com/action
+				cta2: Secondary Option | https://example.com/option
+				:::
+				</script>
+			</section>
+
+			<!-- Features Overview -->
+			<section class="center-content" data-markdown>
+				<script type="text/template">
+				## HERO Layout Features
+
+				✅ **Two-Column Responsive** - Content left, image right on desktop
+				✅ **Mobile Stack** - Vertical layout on tablets and phones
+				✅ **Unsplash Integration** - `image: unsplash:keyword` support
+				✅ **Direct URLs** - Use any image URL
+				✅ **Dual CTAs** - Primary and secondary button styles
+				✅ **Dark Theme Ready** - Beautiful on any background
+				✅ **Fluid Typography** - Responsive text scaling
+				✅ **Clean Syntax** - Simple markdown format
+
+				---
+
+				### Usage Example
+				```markdown
+				::: smartart Welcome HERO
+				intro: Your hero description text
+				image: unsplash:technology
+				cta: Get Started | /start
+				cta2: Learn More | /docs
+				:::
+				```
+				</script>
+			</section>
+
+		</div>
+	</div>
+
+	<script src="../dist/reveal.js"></script>
+	<script src="../plugin/markdown/markdown.js"></script>
+	<script src="../plugin/notes/notes.js"></script>
+	<script src="../plugin/smartart/smartart.js"></script>
+
+	<script>
+		Reveal.initialize({
+			hash: true,
+			controls: true,
+			progress: true,
+			center: false,
+			transition: 'slide',
+			plugins: [ RevealMarkdown, RevealNotes, RevealSmartArt ]
+		});
+	</script>
+</body>
+</html>

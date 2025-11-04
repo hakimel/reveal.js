@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>reveal.js - SmartArt Drawer (Offcanvas) Demo</title>
+  <link rel="stylesheet" href="../dist/reset.css">
+  <link rel="stylesheet" href="../dist/reveal.css">
+  <link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section data-markdown>
+        <script type="text/template">
+        ## Drawer / Offcanvas
+
+::: smartart Support Center OFFCANVAS
+position: end
+size: 360px
+backdrop: true
+keyboard: true
+toggle: Open Drawer
+Getting Started | Links to docs and onboarding | Docs | https://example.com/docs
+FAQ | Frequently asked questions | View FAQ | https://example.com/faq
+Contact | support@example.com
+:::
+        </script>
+      </section>
+
+      <section data-markdown data-background="#0f172a">
+        <script type="text/template">
+        ## Drawer from the Left (Dark)
+
+::: smartart Navigation SIDEDRAWER
+position: start
+size: 300px
+backdrop: true
+toggle: Menu
+Home | Back to start
+Components | All SmartArt components | Browse | https://example.com/components
+Examples | Ready-to-use demos | Open | ./
+:::
+        </script>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="../dist/reveal.js"></script>
+  <script src="../plugin/markdown/markdown.js"></script>
+  <script src="../plugin/smartart/smartart.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      controls: true,
+      progress: true,
+      center: false,
+      transition: 'slide',
+      plugins: [ RevealMarkdown, RevealSmartArt ]
+    });
+  </script>
+</body>
+</html>

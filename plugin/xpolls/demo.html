@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal.js Poll Plugin Demo</title>
+    
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.css">
+    
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/monokai.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- Title Slide -->
+            <section>
+                <h1>Reveal.js Poll Plugin</h1>
+                <h3>Interactive Polls & Quizzes</h3>
+                <p>Press <kbd>Space</kbd> to continue</p>
+                <p><small>Press <kbd>S</kbd> for speaker view (presenter controls)</small></p>
+            </section>
+
+            <!-- Simple Poll -->
+            <section>
+                <h2>Simple Poll</h2>
+                <div data-poll 
+                     data-poll-question="What's your favorite programming language?"
+                     data-poll-answers='["JavaScript", "Python", "TypeScript", "Go", "Rust"]'
+                     data-poll-display="poll"
+                     data-poll-show-results="free">
+                </div>
+                <aside class="notes">
+                    This is a simple poll with free results viewing.
+                    Participants can see results before voting.
+                </aside>
+            </section>
+
+            <!-- Quiz with Correct Answer -->
+            <section>
+                <h2>Quiz Question</h2>
+                <div data-poll 
+                     data-poll-question="What year was Reveal.js first released?"
+                     data-poll-answers='["2011", "2012", "2013", "2014"]'
+                     data-poll-correct="0"
+                     data-poll-display="quiz"
+                     data-poll-show-results="auto">
+                </div>
+                <aside class="notes">
+                    This is a quiz with a correct answer (2011).
+                    Results show after submission.
+                </aside>
+            </section>
+
+            <!-- Multiple Choice Poll -->
+            <section>
+                <h2>Multiple Selection</h2>
+                <div data-poll 
+                     data-poll-question="Which features do you want in presentations? (Select all that apply)"
+                     data-poll-answers='["Live Polls", "Code Highlighting", "Animations", "Speaker Notes", "Export to PDF"]'
+                     data-poll-multiple="true"
+                     data-poll-display="poll">
+                </div>
+                <aside class="notes">
+                    Multiple choice poll - participants can select multiple options.
+                </aside>
+            </section>
+
+            <!-- Controlled Poll -->
+            <section>
+                <h2>Controlled Poll</h2>
+                <div data-poll 
+                     data-poll-question="How would you rate this presentation?"
+                     data-poll-answers='["⭐", "⭐⭐", "⭐⭐⭐", "⭐⭐⭐⭐", "⭐⭐⭐⭐⭐"]'
+                     data-poll-controlled="true"
+                     data-poll-clearable="true"
+                     data-poll-reopenable="true"
+                     data-poll-display="publicQuiz">
+                </div>
+                <aside class="notes">
+                    Controlled poll - presenter must open it manually.
+                    Can be cleared and reopened.
+                    Shows participant names in results.
+                </aside>
+            </section>
+
+            <!-- HTML-based Poll Definition -->
+            <section>
+                <h2>Alternative Syntax</h2>
+                <div data-poll data-poll-id="custom-poll-1" data-poll-controlled="true">
+                    <div class="poll-question">Which topic interests you most?</div>
+                    <div class="poll-answer">Web Development</div>
+                    <div class="poll-answer">Machine Learning</div>
+                    <div class="poll-answer">DevOps</div>
+                    <div class="poll-answer">Mobile Development</div>
+                </div>
+                <aside class="notes">
+                    Polls can also be defined using HTML elements.
+                </aside>
+            </section>
+
+            <!-- Advanced Quiz with Multiple Correct Answers -->
+            <section>
+                <h2>Multiple Correct Answers</h2>
+                <div data-poll 
+                     data-poll-question="Which are JavaScript frameworks? (Select all correct)"
+                     data-poll-answers='["React", "Django", "Vue", "Rails", "Angular", "Laravel"]'
+                     data-poll-multiple="true"
+                     data-poll-correct="0,2,4"
+                     data-poll-display="quiz"
+                     data-poll-editable="true">
+                </div>
+                <aside class="notes">
+                    Quiz with multiple correct answers.
+                    Participants can edit their responses.
+                </aside>
+            </section>
+
+            <!-- Results Slide -->
+            <section>
+                <h2>Poll Results Dashboard</h2>
+                <p>Press <kbd>Ctrl/Cmd + P</kbd> to toggle the poll overview panel</p>
+                <p>This shows all polls and their current status</p>
+                <aside class="notes">
+                    Use the keyboard shortcut to see all polls at once.
+                </aside>
+            </section>
+
+            <!-- Instructions Slide -->
+            <section>
+                <h2>How to Use</h2>
+                <h3>For Presenters:</h3>
+                <ul>
+                    <li>Press <kbd>S</kbd> to open speaker view</li>
+                    <li>Control polls with Open/Close/Clear buttons</li>
+                    <li>View detailed results and participant names</li>
+                </ul>
+                <h3>For Participants:</h3>
+                <ul>
+                    <li>Join the presentation URL</li>
+                    <li>Submit answers to open polls</li>
+                    <li>View results based on poll settings</li>
+                </ul>
+            </section>
+
+            <!-- Configuration Slide -->
+            <section>
+                <h2>Configuration Options</h2>
+                <pre><code class="language-javascript" data-trim>
+Reveal.initialize({
+    // ... other Reveal.js options
+    
+    poll: {
+        serverUrl: 'ws://localhost:3001',
+        anonymous: false,
+        theme: 'default',
+        position: 'center'
+    },
+    
+    plugins: [ RevealPoll ]
+});
+                </code></pre>
+            </section>
+
+            <!-- End Slide -->
+            <section>
+                <h1>Thank You!</h1>
+                <p>Ready to make your presentations interactive?</p>
+                <div data-poll 
+                     data-poll-question="Will you use this plugin in your presentations?"
+                     data-poll-answers='["Definitely!", "Maybe", "Need to learn more", "Not sure"]'
+                     data-poll-display="poll">
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js JS -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/highlight.js"></script>
+    
+    <!-- Poll Plugin -->
+    <script src="reveal-poll.js"></script>
+    
+    <script>
+        // Initialize Reveal.js
+        Reveal.initialize({
+            hash: true,
+            
+            // Poll plugin configuration
+            poll: {
+                serverUrl: 'ws://localhost:3001',
+                anonymous: false,
+                theme: 'default'
+            },
+            
+            // Load plugins
+            plugins: [ 
+                RevealNotes, 
+                RevealHighlight,
+                RevealPoll
+            ]
+        });
+
+        // Optional: Add custom event listeners
+        document.addEventListener('poll-answered', function(event) {
+            console.log('Poll answered:', event.detail);
+        });
+
+        document.addEventListener('poll-state-changed', function(event) {
+            console.log('Poll state changed:', event.detail);
+        });
+    </script>
+</body>
+</html>

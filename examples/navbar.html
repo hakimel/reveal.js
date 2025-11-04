@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>reveal.js - SmartArt Navbar Demo</title>
+
+  <!-- Reveal.js core CSS -->
+  <link rel="stylesheet" href="../dist/reset.css">
+  <link rel="stylesheet" href="../dist/reveal.css">
+
+  <!-- Theme -->
+  <link rel="stylesheet" href="../dist/theme/white.css" id="theme">
+
+  <style>
+    /* Just for demo clarity */
+    .reveal section.demo-content p { margin: 0.5rem 0; }
+    .reveal section.demo-content .box { padding: 1rem; border: 1px dashed rgba(0,0,0,0.25); border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Basic centered navbar using theme color -->
+      <section data-markdown class="demo-content">
+        <script type="text/template">
+        ::: smartart AdaptiveX NAVBAR
+        subtitle: Beautiful components for reveal.js
+        align: center
+        :::
+
+        ## Centered Navbar
+        <div class="box">This content sits below the full-width navbar. Resize the viewport to see the responsive behavior.</div>
+        </script>
+      </section>
+
+      <!-- Left-aligned navbar with custom height -->
+      <section data-markdown class="demo-content">
+        <script type="text/template">
+        ::: smartart Product Suite NAVBAR
+        subtitle: Making teams faster
+        align: left
+        height: 80px
+        :::
+
+        ## Left-aligned + Taller (80px)
+        <div class="box">Use <code>align: left|center|right</code> and <code>height: &lt;size&gt;</code> to customize layout.</div>
+        </script>
+      </section>
+
+      <!-- Custom colors (dark bg + light text) -->
+      <section data-markdown class="demo-content">
+        <script type="text/template">
+        ::: smartart Night Mode NAVBAR
+        subtitle: High contrast banner
+        background: #111827
+        color: #ffffff
+        align: right
+        :::
+
+        ## Custom Colors
+        <div class="box">Provide <code>background:</code> and <code>color:</code> to override the theme defaults.</div>
+        </script>
+      </section>
+
+      <!-- Combined with slide background to showcase stacking -->
+      <section data-markdown data-background="#0f172a" class="demo-content">
+        <script type="text/template">
+        ::: smartart Dark Slide NAVBAR
+        subtitle: Navbar on dark slide background
+        background: #334155
+        color: #e2e8f0
+        align: center
+        :::
+
+        ## Dark Slide + Navbar
+        <div class="box" style="border-color: rgba(255,255,255,0.25); color: #e2e8f0;">Navbar remains full-width at the top; content is padded below it.</div>
+        </script>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="../dist/reveal.js"></script>
+  <script src="../plugin/markdown/markdown.js"></script>
+  <script src="../plugin/smartart/smartart.js"></script>
+
+  <script>
+    Reveal.initialize({
+      hash: true,
+      controls: true,
+      progress: true,
+      center: false,
+      transition: 'slide',
+      plugins: [ RevealMarkdown, RevealSmartArt ]
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>reveal.js - SmartArt Navbar Plain Test</title>
+  <link rel="stylesheet" href="../dist/reveal.css">
+  <link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+  <script src="../node_modules/qunit/qunit/qunit.js"></script>
+</head>
+<body style="overflow: auto;">
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+
+  <div class="reveal" style="display:none;">
+    <div class="slides">
+      <section data-id="navbar-plain">
+        <p>::: smartart Product Suite NAVBAR</p>
+        <p>subtitle: Making teams faster</p>
+        <p>height: 64px</p>
+        <p>align: left</p>
+        <p>:::</p>
+        <h3>Content Should Be Below</h3>
+        <p>Paragraph text under the navbar.</p>
+      </section>
+    </div>
+  </div>
+
+  <script src="../dist/reveal.js"></script>
+  <script src="../plugin/smartart/smartart.js"></script>
+  <script>
+    console.log('navbar-plain: boot');
+    QUnit.config.testTimeout = 30000;
+    QUnit.module('SmartArt-Navbar-Plain');
+
+    var reveal = new Reveal(document.querySelector('.reveal'), {
+      plugins: [ RevealSmartArt ],
+      hash: false,
+      controls: false,
+      progress: false,
+      center: false
+    });
+
+  reveal.initialize();
+  console.log('navbar-plain: initialize called');
+
+    var ready = new Promise(function(resolve) {
+      if (reveal.isReady && reveal.isReady()) resolve();
+  else reveal.on('ready', function() { console.log('navbar-plain: ready'); resolve(); });
+    });
+
+    QUnit.test('Navbar inserted and section flagged (plain)', function(assert) {
+      return ready.then(function() {
+        var outer = document.querySelector('section[data-id="navbar-plain"]');
+        assert.ok(outer, 'Slide exists');
+        assert.strictEqual(outer.getAttribute('data-has-navbar'), 'true', 'Section flagged with data-has-navbar');
+        var firstChild = outer.firstElementChild;
+        assert.ok(firstChild && firstChild.classList.contains('smartart') && firstChild.dataset.layout === 'navbar', 'Navbar is first element');
+      });
+    });
+  </script>
+</body>
+</html>

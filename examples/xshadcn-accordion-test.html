@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XShadcn Accordion Component Test</title>
+
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="../dist/reveal.css">
+    <link rel="stylesheet" href="../dist/theme/white.css">
+
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.0/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+        .reveal .slides section {
+            pointer-events: auto;
+        }
+
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .component-label {
+            font-size: 0.9em;
+            color: #6B3FA0;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .code-block {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 0.85em;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Title -->
+            <section>
+                <h1>XShadcn Accordion Component</h1>
+                <p>Interactive accordion component tests</p>
+                <p style="font-size: 0.8em; color: #666; margin-top: 2rem;">
+                    Press → to see different accordion examples
+                </p>
+            </section>
+
+            <!-- Slide 2: Basic Accordion (Single Mode) -->
+            <section>
+                <h2>Basic Accordion - Single Mode</h2>
+                <div class="test-container">
+                    <p style="margin-bottom: 1rem; font-size: 0.9em; color: #666;">
+                        Only one item can be open at a time
+                    </p>
+
+                    <span data-xshadcn='{
+                        "component": "Accordion",
+                        "props": {
+                            "type": "single",
+                            "defaultValue": "item-0",
+                            "className": "border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 px-4",
+                            "items": [
+                                {
+                                    "value": "item-0",
+                                    "title": "What is an Accordion?",
+                                    "content": "An accordion is a vertically stacked list of items. Each item can be expanded or collapsed to reveal the content associated with that item."
+                                },
+                                {
+                                    "value": "item-1",
+                                    "title": "When should I use it?",
+                                    "content": "Use an accordion when you want to display a large amount of content in a compact space. It helps organize information and improves readability."
+                                },
+                                {
+                                    "value": "item-2",
+                                    "title": "Is it accessible?",
+                                    "content": "Yes! This accordion includes proper ARIA attributes for screen readers and is fully keyboard navigable."
+                                }
+                            ]
+                        }
+                    }'></span>
+
+                    <div class="code-block">
+                        &lt;span data-xshadcn='{
+                            "component": "Accordion",
+                            "props": {
+                                "type": "single",
+                                "defaultValue": "item-0",
+                                "items": [...]
+                            }
+                        }'&gt;&lt;/span&gt;
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 3: Multiple Mode Accordion -->
+            <section>
+                <h2>Accordion - Multiple Mode</h2>
+                <div class="test-container">
+                    <p style="margin-bottom: 1rem; font-size: 0.9em; color: #666;">
+                        Multiple items can be open simultaneously
+                    </p>
+
+                    <span data-xshadcn='{
+                        "component": "Accordion",
+                        "props": {
+                            "type": "multiple",
+                            "defaultValue": ["item-0", "item-1"],
+                            "className": "border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 px-4",
+                            "items": [
+                                {
+                                    "value": "item-0",
+                                    "title": "React",
+                                    "content": "A JavaScript library for building user interfaces. Maintained by Meta and a community of developers."
+                                },
+                                {
+                                    "value": "item-1",
+                                    "title": "TypeScript",
+                                    "content": "A strongly typed programming language that builds on JavaScript, giving you better tooling at any scale."
+                                },
+                                {
+                                    "value": "item-2",
+                                    "title": "Tailwind CSS",
+                                    "content": "A utility-first CSS framework packed with classes that can be composed to build any design, directly in your markup."
+                                }
+                            ]
+                        }
+                    }'></span>
+
+                    <div class="code-block">
+                        &lt;span data-xshadcn='{
+                            "component": "Accordion",
+                            "props": {
+                                "type": "multiple",
+                                "defaultValue": ["item-0", "item-1"],
+                                "items": [...]
+                            }
+                        }'&gt;&lt;/span&gt;
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: Styled Accordion -->
+            <section>
+                <h2>Styled Accordion - Purple Theme</h2>
+                <div class="test-container">
+                    <p style="margin-bottom: 1rem; font-size: 0.9em; color: #666;">
+                        Custom styling with AdaptiveX purple branding
+                    </p>
+
+                    <span data-xshadcn='{
+                        "component": "Accordion",
+                        "props": {
+                            "type": "single",
+                            "className": "border-2 border-purple-200 rounded-lg bg-purple-50 px-4",
+                            "items": [
+                                {
+                                    "value": "item-0",
+                                    "title": "Feature 1: User Research",
+                                    "content": "Conduct comprehensive user interviews and surveys to understand customer pain points and needs."
+                                },
+                                {
+                                    "value": "item-1",
+                                    "title": "Feature 2: Ideation",
+                                    "content": "Generate and prioritize product ideas based on research insights and business goals."
+                                },
+                                {
+                                    "value": "item-2",
+                                    "title": "Feature 3: Prototyping",
+                                    "content": "Create low and high-fidelity prototypes to validate concepts before full development."
+                                },
+                                {
+                                    "value": "item-3",
+                                    "title": "Feature 4: Testing",
+                                    "content": "Run usability tests and gather feedback to iterate on designs and features."
+                                }
+                            ]
+                        }
+                    }'></span>
+
+                    <div class="code-block">
+                        className: "border-2 border-purple-200 rounded-lg bg-purple-50 px-4"
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: Compact Accordion -->
+            <section>
+                <h2>Compact Accordion</h2>
+                <div class="test-container">
+                    <p style="margin-bottom: 1rem; font-size: 0.9em; color: #666;">
+                        Space-efficient design for dense content
+                    </p>
+
+                    <div style="font-size: 0.85em;">
+                        <span data-xshadcn='{
+                            "component": "Accordion",
+                            "props": {
+                                "type": "single",
+                                "className": "border border-slate-200 rounded-lg bg-white px-3",
+                                "items": [
+                                    {
+                                        "value": "item-0",
+                                        "title": "Part 1: Customer Problem Discovery",
+                                        "content": "Mine pain points from data, prioritize problem statements"
+                                    },
+                                    {
+                                        "value": "item-1",
+                                        "title": "Part 2: AI-Driven Idea Generation",
+                                        "content": "Build diverse Idea Bank spanning MVPs to radical concepts"
+                                    },
+                                    {
+                                        "value": "item-2",
+                                        "title": "Part 3: Idea Refinement & Selection",
+                                        "content": "Score, map, and select top ideas with rationale"
+                                    },
+                                    {
+                                        "value": "item-3",
+                                        "title": "Part 4: AI-Assisted Artifacts",
+                                        "content": "Draft low-fi discovery tools with peer feedback"
+                                    },
+                                    {
+                                        "value": "item-4",
+                                        "title": "Part 5: Ethics & Guardrails",
+                                        "content": "Map risks, create actionable if-then guardrails"
+                                    }
+                                ]
+                            }
+                        }'></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 6: Props Reference -->
+            <section>
+                <h2>Accordion Props</h2>
+                <div class="test-container" style="text-align: left; font-size: 0.85em;">
+                    <div class="component-label">Available Properties</div>
+
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 1rem;">
+                            <strong>type</strong>: <code>"single" | "multiple"</code>
+                            <div style="font-size: 0.9em; color: #666; margin-top: 0.25rem;">
+                                Controls whether one or multiple items can be open
+                            </div>
+                        </li>
+
+                        <li style="margin-bottom: 1rem;">
+                            <strong>defaultValue</strong>: <code>string | string[]</code>
+                            <div style="font-size: 0.9em; color: #666; margin-top: 0.25rem;">
+                                Initially expanded item(s)
+                            </div>
+                        </li>
+
+                        <li style="margin-bottom: 1rem;">
+                            <strong>items</strong>: <code>Array&lt;{value, title, content}&gt;</code>
+                            <div style="font-size: 0.9em; color: #666; margin-top: 0.25rem;">
+                                Array of accordion items to display
+                            </div>
+                        </li>
+
+                        <li style="margin-bottom: 1rem;">
+                            <strong>className</strong>: <code>string</code>
+                            <div style="font-size: 0.9em; color: #666; margin-top: 0.25rem;">
+                                Custom Tailwind CSS classes for styling
+                            </div>
+                        </li>
+
+                        <li style="margin-bottom: 1rem;">
+                            <strong>componentId</strong>: <code>string</code>
+                            <div style="font-size: 0.9em; color: #666; margin-top: 0.25rem;">
+                                Unique identifier for state management
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 7: Summary -->
+            <section>
+                <h2>Summary</h2>
+                <div class="test-container">
+                    <h3 style="color: #6B3FA0; margin-bottom: 1rem;">XShadcn Accordion Features</h3>
+
+                    <ul style="text-align: left; font-size: 0.9em; line-height: 1.8;">
+                        <li>✅ Single and multiple mode support</li>
+                        <li>✅ Fully customizable with Tailwind CSS</li>
+                        <li>✅ Accessible with ARIA attributes</li>
+                        <li>✅ Keyboard navigable</li>
+                        <li>✅ Smooth animations</li>
+                        <li>✅ Works with React Portals in Reveal.js</li>
+                        <li>✅ AdaptiveX purple branding ready</li>
+                    </ul>
+
+                    <p style="margin-top: 2rem; font-size: 0.8em; color: #666;">
+                        Component Location: <code>plugin/xshadcn/plugin/components/index.js</code>
+                    </p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- ES Module Shims -->
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+
+    <!-- Import Map -->
+    <script type="importmap">
+    {
+        "imports": {
+            "react": "https://esm.sh/react@18.2.0",
+            "react-dom": "https://esm.sh/react-dom@18.2.0",
+            "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+            "clsx": "https://esm.sh/clsx@2.0.0",
+            "tailwind-merge": "https://esm.sh/tailwind-merge@2.0.0",
+            "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime"
+        }
+    }
+    </script>
+
+    <!-- Reveal.js -->
+    <script src="../dist/reveal.js"></script>
+
+    <!-- XShadcn Plugin -->
+    <script type="module">
+        import XShadcn from '../plugin/xshadcn/dist/xshadcn.js';
+
+        console.log('XShadcn Accordion Test - Plugin loaded');
+
+        // Initialize Reveal.js
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: true,
+            transition: 'slide',
+
+            // XShadcn configuration
+            xshadcn: {
+                theme: 'light',
+                interactive: true,
+                dataBinding: true,
+                debug: true
+            },
+
+            // Plugins
+            plugins: [XShadcn]
+        });
+
+        console.log('Reveal.js initialized with XShadcn plugin');
+    </script>
+</body>
+</html>

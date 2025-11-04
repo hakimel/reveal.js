@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test getPlugins() Return Value</title>
+    <link rel="stylesheet" href="../dist/reset.css">
+    <link rel="stylesheet" href="../dist/reveal.css">
+    <link rel="stylesheet" href="../dist/theme/black.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h2>Testing Plugin Access</h2>
+                <p>Open console to see debug output</p>
+            </section>
+        </div>
+    </div>
+
+    <script src="../dist/reveal.js"></script>
+    <script src="../plugin/markdown/markdown.js"></script>
+    <script src="../plugin/llm-runner/llm-runner.js"></script>
+
+    <script type="module">
+        console.log('=== INSIDE MODULE SCRIPT ===');
+        console.log('Reveal object:', typeof Reveal);
+        console.log('RevealLLMRunner:', typeof RevealLLMRunner);
+
+        Reveal.initialize({
+            plugins: [RevealMarkdown, RevealLLMRunner]
+        });
+
+        Reveal.on('ready', function() {
+            console.log('=== MODULE: ready event fired ===');
+            const plugins = Reveal.getPlugins();
+            console.log('plugins object:', plugins);
+            console.log('plugins type:', typeof plugins);
+            console.log('plugins keys:', Object.keys(plugins));
+            console.log('plugins["llm-runner"]:', plugins['llm-runner']);
+            console.log('plugins["markdown"]:', plugins['markdown']);
+        });
+    </script>
+
+    <script>
+        console.log('=== OUTSIDE MODULE (regular script) ===');
+        console.log('Reveal object:', typeof Reveal);
+        console.log('RevealLLMRunner:', typeof RevealLLMRunner);
+
+        // Set up event listener in non-module script
+        if (typeof Reveal !== 'undefined') {
+            Reveal.on('ready', function() {
+                console.log('=== NON-MODULE: ready event fired ===');
+                const plugins = Reveal.getPlugins();
+                console.log('plugins object:', plugins);
+                console.log('plugins type:', typeof plugins);
+                console.log('plugins keys:', Object.keys(plugins));
+                console.log('plugins["llm-runner"]:', plugins['llm-runner']);
+                console.log('plugins["markdown"]:', plugins['markdown']);
+
+                // Test if we can access runPrompt method
+                const llmPlugin = plugins['llm-runner'];
+                if (llmPlugin) {
+                    console.log('llmPlugin.runPrompt exists?', typeof llmPlugin.runPrompt);
+                    console.log('llmPlugin methods:', Object.keys(llmPlugin));
+                }
+            });
+        }
+    </script>
+</body>
+</html>

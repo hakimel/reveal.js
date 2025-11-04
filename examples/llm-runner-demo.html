@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Runner Plugin Demo | Interactive AI Presentations</title>
+    <link rel="stylesheet" href="../dist/reset.css">
+    <link rel="stylesheet" href="../dist/reveal.css">
+    <link rel="stylesheet" href="../dist/theme/black.css">
+
+    <style>
+        /* Custom styling for demo */
+        .reveal h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+
+        .reveal h2 {
+            font-size: 1.8em;
+            margin-bottom: 0.3em;
+        }
+
+        .reveal h3 {
+            font-size: 1.2em;
+            margin-bottom: 0.3em;
+            color: #42b883;
+        }
+
+        .reveal p, .reveal ul, .reveal ol {
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .reveal ul {
+            display: block;
+            margin-left: 1em;
+        }
+
+        .reveal li {
+            margin-bottom: 0.5em;
+        }
+
+        .reveal code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+        }
+
+        .reveal .title-slide {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .reveal .title-slide h1,
+        .reveal .title-slide h2,
+        .reveal .title-slide p {
+            color: white;
+        }
+
+        .reveal .highlight {
+            color: #42b883;
+            font-weight: 600;
+        }
+
+        .reveal .demo-note {
+            background: rgba(66, 184, 131, 0.1);
+            border-left: 4px solid #42b883;
+            padding: 1em;
+            margin: 1em 0;
+            font-size: 0.8em;
+        }
+
+        .reveal .key {
+            display: inline-block;
+            background: #444;
+            padding: 0.2em 0.5em;
+            border-radius: 3px;
+            border: 1px solid #666;
+            font-family: monospace;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section class="title-slide">
+                <h1>LLM Runner Plugin</h1>
+                <h2>Interactive AI-Powered Presentations</h2>
+                <p style="margin-top: 2em;">Python Code Execution + LLM Integration</p>
+                <p style="font-size: 0.8em; margin-top: 1em;">Press <span class="key">→</span> to continue</p>
+            </section>
+
+            <!-- Overview -->
+            <section>
+                <h2>What is LLM Runner?</h2>
+                <p>A reveal.js plugin that brings <span class="highlight">interactive coding</span> and <span class="highlight">AI chat</span> to your presentations.</p>
+                <ul style="margin-top: 1em;">
+                    <li>Execute Python code live in slides</li>
+                    <li>Chat with Claude and GPT models</li>
+                    <li>Real-time streaming responses</li>
+                    <li>Context persistence per slide</li>
+                    <li>Keyboard shortcuts for speed</li>
+                </ul>
+            </section>
+
+            <!-- Demo 1: Python Basics -->
+            <section>
+                <h2>Demo 1: Python Execution</h2>
+                <p>Execute Python code with real-time output</p>
+
+                <pre class="llm-runner" data-type="python">
+# Basic Python execution
+print("Hello from LLM Runner!")
+
+# Math calculations
+import math
+radius = 5
+area = math.pi * radius ** 2
+
+print(f"Circle area (r={radius}): {area:.2f}")
+                </pre>
+
+                <div class="demo-note">
+                    Press <span class="key">Shift</span> + <span class="key">Enter</span> to run
+                    | <span class="key">Shift</span> + <span class="key">C</span> to clear
+                </div>
+            </section>
+
+            <!-- Demo 2: Data Analysis -->
+            <section>
+                <h2>Demo 2: Data Analysis</h2>
+                <p>Generate and analyze data on the fly</p>
+
+                <pre class="llm-runner" data-type="python">
+import random
+from collections import Counter
+
+# Generate random dice rolls
+rolls = [random.randint(1, 6) for _ in range(100)]
+
+# Analyze frequency
+counter = Counter(rolls)
+print("Dice Roll Distribution (100 rolls):\n")
+
+for number, count in sorted(counter.items()):
+    bar = '█' * (count // 2)  # Visual bar chart
+    print(f"{number}: {bar} ({count})")
+                </pre>
+            </section>
+
+            <!-- Demo 3: Context Persistence -->
+            <section>
+                <h2>Demo 3: Context Persistence</h2>
+                <p>Variables persist across executions</p>
+
+                <pre class="llm-runner" data-type="python">
+# Step 1: Define a list
+my_numbers = [1, 2, 3, 4, 5]
+print(f"Created list: {my_numbers}")
+                </pre>
+
+                <p style="margin-top: 1em; font-size: 0.8em;">Run the code above first, then run this:</p>
+
+                <pre class="llm-runner" data-type="python">
+# Step 2: Use the previous variable
+squared = [x**2 for x in my_numbers]
+print(f"Squared: {squared}")
+print(f"Sum: {sum(squared)}")
+                </pre>
+            </section>
+
+            <!-- Demo 4: LLM Chat -->
+            <section>
+                <h2>Demo 4: LLM Integration</h2>
+                <p>Chat with AI models - streaming responses</p>
+
+                <pre class="llm-runner" data-type="llm" data-model="claude-sonnet-4-5-20250929">
+Explain the concept of machine learning in exactly 3 sentences, suitable for beginners.
+                </pre>
+
+                <div class="demo-note">
+                    Watch the response stream in real-time! Try different prompts and models.
+                </div>
+            </section>
+
+            <!-- Demo 5: Different Models -->
+            <section>
+                <h2>Demo 5: Model Selection</h2>
+                <p>Choose different AI models for different tasks</p>
+
+                <pre class="llm-runner" data-type="llm" data-model="gpt-4">
+What are the three laws of robotics? Be concise.
+                </pre>
+
+                <p style="margin-top: 1em; font-size: 0.8em;">Available models:</p>
+                <ul style="font-size: 0.7em;">
+                    <li><code>claude-sonnet-4-5-20250929</code> - Latest Claude Sonnet 4.5 (default)</li>
+                    <li><code>claude-3-5-sonnet-20240620</code> - Fast and capable</li>
+                    <li><code>claude-3-opus-20240229</code> - Most powerful</li>
+                    <li><code>gpt-4</code> - OpenAI's advanced model</li>
+                    <li><code>gpt-3.5-turbo</code> - Fast and efficient</li>
+                </ul>
+            </section>
+
+            <!-- Demo 6: Creative Coding -->
+            <section>
+                <h2>Demo 6: Creative Coding</h2>
+                <p>Generate ASCII art and visualizations</p>
+
+                <pre class="llm-runner" data-type="python">
+# Simple ASCII art generator
+def draw_triangle(height):
+    for i in range(height):
+        spaces = ' ' * (height - i - 1)
+        stars = '*' * (2 * i + 1)
+        print(spaces + stars)
+
+print("ASCII Triangle:")
+draw_triangle(7)
+                </pre>
+            </section>
+
+            <!-- Demo 7: Advanced Python -->
+            <section>
+                <h2>Demo 7: Advanced Python</h2>
+                <p>Complex calculations and algorithms</p>
+
+                <pre class="llm-runner" data-type="python">
+# Fibonacci sequence generator
+def fibonacci(n):
+    """Generate Fibonacci sequence"""
+    fib = [0, 1]
+    for _ in range(n - 2):
+        fib.append(fib[-1] + fib[-2])
+    return fib
+
+# Generate and display
+fib_sequence = fibonacci(15)
+print(f"First 15 Fibonacci numbers:")
+print(fib_sequence)
+
+# Golden ratio approximation
+ratio = fib_sequence[-1] / fib_sequence[-2]
+print(f"\nGolden ratio approximation: {ratio:.6f}")
+                </pre>
+            </section>
+
+            <!-- Demo 8: Date and Time -->
+            <section>
+                <h2>Demo 8: Date & Time Operations</h2>
+                <p>Work with dates and calculations</p>
+
+                <pre class="llm-runner" data-type="python">
+from datetime import datetime, timedelta
+
+# Current time
+now = datetime.now()
+print(f"Current time: {now.strftime('%Y-%m-%d %H:%M:%S')}")
+
+# Future dates
+tomorrow = now + timedelta(days=1)
+next_week = now + timedelta(weeks=1)
+next_year = now + timedelta(days=365)
+
+print(f"\nTomorrow: {tomorrow.strftime('%Y-%m-%d')}")
+print(f"Next week: {next_week.strftime('%Y-%m-%d')}")
+print(f"Next year: {next_year.strftime('%Y-%m-%d')}")
+                </pre>
+            </section>
+
+            <!-- Demo 9: Text Processing -->
+            <section>
+                <h2>Demo 9: Text Processing</h2>
+                <p>Analyze and manipulate text</p>
+
+                <pre class="llm-runner" data-type="python">
+# Text analysis
+text = """
+The LLM Runner plugin enables interactive presentations
+with live code execution and AI integration.
+"""
+
+# Statistics
+words = text.split()
+sentences = text.count('.')
+chars = len(text.strip())
+
+print(f"Text Statistics:")
+print(f"  Words: {len(words)}")
+print(f"  Sentences: {sentences}")
+print(f"  Characters: {chars}")
+print(f"  Avg word length: {sum(len(w) for w in words) / len(words):.1f}")
+                </pre>
+            </section>
+
+            <!-- Demo 10: AI Creative Writing -->
+            <section>
+                <h2>Demo 10: AI Creative Writing</h2>
+                <p>Generate creative content with AI</p>
+
+                <pre class="llm-runner" data-type="llm" data-model="claude-sonnet-4-5-20250929">
+Write a haiku about coding and technology. Make it inspiring.
+                </pre>
+            </section>
+
+            <!-- Features Overview -->
+            <section>
+                <h2>Key Features</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em; font-size: 0.8em;">
+                    <div>
+                        <h3>Python Execution</h3>
+                        <ul>
+                            <li>Safe sandboxed environment</li>
+                            <li>Common libraries included</li>
+                            <li>Real-time output</li>
+                            <li>Error handling</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>LLM Integration</h3>
+                        <ul>
+                            <li>Claude & GPT models</li>
+                            <li>Streaming responses</li>
+                            <li>Model switching</li>
+                            <li>Interactive chat</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Keyboard Shortcuts -->
+            <section>
+                <h2>Keyboard Shortcuts</h2>
+                <table style="font-size: 0.8em; margin: 2em auto;">
+                    <tr>
+                        <td style="padding: 0.5em;"><span class="key">Shift</span> + <span class="key">Enter</span></td>
+                        <td style="padding: 0.5em;">Execute code/prompt</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5em;"><span class="key">Shift</span> + <span class="key">C</span></td>
+                        <td style="padding: 0.5em;">Clear output</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.5em;"><span class="key">Tab</span></td>
+                        <td style="padding: 0.5em;">Indent (4 spaces)</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- Setup Guide -->
+            <section>
+                <h2>Quick Setup</h2>
+                <ol style="text-align: left; margin-left: 2em;">
+                    <li>Install Python dependencies:
+                        <pre><code>pip install -r plugin/llm-runner/requirements.txt</code></pre>
+                    </li>
+                    <li>Create <code>.env</code> file with API keys:
+                        <pre><code>ANTHROPIC_API_KEY=your_key
+OPENAI_API_KEY=your_key</code></pre>
+                    </li>
+                    <li>Start the server:
+                        <pre><code>python plugin/llm-runner/server.py</code></pre>
+                    </li>
+                    <li>Add plugin to reveal.js:
+                        <pre><code>plugins: [ RevealLLMRunner ]</code></pre>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Use Cases -->
+            <section>
+                <h2>Perfect For...</h2>
+                <ul>
+                    <li><span class="highlight">Coding Workshops</span> - Live demonstrations with executable examples</li>
+                    <li><span class="highlight">AI/ML Presentations</span> - Show LLMs in action during talks</li>
+                    <li><span class="highlight">Data Science</span> - Run analysis and show results in real-time</li>
+                    <li><span class="highlight">Interactive Education</span> - Engage students with hands-on coding</li>
+                    <li><span class="highlight">Product Demos</span> - Demonstrate AI features live</li>
+                </ul>
+            </section>
+
+            <!-- Architecture -->
+            <section>
+                <h2>How It Works</h2>
+                <div style="text-align: left; font-size: 0.8em; margin: 1em 2em;">
+                    <p><span class="highlight">Frontend</span></p>
+                    <ul>
+                        <li>JavaScript plugin for reveal.js</li>
+                        <li>WebSocket client for real-time communication</li>
+                        <li>Compact UI with code editor and output</li>
+                    </ul>
+
+                    <p style="margin-top: 1em;"><span class="highlight">Backend</span></p>
+                    <ul>
+                        <li>FastAPI server with WebSocket support</li>
+                        <li>Sandboxed Python execution</li>
+                        <li>Anthropic & OpenAI API integration</li>
+                        <li>Per-slide context management</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Final Slide -->
+            <section class="title-slide">
+                <h1>Start Building Interactive Presentations!</h1>
+                <p style="margin-top: 2em;">LLM Runner Plugin</p>
+                <p style="font-size: 0.8em; margin-top: 2em;">
+                    Documentation: <code>plugin/llm-runner/README.md</code>
+                </p>
+                <p style="font-size: 0.8em;">
+                    Server: <code>ws://localhost:8001/ws</code>
+                </p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="../dist/reveal.js"></script>
+    <script src="../plugin/llm-runner/llm-runner.js"></script>
+
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'slide',
+            backgroundTransition: 'fade',
+
+            // LLM Runner configuration
+            llmRunner: {
+                serverUrl: 'ws://localhost:8001/ws',
+                defaultModel: 'claude-3-5-sonnet-20240620',
+                autoConnect: true,
+                persistContext: true,
+                shortcuts: {
+                    run: 'Shift-Enter',
+                    clear: 'Shift-C'
+                }
+            },
+
+            plugins: [ RevealLLMRunner ]
+        });
+    </script>
+</body>
+</html>
