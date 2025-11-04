@@ -777,7 +777,7 @@
         /* Global spacing compression for better fit */
         .reveal .slides section {
             padding-top: 0.25em;
-            padding-bottom: 3.2em;
+            padding-bottom: 4em;
         }
 
         /* Tighter grid gaps */
@@ -884,7 +884,7 @@
 
         /* Heading margin optimization */
         .reveal h2 {
-            margin-bottom: 0.4em;
+            margin-bottom: 0.2em;
         }
 
         .reveal h3 {
@@ -968,7 +968,7 @@
 
         /* Ensure navbar header doesn't push content down too much */
         section:has(h2):not(.section-divider):not(.title-slide) {
-            padding-top: 2.2em !important;
+            padding-top: 2.8em !important;
         }
 
         /* Super-compact utility class for extremely dense slides */
@@ -1251,16 +1251,20 @@
                 - [ ] **Assumption Density:** Early-stage ventures are mostly assumptions, not facts
                 - [ ] **Testable Statements:** Vague assumptions can't be tested - be specific
                 :::
+                </script>
+            </section>
 
-                <div style="margin-top: 1.5em; padding: 1em; background: var(--ax-light-gray); border-radius: 8px;">
-                    <p style="margin: 0.3em 0;"><strong>Reflection Questions:</strong></p>
-                    <ol style="margin-top: 0.5em;">
+            <!-- Slide 11b: Reflection Questions -->
+            <section>
+                <h2>Reflection: Module 1</h2>
+                <div class="activity-box">
+                    <h3>Reflection Questions</h3>
+                    <ol>
                         <li>Which part of your canvas has the most assumptions?</li>
                         <li>What risk type (D, V, or F) dominates your model?</li>
                         <li>Which assumption scares you most?</li>
                     </ol>
                 </div>
-                </script>
             </section>
 
             <!-- ========================================
@@ -1400,16 +1404,20 @@
                 - [ ] **Evidence Hierarchy:** Customer behavior > surveys > opinions > hunches
                 - [ ] **Dynamic Document:** Your map evolves as you learn
                 :::
+                </script>
+            </section>
 
-                <div style="margin-top: 1.5em; padding: 1em; background: var(--ax-light-gray); border-radius: 8px;">
-                    <p style="margin: 0.3em 0;"><strong>Reflection Questions:</strong></p>
-                    <ol style="margin-top: 0.5em;">
+            <!-- Slide 17b: Reflection Questions -->
+            <section>
+                <h2>Reflection: Module 2</h2>
+                <div class="activity-box">
+                    <h3>Reflection Questions</h3>
+                    <ol>
                         <li>Which assumption surprised you with its importance?</li>
                         <li>Where do you have the least evidence?</li>
                         <li>What would you test first and why?</li>
                     </ol>
                 </div>
-                </script>
             </section>
 
             <!-- ========================================
@@ -1418,41 +1426,38 @@
 
             <!-- Slide 18: Knowledge Check 1 -->
             <section class="compact">
-                <h2>Knowledge Check: Modules 1 & 2</h2>
-
-                <div class="two-column">
-                    <div class="column">
-                        <div class="quiz">
-                            <h4>Question 1: DVF Framework</h4>
-                            <p>A startup built an amazing AI product that users love, but can't figure out how to monetize it. What type of risk did they fail to address?</p>
-                            <ul class="quiz-options">
-                                <li>A) Desirability risk</li>
-                                <li>B) Viability risk</li>
-                                <li>C) Feasibility risk</li>
-                                <li>D) All of the above</li>
-                            </ul>
-                            <div class="fragment" style="margin-top: 0.8em; padding: 0.6em; background: var(--ax-light-gray); border-radius: 8px;">
-                                <p style="margin: 0.2em 0; font-size: 0.9em;"><strong>Correct Answer:</strong> B</p>
-                                <p style="font-size: 0.85em; margin: 0.2em 0;"><strong>Rationale:</strong> They validated Desirability (users love it) and Feasibility (they built it), but failed to validate Viability (sustainable business model). This is a common failure mode for startups.</p>
-                            </div>
-                        </div>
+                <h2>Knowledge Check: DVF Framework</h2>
+                <div class="quiz">
+                    <h4>Question 1: DVF Framework</h4>
+                    <p>A startup built an amazing AI product that users love, but can't figure out how to monetize it. What type of risk did they fail to address?</p>
+                    <ul class="quiz-options">
+                        <li>A) Desirability risk</li>
+                        <li>B) Viability risk</li>
+                        <li>C) Feasibility risk</li>
+                        <li>D) All of the above</li>
+                    </ul>
+                    <div class="fragment" style="margin-top: 0.8em; padding: 0.6em; background: var(--ax-light-gray); border-radius: 8px;">
+                        <p style="margin: 0.2em 0; font-size: 0.9em;"><strong>Correct Answer:</strong> B</p>
+                        <p style="font-size: 0.85em; margin: 0.2em 0;"><strong>Rationale:</strong> They validated Desirability (users love it) and Feasibility (they built it), but failed to validate Viability (sustainable business model). This is a common failure mode for startups.</p>
                     </div>
+                </div>
+            </section>
 
-                    <div class="column">
-                        <div class="quiz">
-                            <h4>Question 2: Assumption Mapping</h4>
-                            <p>You have an assumption in the lower-left quadrant (low importance, strong evidence). What should you do?</p>
-                            <ul class="quiz-options">
-                                <li>A) Test it first - the evidence might be wrong</li>
-                                <li>B) Test it last or not at all - focus resources elsewhere</li>
-                                <li>C) Move it to the upper-right quadrant</li>
-                                <li>D) Remove it from your canvas</li>
-                            </ul>
-                            <div class="fragment" style="margin-top: 0.8em; padding: 0.6em; background: var(--ax-light-gray); border-radius: 8px;">
-                                <p style="margin: 0.2em 0; font-size: 0.9em;"><strong>Correct Answer:</strong> B</p>
-                                <p style="font-size: 0.85em; margin: 0.2em 0;"><strong>Rationale:</strong> Low importance + strong evidence = low priority. Focus your limited testing resources on critical unknowns (upper-right: high importance, low evidence). That's where the biggest risks live.</p>
-                            </div>
-                        </div>
+            <!-- Slide 18b: Knowledge Check 2 -->
+            <section class="compact">
+                <h2>Knowledge Check: Assumption Mapping</h2>
+                <div class="quiz">
+                    <h4>Question 2: Assumption Mapping</h4>
+                    <p>You have an assumption in the lower-left quadrant (low importance, strong evidence). What should you do?</p>
+                    <ul class="quiz-options">
+                        <li>A) Test it first - the evidence might be wrong</li>
+                        <li>B) Test it last or not at all - focus resources elsewhere</li>
+                        <li>C) Move it to the upper-right quadrant</li>
+                        <li>D) Remove it from your canvas</li>
+                    </ul>
+                    <div class="fragment" style="margin-top: 0.8em; padding: 0.6em; background: var(--ax-light-gray); border-radius: 8px;">
+                        <p style="margin: 0.2em 0; font-size: 0.9em;"><strong>Correct Answer:</strong> B</p>
+                        <p style="font-size: 0.85em; margin: 0.2em 0;"><strong>Rationale:</strong> Low importance + strong evidence = low priority. Focus your limited testing resources on critical unknowns (upper-right: high importance, low evidence). That's where the biggest risks live.</p>
                     </div>
                 </div>
             </section>
