@@ -1,0 +1,2005 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Strategy Sprint | Business Agility Fundamentals Workshop</title>
+
+    <!-- Reveal.js Core CSS -->
+    <link rel="stylesheet" href="../../../dist/reset.css">
+    <link rel="stylesheet" href="../../../dist/reveal.css">
+    <link rel="stylesheet" href="../../../dist/theme/black.css">
+</head>
+
+<body>
+    <!-- Viewport Height Fix for Mobile -->
+    <script>
+    (function() {
+        function setViewportHeightVar() {
+            try {
+                document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
+            } catch (e) { /* noop */ }
+        }
+        window.addEventListener('resize', setViewportHeightVar, { passive: true });
+        window.addEventListener('orientationchange', setViewportHeightVar);
+        setViewportHeightVar();
+    })();
+    </script>
+
+    <style>
+        /* ====================================
+           ADAPTIVEX BRAND COLORS
+           ==================================== */
+        :root {
+            --ax-purple: #6B3FA0;
+            --ax-yellow: #F9C80E;
+            --ax-dark-gray: #2C2C2C;
+            --ax-mid-gray: #808080;
+            --ax-light-gray: #F5F5F5;
+        }
+
+        /* ====================================
+           BASE TYPOGRAPHY
+           ==================================== */
+        body, .reveal {
+            font-family: 'Averta', Arial, Helvetica, sans-serif;
+            color: var(--ax-dark-gray);
+        }
+
+        .reveal {
+            background-color: #fff;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            color: var(--ax-purple);
+            font-weight: 700;
+            text-transform: none;
+            margin-bottom: 0.5em;
+        }
+
+        .reveal h1 {
+            font-size: 2em;
+            line-height: 1.2;
+        }
+
+        .reveal h2 {
+            font-size: 1.4em;
+            line-height: 1.1;
+            margin-bottom: 0.3em;
+        }
+
+        .reveal h3 {
+            font-size: 1em;
+            line-height: 1.2;
+        }
+
+        .reveal p, .reveal ul, .reveal ol {
+            color: var(--ax-dark-gray);
+            font-size: 0.8em;
+            line-height: 1.25;
+            margin: 0.2em 0;
+        }
+
+        .reveal ul, .reveal ol {
+            margin-left: 1em;
+            margin-top: 0.2em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal li {
+            margin: 0.1em 0;
+            line-height: 1.25;
+        }
+
+        .reveal strong {
+            color: var(--ax-purple);
+            font-weight: 600;
+        }
+
+        .reveal .highlight-yellow {
+            color: var(--ax-yellow);
+            font-weight: 600;
+        }
+
+        /* ====================================
+           TITLE SLIDE
+           ==================================== */
+        .title-slide {
+            background: linear-gradient(135deg, var(--ax-purple) 0%, #4a2870 100%);
+            color: white !important;
+            text-align: center;
+            padding: 1em !important;
+        }
+
+        .title-slide h1 {
+            color: white !important;
+            font-size: 2.5em;
+        }
+
+        .title-slide h2,
+        .title-slide p {
+            color: white !important;
+        }
+
+        .title-slide .subtitle {
+            color: var(--ax-yellow) !important;
+            font-size: 1.1em;
+            margin-top: 0.8em;
+        }
+
+        /* ====================================
+           SECTION DIVIDER SLIDES
+           ==================================== */
+        .section-divider {
+            color: white !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            justify-content: center !important;
+            height: 100% !important;
+            padding-left: 3em !important;
+        }
+
+        .section-divider h1 {
+            color: white !important;
+            font-size: 2.5em;
+            margin-bottom: 0.3em;
+            text-align: left;
+        }
+
+        .section-divider h2 {
+            color: white !important;
+            font-size: 1.8em;
+            margin-bottom: 0.3em;
+            text-align: left;
+        }
+
+        .section-divider p {
+            color: white !important;
+            text-align: left;
+        }
+
+        /* ====================================
+           GRADIENT BACKGROUND SLIDES
+           ==================================== */
+        [data-background-gradient] h1,
+        [data-background-gradient] h2,
+        [data-background-gradient] h3,
+        [data-background-gradient] p,
+        [data-background-gradient] ul,
+        [data-background-gradient] li {
+            color: white !important;
+        }
+
+        /* ====================================
+           CONTENT SLIDES - LAYOUT
+           ==================================== */
+        .reveal .slides section {
+            text-align: left;
+            padding: 0.3em 0.5em;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        /* Automatic bottom padding when footer exists */
+        .reveal .slides section:has(.smartart[data-layout="footer"]) {
+            padding-bottom: calc(clamp(20px, 4vh, 32px) + clamp(12px, 2.4vh, 24px));
+        }
+
+        /* Fallback for browsers without :has() */
+        @supports not selector(:has(*)) {
+            .reveal .slides section {
+                padding-bottom: calc(clamp(20px, 4vh, 32px) + clamp(12px, 2.4vh, 24px));
+            }
+        }
+
+        /* Hide footer on special slides */
+        .reveal .slides section.title-slide .smartart[data-layout="footer"],
+        .reveal .slides section.section-divider .smartart[data-layout="footer"] {
+            display: none;
+        }
+
+        /* ====================================
+           TWO-COLUMN LAYOUT
+           ==================================== */
+        .two-column {
+            display: flex;
+            gap: 2em;
+            align-items: flex-start;
+            margin-top: 0.5em;
+        }
+
+        .two-column .column {
+            flex: 1;
+        }
+
+        .two-column .column h3 {
+            margin-top: 0;
+        }
+
+        /* ====================================
+           CARD COMPONENTS
+           ==================================== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1em;
+            margin: 0.5em 0;
+        }
+
+        .card {
+            background: var(--ax-light-gray);
+            border-radius: 8px;
+            padding: 0.8em;
+            border-left: 4px solid var(--ax-purple);
+        }
+
+        .card h3 {
+            color: var(--ax-purple);
+            font-size: 0.9em;
+            margin: 0 0 0.3em 0;
+        }
+
+        .card p,
+        .card ul {
+            font-size: 0.75em;
+            margin: 0.2em 0;
+        }
+
+        .card ul {
+            margin-left: 0.8em;
+        }
+
+        /* ====================================
+           ACTIVITY BOXES
+           ==================================== */
+        .activity-box {
+            background: #FFFEF5;
+            border-left: 5px solid var(--ax-yellow);
+            padding: 1em 1.2em;
+            margin: 0.8em 0;
+            border-radius: 4px;
+        }
+
+        .activity-box h3 {
+            color: var(--ax-purple);
+            font-size: 1em;
+            margin: 0 0 0.4em 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+
+        .activity-box h3::before {
+            content: "⚡";
+            color: var(--ax-yellow);
+            font-size: 1.2em;
+        }
+
+        .activity-box p,
+        .activity-box ul {
+            font-size: 0.75em;
+            margin: 0.3em 0;
+        }
+
+        .activity-box ul {
+            margin-left: 1em;
+        }
+
+        .activity-box .duration {
+            color: var(--ax-mid-gray);
+            font-style: italic;
+            font-size: 0.7em;
+            margin-top: 0.5em;
+        }
+
+        /* ====================================
+           COMPACT MODE
+           ==================================== */
+        .compact h2 {
+            font-size: 1.2em;
+            margin-bottom: 0.2em;
+        }
+
+        .compact h3 {
+            font-size: 0.9em;
+            margin: 0.2em 0;
+        }
+
+        .compact p,
+        .compact li {
+            font-size: 0.7em;
+            line-height: 1.2;
+            margin: 0.1em 0;
+        }
+
+        .compact ul,
+        .compact ol {
+            margin: 0.1em 0 0.1em 0.8em;
+        }
+
+        .compact .activity-box {
+            padding: 0.6em 0.8em;
+            margin: 0.4em 0;
+        }
+
+        .compact .card {
+            padding: 0.5em;
+        }
+
+        /* ====================================
+           ULTRA-COMPACT MODE
+           ==================================== */
+        .ultra-compact h2 {
+            font-size: 1em;
+            margin-bottom: 0.15em;
+        }
+
+        .ultra-compact h3 {
+            font-size: 0.8em;
+            margin: 0.15em 0;
+        }
+
+        .ultra-compact p,
+        .ultra-compact li {
+            font-size: 0.65em;
+            line-height: 1.15;
+            margin: 0.05em 0;
+        }
+
+        .ultra-compact ul,
+        .ultra-compact ol {
+            margin: 0.05em 0 0.05em 0.6em;
+        }
+
+        .ultra-compact .activity-box {
+            padding: 0.4em 0.6em;
+            margin: 0.3em 0;
+        }
+
+        /* ====================================
+           COMPACT MODE GAP ADJUSTMENTS
+           ==================================== */
+        .compact .cards-grid {
+            gap: 0.6em;
+        }
+
+        .compact .two-column {
+            gap: 1.2em;
+        }
+
+        .ultra-compact .cards-grid {
+            gap: 0.4em;
+        }
+
+        .ultra-compact .two-column {
+            gap: 0.8em;
+        }
+
+        /* ====================================
+           ACTIVITY BOX OPTIMIZATIONS
+           ==================================== */
+        .compact .activity-box h3 {
+            font-size: 0.9em;
+            margin: 0 0 0.2em 0;
+        }
+
+        .ultra-compact .activity-box h3 {
+            font-size: 0.8em;
+            margin: 0 0 0.15em 0;
+        }
+
+        /* Remove icon in ultra-compact to save space */
+        .ultra-compact .activity-box h3::before {
+            display: none;
+        }
+
+        /* ====================================
+           TABLE OPTIMIZATION FOR ULTRA-COMPACT
+           ==================================== */
+        .ultra-compact table {
+            font-size: 0.65em;
+        }
+
+        .ultra-compact td,
+        .ultra-compact th {
+            padding: 0.3em !important;
+        }
+
+        /* ====================================
+           RESPONSIVE BREAKPOINTS
+           ==================================== */
+        @media screen and (max-width: 1400px) {
+            .reveal h1 { font-size: 1.8em; }
+            .reveal h2 { font-size: 1.5em; }
+            .cards-grid { gap: 0.8em; }
+        }
+
+        @media screen and (max-width: 1000px) {
+            .reveal h1 { font-size: 1.6em; }
+            .reveal h2 { font-size: 1.4em; }
+            .two-column {
+                flex-direction: column;
+                gap: 0.8em;
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+            .reveal h1 { font-size: 1.4em; }
+            .reveal h2 { font-size: 1.2em; }
+            .reveal h3 { font-size: 1em; }
+        }
+
+        /* Viewport height responsive adjustments */
+        @media screen and (max-height: 800px) {
+            .reveal { font-size: 0.9em; }
+            .card { padding: 0.45em; }
+            .cards-grid { gap: 0.45em; }
+        }
+
+        @media screen and (max-height: 700px) {
+            .reveal { font-size: 0.85em; }
+            .card { padding: 0.4em; }
+            .cards-grid { gap: 0.4em; }
+        }
+
+        @media screen and (max-height: 600px) {
+            .reveal { font-size: 0.75em; }
+            .card { padding: 0.35em; }
+            .cards-grid { gap: 0.35em; }
+            .reveal section.compact { font-size: 0.65em; }
+            .reveal section.ultra-compact { font-size: 0.55em; }
+        }
+
+        /* ====================================
+           NAVBAR HEADER BAR (ai-for-product-discovery pattern)
+           ==================================== */
+        /* Purple header bar with h2 title - automatically applied to content slides */
+        section:has(h2):not(.section-divider):not(.title-slide):not(:has(.smartart--hero)) h2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            color: white !important;
+            background: var(--ax-purple);
+            padding: 0.4em 1em;
+            margin: 0;
+            font-size: 1.2em;
+            z-index: 20;
+            line-height: 1.3;
+            text-align: left !important;
+        }
+
+        /* Adjust content positioning for header bar */
+        section:has(h2):not(.section-divider):not(.title-slide) {
+            padding-top: 3.2em !important;
+        }
+
+        /* Adjust SmartArt components positioning below navbar */
+        section:has(h2):not(.section-divider):not(.title-slide) .smartart {
+            margin-top: 2.8em;
+        }
+
+        /* ====================================
+           FOOTER CONFIGURATION (SmartArt FOOTER)
+           ==================================== */
+        /* Ensure content stays above footer - add bottom padding when footer is present */
+        .reveal .slides section:has(.smartart[data-layout="footer"]) {
+            padding-bottom: calc(clamp(20px, 4vh, 32px) + clamp(12px, 2.4vh, 24px));
+        }
+
+        /* Fallback for browsers without :has() support */
+        @supports not selector(:has(*)) {
+            .reveal .slides section {
+                padding-bottom: calc(clamp(20px, 4vh, 32px) + clamp(12px, 2.4vh, 24px));
+            }
+        }
+
+        /* Hide footer on title and section divider slides */
+        .reveal .slides section.title-slide .smartart[data-layout="footer"],
+        .reveal .slides section.section-divider .smartart[data-layout="footer"],
+        .section-divider .smartart[data-layout="footer"],
+        [data-xbackground="aurora"] .smartart[data-layout="footer"] {
+            display: none !important;
+        }
+
+        /* Remove bottom padding from title and section divider slides */
+        .reveal .slides section.title-slide,
+        .reveal .slides section.section-divider {
+            padding-bottom: 0.3em !important;
+        }
+
+        /* Hide footer configuration slide completely */
+        section[data-footer-config="true"] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
+
+        /* ====================================
+           SMARTART STYLING OVERRIDES
+           ==================================== */
+        /* Override SmartArt LINED dark background to white */
+        .reveal .smartart[data-layout="lined"] .smartart__list {
+            background: white !important;
+            border: 1px solid rgba(107, 63, 160, 0.15) !important;
+        }
+
+        .reveal .smartart[data-layout="lined"] .smartart__list-item {
+            border-bottom: 1px solid rgba(107, 63, 160, 0.1) !important;
+        }
+
+        .reveal .smartart[data-layout="lined"] .smartart__list-item:last-child {
+            border-bottom: none !important;
+        }
+
+        /* Accordion AdaptiveX styling */
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion {
+            background: white !important;
+            border: 2px solid var(--ax-purple) !important;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-item {
+            border-bottom: 1px solid rgba(107, 63, 160, 0.2) !important;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-button {
+            background: rgba(107, 63, 160, 0.05) !important;
+            color: var(--ax-purple) !important;
+            font-weight: 600;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-button:hover {
+            background: rgba(107, 63, 160, 0.1) !important;
+        }
+
+        .reveal .smartart[data-layout="accordion"] .smartart__accordion-content {
+            background: white !important;
+            color: var(--ax-dark-gray) !important;
+        }
+
+        /* CHECKLIST SmartArt styling */
+        .reveal .smartart[data-layout="checklist"] .smartart__list {
+            text-align: left;
+        }
+
+        .reveal .smartart[data-layout="checklist"] .smartart__list-item {
+            text-align: left;
+        }
+
+        .reveal .smartart[data-layout="checklist"] .smartart__intro {
+            text-align: left;
+        }
+
+        /* Custom CHECKLIST colors: White background with light purple accents */
+        .reveal .smartart__checklist-item {
+            background: white !important;
+            border: 2px solid var(--ax-purple) !important;
+            color: var(--ax-dark-gray) !important;
+        }
+
+        .reveal .smartart__checklist-item:hover {
+            background: rgba(107, 63, 160, 0.1) !important;
+            border-color: var(--ax-purple) !important;
+        }
+
+        /* Checked state - light purple background */
+        .reveal .smartart__checklist-item:has(input:checked) {
+            background: rgba(107, 63, 160, 0.15) !important;
+            border-color: var(--ax-purple) !important;
+        }
+
+        .reveal .smartart__checklist-item:has(input:checked):hover {
+            background: rgba(107, 63, 160, 0.2) !important;
+            border-color: var(--ax-purple) !important;
+        }
+
+        /* Checkbox styling with AdaptiveX purple */
+        .reveal .smartart__checklist-checkbox {
+            border: 2px solid var(--ax-purple) !important;
+        }
+
+        .reveal .smartart__checklist-checkbox:hover {
+            border-color: var(--ax-purple) !important;
+            background: rgba(107, 63, 160, 0.1) !important;
+        }
+
+        .reveal .smartart__checklist-checkbox:checked {
+            background: var(--ax-purple) !important;
+            border-color: var(--ax-purple) !important;
+        }
+
+        .reveal .smartart__checklist-checkbox:checked:hover {
+            background: #8b5fc0 !important;
+            border-color: #8b5fc0 !important;
+        }
+
+        /* Checklist label text - dark gray for readability */
+        .reveal .smartart__checklist-label {
+            color: var(--ax-dark-gray) !important;
+        }
+
+        /* Make strong/bold text (before colon) purple and bold in checklists */
+        .reveal .smartart__checklist-label strong {
+            color: var(--ax-purple) !important;
+            font-weight: 700 !important;
+        }
+
+        /* Ensure strong tags within checklist items are visible */
+        .reveal .smartart__checklist-item strong {
+            color: var(--ax-purple) !important;
+            font-weight: 700 !important;
+        }
+
+        /* ====================================
+           TIMELINE COMPONENT
+           ==================================== */
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1em 0;
+            padding: 0.5em 0;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--ax-light-gray);
+            z-index: 0;
+        }
+
+        .timeline-item {
+            background: white;
+            padding: 0.5em 0.8em;
+            border: 2px solid var(--ax-purple);
+            border-radius: 20px;
+            text-align: center;
+            z-index: 1;
+            position: relative;
+            flex: 1;
+            margin: 0 0.2em;
+        }
+
+        .timeline-item.active {
+            background: var(--ax-purple);
+            color: white;
+        }
+
+        .timeline-item p {
+            font-size: 0.65em;
+            margin: 0;
+        }
+
+        .timeline-item.active p {
+            color: white;
+        }
+
+        /* ====================================
+           FRAMEWORK BOX
+           ==================================== */
+        .framework-box {
+            background: linear-gradient(135deg, #f5f3ff 0%, #fff 100%);
+            border: 2px solid var(--ax-purple);
+            border-radius: 8px;
+            padding: 1.2em;
+            margin: 1em 0;
+        }
+
+        .framework-box h3 {
+            color: var(--ax-purple);
+            font-size: 1.1em;
+            margin: 0 0 0.5em 0;
+            text-align: center;
+        }
+
+        .framework-box .formula {
+            background: white;
+            padding: 0.8em;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75em;
+            color: var(--ax-dark-gray);
+            text-align: center;
+            margin: 0.5em 0;
+        }
+
+        /* ====================================
+           RESPONSIVE DESIGN
+           ==================================== */
+        @media (max-width: 768px) {
+            .two-column {
+                flex-direction: column;
+                gap: 1em;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                flex-direction: column;
+                gap: 0.5em;
+            }
+
+            .timeline::before {
+                display: none;
+            }
+
+            .timeline-item {
+                width: 100%;
+                margin: 0.2em 0;
+            }
+        }
+
+        /* ====================================
+           XBACKGROUND ENHANCEMENTS
+           ==================================== */
+        [data-xbackground="aurora"] h1,
+        [data-xbackground="aurora"] h2,
+        [data-xbackground="aurora"] p {
+            color: white !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Hide footer on xbackground slides */
+        [data-xbackground="aurora"] .smartart[data-layout="footer"] {
+            display: none;
+        }
+
+        /* ====================================
+           IMAGE SLIDES
+           ==================================== */
+        .image-slide img {
+            max-width: 100%;
+            max-height: 70vh;
+            display: block;
+            margin: 0.5em auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* ====================================
+           BREAK SLIDE
+           ==================================== */
+        .break-slide {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .break-slide h2 {
+            color: var(--ax-purple);
+            font-size: 2em;
+            margin-bottom: 0.5em;
+        }
+
+        .break-slide p {
+            color: var(--ax-mid-gray);
+            font-size: 1em;
+        }
+
+        .break-slide img {
+            max-width: 60%;
+            margin-top: 1em;
+            border-radius: 12px;
+        }
+    </style>
+
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- ============================================ -->
+            <!-- OPENING SECTION (15 min) -->
+            <!-- ============================================ -->
+
+            <!-- Slide 1: Title Slide -->
+            <section class="title-slide" data-xbackground="aurora" data-background-color="#000000">
+                <h1>The Strategy Sprint</h1>
+                <p class="subtitle">Business Agility Fundamentals</p>
+                <p>Accelerating Strategic Clarity Through Structured Discovery</p>
+                <aside class="notes">
+                    Welcome to the Strategy Sprint workshop! This is a critical 4-hour session where we'll build the strategic foundation for your initiative.
+
+                    Take a moment to appreciate that strategy work often feels overwhelming - we're going to make it manageable and actionable.
+
+                    Time: 1 minute
+                </aside>
+            </section>
+
+            <!-- Slide 2: Welcome & Context -->
+            <section data-background-image="assets/images/team-collaboration-modern-office.png" data-background-opacity="0.3">
+                <h2>Welcome to Your Strategy Sprint</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Why Strategy Sprints?</h3>
+                        <ul>
+                            <li>Traditional strategy takes months</li>
+                            <li>Teams need clarity NOW</li>
+                            <li>Perfect is the enemy of good enough</li>
+                            <li>Bias toward action over analysis</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Today's Promise</h3>
+                        <ul>
+                            <li>Clear customer definition</li>
+                            <li>Validated differentiation</li>
+                            <li>Actionable approach</li>
+                            <li>Testable hypothesis</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    Strategy work traditionally takes months of analysis paralysis. We're compressing this into 4 hours of focused work.
+
+                    Key message: We're not aiming for perfection - we're aiming for clarity and testable assumptions.
+
+                    Time: 2 minutes
+                    Transition: Let's look at what you'll accomplish today...
+                </aside>
+            </section>
+
+            <!-- Slide 3: Learning Outcomes -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Your Strategy Sprint Outcomes
+
+                ::: smartart Strategy Sprint Learning Outcomes LINED
+                intro: By the end of this 4-hour workshop, you will have:
+                - Customer Clarity | Define exactly who you serve and what problem you solve | icon=lucide:users
+                - Competitive Position | Identify your unique differentiators in the market | icon=lucide:target
+                - Strategic Approach | Develop your go-to-market strategy with confidence | icon=lucide:compass
+                - Founding Hypothesis | Create a testable statement of your strategic bet | icon=lucide:lightbulb
+                :::
+                </script>
+                <aside class="notes">
+                    These four outcomes build on each other. Customer clarity enables competitive positioning, which informs your approach, culminating in a testable hypothesis.
+
+                    Emphasize: Every successful business can articulate these four elements clearly.
+
+                    Time: 2 minutes
+                    Question to ask: "Which of these feels most challenging for your initiative right now?"
+                </aside>
+            </section>
+
+            <!-- Slide 4: Workshop Journey -->
+            <section>
+                <h2>Your 4-Hour Journey</h2>
+                <div class="timeline">
+                    <div class="timeline-item active">
+                        <p><strong>Module 1</strong><br>The Basics<br>45 min</p>
+                    </div>
+                    <div class="timeline-item">
+                        <p><strong>Module 2</strong><br>Differentiation<br>60 min</p>
+                    </div>
+                    <div class="timeline-item">
+                        <p><strong>Break</strong><br>Recharge<br>15 min</p>
+                    </div>
+                    <div class="timeline-item">
+                        <p><strong>Module 3</strong><br>Approach<br>45 min</p>
+                    </div>
+                    <div class="timeline-item">
+                        <p><strong>Module 4</strong><br>Hypothesis<br>30 min</p>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1em; color: var(--ax-mid-gray); font-style: italic;">
+                    Plus 15 minutes opening and 15 minutes closing
+                </p>
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    This is our roadmap. Each module builds on the previous one. We'll take a break after the heavy lifting of differentiation.
+
+                    Important: Keep energy high but respect the timeline. We have a lot to cover.
+
+                    Time: 1 minute
+                    Transition: "Let's dive into Module 1: The Basics"
+                </aside>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- MODULE 1: THE BASICS (45 min) -->
+            <!-- ============================================ -->
+
+            <!-- Slide 5: Module 1 Section Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>Module 1</h1>
+                <h2>The Basics</h2>
+                <p>Customer, Problem, Competition, Advantages</p>
+                <aside class="notes">
+                    Module 1 is about getting crystal clear on the fundamentals. These are the building blocks everything else rests on.
+
+                    Time: 30 seconds
+                </aside>
+            </section>
+
+            <!-- Slide 6: Module 1 Introduction -->
+            <section class="compact" data-background-image="assets/images/strategy-workshop-planning.png" data-background-opacity="0.2">
+                <h2>The Foundation of Strategy</h2>
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>Customer</h3>
+                        <p>Who exactly are we serving?</p>
+                        <ul>
+                            <li>Specific segments</li>
+                            <li>Clear personas</li>
+                            <li>Measurable criteria</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Problem</h3>
+                        <p>What pain are we solving?</p>
+                        <ul>
+                            <li>Urgent needs</li>
+                            <li>Costly problems</li>
+                            <li>Frequent frustrations</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Competition</h3>
+                        <p>What alternatives exist?</p>
+                        <ul>
+                            <li>Direct competitors</li>
+                            <li>Workarounds</li>
+                            <li>Status quo</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Advantages</h3>
+                        <p>Why would they choose us?</p>
+                        <ul>
+                            <li>Unique capabilities</li>
+                            <li>Special insights</li>
+                            <li>Unfair advantages</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    These four elements are non-negotiable. Every successful strategy can clearly articulate all four.
+
+                    Common mistake: Being too broad with customer definition. "Everyone" is not a customer segment.
+
+                    Time: 3 minutes
+                </aside>
+            </section>
+
+            <!-- Slide 7: Note and Vote Framework -->
+            <section>
+                <h2>Our Method: Note and Vote</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>The Process</h3>
+                        <ol>
+                            <li><strong>Silent Generation</strong> (5 min)<br>
+                                Everyone writes ideas on sticky notes</li>
+                            <li><strong>Share & Post</strong> (5 min)<br>
+                                Quick explanation as you post</li>
+                            <li><strong>Dot Voting</strong> (2 min)<br>
+                                Vote for the best ideas</li>
+                            <li><strong>Discussion</strong> (3 min)<br>
+                                Focus on top-voted items</li>
+                        </ol>
+                    </div>
+                    <div class="column">
+                        <h3>Why It Works</h3>
+                        <ul>
+                            <li>Equal participation</li>
+                            <li>Reduces groupthink</li>
+                            <li>Surfaces best ideas quickly</li>
+                            <li>Creates consensus</li>
+                            <li>Time-boxed decisions</li>
+                        </ul>
+                        <p style="margin-top: 1em; font-style: italic; color: var(--ax-mid-gray);">
+                            "The loudest voice in the room isn't always the smartest."
+                        </p>
+                    </div>
+                </div>
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    Note and Vote is our secret weapon. It democratizes idea generation and prevents the HIPPO effect (Highest Paid Person's Opinion).
+
+                    Facilitation tip: Be strict with time boxes. Use a visible timer.
+
+                    Time: 2 minutes
+                </aside>
+            </section>
+
+            <!-- Slide 8: Activity - Customer Definition -->
+            <section class="ultra-compact">
+                <h2>Activity: Define Your Customer</h2>
+                <div class="activity-box">
+                    <h3>Customer Segmentation Exercise</h3>
+                    <p><strong>Question:</strong> Who specifically will pay for our solution?</p>
+                    <p><strong>Method:</strong> Note and Vote</p>
+                    <p class="duration">Duration: 15 minutes</p>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Customer Template</h3>
+                        <div class="framework-box">
+                            <p>We help <strong>[ROLE]</strong> at <strong>[COMPANY TYPE]</strong> who struggle with <strong>[SITUATION]</strong></p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h3>Examples:</h3>
+                        <ul>
+                            <li>"Product managers at B2B SaaS companies who struggle with prioritization"</li>
+                            <li>"HR directors at 100-500 person companies who need better onboarding"</li>
+                            <li>"Small business owners who can't afford traditional consulting"</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <aside class="notes">
+                    Activity instructions:
+                    1. Give everyone sticky notes
+                    2. Set timer for 5 minutes silent writing
+                    3. Each person shares while posting (5 min)
+                    4. Give everyone 3 dots to vote (2 min)
+                    5. Discuss top 3 choices (3 min)
+
+                    Common stumbling block: Too broad. Push for specificity.
+
+                    Time: 15 minutes total
+                </aside>
+            </section>
+
+            <!-- Slide 9: Activity - Problem Articulation -->
+            <section class="ultra-compact">
+                <h2>Activity: Articulate the Problem</h2>
+                <div class="activity-box">
+                    <h3>Problem Discovery Exercise</h3>
+                    <p><strong>Question:</strong> What expensive/painful problem do they have?</p>
+                    <p><strong>Method:</strong> Note and Vote</p>
+                    <p class="duration">Duration: 15 minutes</p>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Good Problems Have:</h3>
+                        <ul>
+                            <li>Urgency (needs solving now)</li>
+                            <li>Frequency (happens often)</li>
+                            <li>Cost (expensive if unsolved)</li>
+                            <li>Emotion (causes frustration)</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Problem Framing:</h3>
+                        <ul>
+                            <li>"Every time I..."</li>
+                            <li>"I waste X hours on..."</li>
+                            <li>"It costs us $X when..."</li>
+                            <li>"I'm frustrated by..."</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    The problem must be worth solving. Vitamins are nice, painkillers sell.
+
+                    Activity flow: Same Note and Vote process
+
+                    Watch for: Problems that are "nice to solve" vs "must solve"
+                    Question to ask: "How much does this problem cost them today?"
+
+                    Time: 15 minutes total
+                </aside>
+            </section>
+
+            <!-- Slide 10: Competition Mapping -->
+            <section class="compact">
+                <h2>Understanding the Competitive Landscape</h2>
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>Direct Competitors</h3>
+                        <p>Companies solving the same problem</p>
+                        <ul>
+                            <li>Similar solutions</li>
+                            <li>Same target market</li>
+                            <li>Comparable pricing</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Indirect Competitors</h3>
+                        <p>Different solutions, same problem</p>
+                        <ul>
+                            <li>Workarounds</li>
+                            <li>Manual processes</li>
+                            <li>Hybrid solutions</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Status Quo</h3>
+                        <p>The "do nothing" option</p>
+                        <ul>
+                            <li>Living with the problem</li>
+                            <li>Current habits</li>
+                            <li>Inertia</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p style="text-align: center; margin-top: 1em; font-weight: bold; color: var(--ax-purple);">
+                    Remember: Your biggest competitor is often "doing nothing"
+                </p>
+
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    Most teams underestimate the power of status quo. Change is hard, and people need compelling reasons to switch.
+
+                    Ask the group: "Why would someone NOT buy any solution?"
+
+                    Time: 2 minutes
+                </aside>
+            </section>
+
+            <!-- Slide 11: Module 1 Key Takeaways -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Module 1: Key Takeaways
+
+                ::: smartart Key Learnings CHECKLIST
+                intro: Key learnings from Customer Discovery:
+                - [ ] **Specific Customer Definition:** We know exactly who we're serving - role, company type, and situation
+                - [ ] **Painful Problem Identified:** The problem is urgent, frequent, costly, and emotionally frustrating
+                - [ ] **Competition Mapped:** We understand direct, indirect, and status quo alternatives
+                - [ ] **Foundation Set:** We have the building blocks for differentiation strategy
+                :::
+
+                <aside class="notes">
+                    Quick check-in: Does everyone feel clear on these basics? Any concerns before we move to differentiation?
+
+                    Time: 1 minute
+                    Transition: "Now let's figure out how you'll win..."
+                </aside>
+                </script>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- MODULE 2: DIFFERENTIATION (60 min) -->
+            <!-- ============================================ -->
+
+            <!-- Slide 12: Module 2 Section Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>Module 2</h1>
+                <h2>Differentiation</h2>
+                <p>Finding Your Unique Position in the Market</p>
+                <aside class="notes">
+                    This is where strategy gets interesting. We're going to find your unfair advantage.
+
+                    Time: 30 seconds
+                </aside>
+            </section>
+
+            <!-- Slide 13: Module 2 Introduction -->
+            <section data-background-image="assets/images/positioning-strategy-meeting.png" data-background-opacity="0.2">
+                <h2>The Art of Being Different</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Why Differentiation Matters</h3>
+                        <ul>
+                            <li>Commodities compete on price</li>
+                            <li>Differentiated products command premiums</li>
+                            <li>Clear positioning attracts ideal customers</li>
+                            <li>Focus accelerates execution</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>The Differentiation Challenge</h3>
+                        <ul>
+                            <li>"We do everything better" = no differentiation</li>
+                            <li>Must choose what NOT to do</li>
+                            <li>Trade-offs are strategic</li>
+                            <li>Different > Better</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1em; font-size: 1.1em; color: var(--ax-purple); font-weight: bold;">
+                    "The essence of strategy is choosing what not to do." - Michael Porter
+                </p>
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    Key insight: You can't be everything to everyone. The teams that win are the ones that make hard choices.
+
+                    Time: 3 minutes
+                </aside>
+            </section>
+
+            <!-- Slide 14: Classic Differentiators -->
+            <section class="compact">
+                <h2>The 7 Classic Differentiators</h2>
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>1. Speed</h3>
+                        <p>Fast vs. Thorough</p>
+                    </div>
+                    <div class="card">
+                        <h3>2. Price</h3>
+                        <p>Affordable vs. Premium</p>
+                    </div>
+                    <div class="card">
+                        <h3>3. Complexity</h3>
+                        <p>Simple vs. Powerful</p>
+                    </div>
+                    <div class="card">
+                        <h3>4. Intelligence</h3>
+                        <p>Smart vs. Predictable</p>
+                    </div>
+                    <div class="card">
+                        <h3>5. Service</h3>
+                        <p>Self-serve vs. White-glove</p>
+                    </div>
+                    <div class="card">
+                        <h3>6. Customization</h3>
+                        <p>Flexible vs. Opinionated</p>
+                    </div>
+                    <div class="card">
+                        <h3>7. Experience</h3>
+                        <p>Functional vs. Delightful</p>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 0.8em; color: var(--ax-mid-gray); font-style: italic;">
+                    Each represents a strategic trade-off. You can't optimize for both ends.
+                </p>
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    These are proven differentiation strategies. Notice each is a trade-off - you can't be both fast AND thorough.
+
+                    Example: FedEx chose speed over price. Walmart chose price over experience.
+
+                    Time: 2 minutes
+                </aside>
+            </section>
+
+            <!-- Slide 15: Activity - Choose Differentiators -->
+            <section class="ultra-compact">
+                <h2>Activity: Choose Your Differentiators</h2>
+                <div class="activity-box">
+                    <h3>Differentiation Selection</h3>
+                    <p><strong>Part 1:</strong> Select 2-3 classic differentiators (10 min)</p>
+                    <p><strong>Part 2:</strong> Create 2-3 custom differentiators (10 min)</p>
+                    <p><strong>Part 3:</strong> Vote and narrow to top 2 (5 min)</p>
+                    <p class="duration">Total Duration: 25 minutes</p>
+                </div>
+
+                <h3>Custom Differentiator Examples:</h3>
+                <div class="two-column">
+                    <div class="column">
+                        <ul>
+                            <li>Industry-specific expertise</li>
+                            <li>Unique data access</li>
+                            <li>Network effects</li>
+                            <li>Geographic advantage</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <ul>
+                            <li>Proprietary methodology</li>
+                            <li>Integration ecosystem</li>
+                            <li>Community-driven</li>
+                            <li>Regulatory compliance</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Test Your Choice:</h3>
+                <p>Can you say: "We are the ONLY solution that _____"?</p>
+
+                <aside class="notes">
+                    Activity flow:
+                    1. Review classic differentiators, pick 2-3 that fit
+                    2. Brainstorm custom differentiators unique to your space
+                    3. Vote to narrow down to exactly 2 primary differentiators
+
+                    Push back on: "We're better at everything" - force trade-offs
+
+                    Time: 25 minutes total
+                </aside>
+            </section>
+
+            <!-- Slide 16: Positioning Matrix -->
+            <section class="ultra-compact">
+                <h2>Activity: Create Your Positioning Matrix</h2>
+                <div class="activity-box">
+                    <h3>2x2 Positioning Exercise</h3>
+                    <p>Plot your position using your two primary differentiators</p>
+                    <p class="duration">Duration: 15 minutes</p>
+                </div>
+
+                <div style="text-align: center; margin: 1em 0;">
+                    <img src="assets/images/positioning-strategy-meeting.png" style="max-width: 60%; border-radius: 8px;">
+                </div>
+
+                <h3>Matrix Zones:</h3>
+                <ul>
+                    <li><strong>Upper Right:</strong> Your target position (both differentiators high)</li>
+                    <li><strong>Other Quadrants:</strong> Where competitors live</li>
+                    <li><strong>"Loserville":</strong> Lower left - avoid at all costs</li>
+                </ul>
+
+                <aside class="notes">
+                    Draw a 2x2 matrix on whiteboard. Label axes with chosen differentiators.
+
+                    Have team plot where they want to be and where competitors are.
+
+                    Key insight: If upper right is crowded, reconsider your differentiators.
+
+                    Time: 15 minutes
+                </aside>
+            </section>
+
+            <!-- Slide 17: Project Principles -->
+            <section class="compact">
+                <h2>From Differentiators to Principles</h2>
+                <div class="framework-box">
+                    <h3>Your Project Principles</h3>
+                    <p>Based on your differentiators, what will you always/never do?</p>
+                </div>
+
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Example: If "Speed" is key</h3>
+                        <p><strong>Always:</strong></p>
+                        <ul>
+                            <li>Ship in weeks, not months</li>
+                            <li>Automate everything possible</li>
+                            <li>Choose speed over perfection</li>
+                        </ul>
+                        <p><strong>Never:</strong></p>
+                        <ul>
+                            <li>Add features that slow us down</li>
+                            <li>Require lengthy implementations</li>
+                            <li>Build custom solutions</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Example: If "Premium" is key</h3>
+                        <p><strong>Always:</strong></p>
+                        <ul>
+                            <li>Provide white-glove service</li>
+                            <li>Use highest quality materials</li>
+                            <li>Exceed expectations</li>
+                        </ul>
+                        <p><strong>Never:</strong></p>
+                        <ul>
+                            <li>Compete on price</li>
+                            <li>Cut corners on quality</li>
+                            <li>Rush delivery</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    Principles make strategy actionable. They guide daily decisions.
+
+                    Have team create 3-5 principles based on their differentiators.
+
+                    Time: 5 minutes
+                </aside>
+            </section>
+
+            <!-- Slide 18: Module 2 Key Takeaways -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Module 2: Key Takeaways
+
+                ::: smartart Key Learnings CHECKLIST
+                intro: Key learnings from Differentiation:
+                - [ ] **Two Clear Differentiators:** We've chosen what makes us unique and defensible
+                - [ ] **Positioning Mapped:** We know where we play and where we don't
+                - [ ] **Trade-offs Accepted:** We understand what we're NOT trying to be
+                - [ ] **Principles Defined:** We have clear guidelines for decisions
+                :::
+
+                <aside class="notes">
+                    Great work! You've made the hard choices. Let's take a break before tackling approach.
+
+                    Time: 1 minute
+                    Transition: "15-minute break. Come back energized!"
+                </aside>
+                </script>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- BREAK (15 min) -->
+            <!-- ============================================ -->
+
+            <!-- Slide 19: Break Slide -->
+            <section class="break-slide">
+                <h2>Time for a Break!</h2>
+                <p>Stretch, refuel, and reflect on your progress</p>
+                <img src="assets/images/workshop-break-collaboration.png" alt="Break time">
+                <p style="margin-top: 1em;">Back in 15 minutes</p>
+                <aside class="notes">
+                    Encourage people to discuss informally. Some of the best insights come during breaks.
+
+                    Time: 15 minutes
+                </aside>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- MODULE 3: APPROACH (45 min) -->
+            <!-- ============================================ -->
+
+            <!-- Slide 20: Module 3 Section Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>Module 3</h1>
+                <h2>Approach</h2>
+                <p>How Will You Deliver Value?</p>
+                <aside class="notes">
+                    Welcome back! Now we design HOW you'll deliver on your differentiation.
+
+                    Time: 30 seconds
+                </aside>
+            </section>
+
+            <!-- Slide 21: The Magic Lenses Framework -->
+            <section>
+                <h2>The Six Magic Lenses</h2>
+                <p style="text-align: center; margin-bottom: 0.8em; color: var(--ax-mid-gray);">
+                    Evaluate your approach through multiple perspectives
+                </p>
+                <div class="smartart" data-layout="accordion" data-color-scheme="purple">
+                    <div class="smartart-item">
+                        <h3>1. Customer Expert Lens</h3>
+                        <p>Would someone who deeply understands the customer believe this approach solves their problem?</p>
+                    </div>
+                    <div class="smartart-item">
+                        <h3>2. Pragmatic Lens</h3>
+                        <p>Can we realistically build and deliver this with our resources and timeline?</p>
+                    </div>
+                    <div class="smartart-item">
+                        <h3>3. Growth Lens</h3>
+                        <p>Does this approach have potential for significant scale and expansion?</p>
+                    </div>
+                    <div class="smartart-item">
+                        <h3>4. CFO/Money Lens</h3>
+                        <p>Do the unit economics work? Can we make money at scale?</p>
+                    </div>
+                    <div class="smartart-item">
+                        <h3>5. Differentiation Lens</h3>
+                        <p>Does this approach reinforce our chosen differentiators?</p>
+                    </div>
+                    <div class="smartart-item">
+                        <h3>6. Conviction Lens</h3>
+                        <p>Do we genuinely believe in this approach? Will we persist through challenges?</p>
+                    </div>
+                </div>
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    Each lens reveals potential weaknesses. An approach must pass all six to be viable.
+
+                    The conviction lens is often overlooked but critical - you need to believe in what you're building.
+
+                    Time: 5 minutes
+                </aside>
+            </section>
+
+            <!-- Slide 22: Activity Setup - Approach Development -->
+            <section class="ultra-compact" data-background-image="assets/images/brainstorming-session.png" data-background-opacity="0.2">
+                <h2>Activity: Develop Your Approach</h2>
+                <div class="activity-box">
+                    <h3>Approach Generation Workshop</h3>
+                    <p><strong>Part 1:</strong> Brainstorm 3-5 potential approaches (10 min)</p>
+                    <p><strong>Part 2:</strong> Evaluate each through the 6 lenses (15 min)</p>
+                    <p><strong>Part 3:</strong> Select primary and backup approach (5 min)</p>
+                    <p class="duration">Total Duration: 30 minutes</p>
+                </div>
+
+                <h3>Approach Categories to Consider:</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>Product-Led</h3>
+                        <ul>
+                            <li>Self-serve platform</li>
+                            <li>Freemium model</li>
+                            <li>API-first</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Service-Led</h3>
+                        <ul>
+                            <li>Consulting-first</li>
+                            <li>Managed service</li>
+                            <li>Done-for-you</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Community-Led</h3>
+                        <ul>
+                            <li>Marketplace</li>
+                            <li>Network effects</li>
+                            <li>User-generated</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <aside class="notes">
+                    Generate approaches first without judging. Then systematically evaluate through each lens.
+
+                    Common pitfall: Falling in love with an approach that fails the pragmatic or money lens.
+
+                    Time: 30 minutes total activity
+                </aside>
+            </section>
+
+            <!-- Slide 23: Approach Evaluation Template -->
+            <section class="ultra-compact">
+                <h2>Approach Evaluation Scorecard</h2>
+                <table style="width: 100%; font-size: 0.7em; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: var(--ax-purple); color: white;">
+                            <th style="padding: 0.5em; border: 1px solid white;">Approach</th>
+                            <th style="padding: 0.5em; border: 1px solid white;">Customer</th>
+                            <th style="padding: 0.5em; border: 1px solid white;">Pragmatic</th>
+                            <th style="padding: 0.5em; border: 1px solid white;">Growth</th>
+                            <th style="padding: 0.5em; border: 1px solid white;">Money</th>
+                            <th style="padding: 0.5em; border: 1px solid white;">Different</th>
+                            <th style="padding: 0.5em; border: 1px solid white;">Conviction</th>
+                            <th style="padding: 0.5em; border: 1px solid white;">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 0.5em; border: 1px solid var(--ax-light-gray);">Approach 1</td>
+                            <td style="padding: 0.5em; border: 1px solid var(--ax-light-gray); text-align: center;">✓</td>
+                            <td style="padding: 0.5em; border: 1px solid var(--ax-light-gray); text-align: center;">✓</td>
+                            <td style="padding: 0.5em; border: 1px solid var(--ax-light-gray); text-align: center;">?</td>
+                            <td style="padding: 0.5em; border: 1px solid var(--ax-light-gray); text-align: center;">✗</td>
+                            <td style="padding: 0.5em; border: 1px solid var(--ax-light-gray); text-align: center;">✓</td>
+                            <td style="padding: 0.5em; border: 1px solid var(--ax-light-gray); text-align: center;">✓</td>
+                            <td style="padding: 0.5em; border: 1px solid var(--ax-light-gray); text-align: center;"><strong>4/6</strong></td>
+                        </tr>
+                        <tr style="background: var(--ax-light-gray);">
+                            <td style="padding: 0.5em; border: 1px solid white;">Approach 2</td>
+                            <td style="padding: 0.5em; border: 1px solid white; text-align: center;">✓</td>
+                            <td style="padding: 0.5em; border: 1px solid white; text-align: center;">✓</td>
+                            <td style="padding: 0.5em; border: 1px solid white; text-align: center;">✓</td>
+                            <td style="padding: 0.5em; border: 1px solid white; text-align: center;">✓</td>
+                            <td style="padding: 0.5em; border: 1px solid white; text-align: center;">✓</td>
+                            <td style="padding: 0.5em; border: 1px solid white; text-align: center;">✓</td>
+                            <td style="padding: 0.5em; border: 1px solid white; text-align: center;"><strong>6/6</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p style="margin-top: 0.8em;"><strong>Scoring:</strong> ✓ = Strong | ? = Uncertain | ✗ = Weak</p>
+
+                <h3>Decision Criteria:</h3>
+                <ul>
+                    <li>Primary approach should score 5-6 out of 6</li>
+                    <li>No approach with 2+ weak scores</li>
+                    <li>Must have strong conviction (non-negotiable)</li>
+                </ul>
+
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    Use this template on a whiteboard. Have team score together, discussing each lens.
+
+                    If no approach scores well, you need to go back to brainstorming.
+
+                    Time: Part of the 30-minute activity
+                </aside>
+            </section>
+
+            <!-- Slide 24: Module 3 Key Takeaways -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Module 3: Key Takeaways
+
+                ::: smartart Key Learnings CHECKLIST
+                intro: Key learnings from Approach Development:
+                - [ ] **Primary Approach Selected:** We have a clear go-to-market approach that passes all lenses
+                - [ ] **Backup Plan Ready:** We have a Plan B if our primary approach doesn't work
+                - [ ] **Multi-Lens Validation:** Our approach works from customer, business, and team perspectives
+                - [ ] **Conviction Confirmed:** The team believes in and is excited about the approach
+                :::
+
+                <aside class="notes">
+                    Excellent progress! One more module to go - let's crystallize everything into a testable hypothesis.
+
+                    Time: 1 minute
+                    Transition: "Final push - let's create your founding hypothesis"
+                </aside>
+                </script>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- MODULE 4: FOUNDING HYPOTHESIS (30 min) -->
+            <!-- ============================================ -->
+
+            <!-- Slide 25: Module 4 Section Divider -->
+            <section class="section-divider" data-background-gradient="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                <h1>Module 4</h1>
+                <h2>Founding Hypothesis</h2>
+                <p>Your Testable Strategic Statement</p>
+                <aside class="notes">
+                    This is where everything comes together into one clear, testable statement.
+
+                    Time: 30 seconds
+                </aside>
+            </section>
+
+            <!-- Slide 26: The Hypothesis Framework -->
+            <section data-background-image="assets/images/customer-research-team.png" data-background-opacity="0.2">
+                <h2>The Founding Hypothesis Formula</h2>
+                <div class="framework-box">
+                    <h3>Your Strategic Bet</h3>
+                    <div class="formula">
+                        If we solve <strong>[PROBLEM]</strong><br>
+                        for <strong>[CUSTOMER]</strong><br>
+                        with <strong>[APPROACH]</strong>,<br>
+                        we believe they'll choose us over <strong>[COMPETITORS]</strong><br>
+                        because of <strong>[DIFFERENTIATOR 1]</strong> and <strong>[DIFFERENTIATOR 2]</strong>
+                    </div>
+                </div>
+
+                <h3>Why This Structure Works:</h3>
+                <ul>
+                    <li>Forces clarity on all strategic elements</li>
+                    <li>Creates testable assumptions</li>
+                    <li>Aligns team on single vision</li>
+                    <li>Guides all decisions going forward</li>
+                </ul>
+
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    This is your north star. Every decision should support or test this hypothesis.
+
+                    It's called a hypothesis because it's meant to be tested and refined.
+
+                    Time: 3 minutes
+                </aside>
+            </section>
+
+            <!-- Slide 27: Activity - Draft Your Hypothesis -->
+            <section class="ultra-compact">
+                <h2>Activity: Draft Your Founding Hypothesis</h2>
+                <div class="activity-box">
+                    <h3>Hypothesis Creation Workshop</h3>
+                    <p><strong>Step 1:</strong> Fill in each element from previous modules (5 min)</p>
+                    <p><strong>Step 2:</strong> Refine for clarity and flow (5 min)</p>
+                    <p><strong>Step 3:</strong> Test and iterate (5 min)</p>
+                    <p class="duration">Duration: 15 minutes</p>
+                </div>
+
+                <h3>Example Hypothesis:</h3>
+                <div class="framework-box" style="background: white;">
+                    <p style="font-style: italic; color: var(--ax-dark-gray);">
+                        "If we solve <strong>the challenge of slow feature delivery</strong>
+                        for <strong>product managers at B2B SaaS companies</strong>
+                        with <strong>an AI-powered requirements generation platform</strong>,
+                        we believe they'll choose us over <strong>traditional project management tools</strong>
+                        because of our <strong>10x speed advantage</strong> and <strong>deep SaaS-specific intelligence</strong>."
+                    </p>
+                </div>
+
+                <aside class="notes">
+                    Work as a group to craft this. Read it aloud multiple times. Does it feel right?
+
+                    Common issue: Too wordy. Keep refining until it's crisp.
+
+                    Time: 15 minutes
+                </aside>
+            </section>
+
+            <!-- Slide 28: Testing Your Hypothesis -->
+            <section class="compact">
+                <h2>From Hypothesis to Validation</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Key Assumptions to Test:</h3>
+                        <ol>
+                            <li>Customer has the problem</li>
+                            <li>Problem is worth solving</li>
+                            <li>Our approach works</li>
+                            <li>Differentiators matter</li>
+                            <li>They'll pay our price</li>
+                            <li>We can deliver profitably</li>
+                        </ol>
+                    </div>
+                    <div class="column">
+                        <h3>Testing Methods:</h3>
+                        <ul>
+                            <li><strong>Customer interviews</strong><br>
+                                <span style="font-size: 0.9em; color: var(--ax-mid-gray);">Do they have this problem?</span></li>
+                            <li><strong>Prototype testing</strong><br>
+                                <span style="font-size: 0.9em; color: var(--ax-mid-gray);">Does the approach work?</span></li>
+                            <li><strong>Pricing experiments</strong><br>
+                                <span style="font-size: 0.9em; color: var(--ax-mid-gray);">Will they pay?</span></li>
+                            <li><strong>Competitive analysis</strong><br>
+                                <span style="font-size: 0.9em; color: var(--ax-mid-gray);">Do differentiators matter?</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    The hypothesis is just the beginning. Now you need to systematically test each assumption.
+
+                    Start with the riskiest assumption first.
+
+                    Time: 3 minutes
+                </aside>
+            </section>
+
+            <!-- Slide 29: Module 4 Key Takeaways -->
+            <section data-markdown>
+                <script type="text/template">
+                ## Module 4: Key Takeaways
+
+                ::: smartart Key Learnings CHECKLIST
+                intro: Key learnings from Founding Hypothesis:
+                - [ ] **Clear Hypothesis Defined:** We have a single statement capturing our entire strategy
+                - [ ] **Assumptions Identified:** We know what needs to be true for success
+                - [ ] **Testing Plan Ready:** We have methods to validate each assumption
+                - [ ] **Team Aligned:** Everyone understands and believes in the direction
+                :::
+
+                <aside class="notes">
+                    Congratulations! You've completed the Strategy Sprint. Let's wrap up with next steps.
+
+                    Time: 1 minute
+                </aside>
+                </script>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- CLOSING SECTION (15 min) -->
+            <!-- ============================================ -->
+
+            <!-- Slide 30: Next Steps -->
+            <section data-background-image="assets/images/sprint-planning-team.png" data-background-opacity="0.2">
+                <h2>Your Sprint Cycle Going Forward</h2>
+                <div style="text-align: center; margin: 1em 0;">
+                    <div class="framework-box" style="max-width: 600px; margin: 0 auto;">
+                        <h3>The Continuous Strategy Loop</h3>
+                        <p style="font-size: 0.9em; margin: 0.5em 0;">
+                            <strong>Test</strong> → <strong>Learn</strong> → <strong>Refine</strong> → <strong>Test</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <h3>Immediate Next Steps:</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>Week 1</h3>
+                        <ul>
+                            <li>Document today's outputs</li>
+                            <li>Share with stakeholders</li>
+                            <li>Identify first test</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Week 2-4</h3>
+                        <ul>
+                            <li>Run first validation test</li>
+                            <li>Interview 5-10 customers</li>
+                            <li>Build simple prototype</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Month 2</h3>
+                        <ul>
+                            <li>Refine hypothesis</li>
+                            <li>Test pricing</li>
+                            <li>Build MVP</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    Strategy isn't a one-time event. It's a continuous process of testing and learning.
+
+                    Key: Start testing immediately. Don't let analysis paralysis set in.
+
+                    Time: 3 minutes
+                </aside>
+            </section>
+
+            <!-- Slide 31: Workshop Reflection -->
+            <section>
+                <h2>Workshop Reflection</h2>
+                <div class="activity-box">
+                    <h3>Team Discussion</h3>
+                    <p>Share one insight or "aha moment" from today</p>
+                    <p class="duration">5 minutes</p>
+                </div>
+
+                <h3>Reflection Questions:</h3>
+                <ul>
+                    <li>What surprised you most about your strategy?</li>
+                    <li>Which module was most challenging? Why?</li>
+                    <li>What assumption are you most excited to test?</li>
+                    <li>How confident do you feel about your hypothesis (1-10)?</li>
+                </ul>
+
+                <p style="margin-top: 1.5em; text-align: center; font-size: 1.1em; color: var(--ax-purple); font-weight: bold;">
+                    "Strategy is a hypothesis you test through action."
+                </p>
+
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    Go around the room. Each person shares one insight. This cements learning and builds team cohesion.
+
+                    Time: 5 minutes
+                </aside>
+            </section>
+
+            <!-- Slide 32: Resources & Support -->
+            <section class="compact">
+                <h2>Resources & Continued Learning</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Templates & Tools</h3>
+                        <ul>
+                            <li>Customer interview guide</li>
+                            <li>Hypothesis testing tracker</li>
+                            <li>Competitive analysis template</li>
+                            <li>MVP planning canvas</li>
+                            <li>Pitch deck framework</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Recommended Reading</h3>
+                        <ul>
+                            <li>"The Mom Test" - Customer discovery</li>
+                            <li>"Blue Ocean Strategy" - Differentiation</li>
+                            <li>"The Lean Startup" - Validation</li>
+                            <li>"Good Strategy Bad Strategy" - Clarity</li>
+                            <li>"Crossing the Chasm" - Go-to-market</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Stay Connected:</h3>
+                <div style="text-align: center; margin-top: 1em;">
+                    <p><strong>AdaptiveX Community:</strong> community.adaptivex.com</p>
+                    <p><strong>Strategy Sprint Toolkit:</strong> adaptivex.com/strategy-sprint</p>
+                </div>
+
+                <div class="smartart" data-layout="footer">Business Agility Fundamentals | The Strategy Sprint Workshop | © AdaptiveX</div>
+                <aside class="notes">
+                    These resources will help you continue the journey. The community is especially valuable for ongoing support.
+
+                    Time: 2 minutes
+                </aside>
+            </section>
+
+            <!-- Slide 33: Q&A and Close -->
+            <section data-background-gradient="linear-gradient(135deg, var(--ax-purple) 0%, #4a2870 100%)">
+                <h1 style="color: white !important;">Questions & Discussion</h1>
+                <h2 style="color: var(--ax-yellow) !important; margin-top: 1em;">Thank You for Your Commitment!</h2>
+                <p style="color: white !important; margin-top: 2em; text-align: center;">
+                    Your strategy sprint outputs will guide your next 6-12 months.<br>
+                    Test fast, learn quickly, iterate constantly.
+                </p>
+                <p style="color: white !important; margin-top: 2em; text-align: center; font-size: 0.8em;">
+                    Contact: strategy@adaptivex.com
+                </p>
+                <aside class="notes">
+                    Open floor for questions. Common questions:
+                    - How often should we revisit our hypothesis?
+                    - What if our first tests fail?
+                    - How do we know when to pivot?
+
+                    End with energy and optimism!
+
+                    Time: 5 minutes
+                </aside>
+            </section>
+
+            <!-- Global Footer Configuration -->
+            <!-- This slide is processed by SmartArt to inject footer globally, but hidden from users via JS -->
+            <section data-markdown data-footer-config="true">
+                <script type="text/template">
+                ::: smartart Business Agility Fundamentals FOOTER
+                global: true
+                :::
+                </script>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- React and ReactDOM for xbackground plugin -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- Reveal.js Scripts -->
+    <script src="../../../dist/reveal.js"></script>
+    <script src="../../../plugin/notes/notes.js"></script>
+    <script src="../../../plugin/markdown/markdown.js"></script>
+    <script src="../../../plugin/highlight/highlight.js"></script>
+    <script src="../../../plugin/smartart/smartart.js"></script>
+
+    <!-- Initialize Reveal.js with ES6 Module for XBackground Plugin -->
+    <script type="module">
+        // Import XBackground plugin as ES6 module
+        import XBackground from '../../../plugin/xbackground/plugin/xbackground.js';
+
+        // Initialize Reveal.js
+        Reveal.initialize({
+            // Viewport configuration for optimal content visibility
+            width: 1280,
+            height: 720,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 2.0,
+
+            hash: true,
+            controls: true,
+            progress: true,
+            center: false,
+            transition: 'slide',
+
+            // XBackground plugin configuration
+            xbackground: {
+                transition: 'fade',
+                transitionDuration: 1000,
+                lazy: true,
+                preload: 1,
+                debug: false
+            },
+
+            // Plugin configuration
+            plugins: [
+                RevealMarkdown,
+                RevealHighlight,
+                RevealNotes,
+                RevealSmartArt,
+                XBackground  // Use the imported ES6 module
+            ],
+
+            // Markdown plugin configuration
+            markdown: {
+                smartypants: true
+            }
+        });
+
+        // Auto-skip footer configuration slide
+        // This ensures the global footer config slide is processed by SmartArt but never shown to users
+        Reveal.on('ready', function() {
+            const slides = Reveal.getSlides();
+            const currentSlide = Reveal.getCurrentSlide();
+
+            // If we start on the footer config slide (last slide), navigate to first content slide
+            if (currentSlide && currentSlide.hasAttribute('data-footer-config')) {
+                Reveal.slide(0, 0);
+            }
+        });
+
+        // Prevent navigating TO the footer config slide
+        Reveal.on('slidechanged', function(event) {
+            if (event.currentSlide && event.currentSlide.hasAttribute('data-footer-config')) {
+                // Skip forward or backward depending on direction
+                const indices = Reveal.getIndices();
+                const totalSlides = Reveal.getSlides().length;
+
+                if (indices.h >= totalSlides - 1) {
+                    // If at or past the footer slide, go back one
+                    Reveal.slide(indices.h - 1, 0);
+                } else {
+                    // Otherwise skip forward
+                    Reveal.slide(indices.h + 1, 0);
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
