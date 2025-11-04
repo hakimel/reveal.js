@@ -424,26 +424,10 @@
             .reveal h3 { font-size: 1em; }
         }
 
-        /* Viewport height responsive adjustments */
-        @media screen and (max-height: 800px) {
-            .reveal { font-size: 0.9em; }
-            .card { padding: 0.45em; }
-            .cards-grid { gap: 0.45em; }
-        }
-
-        @media screen and (max-height: 700px) {
-            .reveal { font-size: 0.85em; }
-            .card { padding: 0.4em; }
-            .cards-grid { gap: 0.4em; }
-        }
-
-        @media screen and (max-height: 600px) {
-            .reveal { font-size: 0.75em; }
-            .card { padding: 0.35em; }
-            .cards-grid { gap: 0.35em; }
-            .reveal section.compact { font-size: 0.65em; }
-            .reveal section.ultra-compact { font-size: 0.55em; }
-        }
+        /* Viewport height responsive adjustments - REMOVED
+           These media queries were causing double-scaling issues by
+           reducing font-size independently of Reveal.js transform scaling.
+           Reveal.js now handles all responsive scaling automatically. */
 
         /* ====================================
            NAVBAR HEADER BAR (ai-for-product-discovery pattern)
@@ -504,6 +488,31 @@
         .smartart[data-layout="footer"] img {
             height: 50px !important;
             width: auto !important;
+        }
+
+        /* Make footer responsive to viewport size */
+        @media screen and (max-width: 1400px) {
+            .smartart[data-layout="footer"] img {
+                height: 40px !important;
+            }
+        }
+
+        @media screen and (max-width: 1100px) {
+            .smartart[data-layout="footer"] img {
+                height: 32px !important;
+            }
+        }
+
+        @media screen and (max-width: 900px) {
+            .smartart[data-layout="footer"] img {
+                height: 26px !important;
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+            .smartart[data-layout="footer"] img {
+                height: 22px !important;
+            }
         }
 
         /* ====================================
@@ -884,6 +893,51 @@
                 </aside>
             </section>
 
+            <!-- ADDED FROM VISION-AND-STRATEGY: Conceptual clarity on what vision is vs isn't -->
+            <!-- Slide 2B: What Vision Is (and Isn't) -->
+            <section class="ultra-compact">
+                <h2>What Vision Is (and Isn't)</h2>
+                <div class="container">
+                    <div class="two-column">
+                        <div class="column">
+                            <div class="card">
+                                <h3>Vision IS:</h3>
+                                <ul>
+                                    <li>A clear picture of a desired future state</li>
+                                    <li>Inspiring and aspirational</li>
+                                    <li>A guide for decision-making</li>
+                                    <li>Focused on the "what" (what we want to create)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="card" style="border-color: var(--ax-yellow); background: linear-gradient(to bottom, #fff 0%, #fffef5 100%);">
+                                <h3 style="color: var(--ax-yellow);">Vision is NOT:</h3>
+                                <ul>
+                                    <li>Mission (why we exist)</li>
+                                    <li>Strategy (how we'll get there)</li>
+                                    <li>Goals (specific measurable targets)</li>
+                                    <li>Tactics (specific actions)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 0.5em; font-size: 0.75em; color: var(--ax-mid-gray); font-style: italic;">
+                        Example: Amazon's vision "To be Earth's most customer-centric company" vs their strategy (logistics, tech, marketplace)
+                    </p>
+                </div>
+                <aside class="notes">
+                    Many organizations confuse these terms. Clarity on what vision IS helps you craft a better one.
+
+                    Vision: Where are we going? What does success look like?
+                    Mission: Why do we exist? What's our fundamental purpose?
+                    Strategy: How will we achieve the vision? What's our approach?
+                    Goals: What specific, measurable outcomes mark progress?
+
+                    Time: 2 minutes
+                </aside>
+            </section>
+
             <!-- Slide 3: Learning Outcomes -->
             <section data-markdown>
                 <script type="text/template">
@@ -1046,6 +1100,46 @@
                 </aside>
             </section>
 
+            <!-- ADDED FROM VISION-AND-STRATEGY: Customer empathy foundation -->
+            <!-- Slide 7B: Why Customer Empathy Matters -->
+            <section class="compact">
+                <h2>Why Customer Empathy Matters</h2>
+                <div class="container">
+                    <div class="card">
+                        <h3>Value is subjective</h3>
+                        <ul>
+                            <li>What's valuable to one customer may not be to another</li>
+                            <li>Value depends on context, timing, needs, and alternatives</li>
+                            <li>We can't define value - only customers can</li>
+                        </ul>
+                    </div>
+
+                    <div class="card" style="margin-top: 0.5em; border-color: var(--ax-yellow); background: linear-gradient(to bottom, #fff 0%, #fffef5 100%);">
+                        <h3 style="color: var(--ax-yellow);">Customer focus enables strategy</h3>
+                        <ul>
+                            <li>Fast feedback and learning</li>
+                            <li>Reduces waste (building wrong things)</li>
+                            <li>Builds loyalty and advocacy</li>
+                            <li>Validates your differentiation matters</li>
+                        </ul>
+                    </div>
+
+                    <p style="text-align: center; margin-top: 0.5em; font-size: 0.85em; color: var(--ax-purple); font-weight: bold;">
+                        Without deep customer understanding, you're guessing - not strategizing
+                    </p>
+                </div>
+                <aside class="notes">
+                    Example: Same hotel room - business traveler values wifi, vacationer values pool, parent values adjoining rooms.
+
+                    Traditional approach: We define value based on features we build.
+                    Strategic approach: We discover value by understanding customers deeply.
+
+                    Your differentiation must be valued by customers, not just clever to you.
+
+                    Time: 2 minutes
+                </aside>
+            </section>
+
             <!-- Slide 8: Activity - Customer Definition -->
             <section class="ultra-compact">
                 <h2>Activity: Define Your Customer</h2>
@@ -1089,30 +1183,26 @@
 
             <!-- Slide 9: Activity - Problem Articulation -->
             <section class="ultra-compact">
-                <h2>Activity: Articulate the Problem</h2>
-                <div class="activity-box">
-                    <h3>Problem Discovery Exercise</h3>
-                    <p><strong>Question:</strong> What expensive/painful problem do they have?</p>
-                    <p><strong>Method:</strong> Note and Vote</p>
-                    <p class="duration">Duration: 15 minutes</p>
+                <br>
+                <h2 style="margin-bottom: 0.2em; font-size: 1.4em;">Activity: Articulate the Problem</h2>
+                <div class="activity-box" style="padding: 0.4em; margin-bottom: 0.3em;">
+                    <p style="margin: 0.05em 0; font-size: 0.9em;"><strong>Question:</strong> What expensive/painful problem do they have? <br> <strong>Method:</strong> Note and Vote | <span class="duration">15 min</span></p>
                 </div>
 
-                <div class="two-column">
+                <div class="two-column" style="gap: 0.8em; margin-top: 0.2em;">
                     <div class="column">
-                        <h3>Good Problems Have:</h3>
-                        <ul>
-                            <li>Urgency (needs solving now)</li>
-                            <li>Frequency (happens often)</li>
-                            <li>Cost (expensive if unsolved)</li>
-                            <li>Emotion (causes frustration)</li>
+                        <h3 style="font-size: 0.8em; margin-bottom: 0.15em;">Good Problems Have:</h3>
+                        <ul style="margin-top: 0.1em; margin-bottom: 0;">
+                            <li>Urgency + Frequency</li>
+                            <li>High cost if unsolved</li>
+                            <li>Emotional impact</li>
                         </ul>
                     </div>
                     <div class="column">
-                        <h3>Problem Framing:</h3>
-                        <ul>
+                        <h3 style="font-size: 0.8em; margin-bottom: 0.15em;">Problem Framing:</h3>
+                        <ul style="margin-top: 0.1em; margin-bottom: 0;">
                             <li>"Every time I..."</li>
-                            <li>"I waste X hours on..."</li>
-                            <li>"It costs us $X when..."</li>
+                            <li>"I waste $X on..."</li>
                             <li>"I'm frustrated by..."</li>
                         </ul>
                     </div>
@@ -1244,6 +1334,46 @@
                     Key insight: You can't be everything to everyone. The teams that win are the ones that make hard choices.
 
                     Time: 3 minutes
+                </aside>
+            </section>
+
+            <!-- ADDED FROM VISION-AND-STRATEGY: Storytelling slide about radical differentiation -->
+            <!-- Slide 13B: Why Radical Differentiation Matters -->
+            <section class="compact">
+                <h2>The Power of Radical Differentiation</h2>
+                <div class="container">
+                    <div style="padding: 0.8em; background: var(--ax-light-gray); border-left: 5px solid var(--ax-purple); border-radius: 4px; margin-bottom: 0.8em;">
+                        <p style="font-size: 1.1em; font-style: italic; margin: 0;">
+                        "People's default is to ignore new things. You need RADICAL DIFFERENTIATION to break through."<br>
+                        <span style="font-size: 0.9em;">— Jake Knapp</span>
+                        </p>
+                    </div>
+
+                    <div class="two-column" style="gap: 1.2em;">
+                        <div class="column">
+                            <h3>The Challenge:</h3>
+                            <ul>
+                                <li>Customers are overwhelmed with choices</li>
+                                <li>"Me too" offerings get ignored</li>
+                                <li>Incremental improvements aren't enough</li>
+                            </ul>
+                        </div>
+                        <div class="column">
+                            <h3>Your Requirement:</h3>
+                            <ul>
+                                <li>Create a clear promise from customer's perspective</li>
+                                <li>Must be something you can deliver</li>
+                                <li>Must be something customers care about</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    This is about breaking through the noise. Differentiation isn't just about being different - it's about being different in ways that matter to customers.
+
+                    Key insight: Your differentiation must pass two tests: 1) Can you deliver it? 2) Do customers care?
+
+                    Time: 2 minutes
                 </aside>
             </section>
 
@@ -1485,6 +1615,48 @@
                 </aside>
             </section>
 
+            <!-- ADDED FROM VISION-AND-STRATEGY: Backcasting framework for strategic planning -->
+            <!-- Slide 20B: Traditional Planning vs Backcasting -->
+            <section class="compact">
+                <h2>Traditional Planning vs Backcasting</h2>
+                <div class="container">
+                    <div class="two-column">
+                        <div class="column">
+                            <div class="card">
+                                <h3>Traditional (Forecasting):</h3>
+                                <p>Start with current state → project forward → see where you end up</p>
+                            </div>
+
+                            <div class="card" style="margin-top: 0.5em; border-color: var(--ax-yellow); background: linear-gradient(to bottom, #fff 0%, #fffef5 100%);">
+                                <h3 style="color: var(--ax-yellow);">Backcasting:</h3>
+                                <p>Define desired future state → work backward → identify path to get there</p>
+                            </div>
+
+                            <h3 style="margin-top: 0.5em;">Why backcasting is powerful:</h3>
+                            <ul>
+                                <li>More creative (not constrained by current limitations)</li>
+                                <li>More motivating (inspiring future pulls you forward)</li>
+                                <li>More strategic (focused on destination, not just incremental progress)</li>
+                            </ul>
+                        </div>
+                        <div class="column">
+                            <div class="img-container">
+                                <img src="assets/images/future-vision-concept.png" alt="Future Vision">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <aside class="notes">
+                    Forecasting asks "Where are current trends taking us?" Backcasting asks "Where do we want to be?" then "What needs to change?"
+
+                    Example: Forecasting = "We'll have 10% more automation by next year". Backcasting = "In 3 years we're fully automated, working backwards what capabilities do we need?"
+
+                    Backcasting especially valuable in complex, uncertain environments.
+
+                    Time: 3 minutes
+                </aside>
+            </section>
+
             <!-- Slide 21: The Magic Lenses Framework -->
             <section class="ultra-compact" style="padding-top: 0.5em;">
                 <h2 style="margin-bottom: 0.2em; font-size: 1.5em; margin-top: 0;">The Six Magic Lenses</h2>
@@ -1584,6 +1756,7 @@
 
             <!-- Slide 23: Approach Evaluation Template -->
             <section class="ultra-compact">
+                <br>
                 <h2 style="margin-bottom: 1em;">Approach Evaluation Scorecard</h2>
                 <table style="width: 100%; font-size: 0.7em; border-collapse: collapse;">
                     <thead>
@@ -1675,6 +1848,45 @@
                     This is where everything comes together into one clear, testable statement.
 
                     Time: 30 seconds
+                </aside>
+            </section>
+
+            <!-- ADDED FROM VISION-AND-STRATEGY: Example of strong vs weak vision statements -->
+            <!-- Slide 25B: Vision Statement Examples -->
+            <section class="compact">
+                <br>
+                <h2>Example: Strong Vision Statements</h2>
+                <div class="container">
+                    <div class="card" style="background: #f8f8f8;">
+                        <h3 style="color: #999;">Weak Marketing Vision:</h3>
+                        <p>"Be a world-class marketing organization"</p>
+                    </div>
+
+                    <div class="card" style="margin-top: 0.5em;">
+                        <h3>Strong Marketing Vision:</h3>
+                        <p>"Create marketing experiences so valuable that customers seek them out, share them enthusiastically, and see us as trusted partners in their success"</p>
+                    </div>
+
+                    <h3 style="margin-top: 0.5em;">Why it's better:</h3>
+                    <ul>
+                        <li>Specific behaviors (seek out, share, trust)</li>
+                        <li>Customer-focused outcome</li>
+                        <li>Guides decisions: "Would customers seek this out and share it?"</li>
+                        <li>Inspires: aim for partner status, not just vendor</li>
+                    </ul>
+
+                    <p style="text-align: center; margin-top: 0.5em; font-size: 0.85em; color: var(--ax-purple); font-weight: bold;">
+                        Strong visions create decision criteria that guide daily work
+                    </p>
+                </div>
+                <aside class="notes">
+                    Notice how the strong version gives clear decision criteria. "Should we do this email blast?" becomes "Would customers seek this out and share it?"
+
+                    The weak version could mean anything - doesn't guide action.
+
+                    This same principle applies to your founding hypothesis - be specific and actionable.
+
+                    Time: 2 minutes
                 </aside>
             </section>
 
@@ -1805,38 +2017,38 @@
             <!-- ============================================ -->
 
             <!-- Slide 30: Next Steps -->
-            <section class="compact" data-background-image="assets/images/sprint-planning-team.png" data-background-opacity="0.2">
-                <h2>Your Sprint Cycle Going Forward</h2>
-                <div style="text-align: center; margin: 0.5em 0;">
-                    <div class="framework-box" style="max-width: 600px; margin: 0 auto; padding: 0.6em;">
-                        <h3 style="font-size: 0.9em; margin-bottom: 0.2em;">The Continuous Strategy Loop</h3>
-                        <p style="font-size: 0.8em; margin: 0.3em 0;">
+            <section class="ultra-compact" data-background-image="assets/images/sprint-planning-team.png" data-background-opacity="0.2" style="padding-top: 0.3em; padding-bottom: 4em;">
+                <h2 style="margin-bottom: 0.2em; font-size: 1.4em;">Your Sprint Cycle Going Forward</h2>
+                <div style="text-align: center; margin: 0.2em 0;">
+                    <div class="framework-box" style="max-width: 600px; margin: 0 auto; padding: 0.4em;">
+                        <h3 style="font-size: 0.8em; margin-bottom: 0.15em;">The Continuous Strategy Loop</h3>
+                        <p style="font-size: 0.7em; margin: 0.1em 0;">
                             <strong>Test</strong> → <strong>Learn</strong> → <strong>Refine</strong> → <strong>Test</strong>
                         </p>
                     </div>
                 </div>
 
-                <h3>Immediate Next Steps:</h3>
-                <div class="cards-grid" style="gap: 0.6em;">
-                    <div class="card" style="padding: 0.5em;">
-                        <h3>Week 1</h3>
-                        <ul>
-                            <li>Document today's outputs</li>
+                <h3 style="font-size: 0.85em; margin: 0.3em 0 0.2em 0;">Immediate Next Steps:</h3>
+                <div class="cards-grid" style="gap: 0.4em;">
+                    <div class="card" style="padding: 0.35em;">
+                        <h3 style="font-size: 0.8em; margin-bottom: 0.1em;">Week 1</h3>
+                        <ul style="margin: 0.1em 0;">
+                            <li>Document outputs</li>
                             <li>Share with stakeholders</li>
                             <li>Identify first test</li>
                         </ul>
                     </div>
-                    <div class="card" style="padding: 0.5em;">
-                        <h3>Week 2-4</h3>
-                        <ul>
-                            <li>Run first validation test</li>
+                    <div class="card" style="padding: 0.35em;">
+                        <h3 style="font-size: 0.8em; margin-bottom: 0.1em;">Week 2-4</h3>
+                        <ul style="margin: 0.1em 0;">
+                            <li>Run validation test</li>
                             <li>Interview 5-10 customers</li>
-                            <li>Build simple prototype</li>
+                            <li>Build prototype</li>
                         </ul>
                     </div>
-                    <div class="card" style="padding: 0.5em;">
-                        <h3>Month 2</h3>
-                        <ul>
+                    <div class="card" style="padding: 0.35em;">
+                        <h3 style="font-size: 0.8em; margin-bottom: 0.1em;">Month 2</h3>
+                        <ul style="margin: 0.1em 0;">
                             <li>Refine hypothesis</li>
                             <li>Test pricing</li>
                             <li>Build MVP</li>
@@ -1854,23 +2066,22 @@
             </section>
 
             <!-- Slide 31: Workshop Reflection -->
-            <section class="compact">
-                <h2>Workshop Reflection</h2>
-                <div class="activity-box" style="padding: 0.6em 0.8em; margin: 0.5em 0;">
-                    <h3>Team Discussion</h3>
-                    <p>Share one insight or "aha moment" from today</p>
-                    <p class="duration">5 minutes</p>
+            <section class="compact" style="padding-top: 0.5em;">
+                <h2 style="margin-bottom: 0.3em;">Workshop Reflection</h2>
+                <div class="activity-box" style="padding: 0.5em 0.6em; margin: 0.3em 0 0.4em 0;">
+                    <h3 style="font-size: 0.9em; margin-bottom: 0.2em;">Team Discussion</h3>
+                    <p style="margin: 0.1em 0;">Share one insight or "aha moment" from today | <span class="duration">5 minutes</span></p>
                 </div>
 
-                <h3>Reflection Questions:</h3>
-                <ul>
+                <h3 style="font-size: 0.9em; margin: 0.3em 0 0.2em 0;">Reflection Questions:</h3>
+                <ul style="margin-top: 0.2em;">
                     <li>What surprised you most about your strategy?</li>
                     <li>Which module was most challenging? Why?</li>
                     <li>What assumption are you most excited to test?</li>
                     <li>How confident do you feel about your hypothesis (1-10)?</li>
                 </ul>
 
-                <p style="margin-top: 1em; text-align: center; font-size: 1em; color: var(--ax-purple); font-weight: bold;">
+                <p style="margin-top: 0.5em; text-align: center; font-size: 0.9em; color: var(--ax-purple); font-weight: bold;">
                     "Strategy is a hypothesis you test through action."
                 </p>
 
@@ -1882,9 +2093,9 @@
             </section>
 
             <!-- Slide 32: Resources & Support -->
-            <section class="compact" style="padding-top: 4em;">
-                <h2 style="margin-top: 1em; margin-bottom: 0.5em;">Resources & Continued Learning</h2>
-                <div class="two-column" style="margin-top: 0.8em;">
+            <section class="compact">
+                <h2 style="margin-top: 0; margin-bottom: 0.6em;">Resources & Continued Learning</h2>
+                <div class="two-column" style="margin-top: 0.5em;">
                     <div class="column">
                         <h3>Templates & Tools</h3>
                         <ul>
@@ -1922,7 +2133,7 @@
 
             <!-- Slide 33: Q&A and Close -->
             <section data-background-gradient="linear-gradient(135deg, var(--ax-purple) 0%, #4a2870 100%)">
-                <h2 style="color: var(--ax-yellow) !important; font-size: 1.8em; margin-bottom: 0.5em; text-align: center;">Thank You for Your Commitment!</h2>
+                
 
                 <h1 style="color: white !important; font-size: 2.5em; margin-bottom: 1em; text-align: center;">Questions & Discussion</h1>
 
