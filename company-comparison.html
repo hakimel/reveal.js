@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Company Comparison Slide</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/white.css">
+
+		<style>
+			/* Custom styles for the comparison layout */
+			.reveal .slides {
+				text-align: left;
+			}
+
+			.comparison-slide {
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+			}
+
+			/* Header with company logos and names */
+			.company-header {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 2em;
+				margin-bottom: 2em;
+				padding: 1em 0;
+				border-bottom: 2px solid #333;
+			}
+
+			.company-header-left,
+			.company-header-right {
+				display: flex;
+				align-items: center;
+				gap: 1em;
+			}
+
+			.company-header-right {
+				justify-content: flex-end;
+			}
+
+			.company-logo {
+				width: 80px;
+				height: 80px;
+				background: #e0e0e0;
+				border-radius: 8px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 2em;
+				color: #666;
+			}
+
+			.company-name {
+				font-size: 1.5em;
+				font-weight: bold;
+				color: #333;
+			}
+
+			/* Main content area with 5 columns */
+			.comparison-content {
+				display: grid;
+				grid-template-columns: 1fr 2fr 1fr 2fr 1fr;
+				gap: 1em;
+				flex: 1;
+				align-items: start;
+			}
+
+			/* Visual columns (1st and 5th) */
+			.visual-column {
+				display: flex;
+				flex-direction: column;
+				gap: 1em;
+				align-items: center;
+			}
+
+			.visual-item {
+				width: 100%;
+				aspect-ratio: 1;
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				border-radius: 8px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: white;
+				font-size: 0.9em;
+				padding: 0.5em;
+				text-align: center;
+			}
+
+			/* Topic column (middle) */
+			.topic-column {
+				display: flex;
+				flex-direction: column;
+				gap: 1.5em;
+				padding: 0 0.5em;
+			}
+
+			.topic-item {
+				font-weight: bold;
+				color: #333;
+				padding: 0.5em;
+				background: #f5f5f5;
+				border-radius: 4px;
+				text-align: center;
+				min-height: 80px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			/* Company info columns (2nd and 4th) */
+			.company-column {
+				display: flex;
+				flex-direction: column;
+				gap: 1.5em;
+			}
+
+			.info-item {
+				padding: 0.5em;
+				background: #fafafa;
+				border-radius: 4px;
+				border-left: 3px solid #667eea;
+				min-height: 80px;
+				display: flex;
+				align-items: center;
+			}
+
+			.company-column-b .info-item {
+				border-left-color: #764ba2;
+			}
+
+			/* Responsive text sizing */
+			.info-item {
+				font-size: 0.8em;
+				line-height: 1.4;
+			}
+
+			.topic-item {
+				font-size: 0.85em;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section class="comparison-slide">
+					<!-- Header with company logos and names -->
+					<div class="company-header">
+						<div class="company-header-left">
+							<div class="company-logo">A</div>
+							<div class="company-name">Company A</div>
+						</div>
+						<div class="company-header-right">
+							<div class="company-name">Company B</div>
+							<div class="company-logo">B</div>
+						</div>
+					</div>
+
+					<!-- Main comparison content -->
+					<div class="comparison-content">
+						<!-- Column 1: Visual items (left) -->
+						<div class="visual-column">
+							<div class="visual-item">Visual 1</div>
+							<div class="visual-item">Visual 2</div>
+							<div class="visual-item">Visual 3</div>
+						</div>
+
+						<!-- Column 2: Company A information -->
+						<div class="company-column company-column-a">
+							<div class="info-item">
+								<p>GmbH (Gesellschaft mit beschränkter Haftung)</p>
+							</div>
+							<div class="info-item">
+								<p>Founded in 2010, specializing in software development and digital solutions</p>
+							</div>
+							<div class="info-item">
+								<p>Berlin, Germany</p>
+							</div>
+						</div>
+
+						<!-- Column 3: Topics -->
+						<div class="topic-column">
+							<div class="topic-item">Rechtsform</div>
+							<div class="topic-item">Description</div>
+							<div class="topic-item">Location</div>
+						</div>
+
+						<!-- Column 4: Company B information -->
+						<div class="company-column company-column-b">
+							<div class="info-item">
+								<p>AG (Aktiengesellschaft)</p>
+							</div>
+							<div class="info-item">
+								<p>Established in 2005, focused on enterprise software and cloud services</p>
+							</div>
+							<div class="info-item">
+								<p>Munich, Germany</p>
+							</div>
+						</div>
+
+						<!-- Column 5: Visual items (right) -->
+						<div class="visual-column">
+							<div class="visual-item">Visual 4</div>
+							<div class="visual-item">Visual 5</div>
+							<div class="visual-item">Visual 6</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script>
+			Reveal.initialize({
+				hash: true,
+				center: false,
+				width: 1280,
+				height: 720,
+				margin: 0.04
+			});
+		</script>
+	</body>
+</html>
