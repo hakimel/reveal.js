@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>reveal.js - Test Keyboard Advanced</title>
+
+    <!-- Reveal core CSS -->
+    <link rel="stylesheet" href="../dist/reveal.css">
+
+    <!-- QUnit CSS -->
+    <link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+
+    <!-- QUnit JS -->
+    <script src="../node_modules/qunit/qunit/qunit.js"></script>
+</head>
+
+<body style="overflow: auto;">
+
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+
+    <div class="reveal" style="display: none;">
+        <div class="slides">
+            <section>Slide 1</section>
+
+            <section>
+                <section>Slide 2.1</section>
+                <section>Slide 2.2</section>
+                <section>Slide 2.3</section>
+            </section>
+
+            <section>Slide 3</section>
+        </div>
+    </div>
+
+    <!-- Reveal.js core -->
+    <script src="../dist/reveal.js"></script>
+
+    <!-- External test logic -->
+    <script src="./test-keyboard-advanced.js"></script>
+
+</body>
+</html>

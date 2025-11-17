@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>reveal.js - Test Fragments Advanced</title>
+
+    <!-- Reveal core CSS -->
+    <link rel="stylesheet" href="../dist/reveal.css">
+
+    <!-- QUnit test CSS -->
+    <link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+
+    <!-- QUnit library -->
+    <script src="../node_modules/qunit/qunit/qunit.js"></script>
+</head>
+
+<body style="overflow: auto;">
+
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+
+    <div class="reveal" style="display: none;">
+        <div class="slides">
+            <section>
+                <p class="fragment fade-in">Fragment 1</p>
+                <p class="fragment fade-out">Fragment 2</p>
+                <p class="fragment grow">Fragment 3</p>
+            </section>
+            <section>
+                <p class="fragment" data-fragment-index="2">Index 2</p>
+                <p class="fragment" data-fragment-index="1">Index 1</p>
+                <p class="fragment" data-fragment-index="1">Also Index 1</p>
+            </section>
+            <section>
+                <p class="fragment disabled">Disabled fragment</p>
+                <p class="fragment">Normal fragment</p>
+            </section>
+        </div>
+    </div>
+
+    <!-- Reveal.js core -->
+    <script src="../dist/reveal.js"></script>
+
+    <!-- External script with all tests -->
+    <script src="./test-fragments-advanced.js"></script>
+
+</body>
+</html>

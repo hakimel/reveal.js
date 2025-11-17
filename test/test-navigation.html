@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>reveal.js - Test Navigation</title>
+
+    <!-- Reveal.js styles -->
+    <link rel="stylesheet" href="../dist/reveal.css">
+
+    <!-- QUnit styles -->
+    <link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+
+    <!-- QUnit -->
+    <script src="../node_modules/qunit/qunit/qunit.js"></script>
+</head>
+
+<body style="overflow: auto;">
+
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+
+    <div class="reveal" style="display: none;">
+        <div class="slides">
+            <section>Slide 1</section>
+            <section>
+                <section>Slide 2.1</section>
+                <section>Slide 2.2</section>
+                <section>Slide 2.3</section>
+            </section>
+            <section>
+                <section>Slide 3.1</section>
+                <section>Slide 3.2</section>
+            </section>
+            <section>Slide 4</section>
+        </div>
+    </div>
+
+    <!-- Reveal.js -->
+    <script src="../dist/reveal.js"></script>
+
+    <!-- Test script (external) -->
+    <script src="./test-navigation.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>reveal.js - Test Config</title>
+
+    <!-- Reveal.js styles -->
+    <link rel="stylesheet" href="../dist/reveal.css">
+
+    <!-- QUnit styles -->
+    <link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+
+    <!-- QUnit -->
+    <script src="../node_modules/qunit/qunit/qunit.js"></script>
+</head>
+
+<body style="overflow: auto;">
+
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+
+    <div class="reveal" style="display: none;">
+        <div class="slides">
+            <section>Slide 1</section>
+            <section>Slide 2</section>
+            <section>Slide 3</section>
+        </div>
+    </div>
+
+    <!-- Reveal.js -->
+    <script src="../dist/reveal.js"></script>
+
+    <!-- External test script -->
+    <script src="./test-config.js"></script>
+</body>
+</html>
