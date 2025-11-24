@@ -160,6 +160,8 @@ section.has-dark-background h6 {
     justify-content: flex-start !important;
     padding-left: 50px !important;
     padding-right: 50px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 /*********************************************
