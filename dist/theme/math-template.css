@@ -42,9 +42,9 @@ section.has-dark-background h6 {
     --r-heading-text-shadow: none;
     --r-heading-font-weight: 600;
     --r-heading1-text-shadow: none;
-    --r-heading1-size: 2.5em;
+    --r-heading1-size: 2.0em;
     --r-heading2-size: 1.6em;
-    --r-heading3-size: 1.3em;
+    --r-heading3-size: 1.1em;
     --r-heading4-size: 1em;
     --r-code-font: monospace;
     --r-link-color: #2a76dd;
@@ -131,6 +131,35 @@ section.has-dark-background h6 {
 
 .reveal h1 {
     text-shadow: var(--r-heading1-text-shadow);
+}
+
+/* Fix h2 headings at top-left for content slides */
+.reveal .slides section:not(:first-child) h2 {
+    position: absolute;
+    top: 30px;
+    left: 50px;
+    margin: 0;
+    text-align: left;
+}
+
+/* Add padding to sections with fixed headings and align to top */
+.reveal .slides section:not(:first-child):has(h2) {
+    padding-top: 120px;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+}
+
+/* Override reveal.js default centering for content slides */
+.reveal .slides section:not(:first-child) {
+    top: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    padding-left: 50px !important;
+    padding-right: 50px !important;
 }
 
 /*********************************************
@@ -477,4 +506,40 @@ section.has-dark-background h6 {
 .reveal .proposition+.definition,
 .reveal .proposition+.proposition {
     margin-top: 20px;
+}
+
+/*********************************************
+ * REFERENCES
+ *********************************************/
+.reveal .references {
+    text-align: left;
+    font-size: 0.7em;
+    margin-top: 30px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.reveal .references ol {
+    margin: 0;
+    padding-left: 1.5em;
+    counter-reset: ref-counter;
+}
+
+.reveal .references li {
+    margin-bottom: 0.8em;
+    line-height: 1.4;
+    text-align: left;
+    display: list-item;
+}
+
+/* Inline citation support */
+.reveal .cite {
+    font-size: 0.85em;
+    color: var(--r-link-color);
+    vertical-align: super;
+    text-decoration: none;
+}
+
+.reveal .cite:hover {
+    color: var(--r-link-color-hover);
 }
