@@ -1,0 +1,480 @@
+/**
+ * Math Template Theme for reveal.js
+ * Based on the white theme, with custom mathematical environments
+ */
+section.has-dark-background,
+section.has-dark-background h1,
+section.has-dark-background h2,
+section.has-dark-background h3,
+section.has-dark-background h4,
+section.has-dark-background h5,
+section.has-dark-background h6 {
+    color: #fff;
+}
+
+/*********************************************
+ * GLOBAL STYLES
+ *********************************************/
+:root {
+    /* Theorem - Blue */
+    --theorem-border: #1e40af;
+    --theorem-bg: #dbeafe;
+
+    /* Definition - Green */
+    --definition-border: #15803d;
+    --definition-bg: #dcfce7;
+
+    /* Proposition - Purple */
+    --proposition-border: #7e22ce;
+    --proposition-bg: #f3e8ff;
+
+    --r-background-color: #fff;
+    --r-main-font: -apple-system, BlinkMacSystemFont, "Inter", "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+    --r-main-font-size: 32px;
+    --r-main-color: #222;
+    --r-block-margin: 20px;
+    --r-heading-margin: 0 0 20px 0;
+    --r-heading-font: -apple-system, BlinkMacSystemFont, "Inter", "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+    --r-heading-color: #222;
+    --r-heading-line-height: 1.2;
+    --r-heading-letter-spacing: normal;
+    --r-heading-text-transform: normal;
+    --r-heading-text-shadow: none;
+    --r-heading-font-weight: 600;
+    --r-heading1-text-shadow: none;
+    --r-heading1-size: 2.5em;
+    --r-heading2-size: 1.6em;
+    --r-heading3-size: 1.3em;
+    --r-heading4-size: 1em;
+    --r-code-font: monospace;
+    --r-link-color: #2a76dd;
+    --r-link-color-dark: rgb(30.7720647773, 99.5566801619, 192.7779352227);
+    --r-link-color-hover: rgb(73.95, 138.55, 226.1);
+    --r-selection-background-color: rgb(95.25, 152.25, 229.5);
+    --r-selection-color: #fff;
+    --r-overlay-element-bg-color: 0, 0, 0;
+    --r-overlay-element-fg-color: 240, 240, 240;
+}
+
+.reveal-viewport {
+    background: #2c2c2c;
+}
+
+.reveal .slides {
+    background-color: #fff;
+}
+
+.reveal .slides section {
+    background-color: #fff;
+}
+
+.reveal {
+    font-family: var(--r-main-font);
+    font-size: var(--r-main-font-size);
+    font-weight: normal;
+    color: var(--r-main-color);
+}
+
+.reveal ::selection {
+    color: var(--r-selection-color);
+    background: var(--r-selection-background-color);
+    text-shadow: none;
+}
+
+.reveal ::-moz-selection {
+    color: var(--r-selection-color);
+    background: var(--r-selection-background-color);
+    text-shadow: none;
+}
+
+.reveal .slides section,
+.reveal .slides section>section {
+    line-height: 1.3;
+    font-weight: inherit;
+}
+
+/*********************************************
+ * HEADERS
+ *********************************************/
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+    margin: var(--r-heading-margin);
+    color: var(--r-heading-color);
+    font-family: var(--r-heading-font);
+    font-weight: var(--r-heading-font-weight);
+    line-height: var(--r-heading-line-height);
+    letter-spacing: var(--r-heading-letter-spacing);
+    text-transform: var(--r-heading-text-transform);
+    text-shadow: var(--r-heading-text-shadow);
+    word-wrap: break-word;
+}
+
+.reveal h1 {
+    font-size: var(--r-heading1-size);
+}
+
+.reveal h2 {
+    font-size: var(--r-heading2-size);
+}
+
+.reveal h3 {
+    font-size: var(--r-heading3-size);
+}
+
+.reveal h4 {
+    font-size: var(--r-heading4-size);
+}
+
+.reveal h1 {
+    text-shadow: var(--r-heading1-text-shadow);
+}
+
+/*********************************************
+ * OTHER
+ *********************************************/
+.reveal p {
+    margin: var(--r-block-margin) 0;
+    line-height: 1.3;
+}
+
+/* Remove trailing margins after titles */
+.reveal h1:last-child,
+.reveal h2:last-child,
+.reveal h3:last-child,
+.reveal h4:last-child,
+.reveal h5:last-child,
+.reveal h6:last-child {
+    margin-bottom: 0;
+}
+
+/* Ensure certain elements are never larger than the slide itself */
+.reveal img,
+.reveal video,
+.reveal iframe {
+    max-width: 95%;
+    max-height: 95%;
+}
+
+.reveal strong,
+.reveal b {
+    font-weight: bold;
+}
+
+.reveal em {
+    font-style: italic;
+}
+
+.reveal ol,
+.reveal dl,
+.reveal ul {
+    display: inline-block;
+    text-align: left;
+    margin: 0 0 0 1em;
+}
+
+.reveal ol {
+    list-style-type: decimal;
+}
+
+.reveal ul {
+    list-style-type: disc;
+}
+
+.reveal ul ul {
+    list-style-type: square;
+}
+
+.reveal ul ul ul {
+    list-style-type: circle;
+}
+
+.reveal ul ul,
+.reveal ul ol,
+.reveal ol ol,
+.reveal ol ul {
+    display: block;
+    margin-left: 40px;
+}
+
+.reveal dt {
+    font-weight: bold;
+}
+
+.reveal dd {
+    margin-left: 40px;
+}
+
+.reveal blockquote {
+    display: block;
+    position: relative;
+    width: 70%;
+    margin: var(--r-block-margin) auto;
+    padding: 5px;
+    font-style: italic;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+}
+
+.reveal blockquote p:first-child,
+.reveal blockquote p:last-child {
+    display: inline-block;
+}
+
+.reveal q {
+    font-style: italic;
+}
+
+.reveal pre {
+    display: block;
+    position: relative;
+    width: 90%;
+    margin: var(--r-block-margin) auto;
+    text-align: left;
+    font-size: 0.55em;
+    font-family: var(--r-code-font);
+    line-height: 1.2em;
+    word-wrap: break-word;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.reveal code {
+    font-family: var(--r-code-font);
+    text-transform: none;
+    tab-size: 2;
+}
+
+.reveal pre code {
+    display: block;
+    padding: 5px;
+    overflow: auto;
+    max-height: 400px;
+    word-wrap: normal;
+}
+
+.reveal .code-wrapper {
+    white-space: normal;
+}
+
+.reveal .code-wrapper code {
+    white-space: pre;
+}
+
+.reveal table {
+    margin: auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.reveal table th {
+    font-weight: bold;
+}
+
+.reveal table th,
+.reveal table td {
+    text-align: left;
+    padding: 0.2em 0.5em 0.2em 0.5em;
+    border-bottom: 1px solid;
+}
+
+.reveal table th[align=center],
+.reveal table td[align=center] {
+    text-align: center;
+}
+
+.reveal table th[align=right],
+.reveal table td[align=right] {
+    text-align: right;
+}
+
+.reveal table tbody tr:last-child th,
+.reveal table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.reveal sup {
+    vertical-align: super;
+    font-size: smaller;
+}
+
+.reveal sub {
+    vertical-align: sub;
+    font-size: smaller;
+}
+
+.reveal small {
+    display: inline-block;
+    font-size: 0.6em;
+    line-height: 1.2em;
+    vertical-align: top;
+}
+
+.reveal small * {
+    vertical-align: top;
+}
+
+.reveal img {
+    margin: var(--r-block-margin) 0;
+}
+
+/*********************************************
+ * LINKS
+ *********************************************/
+.reveal a {
+    color: var(--r-link-color);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.reveal a:hover {
+    color: var(--r-link-color-hover);
+    text-shadow: none;
+    border: none;
+}
+
+.reveal .roll span:after {
+    color: #fff;
+    background: var(--r-link-color-dark);
+}
+
+/*********************************************
+ * Frame helper
+ *********************************************/
+.reveal .r-frame {
+    border: 4px solid var(--r-main-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.reveal a .r-frame {
+    transition: all 0.15s linear;
+}
+
+.reveal a:hover .r-frame {
+    border-color: var(--r-link-color);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
+}
+
+/*********************************************
+ * NAVIGATION CONTROLS
+ *********************************************/
+.reveal .controls {
+    color: var(--r-link-color);
+}
+
+/*********************************************
+ * PROGRESS BAR
+ *********************************************/
+.reveal .progress {
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--r-link-color);
+}
+
+/*********************************************
+ * PRINT BACKGROUND
+ *********************************************/
+@media print {
+    .backgrounds {
+        background-color: var(--r-background-color);
+    }
+}
+
+/*********************************************
+ * MATHEMATICAL ENVIRONMENTS
+ *********************************************/
+
+/* Base styling for all math environments */
+.reveal .theorem,
+.reveal .definition,
+.reveal .proposition {
+    display: block;
+    position: relative;
+    width: 85%;
+    margin: 25px auto;
+    padding: 20px 25px;
+    text-align: left;
+    font-size: 0.85em;
+    border-left: 5px solid;
+    border-radius: 5px;
+    /* box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); */
+    background: rgba(0, 0, 0, 0.02);
+}
+
+/* Theorem environment - Blue theme */
+.reveal .theorem {
+    border-left-color: var(--theorem-border);
+    background: var(--theorem-bg);
+}
+
+/* Definition environment - Green theme */
+.reveal .definition {
+    border-left-color: var(--definition-border);
+    background: var(--definition-bg);
+}
+
+/* Proposition environment - Purple theme */
+.reveal .proposition {
+    border-left-color: var(--proposition-border);
+    background: var(--proposition-bg);
+}
+
+/* Label styling */
+.reveal .env-label {
+    font-weight: bold;
+    font-style: italic;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    text-transform: none;
+}
+
+.reveal .theorem .env-label {
+    color: var(--theorem-border);
+}
+
+.reveal .definition .env-label {
+    color: var(--definition-border);
+}
+
+.reveal .proposition .env-label {
+    color: var(--proposition-border);
+}
+
+/* Content styling */
+.reveal .env-content {
+    line-height: 1.5;
+    text-align: left;
+}
+
+/* Ensure lists inside environments are properly formatted */
+.reveal .env-content ul,
+.reveal .env-content ol {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: block;
+    text-align: left;
+}
+
+.reveal .env-content li {
+    margin: 5px 0;
+}
+
+/* Ensure math inside environments has proper spacing */
+.reveal .env-content .MJXc-display,
+.reveal .env-content .MathJax_Display {
+    margin: 15px 0;
+}
+
+/* Allow multiple environments on the same slide */
+.reveal .theorem+.theorem,
+.reveal .theorem+.definition,
+.reveal .theorem+.proposition,
+.reveal .definition+.theorem,
+.reveal .definition+.definition,
+.reveal .definition+.proposition,
+.reveal .proposition+.theorem,
+.reveal .proposition+.definition,
+.reveal .proposition+.proposition {
+    margin-top: 20px;
+}

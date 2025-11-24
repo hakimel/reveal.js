@@ -1,40 +1,130 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+    <title>Mathematical Presentation</title>
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/math-template.css">
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css">
+</head>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Title Slide -->
+            <section>
+                <h1>Your Title Here</h1>
+                <h3>Subtitle or Author</h3>
+            </section>
+
+            <!-- Example: Theorem -->
+            <section>
+                <h2>A Sample Theorem</h2>
+                <div class="theorem">
+                    <div class="env-label">Theorem 1</div>
+                    <div class="env-content">
+                        For any real numbers \(a\) and \(b\), we have
+                        \[(a + b)^2 = a^2 + 2ab + b^2\]
+                    </div>
+                </div>
+            </section>
+
+            <!-- Example: Definition -->
+            <section>
+                <h2>A Sample Definition</h2>
+                <div class="definition">
+                    <div class="env-label">Definition 1</div>
+                    <div class="env-content">
+                        A <strong>group</strong> is a set \(G\) together with a binary operation \(\cdot : G \times G
+                        \to G\) that satisfies:
+                        <ul>
+                            <li>Associativity</li>
+                            <li>Identity element</li>
+                            <li>Inverse elements</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Example: Proposition -->
+            <section>
+                <h2>A Sample Proposition</h2>
+                <div class="proposition">
+                    <div class="env-label">Proposition 1</div>
+                    <div class="env-content">
+                        Every finite group of prime order is cyclic.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Example: Multiple environments on one slide -->
+            <section>
+                <h2>Combining Environments</h2>
+                <div class="definition">
+                    <div class="env-label">Definition 2</div>
+                    <div class="env-content">
+                        A function \(f: X \to Y\) is <strong>injective</strong> if \(f(x_1) = f(x_2)\) implies \(x_1 =
+                        x_2\).
+                    </div>
+                </div>
+                <div class="proposition">
+                    <div class="env-label">Proposition 2</div>
+                    <div class="env-content">
+                        If \(f: X \to Y\) is injective, then \(|X| \leq |Y|\).
+                    </div>
+                </div>
+            </section>
+
+            <!-- Plain slide for content -->
+            <section>
+                <h2>Regular Content</h2>
+                <p>You can mix theorem environments with regular content.</p>
+                <p>Math also works inline: \(e^{i\pi} + 1 = 0\)</p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script src="plugin/math/math.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            history: true,
+            transition: 'fade',
+            transitionSpeed: 'fast',
+
+            // 4:3 aspect ratio
+            width: 1024,
+            height: 768,
+
+            // Math configuration
+            mathjax2: {
+                config: 'TeX-AMS_HTML-full',
+                TeX: {
+                    Macros: {
+                        R: '\\mathbb{R}',
+                        N: '\\mathbb{N}',
+                        Z: '\\mathbb{Z}',
+                        Q: '\\mathbb{Q}',
+                        C: '\\mathbb{C}',
+                    }
+                }
+            },
+
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax2]
+        });
+    </script>
+</body>
+
 </html>
