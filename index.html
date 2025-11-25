@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <title>Mathematical Presentation</title>
 
@@ -12,7 +13,7 @@
     <link rel="stylesheet" href="dist/theme/math-template.css">
 
     <!-- Theme used for syntax highlighted code -->
-    <link rel="stylesheet" href="plugin/highlight/monokai.css">
+    <link rel="stylesheet" href="plugin/highlight/zenburn.css">
 </head>
 
 <body>
@@ -20,80 +21,148 @@
         <div class="slides">
             <!-- Title Slide -->
             <section>
-                <h1>Your Title Here</h1>
-                <h3>Subtitle or Author</h3>
+                <h1>Learning Logic Programs by Discovering Higher-Order
+                    Abstractions</h1>
+                <h3>Hocquette, Dumancic, Cropper</h3>
+            </section>
+
+            <section>
+                <h2>Normal ILP Setting</h2>
+                <span class="fragment">Given some training examples like:</span>
+                <p class="fragment">
+                    <code>[d,o,g]</code> $\mapsto$ <code>[D,O,G]</code> <br>
+                    <code>[c,o,d,e]</code> $\mapsto$ <code>[C,O,D,E]</code> <br>
+                    <br>
+                    alongside background knowledge:
+                    <code
+                        class="language-prolog">empty/1. tail/2. uppercase/2. head/2.</code>
+                </p>
+
+                <pre class="fragment"
+                    style="width: 95%; max-width: 95%;"><code data-line-numbers class="nohighlight" data-noescape>f(A,B) <span class="hljs-operator">:-</span> empty(A), empty(B).
+f(A,B) <span class="hljs-operator">:-</span> head(A,C), uppercase(C,E) head(B,E), tail(A,D), f(D,F), tail(B,F).</code></pre>
+                <p>
+                <ul>
+                    <li class="fragment">
+                        This is quite a hard program to learn (it is recursive,
+                        and has 6 body literals)
+                    </li>
+                    <li class="fragment">
+                        It also doesn't help us later on to learn a program for
+                        <br>
+                        <code>[d,o,g]</code> $\mapsto$
+                        <code>[*,*,*]</code>
+                    </li>
+
+                </ul>
+                <br>
+                </p>
             </section>
 
             <!-- Example: Theorem -->
             <section>
-                <h2>A Sample Theorem</h2>
-                <div class="theorem">
-                    <div class="env-label">Theorem 1</div>
-                    <div class="env-content">
-                        For any real numbers \(a\) and \(b\), we have
-                        \[(a + b)^2 = a^2 + 2ab + b^2\]
-                    </div>
-                </div>
+                <h2>Higher-Order Abstractions</h2>
+
+                <span>This program is equivalent to</span>
+
+                <pre
+                    data-id="code"><code data-line-numbers class="nohighlight" data-noescape><span class="fragment fade-in" data-fragment-index="1">f(A,B) <span class="hljs-operator">:-</span> map(A,B,uppercase).        <span class="hljs-comment"># first program</span></span>
+<span class="fragment fade-in" data-fragment-index="2">f(A,B) <span class="hljs-operator">:-</span> map(A,B,redact).           <span class="hljs-comment"># second program</span></span></code></pre>
+                <p class="fragment">Where <code
+                        class="language-prolog">map/3.</code> is a
+                    <strong> higher-order</strong> predicate which can be
+                    summarised as applying an operation to a list.
+                <ul>
+                    <li class="fragment">These programs are much shorter, and so
+                        easier for an ILP system to learn</li>
+                    <li class="fragment">Once <code>map/3.</code> has been
+                        learned, the rest is quite easy</li>
+                </ul>
+                </p>
             </section>
 
-            <!-- Example: Definition -->
             <section>
-                <h2>A Sample Definition</h2>
-                <div class="definition">
-                    <div class="env-label">Definition 1</div>
-                    <div class="env-content">
-                        A <strong>group</strong> is a set \(G\) together with a binary operation \(\cdot : G \times G
-                        \to G\) that satisfies:
-                        <ul>
-                            <li>Associativity</li>
-                            <li>Identity element</li>
-                            <li>Inverse elements</li>
-                        </ul>
-                    </div>
-                </div>
+                <h2>Discovering Abstractions</h2>
+                <ul>
+                    <li class="fragment"><code>map/3.</code> is a well known
+                        higher-order function </li>
+                    <li class="fragment"> <span
+                            style="font-variant: small-caps;">Stevie</span> is
+                        an approach to learning these abstractions automatically
+                        from definite logic programs.
+                    </li>
+                </ul>
+
             </section>
 
             <!-- Example: Proposition -->
             <section>
                 <h2>A Sample Proposition</h2>
-                <div class="proposition">
-                    <div class="env-label">Proposition 1</div>
+                <div class="definition fragment">
+                    <div class="env-label">Definition: Definition</div>
                     <div class="env-content">
-                        Every finite group of prime order is cyclic.
+                        A <strong> definition</strong> is a set of rules with
+                        the same head predicate. The set of definitions for a
+                        logic program $P$ is denoted $\delta(P)$.
+                    </div>
+                </div>
+
+                <div class="definition fragment">
+                    <div class="env-label">Definition: Abstraction</div>
+                    <div class="env-content">
+                        For a program $P$, definition $d \in \delta(P)$ with
+                        $h/k.$ the head predicate of $d$,
+                        $\{b_1,..,b_n\}$ a subset of the body-literals in
+                        $d$, and $\{x_1,..,x_n\}$ a set of a set of higher-order
+                        variables. An <strong>abstraction</strong> $a \in
+                        \mathcal{A}(P)$
+                        <ol>
+                            <li>Replaces every $b_i$ with $x_i$,</li>
+                            <li>every literal $h/k$ with $h'/(k+n)$.</li>
+                        </ol>
                     </div>
                 </div>
             </section>
 
-            <!-- Example: Multiple environments on one slide -->
-            <section>
-                <h2>Combining Environments</h2>
-                <div class="definition">
-                    <div class="env-label">Definition 2</div>
-                    <div class="env-content">
-                        A function \(f: X \to Y\) is <strong>injective</strong> if \(f(x_1) = f(x_2)\) implies \(x_1 =
-                        x_2\).
-                    </div>
-                </div>
-                <div class="proposition">
-                    <div class="env-label">Proposition 2</div>
-                    <div class="env-content">
-                        If \(f: X \to Y\) is injective, then \(|X| \leq |Y|\).
-                    </div>
-                </div>
+            <section data-auto-animate>
+                <h2 data-id="abstraction-example-header">Example of an
+                    abstraction</h2>
+                <pre
+                    data-id="code"><code data-line-numbers class="nohighlight" data-noescape><span class="hljs-comment">% Program 1 (also a definition)</span>
+<span class="highlight-word-blue fragment custom" data-fragment-index="2">sumredu</span>(A,<span class="hljs-number">0</span>) <span class="hljs-operator">:-</span> empty(A).
+<span class="highlight-word-blue fragment custom" data-fragment-index="2">sumredu</span>(A,B) <span class="hljs-operator">:-</span> head(A,C), tail(A,D), <span class="highlight-word-blue fragment custom" data-fragment-index="2">sumredu</span>(D,F), <span class="highlight-word-red fragment custom" data-fragment-index="3">add(C,F,B)</span>.
+
+<span class="fragment fade-in" data-fragment-index="1"><span class="hljs-comment">[1,2,3,4] ==> 10</span></span>
+<span class="fragment fade-in" data-fragment-index="1"><span class="hljs-comment">[9,8] ==> 17
+    
+</span></span>
+<span class="fragment fade-in" data-fragment-index="5"><span class="hljs-comment">% Abstraction of Program 1</span></span>
+<span class="fragment fade-in" data-fragment-index="6"><span class="highlight-green">redu</span>(A,<span class="hljs-number">0</span>,<span class="highlight-var">X</span>) <span class="hljs-operator">:-</span> empty(A).</span>
+<span class="fragment fade-in" data-fragment-index="7"><span class="highlight-green">redu</span>(A,B,<span class="highlight-var">X</span>) <span class="hljs-operator">:-</span> head(A,C), tail(A,D), <span class="highlight-green">redu</span>(D,F,<span class="highlight-var">X</span>), <span class="highlight-var">X</span>(C,F,B).</span></code></pre>
             </section>
 
-            <!-- Plain slide for content -->
+
             <section>
-                <h2>Regular Content</h2>
-                <p>You can mix theorem environments with regular content.</p>
-                <p>Math also works inline: \(e^{i\pi} + 1 = 0\)</p>
+                <h2>Instantiations</h2>
+                <pre data-id="code"><code data-line-numbers class="nohighlight"
+                        data-noescape><span class="hljs-comment">% Abstraction of Program 1</span>
+<span class="highlight-green">redu</span>(A,<span class="hljs-number">0</span>,<span class="highlight-var">X</span>) <span class="hljs-operator">:-</span> empty(A).</span>
+<span class="highlight-green">redu</span>(A,B,<span class="highlight-var">X</span>) <span class="hljs-operator">:-</span> head(A,C), tail(A,D), <span class="highlight-green">redu</span>(D,F,<span class="highlight-var">X</span>), <span class="highlight-var">X</span>(C,F,B).</span></code>
+                    </pre>
+
+                An instantiation requires us to give meaning to the higher-order
+                variable.
+                <pre data-id="code"><code data-line-numbers class="nohighlight" data-noescape><span class="hljs-comment"></span><span class="highlight-green">sumredu(A,B)</span><span class="hljs-operator">:-</span> redu(A,B,add).                               </span>
+</code></pre>
             </section>
 
             <!-- Example: Using citations -->
             <section>
                 <h2>Example with Citations</h2>
-                <p>This result was first proven by Euler<a href="#ref1" class="cite">[1]</a>.</p>
-                <p>Later work by Gauss<a href="#ref2" class="cite">[2]</a> extended this concept.</p>
+                <p>This result was first proven by Euler<a href="#ref1"
+                        class="cite">[1]</a>.</p>
+                <p>Later work by Gauss<a href="#ref2" class="cite">[2]</a>
+                    extended this concept.</p>
             </section>
 
             <!-- References slide -->
@@ -101,8 +170,10 @@
                 <h2>References</h2>
                 <div class="references">
                     <ol>
-                        <li id="ref1">Euler, L. (1748). <em>Introductio in analysin infinitorum</em>. Bousquet.</li>
-                        <li id="ref2">Gauss, C. F. (1801). <em>Disquisitiones Arithmeticae</em>. Leipzig.</li>
+                        <li id="ref1">Euler, L. (1748). <em>Introductio in
+                                analysin infinitorum</em>. Bousquet.</li>
+                        <li id="ref2">Gauss, C. F. (1801). <em>Disquisitiones
+                                Arithmeticae</em>. Leipzig.</li>
                     </ol>
                 </div>
             </section>
@@ -121,6 +192,8 @@
             history: true,
             transition: 'fade',
             transitionSpeed: 'fast',
+            slideNumber: true,
+            loop: true,
 
             // 4:3 aspect ratio
             width: 1024,

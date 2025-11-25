@@ -21,20 +21,20 @@ section.has-dark-background h6 {
     --theorem-bg: #dbeafe;
 
     /* Definition - Green */
-    --definition-border: #15803d;
-    --definition-bg: #dcfce7;
+    --definition-border: #0222BB;
+    --definition-bg: #EFFAFF;
 
     /* Proposition - Purple */
     --proposition-border: #7e22ce;
     --proposition-bg: #f3e8ff;
 
     --r-background-color: #fff;
-    --r-main-font: -apple-system, BlinkMacSystemFont, "Inter", "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+    --r-main-font: Arial, Helvetica, sans-serif;
     --r-main-font-size: 32px;
     --r-main-color: #222;
     --r-block-margin: 20px;
     --r-heading-margin: 0 0 20px 0;
-    --r-heading-font: -apple-system, BlinkMacSystemFont, "Inter", "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+    --r-heading-font: Arial, Helvetica, sans-serif;
     --r-heading-color: #222;
     --r-heading-line-height: 1.2;
     --r-heading-letter-spacing: normal;
@@ -46,7 +46,7 @@ section.has-dark-background h6 {
     --r-heading2-size: 1.6em;
     --r-heading3-size: 1.1em;
     --r-heading4-size: 1em;
-    --r-code-font: monospace;
+    --r-code-font: "Pragmata Pro", monospace;
     --r-link-color: #2a76dd;
     --r-link-color-dark: rgb(30.7720647773, 99.5566801619, 192.7779352227);
     --r-link-color-hover: rgb(73.95, 138.55, 226.1);
@@ -58,6 +58,7 @@ section.has-dark-background h6 {
 
 .reveal-viewport {
     background: #2c2c2c;
+    background-color: #fff;
 }
 
 .reveal .slides {
@@ -262,18 +263,30 @@ section.has-dark-background h6 {
 .reveal pre {
     display: block;
     position: relative;
+    min-width: 90%;
     width: 90%;
+    max-width: 90%;
     margin: var(--r-block-margin) auto;
     text-align: left;
-    font-size: 0.55em;
+    font-size: 0.7em;
     font-family: var(--r-code-font);
-    line-height: 1.2em;
+    line-height: 1.4em;
     word-wrap: break-word;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+    /* box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15); */
+}
+
+.reveal pre+pre {
+    margin-top: 0;
+}
+
+.reveal pre[data-id^="code-abstraction"] {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .reveal code {
     font-family: var(--r-code-font);
+    font-size: 0.8em;
     text-transform: none;
     tab-size: 2;
 }
@@ -283,6 +296,7 @@ section.has-dark-background h6 {
     padding: 5px;
     overflow: auto;
     max-height: 400px;
+    min-height: 100px;
     word-wrap: normal;
 }
 
@@ -454,7 +468,7 @@ section.has-dark-background h6 {
 /* Label styling */
 .reveal .env-label {
     font-weight: bold;
-    font-style: italic;
+    /* font-style: italic; */
     margin-bottom: 10px;
     font-size: 1.1em;
     text-transform: none;
@@ -483,6 +497,8 @@ section.has-dark-background h6 {
 .reveal .env-content ol {
     margin-top: 10px;
     margin-bottom: 10px;
+    margin-left: 3em;
+    padding-left: 0;
     display: block;
     text-align: left;
 }
@@ -544,4 +560,60 @@ section.has-dark-background h6 {
 
 .reveal .cite:hover {
     color: var(--r-link-color-hover);
+}
+
+/* Highlighting for fragments */
+.reveal mark.highlight-red {
+    background-color: transparent;
+    font-weight: normal;
+}
+
+.reveal mark.highlight-red.visible {
+    background-color: #ffeb3b;
+    font-weight: bold;
+}
+
+.reveal .highlight-word {
+    font-weight: normal;
+    color: inherit;
+}
+
+.reveal .fragment.custom {
+    opacity: 1;
+    visibility: visible;
+}
+
+.reveal .highlight-word-blue.fragment.custom.visible {
+    color: #0222BB;
+    font-weight: bold;
+}
+
+.reveal .highlight-word-red.fragment.custom.visible {
+    color: #600;
+    font-weight: bold;
+}
+
+.reveal .highlight-green {
+    color: #059669;
+    font-weight: bold;
+}
+
+.reveal .highlight-var {
+    font-weight: bold;
+}
+
+/* Popup text styling */
+.reveal .popup-text {
+    display: block;
+    color: #c00;
+    font-weight: normal;
+    margin-left: 2em;
+}
+
+/* Hide fragment lines completely until they appear */
+.reveal .fragment.fade-in:not(.visible) {
+    visibility: hidden;
+    height: 0;
+    line-height: 0;
+    overflow: hidden;
 }
