@@ -28,10 +28,15 @@ if (Array.isArray(rawFileArg)) {
     rawFileArg = rawFileArg[rawFileArg.length - 1];
 }
 
-const presentationPath = rawFileArg || 'index.html';
-const rawRoot = path.dirname(presentationPath);
-const presentationFile = path.basename(presentationPath);
-const root = path.resolve(rawRoot);
+// 1. Set the server's root to the current working directory (which should be the reveal.js folder)
+const root = process.cwd();
+
+// 2. Calculate the absolute path to the file provided by the argument.
+const absoluteFilePath = path.resolve(rawFileArg || 'index.html');
+
+// 3. Calculate the path to the slide file *relative* to the server root (reveal.js folder).
+const presentationFile = path.relative(root, absoluteFilePath);
+
 const port = yargs.argv.port || 8000
 const host = yargs.argv.host || 'localhost'
 
@@ -305,7 +310,7 @@ gulp.task('package', gulp.series(async () => {
 
 }))
 
-gulp.task('reload', () => gulp.src([presentationFile])
+gulp.task('reload', () => gulp.src([absoluteFilePath])
     .pipe(connect.reload()));
 
 gulp.task('serve', () => {
@@ -318,13 +323,8 @@ gulp.task('serve', () => {
         livereload: true
     })
 
-    const slidesRoot = root.endsWith('/') ? root : root + '/'
-
     const watchTargets = [
-        presentationPath,
-        slidesRoot + '**/*.html',
-        slidesRoot + '**/*.md',
-        `!${slidesRoot}**/node_modules/**`, // ignore node_modules
+        absoluteFilePath,
     ];
 
     gulp.watch(watchTargets, gulp.series('reload'))
