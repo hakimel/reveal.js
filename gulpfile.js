@@ -4,6 +4,7 @@ const glob = require('glob')
 const yargs = require('yargs')
 const through = require('through2');
 const qunit = require('node-qunit-puppeteer')
+const path = require('path');
 
 const {rollup} = require('rollup')
 const terser = require('@rollup/plugin-terser')
@@ -20,9 +21,20 @@ const minify = require('gulp-clean-css')
 const connect = require('gulp-connect')
 const autoprefixer = require('gulp-autoprefixer')
 
-const root = yargs.argv.root || '.'
+
+let rawFileArg = yargs.argv.file;
+
+if (Array.isArray(rawFileArg)) {
+    rawFileArg = rawFileArg[rawFileArg.length - 1];
+}
+
+const presentationPath = rawFileArg || 'index.html';
+const rawRoot = path.dirname(presentationPath);
+const presentationFile = path.basename(presentationPath);
+const root = path.resolve(rawRoot);
 const port = yargs.argv.port || 8000
 const host = yargs.argv.host || 'localhost'
+
 
 const cssLicense = `
 reveal.js ${pkg.version}
@@ -293,7 +305,7 @@ gulp.task('package', gulp.series(async () => {
 
 }))
 
-gulp.task('reload', () => gulp.src(['index.html'])
+gulp.task('reload', () => gulp.src([presentationFile])
     .pipe(connect.reload()));
 
 gulp.task('serve', () => {
@@ -302,15 +314,20 @@ gulp.task('serve', () => {
         root: root,
         port: port,
         host: host,
+        index: presentationFile,
         livereload: true
     })
 
     const slidesRoot = root.endsWith('/') ? root : root + '/'
-    gulp.watch([
+
+    const watchTargets = [
+        presentationPath,
         slidesRoot + '**/*.html',
         slidesRoot + '**/*.md',
         `!${slidesRoot}**/node_modules/**`, // ignore node_modules
-    ], gulp.series('reload'))
+    ];
+
+    gulp.watch(watchTargets, gulp.series('reload'))
 
     gulp.watch(['js/**'], gulp.series('js', 'reload', 'eslint'))
 
