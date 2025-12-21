@@ -46,25 +46,25 @@
 
 <!-- .slide: data-auto-animate -->
 ## Variables <!-- .element: data-id="title" -->
-```scala 
+```scala
 // these are the same
 var a: String = "hello"
 var a = "hello"
-``` 
+```
 <!-- .element: class="fragment" -->
 
 ``` scala
 // mutable
 var a = "hello"
 a = "world"
-``` 
+```
 <!-- .element: class="fragment" -->
 
 ```scala
 // does not compile
 var a = "hello"
 a = 5
-``` 
+```
 <!-- .element: class="fragment" -->
 
 
@@ -100,7 +100,7 @@ def add = {
 
 <div class='left' style='float:left;width:400px; font-size: 50px'>
   <pre><code data-trim data-noescape class="scala">
-  // program 1  
+  // program 1
   val x = {
     println("calc x")
     42
@@ -144,6 +144,18 @@ val numbers = Map(
 
 ---
 
+## Basic Collections
+```scala
+val myArray = Array(1,2,3,3) // (1,2,3,3)
+val myList = List(1,2,3,3)   // (1,2,3,3)
+val mySeq = Seq(1,2,3,3)     // (1,2,3,3)
+val mySet = Set(1,2,3,3)     // (1,2,3)
+
+val myMap = Map(1 -> "one", 2 -> "two")
+```
+
+---
+
 ## Loops
 ```scala
 val nums = List(1,2,3)
@@ -154,7 +166,10 @@ for (n <- nums) println(n)
 
 // while loop
 var i = 0
-while (i < nums.size) println(num(i))
+while (i < nums.size) {
+  println(num(i))
+  i += 1
+}
 ```
 
 We are functional, do not do it! 😡
@@ -204,13 +219,13 @@ add2(1)(2) == 3
 ## Functions <!-- .element: data-id="title" -->
 ### High order functions
 - Let's implement HTTP request filters
-- Header values are stored lower/upper
-- Answer should be lowered-case
+- Header keys are stored lowered-case
+- Header values should be lowered-case
 
 ```scala
-case class Request(method: String, 
-                   uri: String, 
-                   headers: Map[String, String] = Map(), 
+case class Request(method: String,
+                   uri: String,
+                   headers: Map[String, String] = Map(),
                    content: String = ""
                   )
 def isGET(req: Request): Boolean = ???
@@ -227,18 +242,18 @@ def getReferer(req: Request): String = ???
 ### High order functions
 
 ```scala
-case class Request(method: String, 
-                   uri: String, 
-                   headers: Map[String, String] = Map(), 
+case class Request(method: String,
+                   uri: String,
+                   headers: Map[String, String] = Map(),
                    content: String = ""
                   )
 def isGET(req: Request): Boolean = req.method == "GET"
 def isPOST(req: Request): Boolean = req.method == "POST"
 
-def getContentType(req: Request): String = 
+def getContentType(req: Request): String =
   headers("content-type").toLowerCase
 
-def getReferer(req: Request): String = 
+def getReferer(req: Request): String =
   headers("referer").toLowerCase
 ```
 <!-- .element: data-id="code" -->
@@ -253,12 +268,12 @@ def getReferer(req: Request): String =
 ### High order functions
 
 ```scala
-private def methodFilter(method: String)(req: Request) = 
+private def methodFilter(method: String)(req: Request) =
   req.method == method
 
-private def getHeader(name: String)(req: Request) = 
+private def getHeader(name: String)(req: Request) =
   req.headers(name).toLowerCase
-         
+
 val isGET: Request => Boolean = methodFilter("GET")
 val isPOST: Request => Boolean = methodFilter("POST")
 
@@ -268,18 +283,6 @@ val getReferer: Request => String = getHeader("referer")
 getReferer(req)
 ```
 <!-- .element: data-id="code" -->
-
----
-
-## Basic Collections
-```scala
-val myArray = Array(1,2,3,3) // (1,2,3,3)
-val myList = List(1,2,3,3)   // (1,2,3,3)
-val mySeq = Seq(1,2,3,3)     // (1,2,3,3)
-val mySet = Set(1,2,3,3)     // (1,2,3)
-
-val myMap = Map(1 -> "one", 2 -> "two")
-```
 
 ---
 
@@ -323,7 +326,7 @@ class Person private (first: String, last: String) {
 }
 
 object Person {
-  def apply(first: String, last: String) = 
+  def apply(first: String, last: String) =
     new Person(first = first, last = last)
 
   object johnDoe = Person(first = "john", last = "doe")
@@ -345,7 +348,7 @@ class Person private (first: String, last: String) {
 }
 
 object Person {
-  def apply(first: String, last: String) = 
+  def apply(first: String, last: String) =
     new Person(first = first, last = last)
 
   object johnDoe = Person(first = "john", last = "doe")
@@ -408,16 +411,16 @@ class Batmobile extends Car with Airplane
 <!-- .slide: data-auto-animate -->
 ## Case classes/objects <!-- .element: data-id="title" -->
 ```scala
-case class HttpRequest(method: String, 
-                       uri: String, 
+case class HttpRequest(method: String,
+                       uri: String,
                        headers: Map[String, String]
                       )
 
 val req1 = HttpRequest("GET", "/hello", Map.empty)
 
-val req2 = req1.copy(uri = "/world", 
+val req2 = req1.copy(uri = "/world",
                      headers = Map("Content-Length" -> 5)
-                     )
+                    )
 ```
 
 
@@ -431,11 +434,11 @@ val req2 = req1.copy(uri = "/world",
   - It's just regular operator overloading
 
 ```scala
-// Usage example: 
-case class Person(name: String, age: Int) extends Ordinal[Person] { 
+// Usage example:
+case class Person(name: String, age: Int) extends Ordinal[Person] {
   ???
 }
-  
+
 val grut = Person("Grut", 100)
 val spiderMan = Person("Peter Parker", 16)
 
@@ -456,7 +459,7 @@ println(spiderMan < grut)
 <!-- .slide: data-auto-animate -->
 ## Basic Effects <!-- .element: data-id="title" -->
 ### Option[T]
-- Represents emptiness, a value that exists or not 
+- Represents emptiness, a value that exists or not
 - `Some[T]`: an existing value
 - `None`: an empty value
 ```scala
@@ -501,9 +504,9 @@ val y: Either[Int, String] = Left(-1)
 ```scala
 val x: Future[String] = Future( "hello world")
 
-def div(n: Int) = Future { 
+def div(n: Int) = Future {
   log("failing")
-  n / 0 
+  n / 0
 }
 ```
 
@@ -520,8 +523,8 @@ Call findUser and print the retrieved user if exists <!-- .element: class="fragm
 
 ```scala
 case class User(
-  id: String, 
-  name: String, 
+  id: String,
+  name: String,
   manager: Option[User] = None
 )
 
@@ -579,7 +582,7 @@ myList.flatMap(x => List(x, x)) // List(1,1,2,2,3,3,4,4)
 <!-- .slide: data-auto-animate -->
 ## Basic Functional Programming  <!-- .element: data-id="title" -->
 ### filter
-Choose which elements are passed through 
+Choose which elements are passed through
 
 ```scala
 val myList = List(1,2,3,4)
@@ -640,8 +643,8 @@ findUser("1234").map(println)
 How to return a managers id list?
 ```scala
 case class User(
-  id: String, 
-  name: String, 
+  id: String,
+  name: String,
   manager: Option[User] = None
 )
 
@@ -715,7 +718,7 @@ val result = for {
     <code class="Scala" data-trim>
         List(🐮, 🥔, 🐔, 🌽).map(cook) ==
     </code>
-  </pre>  
+  </pre>
   <pre style="font-size: 70%; width: fit-content;">
     <code class="Scala fragment" data-trim>
         List(🍔, 🍟, 🍗, 🍿)
@@ -731,7 +734,7 @@ val result = for {
     <code class="Scala" data-trim>
         List(🍔, 🍟, 🍗, 🍿).filter(isVegan) ==
     </code>
-  </pre>  
+  </pre>
   <pre style="font-size: 70%; width: fit-content;">
     <code class="Scala fragment" data-trim>
         List(🍟, 🍿)
@@ -747,7 +750,7 @@ val result = for {
     <code class="Scala" data-trim>
         List(🍔, 🍟, 🍗, 🍿).reduce(eat) ==
     </code>
-  </pre>  
+  </pre>
   <pre style="font-size: 70%; width: fit-content;">
     <code class="Scala fragment" data-trim>
         💩
@@ -775,16 +778,16 @@ val dima  = User(id = 100, name = "Dima",  manager = None)
 val matan = User(id = 101, name = "Matan", manager = Some(dima))
 
 matan match {
-  case User(_, "Nirzo", None) => 
+  case User(_, "Nirzo", None) =>
     println(s"user $name does not have a manager")
 
-  case User(id, name, _) if id < 3 => 
+  case User(id, name, _) if id < 3 =>
     println(s"user $name is a founder!")
 
-  case User(_, name, None) => 
+  case User(_, name, None) =>
     println(s"user $name does not have manager")
-  
-  case User(_, name, Some(User(_,manager,_))) => 
+
+  case User(_, name, Some(User(_,manager,_))) =>
     println(s"user $name has manager: $manager")
 }
 </code></pre>
@@ -792,7 +795,7 @@ matan match {
 
 ## Exercise
 - Write a function that gets a `WixUser`
-- If score > 1000, return "$name you are legend!" 
+- If score > 1000, return "$name you are legend!"
 - If name size is exactly 2 chars, return "fake!"
 - If user has more than 3 sites, return "$name, you are a premium"
 - if name is "bot" and has more than 4 sites, return "rise of the machines"
@@ -818,7 +821,7 @@ def add(x: Int)(y: Int) = x + y // call add(1)(2)
 <!-- .slide: data-auto-animate -->
 ## Implicit Args <!-- .element: data-id="title" -->
 
-Let's consider the following use case: 
+Let's consider the following use case:
 
 ```scala
 def sendGet(url: String, client: Sttp)
@@ -890,7 +893,7 @@ func(42) // output: 2
 - A.K.A Monkey Patching 🐵 <!-- .element: class="fragment" -->
 - Provides the best of all worlds: <!-- .element: class="fragment" -->
   - Explicit conversion
-  - While having flexibility 
+  - While having flexibility
 
 
 <!-- .slide: data-auto-animate -->
@@ -899,7 +902,7 @@ func(42) // output: 2
   - Create a class that contains the dynamic behavior
   - Import the class to current scope
   - The compiler auto instantiates the wrapper class
-  - Wrapper contains the extension logic  
+  - Wrapper contains the extension logic
 
 
 <!-- .slide: data-auto-animate -->
@@ -915,13 +918,13 @@ Let's extend `Int` type for creating `'*'` strings
 ## Extension Methods <!-- .element: data-id="title" -->
 ```scala
 implicit class IntOps(x: Int) {
-  def stars = x * "*" 
+  def stars = x * "*"
 }
 ```
 
 
 ## Exercise
-- Let's revisit the `Ordinal[T]` trait 
+- Let's revisit the `Ordinal[T]` trait
 - Now, let's implement ordinal logic as extension methods
 - Meaning, we cannot directly extend any class
   - In our example `Person` class
@@ -933,7 +936,7 @@ implicit class IntOps(x: Int) {
 
 
 ## Big Exercise
-- Clone repo: 
+- Clone repo:
   - https://github.com/matankdr/scala-workshop
 - Follow readme
 - Enjoy!
