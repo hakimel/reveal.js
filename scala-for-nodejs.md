@@ -397,6 +397,27 @@ class Batmobile extends Car with Airplane
 ---
 
 <!-- .slide: data-auto-animate -->
+## Exercise <!-- .element: data-id="title" -->
+- Create `Pizza` that has 3 fields:
+  - `pizzaSize` (has values Small, Medium, Large)
+  - `crustType` (has values Thin, Regular, Thick)
+  - `toppings` (list of toppings)
+- Create a method `addTopping` (adds another topping)
+- Override `toString` in order to print the pizza.
+
+```scala
+// Usage example:
+val pizza =
+    new Pizza(crustType = ThinCrustType, pizzaSize = LargeCrustSize)
+      .addTopping(Olives)
+      .addTopping(Mushrooms)
+
+  println(pizza)
+```
+
+---
+
+<!-- .slide: data-auto-animate -->
 ## Case classes/objects <!-- .element: data-id="title" -->
 - Like regular classes, but great of data modeling
 - Already provides us:
