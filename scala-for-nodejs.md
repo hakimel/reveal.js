@@ -473,7 +473,7 @@ println(spiderMan < grut)
 - Represents a computation <!-- .element: class="fragment" -->
 - Computations can be wrapped and chained <!-- .element: class="fragment" -->
 - Provides semantic information as well <!-- .element: class="fragment" -->
-- F[T]: Effect of type F that returns a value of type T  <!-- .element: class="fragment" -->
+- <span style="color:red">F</span>[<span style="color:yellow">T</span>]: Effect of type <span style="color:red">F</span> that returns a value of type <span style="color:yellow">T</span>  <!-- .element: class="fragment" -->
 
 
 
