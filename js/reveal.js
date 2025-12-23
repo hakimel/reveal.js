@@ -1408,6 +1408,7 @@ export default function( revealElement, options ) {
 		}
 
 		if( slideChanged ) {
+			slideContent.afterSlideChanged();
 			dispatchSlideChanged( origin );
 		}
 
@@ -1501,6 +1502,8 @@ export default function( revealElement, options ) {
 
 		// Start or stop embedded content like videos and iframes
 		if( slideChanged ) {
+			slideContent.afterSlideChanged();
+
 			if( previousSlide ) {
 				slideContent.stopEmbeddedContent( previousSlide );
 				slideContent.stopEmbeddedContent( previousSlide.slideBackgroundElement );

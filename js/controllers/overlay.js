@@ -72,8 +72,8 @@ export default class Overlay {
 
 		this.viewport.innerHTML =
 			`<header class="r-overlay-header">
-				<a class="r-overlay-button r-overlay-external" href="${url}" target="_blank"><span class="icon"></span></a>
-				<button class="r-overlay-button r-overlay-close"><span class="icon"></span></button>
+				<a class="r-overlay-header-button r-overlay-external" href="${url}" target="_blank"><span class="icon"></span></a>
+				<button class="r-overlay-header-button r-overlay-close"><span class="icon"></span></button>
 			</header>
 			<div class="r-overlay-spinner"></div>
 			<div class="r-overlay-content">
@@ -125,7 +125,7 @@ export default class Overlay {
 
 		this.viewport.innerHTML =
 			`<header class="r-overlay-header">
-				<button class="r-overlay-button r-overlay-close">Esc <span class="icon"></span></button>
+				<button class="r-overlay-header-button r-overlay-close">Esc <span class="icon"></span></button>
 			</header>
 			<div class="r-overlay-spinner"></div>
 			<div class="r-overlay-content"></div>`;
@@ -262,7 +262,7 @@ export default class Overlay {
 
 			this.viewport.innerHTML = `
 				<header class="r-overlay-header">
-					<button class="r-overlay-button r-overlay-close">Esc <span class="icon"></span></button>
+					<button class="r-overlay-header-button r-overlay-close">Esc <span class="icon"></span></button>
 				</header>
 				<div class="r-overlay-content">
 					<div class="r-overlay-help-content">${html}</div>

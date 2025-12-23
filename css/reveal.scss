@@ -1494,7 +1494,7 @@ $controlsArrowAngleActive: 36deg;
 	height: var(--r-overlay-header-height);
 	gap: 6px;
 }
-.r-overlay-header .r-overlay-button {
+.r-overlay-header .r-overlay-header-button {
 	all: unset;
 	display: flex;
 	align-items: center;
@@ -1510,7 +1510,7 @@ $controlsArrowAngleActive: 36deg;
 
 	box-sizing: border-box;
 }
-.r-overlay-header .r-overlay-button:hover {
+.r-overlay-header .r-overlay-header-button:hover {
 	opacity: 1;
 	background-color: rgba( 255, 255, 255, 0.15 );
 }
@@ -1925,6 +1925,47 @@ $notesWidthPercent: 25%;
 
 
 /*********************************************
+ * MANUAL MEDIA PLAY BUTTON
+ *********************************************/
+
+.reveal .r-overlay-button {
+	all: unset;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+	border-radius: 5px;
+	font-size: 0.4em;
+	z-index: 30;
+	cursor: pointer;
+	-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
+	-webkit-appearance: none;
+	appearance: none;
+	color: #fff;
+	background: rgba(0, 0, 0, 0.7);
+
+	&:hover {
+		background: rgba(0, 0, 0, 0.9);
+	}
+}
+
+.reveal.has-light-background .r-overlay-button {
+	color: #222;
+	background: rgba(255, 255, 255, 0.7);
+
+	&:hover {
+		background: rgba(255, 255, 255, 0.9);
+	}
+}
+
+.reveal .r-media-play-button {
+	left: 15px;
+	bottom: 20px;
+}
+
+
+/*********************************************
  * ZOOM PLUGIN
  *********************************************/
 
@@ -1983,7 +2024,8 @@ $notesWidthPercent: 25%;
 	}
 
 	.r-overlay,
-	.pause-overlay {
+	.pause-overlay,
+	.r-media-play-button {
 		position: fixed;
 	}
 
