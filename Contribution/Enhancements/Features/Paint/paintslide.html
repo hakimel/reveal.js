@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Tiny Paint App – Reveal.js Standalone</title>
+  <!-- Reveal.js core & theme (standalone from CDN) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/black.css" id="theme">
+  <style>
+    /* --- App styles are scoped to .app so they don't fight Reveal --- */
+    .app { height: 80vh; display: grid; grid-template-rows: auto 1fr auto; gap: 10px; }
+    .app .title { font-weight: 700; letter-spacing: .4px; color: #fff; }
+    .app .panel { display:flex; flex-wrap:wrap; gap:8px; align-items:center; background:#1b1b1b; border:1px solid #2a2a2a; padding:8px 10px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.03) }
+    .app .panel label { opacity:.9; margin-right: 4px; }
+    .app input[type="range"]{ width:150px }
+    .app .btn{ border:1px solid #2b2b2b; background:#222; color:#eee; padding:6px 10px; border-radius:10px; cursor:pointer; transition:transform .08s ease, background .15s ease }
+    .app .btn:hover{ background:#2a2a2a }
+    .app .btn:active{ transform: translateY(1px) }
+    .app .btn.alt{ background:#171717 }
+    .app .btn.primary{ background:#66ccff; color:#043; border-color:#0cf6 }
+    .app .btn.primary:hover{ filter:brightness(1.05) }
+    .app .spacer{ flex:1 }
+    .app canvas{ width:100%; height:100%; background: linear-gradient(45deg,#111 25%,transparent 25%) -8px 0/16px 16px, linear-gradient(-45deg,#111 25%,transparent 25%) -8px 0/16px 16px, linear-gradient(45deg,transparent 75%,#111 75%) -8px 0/16px 16px, linear-gradient(-45deg,transparent 75%,#111 75%) -8px 0/16px 16px, #0a0a0a; border:1px solid #222; border-radius:12px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.02); touch-action:none }
+    .app .kbd{ padding:2px 6px; border:1px solid #3b3b3b; border-bottom-width:2px; border-radius:6px; background:#151515; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace }
+    .app footer{ opacity:.7; font-size:12px }
+    .reveal .slides { text-align: left; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Title slide -->
+      <section>
+        <h1>🖌️ Tiny Paint App</h1>
+        <p>A single-file canvas toy, now embedded in a Reveal.js slide.</p>
+        <p><small>Shortcuts: <span class="kbd">E</span> eraser · <span class="kbd">Ctrl/⌘+Z</span> undo · <span class="kbd">Ctrl/⌘+S</span> download · Hold <span class="kbd">Shift</span> for straight lines</small></p>
+      </section>
+
+      <!-- App slide (inline, no iframe) -->
+      <section>
+        <div class="app" id="paint-deck-app">
+          <header>
+            <div class="title">🖌️ Tiny Paint App <span style="opacity:.6">– draw, erase, undo, download</span></div>
+            <div class="panel">
+              <label>Brush</label>
+              <input id="size" type="range" min="1" max="60" value="14">
+              <span id="sizeOut" class="kbd">14px</span>
+
+              <label style="margin-left:10px">Color</label>
+              <input id="color" type="color" value="#66ccff">
+
+              <button id="eraser" class="btn alt">Eraser (E)</button>
+              <button id="undo" class="btn alt">Undo (Ctrl/Cmd+Z)</button>
+              <button id="clear" class="btn alt">Clear</button>
+
+              <div class="spacer"></div>
+              <button id="download" class="btn primary">Download PNG</button>
+            </div>
+          </header>
+
+          <canvas id="c"></canvas>
+
+          <footer>
+            Shortcuts: <span class="kbd">E</span> toggle eraser · <span class="kbd">Ctrl/⌘ + Z</span> undo · <span class="kbd">Ctrl/⌘ + S</span> download · Hold <span class="kbd">Shift</span> to draw straight lines
+          </footer>
+        </div>
+      </section>
+
+      <!-- End slide -->
+      <section>
+        <h2>That’s it</h2>
+        <p>Save this file and present. The app is fully interactive inside the slide.</p>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({ hash:true, slideNumber:true, transition:'slide', backgroundTransition:'fade' });
+  </script>
+
+  <!-- Your original app logic, lightly adapted to live inside a slide -->
+  <script>
+    (function(){
+      const root = document.getElementById('paint-deck-app');
+      if (!root) return;
+      const canvas = root.querySelector('#c');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+      const size = root.querySelector('#size');
+      const sizeOut = root.querySelector('#sizeOut');
+      const color = root.querySelector('#color');
+      const eraserBtn = root.querySelector('#eraser');
+      const undoBtn = root.querySelector('#undo');
+      const clearBtn = root.querySelector('#clear');
+      const downloadBtn = root.querySelector('#download');
+
+      // Use Reveal's size to compute available height
+      function fit(){
+        const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+        const rect = canvas.getBoundingClientRect();
+        canvas.width  = Math.floor(rect.width * dpr);
+        canvas.height = Math.floor((root.clientHeight - rect.top + root.getBoundingClientRect().top - 16) * dpr);
+        canvas.style.height = Math.floor(canvas.height / dpr) + 'px';
+        ctx.setTransform(dpr,0,0,dpr,0,0);
+        redraw();
+      }
+      window.addEventListener('resize', fit);
+      Reveal.on('slidechanged', fit);
+      Reveal.on('resized', fit);
+
+      // History stack for Undo (image snapshots)
+      const history = [];
+      function pushHistory(){
+        try { history.push(ctx.getImageData(0,0,canvas.width,canvas.height)); }
+        catch(e) { /* ignore if too big */ }
+        if (history.length > 25) history.shift();
+      }
+      function redraw(){
+        if (history.length) ctx.putImageData(history[history.length-1], 0, 0);
+        else ctx.clearRect(0,0,canvas.width,canvas.height);
+      }
+
+      // Drawing state
+      let drawing = false;
+      let erasing = false;
+      let last = null;
+
+      function setBrush(){
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.lineWidth = +size.value;
+        ctx.strokeStyle = erasing ? '#0a0a0a' : color.value;
+        sizeOut.textContent = size.value + 'px';
+        eraserBtn.classList.toggle('primary', erasing);
+      }
+
+      function start(x,y){ pushHistory(); drawing = true; last = {x,y}; }
+      function line(x1,y1,x2,y2){ ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); }
+      function move(x,y,shiftKey){ if(!drawing) return; setBrush(); line(last.x,last.y,x,y); last={x,y}; }
+      function end(){ drawing=false; last=null; }
+
+      function rel(ev){ const r = canvas.getBoundingClientRect(); return { x: ev.clientX - r.left, y: ev.clientY - r.top, shiftKey: ev.shiftKey }; }
+      canvas.addEventListener('pointerdown', e=>{ canvas.setPointerCapture(e.pointerId); const p=rel(e); start(p.x,p.y); });
+      canvas.addEventListener('pointermove', e=>{ if(!drawing) return; const p=rel(e); move(p.x,p.y,p.shiftKey); });
+      canvas.addEventListener('pointerup', end);
+      canvas.addEventListener('pointercancel', end);
+      canvas.addEventListener('contextmenu', e=> e.preventDefault());
+
+      // Controls
+      size.addEventListener('input', setBrush);
+      color.addEventListener('input', setBrush);
+      eraserBtn.addEventListener('click', ()=>{ erasing=!erasing; setBrush(); });
+      clearBtn.addEventListener('click', ()=>{ pushHistory(); ctx.clearRect(0,0,canvas.width,canvas.height); });
+      undoBtn.addEventListener('click', ()=>{ if(history.length){ history.pop(); redraw(); }});
+
+      downloadBtn.addEventListener('click', savePNG);
+      function savePNG(){ const url = canvas.toDataURL('image/png'); const a = document.createElement('a'); a.href=url; a.download='drawing.png'; document.body.appendChild(a); a.click(); a.remove(); }
+
+      // Keyboard shortcuts (Reveal will still use arrows; we stick to E / Cmd/Ctrl modifiers)
+      window.addEventListener('keydown', (e)=>{
+        const key = e.key.toLowerCase();
+        if (key === 'e') { erasing=!erasing; setBrush(); }
+        if ((e.ctrlKey||e.metaKey) && key==='z'){ e.preventDefault(); undoBtn.click(); }
+        if ((e.ctrlKey||e.metaKey) && key==='s'){ e.preventDefault(); savePNG(); }
+        if (e.key==='['){ size.value=Math.max(1,+size.value-1); setBrush(); }
+        if (e.key===']'){ size.value=Math.min(60,+size.value+1); setBrush(); }
+      });
+
+      // Boot
+      setTimeout(()=>{ fit(); setBrush(); pushHistory(); ctx.clearRect(0,0,canvas.width,canvas.height); }, 0);
+    })();
+  </script>
+</body>
+</html>

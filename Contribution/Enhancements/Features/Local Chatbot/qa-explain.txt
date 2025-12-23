@@ -1,0 +1,75 @@
+Local Q&A Chatbot for Reveal.js — How It Works (Overview)
+
+Goal
+Provide a presenter-side Q&A assistant that answers only from the current Reveal.js deck, fully offline.
+
+Architecture (in-page)
+1) Reveal initialization
+   QA.html initializes Reveal (hash navigation, core plugins). Once ready, the chatbot builds its index.
+
+2) DOM crawl
+   The crawler walks through all slides, including vertical stacks, and gathers:
+   • Slide text (after removing scripts and ignoring iframes/media)
+   • Speaker notes (from <aside class="notes"> and data-notes attributes)
+   Each slide/notes pair becomes a “document” with coordinates (h, v).
+
+3) Lightweight retrieval
+   The bot builds a simple TF‑IDF index (term frequency / inverse document frequency):
+   • Tokenize text, remove common stopwords, compute per-document term counts.
+   • Compute document frequencies and smoothed IDF values.
+   • For a question, score each document by TF‑IDF with a length normalization.
+
+4) Answer composition
+   Two modes:
+   • Summarize-lite (default): Select top K documents, extract the best sentences by query-term overlap, then stitch them into a short, grounded answer.
+   • Quotes-only: Do not paraphrase. Use exact sentences from the slides/notes.
+   Citations: The answer lists up to three sources (slide titles + indices). Clicking a citation navigates to that slide.
+
+5) Rebuild Index
+   The “↻ Rebuild” button and the R/Shift+R shortcuts re-run the crawl and rebuild the index. This picks up new or edited slides without reloading the whole page.
+
+Why local-only?
+• Reliability: Works during live talks without network.
+• Privacy: Slide content never leaves the browser.
+• Simplicity: No API keys, servers, or rate limits.
+
+What content is (and isn’t) used
+• Used: Human-readable text in slides and speaker notes.
+• Not used: Images without text/alt, dynamically loaded iframes, videos, audio content.
+• Code blocks are treated as plain text for retrieval.
+
+Citations & slide highlighting
+• Each source slide is linked using its (h, v) indices; clicking jumps there.
+• A subtle pulse outline briefly highlights the slide so audience can follow.
+
+Edge cases
+• Hidden slides: ignored by default. If you rely on hidden slides, move their text to notes or make them visible.
+• Massive decks: indexing is fast for typical decks; very large decks may briefly show “Rebuilding index…”.
+• Live edits: If you’re editing the DOM after load (e.g., hot-reload), press ↻ Rebuild to refresh the index.
+
+Integrating with existing decks (two common paths)
+A) Make QA.html your deck
+   Paste your slides into the existing <section> blocks in QA.html.
+   Keep the Q&A overlay as-is. Everything stays in one file for easy sharing.
+
+B) Adapt the overlay into another deck (advanced)
+   Copy the overlay elements (toggle, panel, styles, script) into your deck’s HTML.
+   Ensure the script runs after Reveal.initialize() and hooks into slidechanged/ready if needed.
+   (Keep it local-only to maintain privacy.)
+
+Presenter tips
+• Write slide titles that summarize the content — these become good citations.
+• Put key facts in speaker notes; the bot indexes them too.
+• Use consistent vocabulary for features and names; it improves retrieval.
+
+Limitations
+• The bot cannot answer beyond your deck; if a topic isn’t present, it will say so.
+• It does not “understand” images, charts, or videos without textual descriptions.
+• Paraphrases are conservative. Use Quotes-only for strict answers.
+
+Fallback message (exact text)
+“I couldn’t find a reliable answer in these slides. Try rephrasing your question or check if the topic is covered in the deck.”
+
+Support & maintenance
+• No external dependencies required beyond Reveal.js assets.
+• If you switch to offline assets, place the CSS/JS files next to QA.html and update the links (advanced setup).

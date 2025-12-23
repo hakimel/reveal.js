@@ -1,0 +1,70 @@
+User Manual – Using Overlays.html in Reveal.js
+
+Introduction
+
+This file (Overlays.html) is a demo presentation built with Reveal.js.
+It includes special visual overlays (dark, grid, dots) that improve
+readability or add style to slides.
+
+How to Run It
+
+1.  Save Overlays.html in your Reveal.js project folder or open it
+    directly in a browser (Chrome, Edge, Firefox).
+2.  Open the file in your browser. You will see example slides already
+    set up.
+
+How Slides Work
+
+Each slide is represented by a
+tag. To apply an overlay, add the data-overlay attribute:
+
+    <section data-overlay="dark">
+      <h2>Dark Overlay Example</h2>
+    </section>
+
+Available Overlay Types
+
+-   dark → a dark gradient
+-   grid → a subtle grid pattern
+-   dots → a dotted texture
+
+Customizing Overlays
+
+You can tune overlays using CSS variables directly on each
+tag:
+
+-   –overlay-opacity → overlay strength (default 0.9)
+-   –overlay-grid-size → spacing of grid lines (default 40px)
+-   –overlay-dot-size → spacing of dots (default 12px)
+-   –overlay-color-rgb → RGB color (default 255,255,255)
+
+Example:
+
+    <section data-overlay="grid" style="--overlay-grid-size:32px; --overlay-opacity:.85">
+      <h2>Custom Grid Overlay</h2>
+    </section>
+
+Labels and Captions
+
+You can add corner badges and bottom ribbons:
+
+    <div class="corner-badge">Overlay: grid</div>
+    <div class="bottom-ribbon">This is a caption</div>
+
+Toggling Overlays
+
+-   Press the letter O to toggle overlays on/off.
+-   Or use the button at the bottom-left corner (“Overlays: on/off”).
+-   The state is saved across refreshes.
+
+Accessibility
+
+-   Smooth fades respect “reduced motion” user preferences.
+-   Labels are screen-reader friendly (using ARIA).
+-   Toggle button is keyboard accessible.
+
+Tips
+
+-   Use dark overlay with image backgrounds.
+-   Use grid or dots for stylistic slides.
+-   Avoid overlays on every slide to reduce distraction.

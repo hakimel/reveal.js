@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal.js Bar Chart Example</title>
+    
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="./../../../../dist/reveal.css">
+    <link rel="stylesheet" href="./../../../../dist/theme/solarized.css">
+    <!-- Chart.js for the bar chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* Custom styling for the presentation */
+        .reveal {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .slide-title {
+            margin-bottom: 30px;
+            color: #2c3e50;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 60vh;
+            width: 80%;
+            margin: 0 auto;
+        }
+        
+        .next-slide-btn {
+            margin-top: 30px;
+            background: linear-gradient(to right, #3498db, #2980b9);
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .next-slide-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background: linear-gradient(to right, #2980b9, #2471a3);
+        }
+        
+        .slide-content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Moving border animation for the bar chart slide */
+        #bar-chart-slide {
+            background: linear-gradient(-45deg, #f8f9fa, #e9ecef, #dee2e6, #ced4da);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            padding: 20px;
+            position: relative;
+        }
+        
+        #bar-chart-slide::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #3498db, #2ecc71, #e74c3c, #f39c12, #9b59b6);
+            background-size: 400% 400%;
+            z-index: 1;
+            animation: borderAnimation 8s linear infinite;
+            border-radius: 20px;
+            filter: blur(10px);
+            opacity: 0.7;
+        }
+        
+        @keyframes borderAnimation {
+            0% {
+                background-position: 0% 50%;
+                transform: scale(1);
+            }
+            50% {
+                background-position: 100% 50%;
+                transform: scale(1.02);
+            }
+            100% {
+                background-position: 0% 50%;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+        }
+        
+        .reveal .slides section {
+            color: #2c3e50;
+        }
+        
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Title Slide -->
+            <section>
+                <h1>Quarterly Performance Report</h1>
+                <p>Visualizing department performance with interactive charts</p>
+            </section>
+            
+            <!-- Bar Chart Slide -->
+            <section id="bar-chart-slide">
+                <div class="slide-content">
+                    <h2 class="slide-title">Quarterly Performance by Department</h2>
+                    <div class="chart-container">
+                        <canvas id="barChart"></canvas>
+                    </div>
+                    
+                    <!-- MODIFICATION AREA: Update the data-id attribute to point to your next slide -->
+                    <button class="next-slide-btn" data-id="next-slide">
+                        View Detailed Analysis
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Next Slide (example) -->
+            <section id="next-slide">
+                <h2>Performance Analysis</h2>
+                <p>Development showed consistent growth throughout the year, with a 25% increase from Q1 to Q4.</p>
+                <p>Marketing had a significant spike in Q2 due to successful campaigns, followed by a slight adjustment in subsequent quarters.</p>
+                <p>All departments showed overall improvement, with an average performance increase of 18% year-over-year.</p>
+            </section>
+        </div>
+    </div>
+
+    <!-- Reveal.js Initialization & Chart Code -->
+    <script src="./../../../../dist/reveal.js"></script>
+    <script>
+        // Initialize Reveal.js
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: true,
+            transition: 'slide'
+        });
+        
+        // Create gradient colors for the chart (light theme)
+        function createGradients(ctx) {
+            const gradients = [];
+            
+            // Create gradient for Q1
+            const q1Gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            q1Gradient.addColorStop(0, '#3498db');
+            q1Gradient.addColorStop(1, '#2c3e50');
+            
+            // Create gradient for Q2
+            const q2Gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            q2Gradient.addColorStop(0, '#2ecc71');
+            q2Gradient.addColorStop(1, '#27ae60');
+            
+            // Create gradient for Q3
+            const q3Gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            q3Gradient.addColorStop(0, '#e74c3c');
+            q3Gradient.addColorStop(1, '#c0392b');
+            
+            // Create gradient for Q4
+            const q4Gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            q4Gradient.addColorStop(0, '#f39c12');
+            q4Gradient.addColorStop(1, '#d35400');
+            
+            return [q1Gradient, q2Gradient, q3Gradient, q4Gradient];
+        }
+        
+        // Create the bar chart when the slide is loaded
+        Reveal.addEventListener('ready', function() {
+            createBarChart();
+        });
+        
+        // Recreate chart when navigating to the slide (in case of viewport changes)
+        Reveal.addEventListener('slidechanged', function(event) {
+            if (event.currentSlide.querySelector('#barChart')) {
+                createBarChart();
+            }
+        });
+        
+        function createBarChart() {
+            const ctx = document.getElementById('barChart').getContext('2d');
+            
+            // Create gradients for the chart
+            const gradients = createGradients(ctx);
+            
+            // MODIFICATION AREA: Update this data with your chart information
+            const chartData = {
+                labels: ['Development', 'Design', 'Testing', 'Documentation', 'Marketing'],
+                datasets: [
+                    {
+                        label: 'Q1',
+                        data: [65, 59, 80, 55, 40],
+                        backgroundColor: gradients[0],
+                        borderColor: '#fff',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Q2',
+                        data: [70, 65, 75, 60, 75],
+                        backgroundColor: gradients[1],
+                        borderColor: '#fff',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Q3',
+                        data: [80, 70, 85, 65, 65],
+                        backgroundColor: gradients[2],
+                        borderColor: '#fff',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Q4',
+                        data: [90, 75, 92, 70, 80],
+                        backgroundColor: gradients[3],
+                        borderColor: '#fff',
+                        borderWidth: 1
+                    }
+                ]
+            };
+            
+            const config = {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Performance Score',
+                                color: '#2c3e50',
+                                font: {
+                                    size: 14,
+                                    family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                                }
+                            },
+                            ticks: {
+                                color: '#2c3e50'
+                            },
+                            grid: {
+                                color: 'rgba(44, 62, 80, 0.1)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Department',
+                                color: '#2c3e50',
+                                font: {
+                                    size: 14,
+                                    family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                                }
+                            },
+                            ticks: {
+                                color: '#2c3e50'
+                            },
+                            grid: {
+                                color: 'rgba(44, 62, 80, 0.1)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                                },
+                                color: '#2c3e50'
+                            }
+                        },
+                        tooltip: {
+                            bodyFont: {
+                                size: 14,
+                                family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                            },
+                            titleFont: {
+                                size: 16,
+                                family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                            }
+                        }
+                    }
+                }
+            };
+            
+            // Destroy previous chart instance if it exists
+            if (window.barChartInstance) {
+                window.barChartInstance.destroy();
+            }
+            
+            // Create new chart instance
+            window.barChartInstance = new Chart(ctx, config);
+        }
+        
+        // Add navigation functionality to the button
+        document.querySelector('.next-slide-btn').addEventListener('click', function() {
+            // MODIFICATION AREA: Update the data-id value to match your target slide
+            const nextSlideId = this.getAttribute('data-id');
+            const nextSlideElement = document.getElementById(nextSlideId);
+            
+            if (nextSlideElement) {
+                const nextSlideIndex = Array.from(nextSlideElement.parentNode.children).indexOf(nextSlideElement);
+                Reveal.slide(nextSlideIndex);
+            } else {
+                // Fallback: just go to the next slide
+                Reveal.next();
+            }
+        });
+    </script>
+</body>
+</html>

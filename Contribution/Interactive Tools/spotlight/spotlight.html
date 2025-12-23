@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Reveal.js Spotlight Tool</title>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/black.css">
+  <style>
+    /* Spotlight overlay */
+    .spotlight-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none; /* allow clicks to pass through */
+      background: radial-gradient(
+        circle 100px at center,
+        transparent 0%,
+        transparent 20%,
+        rgba(0,0,0,0.8) 21%
+      );
+      display: none; /* hidden until activated */
+      z-index: 1000;
+    }
+
+    .spotlight-active .spotlight-overlay {
+      display: block;
+    }
+
+    /* Toggle button */
+    .spotlight-btn {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1100;
+      background: #ffcc00;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Spotlight Tool Demo</h2>
+        <p>Click the button below to toggle the spotlight mode.  
+        Move your mouse to focus on content.</p>
+      </section>
+    </div>
+  </div>
+
+  <div class="spotlight-overlay"></div>
+  <button class="spotlight-btn">Toggle Spotlight</button>
+
+  <script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize();
+
+    const overlay = document.querySelector('.spotlight-overlay');
+    const toggleBtn = document.querySelector('.spotlight-btn');
+    let spotlightOn = false;
+
+    toggleBtn.addEventListener('click', () => {
+      spotlightOn = !spotlightOn;
+      document.body.classList.toggle('spotlight-active', spotlightOn);
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (spotlightOn) {
+        overlay.style.background = `radial-gradient(
+          circle 120px at ${e.clientX}px ${e.clientY}px,
+          transparent 0%,
+          transparent 20%,
+          rgba(0,0,0,0.8) 21%
+        )`;
+      }
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      if (spotlightOn) {
+        const touch = e.touches[0];
+        overlay.style.background = `radial-gradient(
+          circle 120px at ${touch.clientX}px ${touch.clientY}px,
+          transparent 0%,
+          transparent 20%,
+          rgba(0,0,0,0.8) 21%
+        )`;
+      }
+    });
+  </script>
+</body>
+</html>

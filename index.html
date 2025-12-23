@@ -1,40 +1,461 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Reveal.js – Enhanced Index</title>
 
-		<title>reveal.js</title>
+  <!-- Core reveal.js styles -->
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/black.css" id="theme">
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+  <style>
+    /* ============================================================
+       WHITEBOARD OVERLAY (DRAGGABLE)
+       - Fullscreen canvas for drawing
+       ============================================================ */
+    #whiteboardToggle { position: fixed; top: 12px; right: 12px; z-index: 9999; cursor: move; }
+    #whiteboardCanvas { position: fixed; inset: 0; z-index: 9990; display: none; cursor: crosshair; }
+    #whiteboardToolbar {
+      position: fixed; top: 56px; right: 12px; z-index: 9999; display: none;
+      background: rgba(0,0,0,0.6); color: #fff; padding: 8px 10px; border-radius: 8px; backdrop-filter: blur(4px);
+      cursor: move;
+    }
+    #whiteboardToolbar input[type="color"], #whiteboardToolbar input[type="range"] { vertical-align: middle; margin-left: 6px; }
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    /* ============================================================
+       TERMINAL SIMULATION (AUTO-TYPING)
+       ============================================================ */
+    .terminal { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: #0a0f14; color: #c6d0f5; border-radius: 12px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+    .terminal .prompt { color: #8CAAEE; }
+    .terminal .cmd { color: #A6D189; }
+    .terminal .cursor { display:inline-block; width:10px; background:#c6d0f5; animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { background: transparent; } }
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+    /* ============================================================
+       LIVE CODE PLAYGROUND (EDITABLE + PREVIEW)
+       ============================================================ */
+    .playground { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+    .playground textarea { width: 100%; height: 280px; font-family: ui-monospace, monospace; font-size: 14px; }
+    .playground iframe { width: 100%; height: 320px; border: 1px solid #444; border-radius: 8px; background: #fff; }
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+    /* ============================================================
+       DYNAMIC MEDIA FILTERS (SLIDERS)
+       ============================================================ */
+    .filter-controls { display: grid; grid-template-columns: max-content 1fr; gap: 8px 12px; align-items: center; }
+    .filter-target { max-width: 100%; border-radius: 12px; }
+
+    /* ============================================================
+       DRAG-AND-DROP NODES (AD-HOC DIAGRAMS)
+       ============================================================ */
+    .canvas-area { position: relative; height: 420px; background: rgba(255,255,255,0.04); border-radius: 12px; overflow: hidden; }
+    .node { position: absolute; padding: 10px 14px; border-radius: 10px; background: rgba(0,0,0,0.6); color: #fff; user-select: none; touch-action: none; border: 1px solid rgba(255,255,255,0.15); }
+    .node:active { box-shadow: 0 0 0 3px rgba(255,255,255,0.2) inset; }
+
+    /* ============================================================
+       LOCAL LIVE POLL (CANVAS BAR CHART)
+       ============================================================ */
+    .poll { display: grid; gap: 10px; }
+    .poll button { padding: 8px 10px; border-radius: 8px; border: 1px solid #444; background: #111; color: #fff; cursor: pointer; }
+    .poll-chart { width: 100%; height: 220px; background: #111; border: 1px solid #444; border-radius: 8px; }
+
+    /* ============================================================
+      SLIDE MINIMAP (DRAGGABLE)
+       ============================================================ */
+    #minimapToggle { position: fixed; top: 12px; left: 12px; z-index: 9999; cursor: move; }
+    #minimap { position: fixed; top: 56px; left: 12px; z-index: 9999; background: rgba(0,0,0,0.6); color: #fff; padding: 10px; border-radius: 8px; max-height: 50vh; overflow: auto; display: none; cursor: move; }
+    #minimap .dot { width: 12px; height: 12px; border-radius: 50%; background: #777; display: inline-block; margin: 4px; cursor: pointer; }
+    #minimap .dot.active { background: #fff; }
+
+    /* ============================================================
+       MEDIA EFFECTS (GLITCH / VHS / BLUR-PULSE)
+       - Add class to an element with .fx-target or toggle via controls
+       ============================================================ */
+    .fx-panel { position: fixed; bottom: 12px; left: 12px; z-index: 9999; background: rgba(0,0,0,0.6); color:#fff; padding:10px; border-radius:8px; display:grid; gap:6px; grid-auto-flow: column; align-items:center; }
+    .fx-btn { border:1px solid #444; background:#111; color:#fff; padding:6px 10px; border-radius:8px; cursor:pointer; }
+
+    /* Glitch effect using layered shadows and keyframes */
+    .effect-glitch { position: relative; }
+    .effect-glitch::before, .effect-glitch::after {
+      content: attr(data-glitch-text);
+      position: absolute; inset: 0; mix-blend-mode: screen; color: #fff; pointer-events: none;
+    }
+    .effect-glitch::before { text-shadow: -2px 0 #f0f; clip-path: polygon(0 2%, 100% 2%, 100% 44%, 0 44%); animation: glitch 2s infinite linear alternate-reverse; }
+    .effect-glitch::after  { text-shadow:  2px 0 #0ff; clip-path: polygon(0 56%, 100% 56%, 100% 98%, 0 98%); animation: glitch 1.8s infinite linear alternate; }
+    @keyframes glitch { 0% { transform: translate(0,0); } 20% { transform: translate(-2px,1px); } 40% { transform: translate(2px,-1px); } 60% { transform: translate(-1px,2px); } 80% { transform: translate(1px,-2px); } 100% { transform: translate(0,0); } }
+
+    /* VHS effect with scanlines + chroma shift */
+    .effect-vhs { position: relative; filter: contrast(1.1) saturate(1.2); }
+    .effect-vhs::before { content:""; position:absolute; inset:0; background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.08) 0 2px, rgba(0,0,0,0) 2px 4px); mix-blend-mode: overlay; pointer-events:none; }
+    .effect-vhs img, .effect-vhs video { filter: hue-rotate(2deg) saturate(1.1) contrast(1.05); }
+
+    /* Gentle blur pulse */
+    .effect-blurpulse { animation: blurPulse 2.5s ease-in-out infinite; }
+    @keyframes blurPulse { 0%,100% { filter: blur(0px) brightness(1); } 50% { filter: blur(2px) brightness(1.1); } }
+
+    /* ============================================================
+       SLIDE OVERLAYS (PER-SLIDE DECORATIONS)
+       - Add data-overlay="dark|grid|dots" to <section>
+       - Toggle all overlays with keyboard (O)
+       ============================================================ */
+    body.overlays-off section[data-overlay]::after { display: none !important; }
+    section[data-overlay] { position: relative; overflow: hidden; }
+    section[data-overlay]::after { content:""; position:absolute; inset:0; pointer-events:none; }
+    section[data-overlay="dark"]::after { background: linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.15)); }
+    section[data-overlay="grid"]::after {
+      background-image: linear-gradient(rgba(255,255,255,0.08) 2px, transparent 2px), linear-gradient(90deg, rgba(255,255,255,0.08) 2px, transparent 2px);
+      background-size: 40px 40px, 40px 40px;
+    }
+    section[data-overlay="dots"]::after {
+      background-image: radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px);
+      background-size: 12px 12px;
+    }
+
+    /* Corner badge overlay component */
+    .corner-badge { position:absolute; top:12px; right:12px; background: rgba(0,0,0,0.6); color:#fff; padding:6px 10px; border-radius:999px; font-size:14px; }
+
+    /* Bottom ribbon overlay */
+    .bottom-ribbon { position:absolute; left:0; right:0; bottom:0; background: linear-gradient(90deg, rgba(0,0,0,0.7), rgba(0,0,0,0)); color:#fff; padding:8px 12px; font-size:14px; }
+
+    /* Utility */
+    .r-stack > * { margin: 10px; }
+  </style>
+</head>
+<body>
+  <!-- ================= WHITEBOARD CONTROLS (GLOBAL, DRAGGABLE) ================= -->
+  <button id="whiteboardToggle" title="Toggle whiteboard overlay">✏️ Whiteboard</button>
+  <div id="whiteboardToolbar" title="Drag me">
+    <label>Color <input id="wbColor" type="color" value="#ffcc00"></label>
+    <label>Size <input id="wbSize" type="range" min="1" max="30" value="6"></label>
+    <button id="wbClear">Clear</button>
+    <small style="margin-left:8px">ESC to exit • W toggles</small>
+  </div>
+  <canvas id="whiteboardCanvas"></canvas>
+
+  <!-- ================= MINIMAP CONTROLS (GLOBAL, DRAGGABLE) ================= -->
+  <button id="minimapToggle" title="Toggle slide minimap">🗺️ Minimap</button>
+  <div id="minimap" title="Drag me"></div>
+
+  <!-- ================= FX CONTROL PANEL (MEDIA EFFECTS) ================= -->
+  <div class="fx-panel" id="fxPanel" title="Apply visual effects to .fx-target on current slide">
+    <span>Effects:</span>
+    <button class="fx-btn" data-fx="none">None</button>
+    <button class="fx-btn" data-fx="glitch">Glitch</button>
+    <button class="fx-btn" data-fx="vhs">VHS</button>
+    <button class="fx-btn" data-fx="blurpulse">BlurPulse</button>
+    <span style="margin-left:8px">• O toggles overlays</span>
+  </div>
+
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2 data-glitch-text="Enhanced Index" class="effect-glitch">Enhanced Index</h2>
+        <p>
+          Now featuring: Progress bar, Slide numbers, Draggable Whiteboard & Minimap, Media Effects (Glitch / VHS / Blur-pulse),
+          and per-slide Overlays (dark, grid, dots).
+        </p>
+        <p class="fragment">Use the bottom-left FX panel to apply effects to any <code>.fx-target</code> media on the current slide.</p>
+      </section>
+
+      <!-- ================= WHITEBOARD INFO ================= -->
+      <section data-overlay="dark">
+        <div class="corner-badge">Overlay: dark</div>
+        <h2>Whiteboard Overlay</h2>
+        <p>Sketch over your slides. Toolbar + toggle buttons are draggable. Press <kbd>W</kbd> to toggle quickly.</p>
+        <div class="bottom-ribbon">Tip: drawings persist while whiteboard is open; click Clear to reset.</div>
+      </section>
+
+      <!-- ================= LIVE CODE PLAYGROUND ================= -->
+      <section data-overlay="grid">
+        <div class="corner-badge">Overlay: grid</div>
+        <h2>Live Code Playground</h2>
+        <p>Editable HTML/CSS/JS with live preview.</p>
+        <div class="playground">
+          <div>
+<textarea id="pgCode"><!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 20px; }
+    .box { width: 120px; height: 120px; border-radius: 12px; display: grid; place-items: center; border: 2px solid #222; }
+  </style>
+</head>
+<body>
+  <h3>Hello, Playground!</h3>
+  <div class="box" id="b">Click me</div>
+  <script>
+    const b = document.getElementById('b');
+    let n = 0;
+    b.addEventListener('click', ()=>{
+      n++; b.style.transform = `rotate(${n*15}deg)`;
+      b.style.background = `hsl(${(n*40)%360} 80% 80%)`;
+      b.textContent = n;
+    });
+  </script>
+</body>
+</html></textarea>
+            <button id="pgRun">Run ▶</button>
+          </div>
+          <iframe id="pgOutput" title="Playground Output"></iframe>
+        </div>
+        <div class="bottom-ribbon">Bottom ribbon overlay — great for captions or attributions.</div>
+      </section>
+
+      <!-- ================= TERMINAL / CLI SIMULATION ================= -->
+      <section data-overlay="dots">
+        <div class="corner-badge">Overlay: dots</div>
+        <h2>Terminal / CLI Simulation</h2>
+        <div class="terminal" id="term">
+          <div>$ <span class="prompt">demo</span> <span class="cmd">npm run build</span><span class="cursor">&nbsp;</span></div>
+          <pre id="termOut" style="margin:8px 0 0 0; white-space: pre-wrap;"></pre>
+        </div>
+      </section>
+
+      <!-- ================= MEDIA EFFECTS DEMO (IMAGES/VIDEO) ================= -->
+      <section>
+        <h2>Media Effects Demo</h2>
+        <p>Click FX buttons (bottom-left) to affect elements with <code>.fx-target</code> on this slide.</p>
+        <div class="r-stack">
+          <img class="fx-target" alt="sample" src="https://static.slid.es/reveal/image-placeholder.png" style="max-width: 420px; border-radius: 12px;" />
+          <video class="fx-target" src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" style="max-width: 420px; border-radius: 12px;" autoplay muted loop playsinline></video>
+        </div>
+      </section>
+
+      <!-- ================= DYNAMIC MEDIA FILTER SLIDERS ================= -->
+      <section>
+        <h2>Dynamic Media Filters</h2>
+        <div class="r-stack">
+          <img id="filterTarget" class="filter-target fx-target" src="https://static.slid.es/reveal/image-placeholder.png" alt="sample">
+          <div class="filter-controls">
+            <label>Blur</label><input id="fBlur" type="range" min="0" max="10" step="0.5" value="0">
+            <label>Grayscale</label><input id="fGray" type="range" min="0" max="1" step="0.05" value="0">
+            <label>Hue</label><input id="fHue" type="range" min="0" max="360" step="1" value="0">
+            <label>Brightness</label><input id="fBright" type="range" min="0.5" max="1.5" step="0.05" value="1">
+            <label>Contrast</label><input id="fContrast" type="range" min="0.5" max="1.5" step="0.05" value="1">
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= DRAG-AND-DROP BLOCKS ================= -->
+      <section>
+        <h2>Drag-and-Drop Blocks (ad-hoc diagrams)</h2>
+        <div class="canvas-area" id="dragArea">
+          <div class="node" style="left:20px; top:20px;">Start</div>
+          <div class="node" style="left:200px; top:60px;">Process</div>
+          <div class="node" style="left:380px; top:140px;">Decision?</div>
+          <div class="node" style="left:120px; top:260px;">Result</div>
+        </div>
+      </section>
+
+      <!-- ================= LOCAL LIVE POLL ================= -->
+      <section>
+        <h2>Live Poll (local, no backend)</h2>
+        <p>Ask the audience and visualize results immediately.</p>
+        <div class="poll">
+          <div id="pollQuestion">Which frontend do you prefer?</div>
+          <div>
+            <button data-choice="React">React</button>
+            <button data-choice="Vue">Vue</button>
+            <button data-choice="Svelte">Svelte</button>
+          </div>
+          <canvas id="pollChart" class="poll-chart"></canvas>
+        </div>
+      </section>
+
+      <!-- ================= MINIMAP INFO ================= -->
+      <section>
+        <h2>Slide Minimap</h2>
+        <p>Open the 🗺️ Minimap at the top-left. The panel is draggable; dots jump to slides and highlight the current one.</p>
+      </section>
+
+      <section>
+        <h2>End</h2>
+        <p>Mix & match these with themes, fragments, or Markdown.</p>
+      </section>
+    </div>
+  </div>
+
+  <!-- Core JS + plugins you already have -->
+  <script src="dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+
+  <script>
+    /* ============================================================
+       REVEAL INITIALIZATION
+       - progress: shows built-in progress bar at bottom
+       - slideNumber: show "current/total" on slides
+       ============================================================ */
+    Reveal.initialize({
+      controls: true,
+      progress: true,            // <-- Progress bar enabled
+      slideNumber: 'c/t',        // <-- Slide numbers (current/total)
+      center: true,
+      hash: true,
+      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+    });
+
+    /* ============================================================
+       GENERIC DRAG HELPER (for fixed/absolute elements)
+       ============================================================ */
+    function makeDraggable(el) {
+      let dragging = false, sx = 0, sy = 0, startLeft = 0, startTop = 0;
+      const onDown = (e) => {
+        dragging = true;
+        el.style.cursor = 'grabbing';
+        const rect = el.getBoundingClientRect();
+        sx = e.clientX; sy = e.clientY; startLeft = rect.left; startTop = rect.top;
+        e.preventDefault();
+      };
+      const onMove = (e) => {
+        if (!dragging) return;
+        const dx = e.clientX - sx; const dy = e.clientY - sy;
+        el.style.left = (startLeft + dx) + 'px';
+        el.style.top  = (startTop  + dy) + 'px';
+        el.style.right = 'auto'; el.style.bottom = 'auto';
+      };
+      const onUp = () => { dragging = false; el.style.cursor = 'move'; };
+      el.addEventListener('pointerdown', onDown);
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
+      window.addEventListener('pointercancel', onUp);
+    }
+
+    /* ============================================================
+       WHITEBOARD: TOGGLE + DRAWING + DRAGGABLE UI + HOTKEY (W)
+       ============================================================ */
+    const wbCanvas = document.getElementById('whiteboardCanvas');
+    const wbCtx = wbCanvas.getContext('2d');
+    const wbToggle = document.getElementById('whiteboardToggle');
+    const wbToolbar = document.getElementById('whiteboardToolbar');
+    const wbColor = document.getElementById('wbColor');
+    const wbSize = document.getElementById('wbSize');
+    const wbClear = document.getElementById('wbClear');
+
+    makeDraggable(wbToolbar); makeDraggable(wbToggle);
+
+    const resizeWB = ()=>{ wbCanvas.width = window.innerWidth; wbCanvas.height = window.innerHeight; };
+    window.addEventListener('resize', resizeWB); resizeWB();
+
+    let wbActive = false, drawing = false, lastX = 0, lastY = 0;
+    function setWBVisible(v){ wbCanvas.style.display = v ? 'block' : 'none'; wbToolbar.style.display = v ? 'block' : 'none'; wbActive = v; }
+
+    function toggleWB(){ setWBVisible(!wbActive); }
+    wbToggle.addEventListener('click', toggleWB);
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape' && wbActive) setWBVisible(false); if(e.key.toLowerCase()==='w') toggleWB(); });
+
+    wbCanvas.addEventListener('pointerdown', (e)=>{ drawing=true; [lastX,lastY] = [e.clientX, e.clientY]; });
+    wbCanvas.addEventListener('pointerup', ()=> drawing=false);
+    wbCanvas.addEventListener('pointerout', ()=> drawing=false);
+    wbCanvas.addEventListener('pointermove', (e)=>{
+      if(!drawing) return;
+      wbCtx.strokeStyle = wbColor.value;
+      wbCtx.lineWidth = parseFloat(wbSize.value);
+      wbCtx.lineCap = 'round';
+      wbCtx.beginPath(); wbCtx.moveTo(lastX, lastY); wbCtx.lineTo(e.clientX, e.clientY); wbCtx.stroke();
+      [lastX,lastY] = [e.clientX, e.clientY];
+    });
+    wbClear.addEventListener('click', ()=>{ wbCtx.clearRect(0,0,wbCanvas.width, wbCanvas.height); });
+
+    /* ============================================================
+       PLAYGROUND: RUN BUTTON PUSHES TEXTAREA HTML INTO IFRAME
+       ============================================================ */
+    const pgCode = document.getElementById('pgCode');
+    const pgRun = document.getElementById('pgRun');
+    const pgOutput = document.getElementById('pgOutput');
+    function runPlayground(){ if(pgOutput && pgCode) pgOutput.srcdoc = pgCode.value; }
+    if (pgRun) { pgRun.addEventListener('click', runPlayground); runPlayground(); }
+
+    /* ============================================================
+       TERMINAL SIM: TYPE OUT PRESET SCRIPT WHEN SLIDE IS SHOWN
+       ============================================================ */
+    const termOut = document.getElementById('termOut');
+    const script = [
+      {type:'cmd', text:'npm run build'},
+      {type:'out', text:'vite v5 building for production...'},
+      {type:'out', text:'✓ 42 modules transformed.'},
+      {type:'out', text:'dist/assets/app.abc123.js   12.34 kB'},
+      {type:'out', text:'dist/index.html             0.85 kB'},
+      {type:'out', text:'Build completed in 2.34s'}
+    ];
+    function playTerminal(){ if (!termOut) return; termOut.textContent = ''; let i = 0; const timer = setInterval(()=>{ if(i >= script.length){ clearInterval(timer); return; } const step = script[i++]; const prefix = step.type === 'cmd' ? '$ ' : ''; termOut.textContent += prefix + step.text + '\n'; }, 700); }
+    Reveal.on('slidechanged', (e)=>{ if(e.currentSlide.querySelector('#term')) playTerminal(); });
+    playTerminal();
+
+    /* ============================================================
+       FILTER SLIDERS: APPLY CSS FILTERS TO IMAGE
+       ============================================================ */
+    const filterTarget = document.getElementById('filterTarget');
+    function applyFilters(){ if (!filterTarget) return; const blur = document.getElementById('fBlur').value; const gray = document.getElementById('fGray').value; const hue = document.getElementById('fHue').value; const bri = document.getElementById('fBright').value; const con = document.getElementById('fContrast').value; filterTarget.style.filter = `blur(${blur}px) grayscale(${gray}) hue-rotate(${hue}deg) brightness(${bri}) contrast(${con})`; }
+    ;['fBlur','fGray','fHue','fBright','fContrast'].forEach(id=>{ const el = document.getElementById(id); if (el) el.addEventListener('input', applyFilters); });
+    applyFilters();
+
+    /* ============================================================
+       DRAG-AND-DROP BLOCKS: MOVE .node INSIDE #dragArea
+       ============================================================ */
+    const dragArea = document.getElementById('dragArea');
+    if (dragArea){ let dragTarget = null, dx=0, dy=0; dragArea.querySelectorAll('.node').forEach(node=>{ node.addEventListener('pointerdown', (e)=>{ dragTarget = node; node.setPointerCapture(e.pointerId); const rect = node.getBoundingClientRect(); dx = e.clientX - rect.left; dy = e.clientY - rect.top; }); node.addEventListener('pointermove', (e)=>{ if(!dragTarget || dragTarget!==node) return; const p = dragArea.getBoundingClientRect(); const x = Math.min(Math.max(0, e.clientX - p.left - dx), p.width - node.offsetWidth); const y = Math.min(Math.max(0, e.clientY - p.top - dy), p.height - node.offsetHeight); node.style.left = x + 'px'; node.style.top = y + 'px'; }); node.addEventListener('pointerup', ()=>{ dragTarget = null; }); node.addEventListener('pointercancel', ()=>{ dragTarget = null; }); }); }
+
+    /* ============================================================
+       LOCAL LIVE POLL: CANVAS BAR CHART UPDATES ON CLICKS
+       ============================================================ */
+    const pollCanvas = document.getElementById('pollChart');
+    if (pollCanvas){ const ctx = pollCanvas.getContext('2d'); const choices = ['React','Vue','Svelte']; const counts = { React: 0, Vue: 0, Svelte: 0 }; function drawPoll(){ const { width, height } = pollCanvas; ctx.clearRect(0,0,width,height); ctx.strokeStyle = '#666'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(40, 10); ctx.lineTo(40, height-30); ctx.lineTo(width-10, height-30); ctx.stroke(); const max = Math.max(1, ...Object.values(counts)); const barW = (width - 80) / choices.length; choices.forEach((label, idx)=>{ const val = counts[label]; const h = Math.round(((height-60) * val) / max); const x = 50 + idx * barW + 10; const y = height - 30 - h; ctx.fillStyle = '#ddd'; ctx.fillRect(x, y, barW - 20, h); ctx.fillStyle = '#aaa'; ctx.textAlign = 'center'; ctx.fillText(label, x + (barW-20)/2, height - 10); ctx.fillText(String(val), x + (barW-20)/2, y - 6); }); }
+      function resizePoll(){ pollCanvas.width = pollCanvas.clientWidth; pollCanvas.height = pollCanvas.clientHeight; drawPoll(); }
+      window.addEventListener('resize', resizePoll); resizePoll();
+      document.querySelectorAll('.poll button').forEach(btn=>{
+        btn.addEventListener('click', ()=>{ counts[btn.dataset.choice]++; drawPoll(); });
+      }); }
+
+    /* ============================================================
+       SLIDE MINIMAP: BUILD DOTS, HIGHLIGHT CURRENT, DRAGGABLE
+       ============================================================ */
+    const miniBtn = document.getElementById('minimapToggle');
+    const mini = document.getElementById('minimap');
+    makeDraggable(mini); makeDraggable(miniBtn);
+    function buildMinimap(){ mini.innerHTML = ''; const slides = Array.from(document.querySelectorAll('.reveal .slides > section')); slides.forEach((s, i)=>{ const dot = document.createElement('span'); dot.className = 'dot'; dot.title = (s.querySelector('h2')?.textContent || 'Slide') + ` (#${i+1})`; dot.addEventListener('click', ()=> Reveal.slide(i)); mini.appendChild(dot); }); highlightActiveDot(); }
+    function highlightActiveDot(){ const idx = Reveal.getIndices().h; mini.querySelectorAll('.dot').forEach((d, i)=> d.classList.toggle('active', i===idx)); }
+    if (miniBtn){ miniBtn.addEventListener('click', ()=>{ if(mini.style.display==='block'){ mini.style.display='none'; } else { buildMinimap(); mini.style.display='block'; } }); }
+    Reveal.on('slidechanged', highlightActiveDot);
+
+    /* ============================================================
+       MEDIA EFFECTS CONTROLS
+       - Looks for .fx-target elements on current slide
+       - Applies classes: effect-glitch / effect-vhs / effect-blurpulse
+       ============================================================ */
+    function setFx(mode){
+      const current = Reveal.getCurrentSlide();
+      const targets = current ? current.querySelectorAll('.fx-target') : [];
+      targets.forEach(t => {
+        t.classList.remove('effect-glitch','effect-vhs','effect-blurpulse');
+        if(mode==='glitch'){
+          // For text, the glitch pseudo uses data-glitch-text; mirror text if missing
+          if(t.tagName==='H1' || t.tagName==='H2' || t.tagName==='H3') t.setAttribute('data-glitch-text', t.textContent.trim());
+          t.classList.add('effect-glitch');
+        } else if(mode==='vhs'){
+          t.classList.add('effect-vhs');
+        } else if(mode==='blurpulse'){
+          t.classList.add('effect-blurpulse');
+        }
+      });
+    }
+    document.querySelectorAll('#fxPanel .fx-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=> setFx(btn.dataset.fx));
+    });
+
+    /* ============================================================
+       OVERLAYS TOGGLE (GLOBAL) — PRESS O
+       - Adds/removes body.overlays-off to hide ::after overlays
+       ============================================================ */
+    document.addEventListener('keydown', (e)=>{
+      if(e.key.toLowerCase()==='o') document.body.classList.toggle('overlays-off');
+    });
+  </script>
+</body>
+</html>
+
 </html>

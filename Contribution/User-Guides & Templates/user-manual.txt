@@ -1,0 +1,121 @@
+==============================
+Reveal.js — User Templates Manual
+==============================
+
+This manual explains how to use the provided HTML templates, JS, and CSS
+in your Reveal.js presentations.
+
+Folder Contents
+---------------
+- business.html       → Business slide template
+- businesschart.js    → JS code for business charts
+- education.html      → Education / lecture template
+- marketing.html      → Marketing presentation template
+- pitches.html        → Pitch / investor slide template
+- reports.html        → Reports / summary template
+- training.html       → Training / workshop template
+- work.html           → Work / project presentation template
+- custom.css          → Custom theme / styling for all templates
+
+------------------------------
+Step 1: Open a Template
+------------------------------
+1. Open any HTML file in your browser to preview the slides.
+   Example: double-click `business.html`
+2. Make sure `custom.css` is in the same folder to apply styling.
+3. If your template uses `businesschart.js`, ensure the JS file is in the same folder.
+
+------------------------------
+Step 2: Edit Slide Content
+------------------------------
+1. Open the HTML file in a text editor (VS Code, Sublime, Notepad++).
+2. Replace headings (<h1>, <h2>) and paragraphs (<p>) with your own content.
+3. Add new slides by copying existing <section>...</section> blocks.
+4. Add vertical slides by nesting <section> blocks inside another <section>.
+
+Example:
+
+<section>
+  <h2>Main Slide</h2>
+  <section>
+    <h3>Vertical Slide 1</h3>
+  </section>
+  <section>
+    <h3>Vertical Slide 2</h3>
+  </section>
+</section>
+
+------------------------------
+Step 3: Use Presenter Notes
+------------------------------
+- Add notes with <aside class="notes">Your note here</aside>
+- Press 'S' during presentation to view presenter notes.
+
+------------------------------
+Step 4: Use Business Charts (businesschart.js)
+------------------------------
+- Include the JS in your HTML:
+  <script src="businesschart.js"></script>
+- Use the chart functions according to the comments inside `businesschart.js`.
+- Make sure the chart container divs exist in the HTML file.
+
+Example:
+
+<div id="chart1"></div>
+<script>
+  drawBusinessChart("chart1", data);
+</script>
+
+------------------------------
+Step 5: Use Custom Styling
+------------------------------
+- All templates include `custom.css` by default.
+- To change colors, fonts, or layout, edit `custom.css`.
+
+------------------------------
+Step 6: Preview Slides
+------------------------------
+Option A — Open the HTML file directly in browser (uses CDN for Reveal.js)
+Option B — Use Reveal.js dev server:
+
+1. Place your templates in the Reveal.js repo (e.g., `examples/user-manuals/`)
+2. Install dependencies:
+   npm install
+3. Start dev server:
+   npm start
+4. Open in browser:
+   http://localhost:8000/examples/user-manuals/business.html
+   (replace with other templates as needed)
+
+------------------------------
+Step 7: Navigation & Controls
+------------------------------
+- Arrow keys: ← → ↑ ↓
+- Space / Page Down: next slide
+- 'F': fullscreen
+- 'S': presenter view
+- '?' or 'H': keyboard shortcuts overlay
+
+------------------------------
+Step 8: Export / Share
+------------------------------
+- PDF export: append `?print-pdf` in URL and print to PDF
+- Host online: GitHub Pages, Netlify, or your server
+
+------------------------------
+Tips
+------------------------------
+- Keep slide content simple and readable.
+- Use chart placeholders in business.html for graphs and metrics.
+- Test templates in browser before final presentation.
+- You can reuse `custom.css` for new templates for consistent style.
+
+------------------------------
+Support
+------------------------------
+- Reveal.js docs: https://revealjs.com
+- For contributions, modify/add templates and open a PR in the main repository.
+
+==============================
+End of User Manual
+==============================

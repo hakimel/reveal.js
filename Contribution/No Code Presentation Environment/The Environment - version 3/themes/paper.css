@@ -1,0 +1,25 @@
+/* Base token variables shared across custom themes */
+:root {
+  --rtp-accent-h: 200;
+  --rtp-accent-s: 70%;
+  --rtp-accent-l: 52%;
+  --r-link-color: hsl(var(--rtp-accent-h) var(--rtp-accent-s) var(--rtp-accent-l));
+  --r-selection-background-color: hsla(var(--rtp-accent-h), 80%, 60%, 0.25);
+}
+
+/* Tweak code blocks */
+.reveal pre code { line-height: 1.3; font-size: 0.85em; }
+.reveal .controls button { border-radius: 10px; }
+
+/* Paper (light) */
+:root {
+  --r-background-color: #faf7f1;
+  --r-main-font: 'Source Serif 4', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+  --r-main-font-size: 36px;
+  --r-main-color: #2a2a2a;
+  --r-heading-color: #1a1a1a;
+  --r-link-color-hover: #111;
+}
+.reveal-viewport { background: #faf7f1; }
+.reveal section { text-shadow: none; }
+.reveal pre code { background: #fff; border: 1px solid #eee; display: block; padding: 12px; }

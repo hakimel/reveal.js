@@ -1,0 +1,70 @@
+/* Body layout */
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #111; /* Dark background */
+  font-family: 'Times New Roman', serif;
+  display: block;
+}
+
+/* Heading at the top with spacing */
+.slider-heading {
+  color: #fff;
+  font-family: 'Times New Roman', serif;
+  text-align: center;
+  font-size: 2.2rem;
+  padding-top: 40px;      /* Space from top of page */
+  margin-bottom: 40px;    /* Space between heading and slider */
+}
+
+/* Swiper Container */
+.swiper-container {
+  width: 70%;
+  max-width: 600px;
+  height: 350px;
+  margin: 0 auto;         /* Center horizontally */
+  background-color: #222; /* Box color */
+  border-radius: 16px;
+  padding: 30px 0;
+}
+
+/* Slides */
+.swiper-slide {
+  background-color: #333;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Navigation buttons */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #fff;
+}
+
+/* Pagination dots */
+.swiper-pagination-bullet {
+  background-color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .swiper-container { width: 90%; height: 300px; }
+  .slider-heading { font-size: 1.8rem; padding-top: 30px; margin-bottom: 30px; }
+}
+
+@media (max-width: 480px) {
+  .swiper-container { width: 95%; height: 220px; }
+  .slider-heading { font-size: 1.5rem; padding-top: 20px; margin-bottom: 20px; }
+}

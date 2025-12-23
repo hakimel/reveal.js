@@ -1,0 +1,304 @@
+{
+  "slides": [
+    {
+      "id": 4001,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(144, 238, 144, 0.9) 0%, rgba(255, 255, 255, 0.8) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Fresh Green Glass", "animation": "fade-in", "fontSize": "52px", "color": "#1a4d1a" },
+        { "type": "subtitle", "text": "Modern Transparency Design", "animation": "none", "fontSize": "28px", "color": "#2d6b2d" }
+      ]
+    },
+    {
+      "id": 4002,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, rgba(255, 0, 0, 0.85) 0%, rgba(139, 0, 0, 0.9) 100%)" },
+      "transition": "slide",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Bold Red Transparent", "animation": "slide-in-left", "fontSize": "54px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "High Impact Design", "animation": "none", "fontSize": "28px", "color": "rgba(255, 255, 255, 0.95)" }
+      ]
+    },
+    {
+      "id": 4003,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(0, 191, 255, 0.85) 0%, rgba(30, 144, 255, 0.9) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Azure Glass", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Crystal Clear Blue", "animation": "none", "fontSize": "28px", "color": "rgba(255, 255, 255, 0.95)" }
+      ]
+    },
+    {
+      "id": 4004,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, rgba(154, 205, 50, 0.9) 0%, rgba(124, 179, 66, 0.85) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Lime Glow", "animation": "fade-in", "fontSize": "52px", "color": "#2d4410" },
+        { "type": "subtitle", "text": "Vibrant Transparency", "animation": "none", "fontSize": "28px", "color": "#3d5a14" }
+      ]
+    },
+    {
+      "id": 4005,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(255, 140, 0, 0.88) 0%, rgba(255, 69, 0, 0.92) 100%)" },
+      "transition": "slide",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Sunset Glow", "animation": "slide-in-right", "fontSize": "54px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Warm Transparency", "animation": "none", "fontSize": "28px", "color": "rgba(255, 255, 255, 0.95)" }
+      ]
+    },
+    {
+      "id": 4006,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(75, 0, 130, 0.88) 0%, rgba(139, 0, 139, 0.9) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Royal Purple Glass", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Elegant Luxury", "animation": "none", "fontSize": "28px", "color": "rgba(255, 255, 255, 0.93)" }
+      ]
+    },
+    {
+      "id": 4007,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, rgba(0, 96, 100, 0.9) 0%, rgba(0, 131, 143, 0.88) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Teal Translucent", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Professional Depth", "animation": "none", "fontSize": "28px", "color": "rgba(178, 235, 242, 0.95)" }
+      ]
+    },
+    {
+      "id": 4008,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(0, 206, 209, 0.87) 0%, rgba(72, 209, 204, 0.9) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Turquoise Crystal", "animation": "fade-in", "fontSize": "52px", "color": "#003333" },
+        { "type": "subtitle", "text": "Refreshing Clarity", "animation": "none", "fontSize": "28px", "color": "#004d4d" }
+      ]
+    },
+    {
+      "id": 4009,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(44, 62, 80, 0.92) 0%, rgba(52, 73, 94, 0.9) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Navy Glass", "animation": "fade-in", "fontSize": "52px", "color": "#ECF0F1" },
+        { "type": "subtitle", "text": "Corporate Elegance", "animation": "none", "fontSize": "28px", "color": "rgba(189, 195, 199, 0.95)" }
+      ]
+    },
+    {
+      "id": 4010,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, rgba(210, 180, 140, 0.85) 0%, rgba(245, 222, 179, 0.8) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Tan Soft Glass", "animation": "fade-in", "fontSize": "52px", "color": "#5D4E37" },
+        { "type": "subtitle", "text": "Classic Transparency", "animation": "none", "fontSize": "28px", "color": "#8B7355" }
+      ]
+    },
+    {
+      "id": 4011,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(135, 206, 235, 0.88) 0%, rgba(70, 130, 180, 0.9) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Sky Crystal", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Peaceful Clarity", "animation": "none", "fontSize": "28px", "color": "rgba(240, 248, 255, 0.95)" }
+      ]
+    },
+    {
+      "id": 4012,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, rgba(176, 176, 176, 0.85) 0%, rgba(211, 211, 211, 0.8) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Silver Mist", "animation": "fade-in", "fontSize": "52px", "color": "#333333" },
+        { "type": "subtitle", "text": "Minimalist Glass", "animation": "none", "fontSize": "28px", "color": "#666666" }
+      ]
+    },
+    {
+      "id": 4013,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(255, 228, 225, 0.9) 0%, rgba(255, 192, 203, 0.85) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Rose Quartz", "animation": "fade-in", "fontSize": "52px", "color": "#8B4789" },
+        { "type": "subtitle", "text": "Soft Elegance", "animation": "none", "fontSize": "28px", "color": "#C71585" }
+      ]
+    },
+    {
+      "id": 4014,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, rgba(139, 69, 19, 0.88) 0%, rgba(160, 82, 45, 0.9) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Brown Earth Glass", "animation": "fade-in", "fontSize": "52px", "color": "#FAEBD7" },
+        { "type": "subtitle", "text": "Natural Depth", "animation": "none", "fontSize": "28px", "color": "rgba(255, 228, 181, 0.95)" }
+      ]
+    },
+    {
+      "id": 4015,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(51, 51, 51, 0.92) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Midnight Glass", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Dark Sophistication", "animation": "none", "fontSize": "28px", "color": "rgba(204, 204, 204, 0.95)" }
+      ]
+    },
+    {
+      "id": 4016,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, rgba(199, 21, 133, 0.88) 0%, rgba(255, 20, 147, 0.9) 100%)" },
+      "transition": "slide",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Magenta Glow", "animation": "slide-in-left", "fontSize": "54px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Bold Transparency", "animation": "none", "fontSize": "28px", "color": "rgba(255, 230, 240, 0.95)" }
+      ]
+    },
+    {
+      "id": 4017,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(0, 105, 92, 0.9) 0%, rgba(0, 137, 123, 0.88) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Emerald Glass", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Balanced Design", "animation": "none", "fontSize": "28px", "color": "rgba(178, 223, 219, 0.95)" }
+      ]
+    },
+    {
+      "id": 4018,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, rgba(44, 95, 115, 0.9) 0%, rgba(58, 124, 143, 0.88) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Ocean Depth", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Deep Blue Glass", "animation": "none", "fontSize": "28px", "color": "rgba(208, 232, 240, 0.95)" }
+      ]
+    },
+    {
+      "id": 4019,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(92, 46, 92, 0.9) 0%, rgba(139, 71, 137, 0.88) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Plum Translucent", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Creative Depth", "animation": "none", "fontSize": "28px", "color": "rgba(240, 230, 240, 0.95)" }
+      ]
+    },
+    {
+      "id": 4020,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, rgba(75, 192, 192, 0.87) 0%, rgba(54, 162, 235, 0.9) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Cyan Crystal", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Modern Tech", "animation": "none", "fontSize": "28px", "color": "rgba(230, 247, 255, 0.95)" }
+      ]
+    },
+    {
+      "id": 4021,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(255, 99, 71, 0.88) 0%, rgba(255, 140, 0, 0.85) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Coral Flame", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Warm Energy", "animation": "none", "fontSize": "28px", "color": "rgba(255, 245, 230, 0.95)" }
+      ]
+    },
+    {
+      "id": 4022,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, rgba(106, 90, 205, 0.88) 0%, rgba(72, 61, 139, 0.9) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Slate Blue Glass", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Cool Elegance", "animation": "none", "fontSize": "28px", "color": "rgba(230, 230, 250, 0.95)" }
+      ]
+    },
+    {
+      "id": 4023,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(255, 215, 0, 0.85) 0%, rgba(255, 193, 7, 0.88) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Gold Shimmer", "animation": "fade-in", "fontSize": "52px", "color": "#5D4E00" },
+        { "type": "subtitle", "text": "Luxury Transparency", "animation": "none", "fontSize": "28px", "color": "#8B6914" }
+      ]
+    },
+    {
+      "id": 4024,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, rgba(0, 128, 128, 0.88) 0%, rgba(32, 178, 170, 0.85) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Teal Lagoon", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Tropical Glass", "animation": "none", "fontSize": "28px", "color": "rgba(224, 255, 255, 0.95)" }
+      ]
+    },
+    {
+      "id": 4025,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(220, 20, 60, 0.88) 0%, rgba(178, 34, 34, 0.9) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Crimson Glass", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Passionate Design", "animation": "none", "fontSize": "28px", "color": "rgba(255, 240, 245, 0.95)" }
+      ]
+    },
+    {
+      "id": 4026,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, rgba(70, 130, 180, 0.88) 0%, rgba(100, 149, 237, 0.85) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Steel Blue", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Industrial Glass", "animation": "none", "fontSize": "28px", "color": "rgba(230, 240, 255, 0.95)" }
+      ]
+    },
+    {
+      "id": 4027,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(186, 85, 211, 0.88) 0%, rgba(147, 112, 219, 0.9) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Orchid Glass", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Feminine Elegance", "animation": "none", "fontSize": "28px", "color": "rgba(250, 240, 255, 0.95)" }
+      ]
+    },
+    {
+      "id": 4028,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, rgba(34, 139, 34, 0.88) 0%, rgba(60, 179, 113, 0.85) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Forest Glass", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Natural Depth", "animation": "none", "fontSize": "28px", "color": "rgba(240, 255, 240, 0.95)" }
+      ]
+    },
+    {
+      "id": 4029,
+      "background": { "type": "gradient", "value": "linear-gradient(135deg, rgba(255, 160, 122, 0.85) 0%, rgba(250, 128, 114, 0.88) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Salmon Glow", "animation": "fade-in", "fontSize": "52px", "color": "#5D2E00" },
+        { "type": "subtitle", "text": "Soft Warmth", "animation": "none", "fontSize": "28px", "color": "#8B4513" }
+      ]
+    },
+    {
+      "id": 4030,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, rgba(25, 25, 112, 0.92) 0%, rgba(65, 105, 225, 0.88) 100%)" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Royal Blue Glass", "animation": "fade-in", "fontSize": "52px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Regal Transparency", "animation": "none", "fontSize": "28px", "color": "rgba(240, 248, 255, 0.95)" }
+      ]
+    }
+  ]
+}

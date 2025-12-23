@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Reveal.js – Terminal Demo (Typing + Replay + Colors)</title>
+
+  <!-- Reveal.js via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reset.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css" id="theme">
+
+  <style>
+    :root{
+      --term-bg: #0b1020;
+      --term-fg: #cdd6f4;
+      --term-accent: #6cf;
+      --cmd: #A6D189;
+      --out: #c6d0f5;
+      --warn: #E5C07B;
+      --err: #E06C75;
+      --file: #61AFEF;
+      --ok: #98C379;
+    }
+    .terminal {
+      background: var(--term-bg);
+      color: var(--term-fg);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,.45);
+      width: min(960px, 92vw);
+      margin: 0 auto;
+      overflow: hidden;
+      font: 15px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+    .term-header {
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 8px 12px; background: rgba(255,255,255,.04);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .term-dots { display:flex; gap:6px; }
+    .dot { width:12px; height:12px; border-radius:50%; }
+    .dot.red { background:#ff5f56; } .dot.yellow { background:#ffbd2e; } .dot.green { background:#27c93f; }
+    .term-title { font-size: 12px; opacity:.8; letter-spacing:.2px; }
+    .term-actions { display:flex; gap:8px; align-items:center; }
+    .btn {
+      appearance:none; border:1px solid rgba(255,255,255,.2);
+      background: rgba(255,255,255,.06); color:#fff;
+      padding:6px 10px; border-radius:8px; cursor:pointer;
+      font-size: 12px;
+    }
+    .btn:hover { background: rgba(255,255,255,.12); }
+    .speed {
+      display:inline-flex; align-items:center; gap:6px; font-size:12px; opacity:.9;
+      background: rgba(255,255,255,.06); padding:4px 8px; border-radius:8px; border:1px solid rgba(255,255,255,.2);
+    }
+    .term-body { padding: 14px 16px 18px 16px; max-height: 60vh; overflow: auto; }
+    .line { white-space: pre-wrap; word-break: break-word; }
+    .prompt::before { content: "$ "; color: var(--cmd); }
+    .line.cmd { color: var(--cmd); }
+    .line.out { color: var(--out); }
+    .line.warn { color: var(--warn); }
+    .line.err { color: var(--err); }
+    .line.file { color: var(--file); }
+    .line.ok { color: var(--ok); }
+    .caret {
+      display:inline-block; width:8px; height:1.15em; vertical-align:-0.2em;
+      margin-left:2px; background: var(--term-accent); animation: blink 1s steps(1,end) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* small helper text on slide */
+    .hint { margin-top: 10px; font-size: 14px; opacity: .8; }
+    .hint kbd { background: rgba(255,255,255,.12); padding: 2px 6px; border-radius: 6px; border: 1px solid rgba(255,255,255,.2); }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Terminal Demo</h2>
+        <p class="hint">Press <kbd>R</kbd> or click <b>Replay</b> to rerun. Use speed x0.5 / x1 / x2.</p>
+        <div class="terminal" id="terminal">
+          <div class="term-header">
+            <div class="term-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+            <div class="term-title">~/project – shell</div>
+            <div class="term-actions">
+              <div class="speed">
+                Speed:
+                <select id="speed">
+                  <option value="0.5">0.5×</option>
+                  <option value="1" selected>1×</option>
+                  <option value="2">2×</option>
+                  <option value="3">3×</option>
+                </select>
+              </div>
+              <button class="btn" id="replayBtn" title="Replay (R)">▶ Replay</button>
+            </div>
+          </div>
+          <div class="term-body" id="termOut" aria-live="polite"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script>
+    Reveal.initialize({ controls:true, progress:true, slideNumber:'c/t', hash:true });
+
+    // --- Script to "play" (commands + outputs). Customize freely:
+    const script = [
+      { type:'cmd',  text:'git clone https://github.com/acme/app.git' },
+      { type:'out',  text:'Cloning into \'app\'...' },
+      { type:'out',  text:'remote: Enumerating objects: 120, done.' },
+      { type:'out',  text:'remote: Counting objects: 100% (120/120), done.' },
+      { type:'out',  text:'Receiving objects: 100% (120/120), 98.12 KiB | 1.23 MiB/s, done.' },
+      { type:'ok',   text:'✔ Clone complete.' },
+
+      { type:'cmd',  text:'cd app && npm install' },
+      { type:'out',  text:'added 512 packages, and audited 513 packages in 4s' },
+      { type:'warn', text:'7 packages are looking for funding   run `npm fund` for details' },
+      { type:'ok',   text:'✔ Dependencies installed.' },
+
+      { type:'cmd',  text:'npm run build' },
+      { type:'out',  text:'vite v5 building for production...' },
+      { type:'out',  text:'transforming (42) src/main.ts...' },
+      { type:'file', text:'dist/assets/app.abc123.js      12.34 kB' },
+      { type:'file', text:'dist/assets/vendor.xyz987.js  101.22 kB' },
+      { type:'file', text:'dist/index.html                 0.84 kB' },
+      { type:'ok',   text:'Build completed in 2.37s' },
+
+      { type:'cmd',  text:'npm test' },
+      { type:'out',  text:'PASS  src/math.spec.ts (5.123 s)' },
+      { type:'out',  text:'  √ adds numbers (2 ms)' },
+      { type:'out',  text:'  √ subtracts numbers (1 ms)' },
+      { type:'ok',   text:'✔ 2 tests passed.' },
+
+      { type:'cmd',  text:'node server.js' },
+      { type:'out',  text:'Server listening on http://localhost:3000' },
+    ];
+
+    // --- Typing + playback engine
+    const termOut = document.getElementById('termOut');
+    const replayBtn = document.getElementById('replayBtn');
+    const speedSel = document.getElementById('speed');
+
+    // Base timings (ms); multiplied/divided by speed factor
+    const baseChar = 22;      // per character
+    const baseLineGap = 350;  // after a line
+    const baseCmdGap  = 500;  // after a command line
+
+    let playing = false, abortToken = 0;
+
+    function ms(v){ const f = parseFloat(speedSel.value||'1'); return v / (f>0?f:1); }
+
+    function clearTerm(){
+      termOut.innerHTML = '';
+      termOut.scrollTop = termOut.scrollHeight;
+    }
+
+    function appendLine(type, text, withPrompt){
+      const line = document.createElement('div');
+      line.className = 'line ' + type + (withPrompt ? ' prompt' : '');
+      line.setAttribute('data-full', text); // store full text for typing
+      termOut.appendChild(line);
+      return line;
+    }
+
+    function typeLine(el, cb){
+      const full = el.getAttribute('data-full') || '';
+      el.textContent = ''; // reset
+      // If it's a command, keep the "$ " prompt via CSS ::before and type only the text
+      let i = 0;
+      const caret = document.createElement('span'); caret.className = 'caret';
+      el.appendChild(caret);
+
+      function step(){
+        if (i < full.length){
+          el.insertBefore(document.createTextNode(full.charAt(i++)), caret);
+          termOut.scrollTop = termOut.scrollHeight;
+          setTimeout(step, ms(baseChar));
+        } else {
+          caret.remove();
+          cb && cb();
+        }
+      }
+      step();
+    }
+
+    async function play(){
+      playing = true;
+      const myToken = ++abortToken;
+      clearTerm();
+
+      for (let idx=0; idx<script.length; idx++){
+        if (myToken !== abortToken) return; // aborted by replay
+        const s = script[idx];
+        const isCmd = s.type === 'cmd';
+        const line = appendLine(s.type, s.text, isCmd);
+        await new Promise(res => typeLine(line, res));
+        await new Promise(res => setTimeout(res, ms(isCmd ? baseCmdGap : baseLineGap)));
+      }
+
+      playing = false;
+    }
+
+    // Replay behavior
+    replayBtn.addEventListener('click', ()=>{
+      abortToken++; // cancel any current run
+      play();
+    });
+
+    // Keyboard: R to replay
+    document.addEventListener('keydown', e=>{
+      if (e.key.toLowerCase() === 'r') { abortToken++; play(); }
+    });
+
+    // Auto-play when slide becomes visible
+    Reveal.on('ready', play);
+    Reveal.on('slidechanged', e=>{
+      // Auto-play only when we land on this slide
+      const onThisSlide = e.currentSlide && e.currentSlide.contains(termOut);
+      if (onThisSlide) { abortToken++; play(); }
+      else { abortToken++; } // abort if leaving
+    });
+  </script>
+</body>
+</html>

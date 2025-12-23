@@ -1,0 +1,35 @@
+Explaining Overlays.html to Lecturer
+
+Purpose
+
+The project demonstrates how Reveal.js presentations can be enhanced
+with overlays. These overlays are CSS-based visual effects that improve
+text readability and design.
+
+Key Features
+
+1.  Three overlay styles: dark, grid, and dots.
+2.  Customization using CSS variables per slide (opacity, size, color).
+3.  On-screen toggle button and keyboard shortcut (O) to enable/disable
+    overlays globally.
+4.  Example slides show how each overlay looks.
+
+Why It Matters
+
+-   Enhances readability on busy or photo-based backgrounds.
+-   Adds modern visual styling without extra plugins.
+-   Simple to use: just add data-overlay to slides.
+
+How to Show It
+
+1.  Open Overlays.html in the browser.
+2.  Navigate through the three example slides.
+3.  Demonstrate pressing “O” or using the toggle button.
+4.  Show how changing CSS variables affects overlays.
+
+Talking Points
+
+-   Emphasize how Reveal.js is web-based and customizable.
+-   Stress that this is done entirely with HTML + CSS (no extra plugin).
+-   Explain practical use: better presentations, more engaging for the
+    audience.

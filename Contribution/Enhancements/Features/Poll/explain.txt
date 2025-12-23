@@ -1,0 +1,80 @@
+Reveal.js Live Poll Feature — Technical Explanation
+
+Project URL (Host Console): https://newpoll.netlify.app
+Viewer Link = https://pollfeature-default-rtdb.firebaseio.com/polls
+Voter Link = Will be generated in project URL
+
+Overview
+- This is a real-time polling feature designed to be used alongside a Reveal.js slide deck.
+- Frontend is hosted on Netlify (static pages under /public).
+- Secure backend actions run as Netlify Functions (serverless) using Firebase Admin SDK.
+- Poll state and live counts are stored in Firebase Realtime Database (RTDB).
+
+Key Components
+1) Host page (https://newpoll.netlify.app/)
+   - Lets the presenter publish a poll, lock it, and reset it.
+   - Shows a QR code linking to the voter page for a specific pollId.
+   - Displays a live-updating results chart (subscribed to Firebase RTDB).
+
+2) Voter page (https://newpoll.netlify.app/voter/?poll=<pollId>)
+   - Reads the active poll configuration (question, options, multi-select limit).
+   - Submits a vote to the /vote function.
+   - Uses a device-stable anonymous ID (anonId) stored in localStorage; submitting a new vote from the same device overwrites the previous one (prevents stacking).
+
+3) Netlify Functions (serverless)
+   - /.netlify/functions/publish  (POST, admin-only)
+   - /.netlify/functions/lock     (POST, admin-only)
+   - /.netlify/functions/reset    (POST, admin-only)
+   - /.netlify/functions/vote     (POST, public)
+   All functions add CORS headers so they can be called from the browser.
+
+4) Firebase
+   - Realtime Database (RTDB) stores:
+     polls/{pollId}/activeVersion
+     polls/{pollId}/versions/{v}/question
+     polls/{pollId}/versions/{v}/options[]
+     polls/{pollId}/versions/{v}/multiMax
+     polls/{pollId}/versions/{v}/state ("open" or "locked")
+     polls/{pollId}/versions/{v}/counts[]            (live tally)
+     polls/{pollId}/versions/{v}/votes/{anonId}      (last picks by device)
+   - The Admin SDK (in Functions) is initialized from FIREBASE_SERVICE_ACCOUNT (JSON env var).
+
+Security Model
+- Admin-only endpoints (publish/lock/reset) require an Authorization header:
+  Authorization: Bearer <ADMIN_SIGNING_SECRET>
+  The secret is stored as a Netlify environment variable and entered once into the host page.
+- Public endpoint (vote) validates inputs and applies an atomic delta to counts, replacing the previous vote by the same anonId.
+- Frontend uses public Firebase web config to subscribe to RTDB for live reads (safe). Writes are enforced by serverless functions using the Admin SDK.
+
+Typical Flow
+1) Host opens https://newpoll.netlify.app, pastes ADMIN_SIGNING_SECRET, types question and options, then clicks Publish.
+2) A QR code is shown; audience opens the voter link https://newpoll.netlify.app/voter/?poll=<pollId>.
+3) Votes stream into Firebase; the host page chart updates live.
+4) Host can Lock the poll (stops voting) or Reset (clear counts and votes for active version).
+
+Environment Variables (site-level on Netlify)
+- FIREBASE_API_KEY              (from Firebase web config)
+- FIREBASE_AUTH_DOMAIN          (from Firebase web config)
+- FIREBASE_PROJECT_ID           (from Firebase web config)
+- FIREBASE_DATABASE_URL         (from Firebase web config)
+- FIREBASE_APP_ID               (from Firebase web config)
+- FIREBASE_SERVICE_ACCOUNT      (full JSON from Firebase Service Accounts → Generate private key)
+- ADMIN_SIGNING_SECRET          (random string you generate; used for host-only actions)
+
+Files of Interest (repo structure)
+- public/index.html        → host console (QR + live chart + buttons)
+- public/voter/index.html  → audience UI to vote
+- netlify/functions/_common.js → shared helper (Firebase Admin init, CORS, auth)
+- netlify/functions/publish.js → create new poll version + set active
+- netlify/functions/lock.js    → set state=locked for the active version
+- netlify/functions/reset.js   → clear counts and votes for the active version
+- netlify/functions/vote.js    → validate and apply vote delta (atomic RTDB transaction)
+
+Troubleshooting Notes
+- 403 on publish/lock/reset → Admin secret missing/wrong; fix Authorization header or host page secret.
+- 500 from any function → Usually FIREBASE_SERVICE_ACCOUNT missing or malformed in Netlify env vars.
+- “QRCode is not defined” → Ensure qrcode.min.js is loaded before using new QRCode(...).
+- “firebaseConfig already declared” → Only declare initializeApp once per page (avoid duplicate const declarations).
+- No live updates → Check Realtime Database rules/mode and databaseURL; confirm onValue subscriptions.
+
+Prepared for lecturer review – summarizes architecture, endpoints, data model, and security.

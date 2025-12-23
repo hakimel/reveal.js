@@ -1,0 +1,85 @@
+Use the Drag Blocks Tool Inside Reveal.js
+==============================================
+
+Quick start (standalone or demo slide)
+--------------------------------------
+1) Open `Dragdrop.html` in a browser — it already includes minimal Reveal.js via CDN.
+2) Navigate to the slide and flip **Edit mode** ON to design, OFF to present.
+
+Embed into your own Reveal deck
+-------------------------------
+You have two approaches: **Inline** (recommended) or **Iframe** (isolated).
+
+A) Inline embed
+---------------
+1) In your deck HTML, create a slide and paste the app markup:
+
+   <section>
+     <h2>Drag Blocks — Centered Arrow Connectors</h2>
+     <div class="toolbar" id="toolbar">…</div>
+     <p class="hint muted">…</p>
+     <div class="canvas-area" id="dragArea">
+       <svg class="wires" id="wires" viewBox="0 0 100 100" preserveAspectRatio="none">
+         <defs>
+           <marker id="arrow-mid" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+             <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+           </marker>
+         </defs>
+       </svg>
+       <!-- initial nodes here -->
+     </div>
+   </section>
+
+2) Copy the **CSS** rules for `.toolbar`, `.canvas-area`, `.node`, `.wires`, `.wire`, `.wire-double`, etc.
+   into your deck’s `<style>` or a CSS file that’s loaded by the deck.
+
+3) Paste the **script** block (the app logic) just before `</body>`. Ensure Reveal is available first.
+
+4) Initialize Reveal (typical minimal config):
+
+   <script>
+     Reveal.initialize({ controls:true, progress:true, slideNumber:'c/t', hash:true });
+   </script>
+
+Why inline?
+• One HTML file, shared theme, and direct access to Reveal’s API (the app already
+  toggles `Reveal.configure({ keyboard: !on })` when Edit mode changes).
+
+B) Iframe embed (sandboxed)
+---------------------------
+1) Save the tool as `dragblocks.html` (standalone variant).
+2) In your slide, embed it:
+
+   <section>
+     <iframe src="dragblocks.html" style="width:100%;height:80vh;border:0;border-radius:12px"></iframe>
+   </section>
+
+3) This avoids CSS collisions; the tool stays self‑contained. Keyboard focus is naturally isolated too.
+
+CDN vs local Reveal
+-------------------
+• The demo uses Reveal.js via CDN for convenience.
+• If your deck ships Reveal locally, remove the CDN tags in the tool file and reference your local `dist/` and `plugin/` paths.
+
+Presenter workflow tips
+-----------------------
+• Keep **Edit mode OFF** while presenting so slide keys work.
+• Before connecting, set **Line** and **Arrow**; settings apply to new connectors.
+• Use **Delete selected** (block or connector) to prune the diagram live.
+• Resize the window before the talk to finalize canvas dimensions on the projector.
+
+Data & persistence
+------------------
+• Diagrams auto‑save to `localStorage` under `dragblocks.v4`. That means:
+  – Same browser/profile = your diagram comes back.  
+  – Different machine/incognito = it won’t. Consider exporting from devtools if needed.
+
+Folder layout (suggested)
+-------------------------
+/slides/
+  index.html               ← your Reveal deck
+  Dragdrop.html            ← standalone demo (optional)
+  css/dragblocks.css       ← if you split styles out
+  js/dragblocks.js         ← if you split the script out
+
+That’s it—design in Edit mode, present in comfort.

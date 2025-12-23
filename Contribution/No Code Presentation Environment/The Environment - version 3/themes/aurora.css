@@ -1,0 +1,28 @@
+/* Base token variables shared across custom themes */
+:root {
+  --rtp-accent-h: 200;
+  --rtp-accent-s: 70%;
+  --rtp-accent-l: 52%;
+  --r-link-color: hsl(var(--rtp-accent-h) var(--rtp-accent-s) var(--rtp-accent-l));
+  --r-selection-background-color: hsla(var(--rtp-accent-h), 80%, 60%, 0.25);
+}
+
+/* Tweak code blocks */
+.reveal pre code { line-height: 1.3; font-size: 0.85em; }
+.reveal .controls button { border-radius: 10px; }
+
+/* Aurora */
+:root {
+  --r-background-color: #0b1224;
+  --r-main-font: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  --r-main-font-size: 36px;
+  --r-main-color: #e6f2ff;
+  --r-heading-color: #ffffff;
+}
+.reveal-viewport {
+  background:
+    radial-gradient(800px 600px at 20% 10%, rgba(134,239,172,0.12), transparent),
+    radial-gradient(900px 700px at 80% 30%, rgba(129,140,248,0.18), transparent),
+    #0b1224;
+}
+.reveal a { text-decoration-color: rgba(255,255,255,0.3); }

@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reveal.js Interactive Tools</title>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/black.css">
+  <style>
+    /* Whiteboard */
+    #whiteboard {
+      border: 2px solid #444;
+      background: #fff;
+      cursor: crosshair;
+      border-radius: 8px;
+    }
+    .controls {
+      margin-top: 10px;
+    }/* Navigation Aid */
+#nav-aid {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+}
+#nav-aid button {
+  margin: 3px;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides"><!-- Dynamic Background Example -->
+  <section data-background-color="black" id="dynamic-bg-slide">
+    <h2>Dynamic Background 🎨</h2>
+    <p>The background color changes automatically.</p>
+  </section>
+
+  <!-- Drawing Tool Example -->
+  <section>
+    <h2>Interactive Whiteboard ✍</h2>
+	<p>Draw freely on the canvas!</p>
+    <canvas id="whiteboard" width="600" height="400"></canvas>
+    <div class="controls">
+      <button onclick="clearBoard()">Clear</button>
+    </div>
+  </section>
+
+  <!-- Navigation Aid Example -->
+  <section>
+    <h2>Navigation Aid 🧭</h2>
+    <p>Use the floating arrows at the bottom right to move between slides.</p>
+  </section>
+
+</div>
+
+  </div>  <!-- Navigation Aid Buttons -->  <div id="nav-aid">
+    <button onclick="Reveal.prev()">⬅ Prev</button>
+    <button onclick="Reveal.next()">Next ➡</button>
+  </div>  <!-- Reveal.js Core -->  <script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>  <script>
+    Reveal.initialize();
+  </script>  <!-- Interactive Tools Script -->  <script>
+    // 1. Dynamic Background
+    const dynamicSlide = document.getElementById("dynamic-bg-slide");
+    let hue = 0;
+    setInterval(() => {
+      if (Reveal.isSlide(dynamicSlide)) {
+        dynamicSlide.style.background = hsl(${hue}, 80%, 50%);
+        hue = (hue + 5) % 360;
+      }
+    }, 200);
+
+    // 2. Drawing Tool (Whiteboard)
+    const canvas = document.getElementById("whiteboard");
+    const ctx = canvas.getContext("2d");
+    let drawing = false;
+
+    canvas.addEventListener("mousedown", () => { drawing = true; });
+    canvas.addEventListener("mouseup", () => { drawing = false; ctx.beginPath(); });
+    canvas.addEventListener("mousemove", draw);
+
+    function draw(e) {
+      if (!drawing) return;
+      ctx.lineWidth = 3;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "black";
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(e.offsetX, e.offsetY);
+    }
+
+    function clearBoard() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  </script></body>
+</html>

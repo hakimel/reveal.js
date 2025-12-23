@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal.js Histogram Example</title>
+    
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="./../../../../dist/reveal.css">
+    <link rel="stylesheet" href="./../../../../dist/theme/league.css">
+    
+    <!-- Chart.js for the histogram -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* Custom styling for the presentation */
+        .reveal {
+            font-family: Arial, sans-serif;
+        }
+        
+        .slide-title {
+            margin-bottom: 30px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 60vh;
+            width: 80%;
+            margin: 0 auto;
+        }
+        
+        .next-slide-btn {
+            margin-top: 30px;
+            background: linear-gradient(to right, #4CAF50, #2E8B57);
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .next-slide-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+            background: linear-gradient(to right, #45a049, #26734d);
+        }
+        
+        .instructions {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin-top: 30px;
+            text-align: left;
+            color: #ddd;
+            font-size: 16px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+        
+        .slide-content {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Custom background for the histogram slide */
+        #histogram-slide {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Title Slide -->
+            <section>
+                <h1>Histogram Presentation</h1>
+                <p>An example of using charts with Reveal.js</p>
+            </section>
+            
+            <!-- Histogram Slide -->
+            <section id="histogram-slide">
+                <div class="slide-content">
+                    <h2 class="slide-title">Project Budget Allocation</h2>
+                    <div class="chart-container">
+                        <canvas id="histogramChart"></canvas>
+                    </div>
+                    
+                    <!-- MODIFICATION AREA: Update the data-id attribute to point to your next slide -->
+                    <button class="next-slide-btn" data-id="next-slide">
+                        Continue to Next Section
+                    </button>
+                    
+                    
+                </div>
+            </section>
+            
+            <!-- Next Slide (example) -->
+            <section id="next-slide">
+                <h2>Next Section: Project Timeline</h2>
+                <p>This is the slide that follows the histogram.</p>
+                <p>You would replace this with your actual content.</p>
+            </section>
+        </div>
+    </div>
+
+    <!-- Reveal.js Initialization & Chart Code -->
+    <script src="./../../../../dist/reveal.js"></script>
+    <script>
+        // Initialize Reveal.js
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: true,
+            transition: 'slide'
+        });
+        
+        // Create gradient colors for the chart
+        function createGradients(ctx) {
+            const gradients = [];
+            
+            // Create gradient for Development
+            const devGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            devGradient.addColorStop(0, '#FF6384');
+            devGradient.addColorStop(1, '#FF0033');
+            
+            // Create gradient for Design
+            const designGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            designGradient.addColorStop(0, '#36A2EB');
+            designGradient.addColorStop(1, '#0066CC');
+            
+            // Create gradient for Testing
+            const testingGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            testingGradient.addColorStop(0, '#FFCE56');
+            testingGradient.addColorStop(1, '#FF9900');
+            
+            // Create gradient for Documentation
+            const docGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            docGradient.addColorStop(0, '#4BC0C0');
+            docGradient.addColorStop(1, '#008080');
+            
+            // Create gradient for Marketing
+            const marketingGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            marketingGradient.addColorStop(0, '#9966FF');
+            marketingGradient.addColorStop(1, '#6600CC');
+            
+            return [devGradient, designGradient, testingGradient, docGradient, marketingGradient];
+        }
+        
+        // Create the histogram when the slide is loaded
+        Reveal.addEventListener('ready', function() {
+            createHistogram();
+        });
+        
+        // Recreate chart when navigating to the slide (in case of viewport changes)
+        Reveal.addEventListener('slidechanged', function(event) {
+            if (event.currentSlide.querySelector('#histogramChart')) {
+                createHistogram();
+            }
+        });
+        
+        function createHistogram() {
+            const ctx = document.getElementById('histogramChart').getContext('2d');
+            
+            // Create gradients for the chart
+            const gradients = createGradients(ctx);
+            
+            // MODIFICATION AREA: Update this data with your chart information
+            const chartData = {
+                labels: ['Development', 'Design', 'Testing', 'Documentation', 'Marketing'],
+                datasets: [{
+                    label: 'Budget Allocation (%)',
+                    data: [40, 20, 15, 10, 15],
+                    backgroundColor: gradients,
+                    borderWidth: 2,
+                    borderColor: '#fff',
+                    hoverOffset: 15,
+                    barPercentage: 0.6,
+                    categoryPercentage: 0.8
+                }]
+            };
+            
+            const config = {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 16
+                                },
+                                color: '#fff'
+                            }
+                        },
+                        tooltip: {
+                            bodyFont: {
+                                size: 16
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 50,
+                            ticks: {
+                                color: '#fff',
+                                font: {
+                                    size: 14
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Percentage (%)',
+                                color: '#fff',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: '#fff',
+                                font: {
+                                    size: 14
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Project Areas',
+                                color: '#fff',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            
+            // Destroy previous chart instance if it exists
+            if (window.histogramChartInstance) {
+                window.histogramChartInstance.destroy();
+            }
+            
+            // Create new chart instance
+            window.histogramChartInstance = new Chart(ctx, config);
+        }
+        
+        // Add navigation functionality to the button
+        document.querySelector('.next-slide-btn').addEventListener('click', function() {
+            // MODIFICATION AREA: Update the data-id value to match your target slide
+            const nextSlideId = this.getAttribute('data-id');
+            const nextSlideElement = document.getElementById(nextSlideId);
+            
+            if (nextSlideElement) {
+                const nextSlideIndex = Array.from(nextSlideElement.parentNode.children).indexOf(nextSlideElement);
+                Reveal.slide(nextSlideIndex);
+            } else {
+                // Fallback: just go to the next slide
+                Reveal.next();
+            }
+        });
+    </script>
+</body>
+</html>

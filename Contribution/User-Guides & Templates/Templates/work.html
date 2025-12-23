@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Work Templates</title>
+    <link rel="stylesheet" href="../../../dist/reveal.css">
+    <link rel="stylesheet" href="../../../dist/theme/serif.css">
+    <link rel="stylesheet" href="custom.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+
+        <section>
+            <h1>Project Overview</h1>
+            <p>Team / Department</p>
+        </section>
+
+        <section>
+            <h2>Team Members</h2>
+            <div class="columns">
+                <div class="column">
+                    <h3>Member 1</h3>
+                    <p>Role / Contribution</p>
+                </div>
+                <div class="column">
+                    <h3>Member 2</h3>
+                    <p>Role / Contribution</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Project Timeline</h2>
+            <ul>
+                <li>Phase 1: Planning</li>
+                <li>Phase 2: Development</li>
+                <li>Phase 3: Testing</li>
+                <li>Phase 4: Deployment</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Metrics / Data</h2>
+            <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+            </div>
+            <p>Explanation of metrics here</p>
+        </section>
+
+        <section>
+            <h2>Task Checklist</h2>
+            <ul>
+                <li><i class="fa fa-check-square"></i> Task 1</li>
+                <li><i class="fa fa-check-square"></i> Task 2</li>
+                <li><i class="fa fa-check-square"></i> Task 3</li>
+            </ul>
+        </section>
+
+    </div>
+</div>
+<script src="../../../dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="businesschart.js"></script>
+<script>
+    Reveal.initialize({ hash: true, slideNumber: true });
+</script>
+</body>
+</html>

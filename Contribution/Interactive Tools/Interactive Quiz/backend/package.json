@@ -1,0 +1,15 @@
+{
+  "name": "qr-quiz",
+  "version": "1.0.0",
+  "main": "server.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "socket.io": "^4.7.2"
+  }
+}

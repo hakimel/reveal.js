@@ -1,0 +1,35 @@
+Terminal Simulation - User Manual
+
+Overview:
+The Terminal Simulation feature allows presenters to demonstrate command line workflows inside a Reveal.js presentation. It looks and feels like a real terminal, but the output is pre-defined and animated, so it is safe and predictable during a live presentation.
+
+How to Use:
+1. Opening:
+   - Navigate to the slide that contains the terminal simulation.
+   - The animation starts automatically when the slide is shown.
+
+2. Replay:
+   - Click the ▶ Replay button to restart the terminal simulation.
+   - Or press the keyboard shortcut 'R' to replay.
+
+3. Typing Animation:
+   - Commands appear character by character, simulating real typing.
+   - The caret blinks while typing is in progress.
+
+4. Output:
+   - Output lines are color-coded:
+     • Green – Commands entered ($ npm run build)
+     • Gray – Normal output
+     • Yellow – Warnings
+     • Red – Errors
+     • Blue – File paths or build artifacts
+     • Bright Green – Success messages
+
+5. Speed Control:
+   - Use the Speed selector (0.5×, 1×, 2×, 3×) to slow down or speed up the animation.
+
+Advantages:
+- Makes demonstrations engaging and realistic.
+- Ensures consistency by avoiding live terminal errors during presentations.
+- Can simulate multiple commands and outputs.
+- Fully integrated with Reveal.js using CDN (works standalone).

@@ -1,0 +1,137 @@
+/* ===============================
+   General Slide Styling
+=============================== */
+.reveal .slides section {
+    padding: 40px 60px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333333;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* Headings */
+.reveal h1 {
+    font-size: 3em;
+    color: #1e3a8a; /* Dark blue */
+    margin-bottom: 20px;
+}
+
+.reveal h2 {
+    font-size: 2.2em;
+    color: #1e40af; /* Medium blue */
+    margin-bottom: 15px;
+}
+
+.reveal h3, .reveal h4 {
+    font-size: 1.5em;
+    color: #2563eb;
+}
+
+/* Paragraphs */
+.reveal p {
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+/* Lists */
+.reveal ul, .reveal ol {
+    margin-left: 20px;
+    font-size: 1.1em;
+}
+
+.reveal li {
+    margin-bottom: 10px;
+}
+
+/* Columns Layout */
+.columns {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.columns .column {
+    flex: 1;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Media Containers */
+.media-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.media-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* Hero Slide */
+.hero-slide {
+    text-align: center;
+    padding: 60px 40px;
+    background-color: #e0f2fe;
+}
+
+.hero-slide h1 {
+    font-size: 4em;
+    color: #1e40af;
+}
+
+.hero-slide h3 {
+    font-size: 2em;
+    color: #2563eb;
+}
+
+.hero-slide p {
+    font-size: 1.2em;
+    color: #1e3a8a;
+}
+
+/* Blockquotes / Highlighted Text */
+.reveal blockquote {
+    border-left: 5px solid #2563eb;
+    padding-left: 15px;
+    font-style: italic;
+    color: #1e3a8a;
+}
+
+/* Icons */
+.reveal i.fa {
+    color: #1e3a8a;
+    margin-right: 8px;
+}
+
+/* Team / Multiple Columns for Members */
+.reveal .columns.three-columns {
+    gap: 20px;
+}
+
+/* Responsive Columns */
+@media (max-width: 900px) {
+    .columns {
+        flex-direction: column;
+    }
+}
+.chart-container {
+    position: relative;
+    height: 60vh;
+    width: 80%;
+    margin: 0 auto;
+}
+
+
+
+.reveal .slides section img {
+    width: 600px;
+    height: 400px;
+    object-fit: cover;
+}

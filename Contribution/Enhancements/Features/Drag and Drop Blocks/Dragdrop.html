@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Drag Blocks — Centered-Arrow Connectors</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+  <!-- Minimal Reveal.js (optional; remove if not presenting inside Reveal) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
+
+  <style>
+    :root{
+      --panel-bg: rgba(255,255,255,.08);
+      --panel-bd: rgba(255,255,255,.18);
+      --accent:  #7dd3fc;
+      --line: #ffffff;
+      --line-selected: #7dd3fc;
+    }
+    body{ color:#fff; }
+    .toolbar{
+      display:flex; flex-wrap:wrap; gap:.5rem; align-items:center;
+      background:var(--panel-bg); border:1px solid var(--panel-bd);
+      padding:.6rem .8rem; border-radius:12px; margin-bottom:.8rem;
+    }
+    .toolbar label{ display:flex; gap:.4rem; align-items:center; font-size:.9rem; }
+    .toolbar input, .toolbar select, .toolbar button{
+      padding:.35rem .55rem; border-radius:10px; border:1px solid var(--panel-bd);
+      background:rgba(0,0,0,.4); color:#fff;
+    }
+    .toolbar input[type="color"]{ padding:0; width:40px; height:32px; border-radius:8px; }
+    .toolbar button{ cursor:pointer; }
+    .toolbar .sep{ width:1px; height:24px; background:var(--panel-bd); margin:0 .4rem; }
+    .muted{ opacity:.75; }
+
+    .canvas-area{ position:relative; height:520px; background:rgba(255,255,255,.06); border-radius:12px; overflow:hidden; }
+    .canvas-area.editing{ outline:2px dashed var(--accent); outline-offset:4px; }
+
+    /* SVG layer for connectors */
+    .wires{ position:absolute; inset:0; pointer-events:none; z-index:1; }
+    .wire{ stroke:var(--line); stroke-width:3; fill:none; pointer-events:visibleStroke; cursor:pointer; opacity:.95; }
+    .wire.dotted{ stroke-dasharray:6 6; }
+    .wire.selected{ stroke:var(--line-selected); filter: drop-shadow(0 0 2px rgba(125,211,252,.6)); }
+
+    /* Double connectors are a group with two parallel visible paths + a hidden helper path (carries marker-mid arrow) */
+    .wire-double path.visible{ stroke:var(--line); stroke-width:2.5; fill:none; pointer-events:visibleStroke; cursor:pointer; }
+    .wire-double.selected path.visible{ stroke:var(--line-selected); filter: drop-shadow(0 0 2px rgba(125,211,252,.6)); }
+    .wire-double path.helper{ stroke:none; fill:none; pointer-events:none; } /* marker carrier */
+
+    /* Nodes */
+    .node{
+      position:absolute; left:20px; top:20px;
+      min-width:110px; padding:10px 14px;
+      color:#fff; background:#1f2937;
+      border:1px solid rgba(255,255,255,.15);
+      user-select:none; touch-action:none; cursor:grab;
+      transition: box-shadow .15s ease;
+      z-index:2; border-radius:10px; /* default rectangle (process) */
+      text-align:center;
+    }
+    .node:active{ cursor:grabbing; box-shadow:0 0 0 3px rgba(255,255,255,.2) inset; }
+    .node.selected{ box-shadow:0 0 0 3px rgba(125,211,252,.35); }
+    .node[contenteditable="true"]{ outline:2px solid var(--accent); cursor:text; }
+
+    /* Shapes */
+    .node[data-shape="process"]{ border-radius:10px; }
+    .node[data-shape="terminator"]{ border-radius:9999px; }
+    .node[data-shape="decision"]{
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+      padding:22px 28px;
+    }
+    .node[data-shape="io"]{
+      clip-path: polygon(12% 0, 100% 0, 88% 100%, 0 100%);
+      padding:12px 18px;
+    }
+    .node[data-shape="circle"]{
+      width:100px; height:100px; min-width:100px; padding:0;
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+    }
+    .node[data-shape="connector"]{ /* small circle preset */
+      width:64px; height:64px; min-width:64px; padding:0;
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+    }
+
+    .toast{
+      position:absolute; right:12px; bottom:12px; background:rgba(0,0,0,.7);
+      color:#fff; padding:.45rem .7rem; border-radius:10px; font-size:.85rem; display:none; z-index:3;
+    }
+    .toast.show{ display:block; }
+
+    .hint{ font-size:.9rem; margin-top:.5rem; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Drag Blocks — Centered Arrow Connectors</h2>
+
+        <!-- Toolbar -->
+        <div class="toolbar" id="toolbar">
+          <label><input type="checkbox" id="editToggle"> Edit mode</label>
+          <div class="sep"></div>
+
+          <label class="muted">Label:
+            <input id="typeInput" placeholder="e.g., Start / Process / Decision?" />
+          </label>
+          <button id="updateSelected" title="Update the selected block's text">Update selected</button>
+
+          <div class="sep"></div>
+
+          <label class="muted">Shape:
+            <select id="shapeSelect">
+              <option value="process">Process (Rectangle)</option>
+              <option value="terminator">Terminator (Start/End)</option>
+              <option value="decision">Decision (Diamond)</option>
+              <option value="io">I/O (Parallelogram)</option>
+              <option value="circle">Circle</option>
+              <option value="connector">Connector (Small Circle)</option>
+            </select>
+          </label>
+          <label class="muted">Fill:
+            <input type="color" id="fillColor" value="#1f2937" />
+          </label>
+          <label class="muted">Text:
+            <input type="color" id="textColor" value="#ffffff" />
+          </label>
+          <button id="applyStyle" title="Apply shape & colors to selected">Apply style</button>
+
+          <div class="sep"></div>
+
+          <button id="addBlock">Add block</button>
+          <button id="deleteSelected">Delete selected</button>
+
+          <div class="sep"></div>
+
+          <label class="muted">Connector mode:
+            <input type="checkbox" id="connectorMode">
+          </label>
+          <label class="muted">Line:
+            <select id="lineStyle">
+              <option value="solid">Solid</option>
+              <option value="dotted">Dotted</option>
+              <option value="double">Double</option>
+            </select>
+          </label>
+          <label class="muted">Arrow:
+            <select id="arrowStyle">
+              <option value="none">None</option>
+              <option value="center" selected>Centered</option>
+            </select>
+          </label>
+          <button id="deleteConnector">Delete connector</button>
+        </div>
+
+        <p class="hint muted">
+          Edit mode: click to select, double-click to rename. Toggle <strong>Connector mode</strong> → click Block A then Block B to connect.
+          Arrow setting <em>Centered</em> places the arrowhead at the midpoint of the connector.
+        </p>
+
+        <!-- Canvas -->
+        <div class="canvas-area" id="dragArea" aria-label="Diagram canvas">
+          <!-- SVG connectors -->
+          <svg class="wires" id="wires" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <defs>
+              <!-- Centered arrowhead marker (used via marker-mid) -->
+              <marker id="arrow-mid" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+              </marker>
+            </defs>
+          </svg>
+
+          <!-- Initial nodes -->
+          <div class="node" data-shape="terminator" style="left:20px;top:20px;background:#0ea5e9">Start</div>
+          <div class="node" data-shape="process" style="left:240px;top:80px;background:#1f2937">Process</div>
+          <div class="node" data-shape="decision" style="left:460px;top:160px;background:#f59e0b">Decision?</div>
+          <div class="node" data-shape="circle" style="left:140px;top:300px;background:#22c55e">Result</div>
+
+          <div class="toast" id="toast" role="status" aria-live="polite"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Reveal (optional) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+
+  <script>
+  /* =============== Reveal init (optional) =============== */
+  Reveal.initialize({ controls:true, progress:true, slideNumber:'c/t', hash:true });
+
+  /* =================== Helpers =================== */
+  const $  = (s,r=document)=>r.querySelector(s);
+  const $$ = (s,r=document)=>Array.from(r.querySelectorAll(s));
+
+  const dragArea = $('#dragArea');
+  const wiresSVG = $('#wires');
+  const editToggle = $('#editToggle');
+  const connectorMode = $('#connectorMode');
+  const lineStyleSel = $('#lineStyle');
+  const arrowStyleSel = $('#arrowStyle');
+  const typeInput = $('#typeInput');
+  const shapeSelect = $('#shapeSelect');
+  const fillColor = $('#fillColor');
+  const textColor = $('#textColor');
+  const toastEl = $('#toast');
+
+  const STORAGE_KEY = 'dragblocks.v4';
+  let selectedNode = null;
+  let selectedWireId = null;
+  let dragTarget = null, dx = 0, dy = 0;
+
+  let nextNodeId = 1;
+  let nextWireId = 1;
+
+  // for connector creation (pending first click)
+  let pendingFromNodeId = null;
+
+  const toast = (msg)=>{
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastEl._t);
+    toastEl._t = setTimeout(()=>toastEl.classList.remove('show'), 900);
+  };
+
+  const getNodes = ()=> $$('.node', dragArea);
+  const findNodeById = (id)=> getNodes().find(n => n.dataset.id === id);
+
+  /* =================== Persistence model ===================
+    {
+      blocks:[{id,text,x,y,shape,fill,color}],
+      connectors:[{id,fromId,toId,style:"solid|dotted|double", arrow:"center|none"}]
+    }
+  ========================================================== */
+  function snapshot(){
+    const blocks = getNodes().map(n=>({
+      id: n.dataset.id,
+      text: n.textContent.trim(),
+      x: parseInt(n.style.left||0,10),
+      y: parseInt(n.style.top||0,10),
+      shape: n.dataset.shape || 'process',
+      fill: n.style.backgroundColor || '#1f2937',
+      color: n.style.color || '#ffffff'
+    }));
+    const singles = $$('.wire', wiresSVG).map(w=>({
+      id: w.dataset.id, fromId: w.dataset.from, toId: w.dataset.to,
+      style: w.dataset.style, arrow: w.dataset.arrow
+    }));
+    const doubles = $$('.wire-double', wiresSVG).map(g=>({
+      id: g.dataset.id, fromId: g.dataset.from, toId: g.dataset.to,
+      style: 'double', arrow: g.dataset.arrow
+    }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({blocks, connectors:[...singles, ...doubles]}));
+  }
+
+  function restore(){
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return false;
+    let data; try{ data = JSON.parse(raw);}catch{ return false; }
+    if(!data || !Array.isArray(data.blocks)) return false;
+
+    // Clear current
+    getNodes().forEach(n=>n.remove());
+    [...wiresSVG.querySelectorAll('.wire, .wire-double')].forEach(e=>e.remove());
+
+    // Rebuild nodes
+    data.blocks.forEach(b=>{
+      const n = createNode(b.text, b.x, b.y, b.shape, b.fill, b.color);
+      n.dataset.id = b.id;
+      dragArea.appendChild(n);
+    });
+
+    // Track counters so new ids are unique
+    nextNodeId = (data.blocks.map(b=>parseInt(String(b.id).replace('n',''))||0).reduce((a,b)=>Math.max(a,b),0) || 0) + 1;
+    nextWireId = (data.connectors||[]).map(c=>parseInt(String(c.id).replace('c',''))||0).reduce((a,b)=>Math.max(a,b),0) + 1;
+
+    attachNodeHandlers();
+
+    // Rebuild connectors
+    (data.connectors||[]).forEach(c=>{
+      const a = findNodeById(c.fromId);
+      const b = findNodeById(c.toId);
+      if(a && b){
+        const arrow = (c.arrow === 'center') ? 'center' : 'none';
+        if(c.style === 'double'){
+          addDoubleConnector(a, b, arrow, c.id);
+        } else {
+          addConnector(a, b, c.style, arrow, c.id);
+        }
+      }
+    });
+
+    sizeSVGToCanvas();
+    refreshAllConnectors();
+    return true;
+  }
+
+  /* =================== Nodes =================== */
+  function createNode(text='Block', x=20, y=20, shape='process', fill='#1f2937', color='#ffffff'){
+    const node = document.createElement('div');
+    node.className = 'node';
+    node.textContent = text;
+    node.style.left = x + 'px';
+    node.style.top  = y + 'px';
+    node.style.background = fill;
+    node.style.color = color;
+    node.dataset.shape = shape;
+    node.dataset.id = 'n' + (nextNodeId++);
+    node.setAttribute('tabindex','0');
+    node.setAttribute('role','group');
+    node.setAttribute('aria-label', `Block: ${text}, ${shape}`);
+    return node;
+  }
+
+  function selectNode(n){
+    clearSelections();
+    selectedNode = n;
+    n.classList.add('selected');
+    // Reflect in controls
+    typeInput.value = n.textContent.trim();
+    shapeSelect.value = n.dataset.shape || 'process';
+    fillColor.value = toHex(n.style.backgroundColor || '#1f2937');
+    textColor.value = toHex(n.style.color || '#ffffff');
+  }
+
+  function clearSelections(){
+    getNodes().forEach(n=>n.classList.remove('selected'));
+    $$('.wire', wiresSVG).forEach(w=>w.classList.remove('selected'));
+    $$('.wire-double', wiresSVG).forEach(g=>g.classList.remove('selected'));
+    selectedNode = null;
+    selectedWireId = null;
+  }
+
+  function attachNodeHandlers(){
+    getNodes().forEach(node=>{
+      if(node._bound) return; node._bound = true;
+
+      node.addEventListener('pointerdown', e=>{
+        // If typing label in edit mode, skip dragging
+        if(editToggle.checked && node.getAttribute('contenteditable') === 'true') return;
+
+        // In connector mode, clicks create connectors
+        if(editToggle.checked && connectorMode.checked){
+          handleConnectorClick(node);
+          return;
+        }
+
+        dragTarget = node; node.setPointerCapture(e.pointerId);
+        const r = node.getBoundingClientRect();
+        dx = e.clientX - r.left; dy = e.clientY - r.top;
+        selectNode(node);
+      });
+
+      node.addEventListener('pointermove', e=>{
+        if(!dragTarget || dragTarget !== node) return;
+        const p = dragArea.getBoundingClientRect();
+        const x = clamp(e.clientX - p.left - dx, 0, p.width - node.offsetWidth);
+        const y = clamp(e.clientY - p.top  - dy,  0, p.height - node.offsetHeight);
+        node.style.left = x + 'px';
+        node.style.top  = y + 'px';
+        refreshConnectorsFor(node);
+      });
+
+      const endDrag = ()=>{
+        if(dragTarget){ dragTarget = null; snapshot(); toast('Saved'); }
+      };
+      node.addEventListener('pointerup', endDrag);
+      node.addEventListener('pointercancel', endDrag);
+
+      node.addEventListener('dblclick', ()=>{
+        if(!editToggle.checked) return;
+        node.setAttribute('contenteditable','true');
+        node.focus();
+        const range = document.createRange(); range.selectNodeContents(node);
+        const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      });
+      node.addEventListener('blur', ()=>{
+        if(node.getAttribute('contenteditable') === 'true'){
+          node.removeAttribute('contenteditable');
+          node.setAttribute('aria-label', `Block: ${node.textContent.trim()}, ${node.dataset.shape||'process'}`);
+          snapshot(); toast('Saved');
+        }
+      });
+
+      node.addEventListener('click', (e)=>{
+        if(editToggle.checked && connectorMode.checked) return; // handled by connector mode
+        selectNode(node);
+        e.stopPropagation();
+      });
+    });
+  }
+
+  /* =================== Connectors =================== */
+  function handleConnectorClick(node){
+    if(!pendingFromNodeId){
+      pendingFromNodeId = node.dataset.id;
+      selectNode(node);
+      toast('Picked first block. Click another to connect.');
+    }else{
+      const toId = node.dataset.id;
+      if(toId === pendingFromNodeId){ toast('Pick a different block.'); return; }
+      const from = findNodeById(pendingFromNodeId);
+      const to   = node;
+      const style = lineStyleSel.value;
+      const arrow = arrowStyleSel.value; // 'center' or 'none'
+
+      if(style === 'double'){
+        addDoubleConnector(from, to, arrow);
+      } else {
+        addConnector(from, to, style, arrow);
+      }
+      pendingFromNodeId = null;
+      snapshot();
+    }
+  }
+
+  // Create a single connector (solid/dotted)
+  function addConnector(aNode, bNode, style='solid', arrow='center', forceId=null){
+    sizeSVGToCanvas();
+    const {x:x1,y:y1} = getNodeCenter(aNode);
+    const {x:x2,y:y2} = getNodeCenter(bNode);
+    const {xm, ym} = midpoint(x1,y1,x2,y2);
+
+    // Trick for centered marker: split into two segments with a vertex at the midpoint
+    const d = `M ${x1} ${y1} L ${xm} ${ym} L ${x2} ${y2}`;
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    const id = forceId || ('c' + (nextWireId++));
+
+    path.setAttribute('d', d);
+    path.setAttribute('vector-effect','non-scaling-stroke');
+    path.classList.add('wire');
+    if(style === 'dotted') path.classList.add('dotted');
+
+    path.dataset.id = id;
+    path.dataset.from = aNode.dataset.id;
+    path.dataset.to = bNode.dataset.id;
+    path.dataset.style = style;
+    path.dataset.arrow = arrow;
+
+    // Centered arrow via marker-mid
+    path.style.color = 'var(--line)'; // marker color via currentColor
+    if(arrow === 'center'){ path.setAttribute('marker-mid','url(#arrow-mid)'); }
+
+    path.addEventListener('click', (e)=>{ selectWire(id); e.stopPropagation(); });
+    wiresSVG.appendChild(path);
+    return id;
+  }
+
+  // Create a double connector (two parallel visible paths + hidden helper with marker-mid)
+  function addDoubleConnector(aNode, bNode, arrow='center', forceId=null){
+    sizeSVGToCanvas();
+    const {x:x1,y:y1} = getNodeCenter(aNode);
+    const {x:x2,y:y2} = getNodeCenter(bNode);
+    const {xm, ym} = midpoint(x1,y1,x2,y2);
+    const {offX, offY} = perpendicularOffset(x1,y1,x2,y2, 3);
+
+    const id = forceId || ('c' + (nextWireId++));
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.classList.add('wire-double');
+    g.dataset.id = id;
+    g.dataset.from = aNode.dataset.id;
+    g.dataset.to = bNode.dataset.id;
+    g.dataset.arrow = arrow;
+
+    function mkVisiblePath(sign){ // sign = +1 or -1
+      const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+      const d = `M ${x1+sign*offX} ${y1+sign*offY} L ${xm+sign*offX} ${ym+sign*offY} L ${x2+sign*offX} ${y2+sign*offY}`;
+      p.setAttribute('d', d);
+      p.setAttribute('vector-effect','non-scaling-stroke');
+      p.setAttribute('stroke-linecap','butt');
+      p.setAttribute('stroke-linejoin','miter');
+      p.classList.add('visible');
+      return p;
+    }
+
+    const p1 = mkVisiblePath(+1);
+    const p2 = mkVisiblePath(-1);
+
+    // Helper path carries the centered arrow (but is invisible)
+    const helper = document.createElementNS('http://www.w3.org/2000/svg','path');
+    helper.setAttribute('d', `M ${x1} ${y1} L ${xm} ${ym} L ${x2} ${y2}`);
+    helper.setAttribute('vector-effect','non-scaling-stroke');
+    helper.classList.add('helper');
+    helper.style.color = 'var(--line)';
+    if(arrow === 'center'){ helper.setAttribute('marker-mid','url(#arrow-mid)'); }
+
+    [p1,p2].forEach(p=>{
+      p.addEventListener('click', (e)=>{ selectWire(id); e.stopPropagation(); });
+    });
+
+    g.appendChild(p1); g.appendChild(p2); g.appendChild(helper);
+    g.addEventListener('click', (e)=>{ selectWire(id); e.stopPropagation(); });
+
+    wiresSVG.appendChild(g);
+    return id;
+  }
+
+  function selectWire(id){
+    clearSelections();
+    selectedWireId = id;
+    const single = wiresSVG.querySelector(`.wire[data-id="${id}"]`);
+    const group  = wiresSVG.querySelector(`.wire-double[data-id="${id}"]`);
+    if(single){ single.classList.add('selected'); }
+    if(group){ group.classList.add('selected'); }
+  }
+
+  function deleteSelectedWire(){
+    if(!selectedWireId){ toast('No connector selected'); return; }
+    const single = wiresSVG.querySelector(`.wire[data-id="${selectedWireId}"]`);
+    const group  = wiresSVG.querySelector(`.wire-double[data-id="${selectedWireId}"]`);
+    if(single) single.remove();
+    if(group)  group.remove();
+    selectedWireId = null;
+    snapshot(); toast('Connector deleted');
+  }
+
+  function removeConnectorsTouching(nodeId){
+    const kill = [
+      ...wiresSVG.querySelectorAll(`.wire[data-from="${nodeId}"], .wire[data-to="${nodeId}"]`),
+      ...wiresSVG.querySelectorAll(`.wire-double[data-from="${nodeId}"], .wire-double[data-to="${nodeId}"]`)
+    ];
+    kill.forEach(e=>e.remove());
+  }
+
+  /* =================== Geometry updates =================== */
+  function refreshAllConnectors(){
+    // Single connectors
+    $$('.wire', wiresSVG).forEach(path=>{
+      const a = findNodeById(path.dataset.from);
+      const b = findNodeById(path.dataset.to);
+      if(!a || !b){ path.remove(); return; }
+      const {x:x1,y:y1} = getNodeCenter(a);
+      const {x:x2,y:y2} = getNodeCenter(b);
+      const {xm, ym} = midpoint(x1,y1,x2,y2);
+      path.setAttribute('d', `M ${x1} ${y1} L ${xm} ${ym} L ${x2} ${y2}`);
+    });
+
+    // Double connectors
+    $$('.wire-double', wiresSVG).forEach(g=>{
+      const a = findNodeById(g.dataset.from);
+      const b = findNodeById(g.dataset.to);
+      if(!a || !b){ g.remove(); return; }
+      const {x:x1,y:y1} = getNodeCenter(a);
+      const {x:x2,y:y2} = getNodeCenter(b);
+      const {xm, ym} = midpoint(x1,y1,x2,y2);
+      const {offX, offY} = perpendicularOffset(x1,y1,x2,y2, 3);
+
+      const [p1,p2,helper] = g.querySelectorAll('path');
+      p1.setAttribute('d', `M ${x1+offX} ${y1+offY} L ${xm+offX} ${ym+offY} L ${x2+offX} ${y2+offY}`);
+      p2.setAttribute('d', `M ${x1-offX} ${y1-offY} L ${xm-offX} ${ym-offY} L ${x2-offX} ${y2-offY}`);
+      helper.setAttribute('d', `M ${x1} ${y1} L ${xm} ${ym} L ${x2} ${y2}`);
+    });
+  }
+
+  function refreshConnectorsFor(node){
+    const id = node.dataset.id;
+
+    // Singles touching node
+    $$(`.wire[data-from="${id}"], .wire[data-to="${id}"]`, wiresSVG).forEach(path=>{
+      const a = findNodeById(path.dataset.from);
+      const b = findNodeById(path.dataset.to);
+      if(!a || !b){ path.remove(); return; }
+      const {x:x1,y:y1} = getNodeCenter(a);
+      const {x:x2,y:y2} = getNodeCenter(b);
+      const {xm, ym} = midpoint(x1,y1,x2,y2);
+      path.setAttribute('d', `M ${x1} ${y1} L ${xm} ${ym} L ${x2} ${y2}`);
+    });
+
+    // Doubles touching node
+    $$(`.wire-double[data-from="${id}"], .wire-double[data-to="${id}"]`, wiresSVG).forEach(g=>{
+      const a = findNodeById(g.dataset.from);
+      const b = findNodeById(g.dataset.to);
+      if(!a || !b){ g.remove(); return; }
+      const {x:x1,y:y1} = getNodeCenter(a);
+      const {x:x2,y:y2} = getNodeCenter(b);
+      const {xm, ym} = midpoint(x1,y1,x2,y2);
+      const {offX, offY} = perpendicularOffset(x1,y1,x2,y2, 3);
+
+      const [p1,p2,helper] = g.querySelectorAll('path');
+      p1.setAttribute('d', `M ${x1+offX} ${y1+offY} L ${xm+offX} ${ym+offY} L ${x2+offX} ${y2+offY}`);
+      p2.setAttribute('d', `M ${x1-offX} ${y1-offY} L ${xm-offX} ${ym-offY} L ${x2-offX} ${y2-offY}`);
+      helper.setAttribute('d', `M ${x1} ${y1} L ${xm} ${ym} L ${x2} ${y2}`);
+    });
+  }
+
+  function getNodeCenter(n){
+    const a = dragArea.getBoundingClientRect();
+    const r = n.getBoundingClientRect();
+    return { x: r.left - a.left + r.width/2, y: r.top - a.top + r.height/2 };
+  }
+
+  function midpoint(x1,y1,x2,y2){ return { xm:(x1+x2)/2, ym:(y1+y2)/2 }; }
+
+  function perpendicularOffset(x1,y1,x2,y2, amount){
+    const dx = x2 - x1, dy = y2 - y1;
+    const len = Math.hypot(dx, dy) || 1;
+    return { offX: -dy/len * amount, offY: dx/len * amount };
+  }
+
+  function sizeSVGToCanvas(){
+    const r = dragArea.getBoundingClientRect();
+    wiresSVG.setAttribute('viewBox', `0 0 ${r.width} ${r.height}`);
+  }
+
+  /* =================== Utilities & UI =================== */
+  function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+
+  function toHex(css){
+    if(!css) return '#000000';
+    css = css.trim();
+    if(css[0] === '#'){
+      if(css.length === 4) return '#'+css[1]+css[1]+css[2]+css[2]+css[3]+css[3];
+      return css.substring(0,7);
+    }
+    const m = css.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+    if(!m) return '#000000';
+    const r = (+m[1]).toString(16).padStart(2,'0');
+    const g = (+m[2]).toString(16).padStart(2,'0');
+    const b = (+m[3]).toString(16).padStart(2,'0');
+    return '#'+r+g+b;
+  }
+
+  function setEditMode(on){
+    dragArea.classList.toggle('editing', on);
+    Reveal.configure({ keyboard: !on });
+    if(!on){
+      getNodes().forEach(n=>n.removeAttribute('contenteditable'));
+      connectorMode.checked = false; pendingFromNodeId = null;
+      clearSelections();
+    }
+    toast(on? 'Edit mode ON':'Edit mode OFF');
+  }
+  editToggle.addEventListener('change', e=> setEditMode(e.target.checked));
+
+  // Node ops
+  $('#addBlock').addEventListener('click', ()=>{
+    const label = (typeInput.value || 'Block').trim();
+    const r = dragArea.getBoundingClientRect();
+    const n = createNode(label, Math.round(r.width/2-70), Math.round(r.height/2-24),
+                         shapeSelect.value, fillColor.value, textColor.value);
+    dragArea.appendChild(n);
+    attachNodeHandlers();
+    selectNode(n);
+    snapshot(); toast('Block added');
+  });
+
+  $('#deleteSelected').addEventListener('click', ()=>{
+    if(!selectedNode){ toast('No block selected'); return; }
+    const id = selectedNode.dataset.id;
+    selectedNode.remove(); selectedNode = null;
+    removeConnectorsTouching(id);
+    snapshot(); toast('Block deleted');
+  });
+
+  $('#updateSelected').addEventListener('click', ()=>{
+    if(!selectedNode){ toast('No block selected'); return; }
+    const label = (typeInput.value || '').trim();
+    if(!label){ toast('Enter a label'); return; }
+    selectedNode.textContent = label;
+    selectedNode.setAttribute('aria-label', `Block: ${label}, ${selectedNode.dataset.shape||'process'}`);
+    snapshot(); toast('Saved');
+  });
+
+  $('#applyStyle').addEventListener('click', ()=>{
+    if(!selectedNode){ toast('No block selected'); return; }
+    selectedNode.dataset.shape = shapeSelect.value;
+    selectedNode.style.background = fillColor.value;
+    selectedNode.style.color = textColor.value;
+    snapshot(); toast('Styled');
+  });
+
+  // Connector ops
+  $('#deleteConnector').addEventListener('click', deleteSelectedWire);
+
+  // Click-away clears selection (except when in connector mode)
+  dragArea.addEventListener('click', ()=>{
+    if(editToggle.checked && connectorMode.checked) return;
+    clearSelections();
+  });
+
+  /* =================== Boot =================== */
+  function boot(){
+    // Assign IDs to initial nodes
+    getNodes().forEach(n=>{ if(!n.dataset.id){ n.dataset.id = 'n'+(nextNodeId++); } });
+    attachNodeHandlers();
+    sizeSVGToCanvas();
+    if(!restore()){
+      snapshot(); // save initial
+    } else {
+      const n = getNodes()[0]; if(n) selectNode(n);
+    }
+    window.addEventListener('resize', ()=>{ sizeSVGToCanvas(); refreshAllConnectors(); });
+  }
+  boot();
+  </script>
+</body>
+</html>

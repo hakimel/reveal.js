@@ -1,0 +1,80 @@
+/* Floating panel for theme & palette quick actions */
+.rtp-floating {
+  position: fixed; right: 16px; top: 16px; z-index: 9999;
+  display: flex; gap: 8px; align-items: center;
+}
+.rtp-btn {
+  border: 0; padding: 10px 12px; border-radius: 10px;
+  background: rgba(0,0,0,0.55); color: #fff; cursor: pointer;
+  font: 600 12px/1 system-ui; letter-spacing: .2px;
+  backdrop-filter: blur(6px);
+}
+.rtp-btn:hover { transform: translateY(-1px); }
+.rtp-panel {
+  position: fixed; right: 16px; top: 60px; z-index: 9999;
+  width: 360px; max-height: 70vh; overflow: auto;
+  border-radius: 14px; background: rgba(10,12,16,0.9); color: #fff; padding: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35); backdrop-filter: blur(8px);
+}
+.rtp-panel h4 { margin: 8px 0 10px; font: 700 14px/1.2 system-ui; text-transform: uppercase; letter-spacing: .6px; opacity: .9; }
+.rtp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.rtp-theme-tile {
+  padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.06);
+  cursor: pointer; font: 600 12px/1.2 system-ui; text-align: center;
+}
+.rtp-theme-tile:hover { background: rgba(255,255,255,0.12); }
+.rtp-range { width: 100%; }
+
+/* Typography variables used by themes and slides */
+:root {
+  --rtp-font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --rtp-font-size: 24px;
+  --rtp-font-weight: 600;
+  --rtp-accent-h: 200;
+  --rtp-accent: hsl(var(--rtp-accent-h) 80% 56%);
+}
+
+/* Apply to typical slide elements */
+.reveal .slides section,
+.reveal .slides section h1,
+.reveal .slides section h2,
+.reveal .slides section h3,
+.reveal .slides section p,
+.reveal .slides section li {
+  font-family: var(--rtp-font-family) !important;
+  font-size: var(--rtp-font-size) !important;
+  font-weight: var(--rtp-font-weight) !important;
+  transition: background .12s ease, color .12s ease;
+}
+
+/* Editor overlay */
+.rtp-editor-overlay {
+  position: fixed; left: 0; top: 0; right: 0; bottom: 0;
+  display: none; align-items: center; justify-content: center;
+  background: rgba(2,6,10,0.6); z-index: 10010;
+}
+.rtp-editor-card {
+  width: min(880px, 94%); max-width: 880px;
+  background: linear-gradient(180deg, rgba(18,20,24,0.96), rgba(12,14,18,0.98));
+  padding: 14px; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,.5);
+  color: #e6eef8;
+}
+.rtp-editor-head { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.rtp-editor-card textarea { font-family: monospace; font-size: 13px; padding: 10px; border-radius: 8px; border: none; background: rgba(255,255,255,0.03); color: inherit; resize: vertical; }
+.rtp-editor-card input[type="color"] { width: 36px; height: 28px; border: none; background: transparent; padding: 0; margin-left: 8px; }
+
+/* Edit mode visual hint */
+.rtp-editing .reveal .slides section {
+  outline: 2px dashed rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: outline-color .12s;
+}
+.rtp-editing .reveal .slides section:hover {
+  outline-color: rgba(255,255,255,0.12);
+}
+
+/* Small responsiveness tweaks */
+@media (max-width: 640px) {
+  .rtp-panel { width: 92%; left: 4%; right: 4%; top: auto; bottom: 16px; max-height: 55vh; }
+  .rtp-floating { right: 12px; top: 12px; }
+}

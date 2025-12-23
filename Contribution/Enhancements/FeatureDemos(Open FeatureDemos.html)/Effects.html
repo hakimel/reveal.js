@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Media Effects Demo (CDN)</title>
+  <!-- Reveal.js via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+  <style>
+    .fx-btn { padding:6px 10px; border-radius:8px; border:1px solid #444; background:#111; color:#fff; cursor:pointer; margin-right:6px; }
+    .effect-glitch{position:relative}
+    .effect-glitch::before,.effect-glitch::after{content:attr(data-glitch-text);position:absolute;inset:0;mix-blend-mode:screen;color:#fff;pointer-events:none}
+    .effect-glitch::before{text-shadow:-2px 0 #f0f;clip-path:polygon(0 2%,100% 2%,100% 44%,0 44%);animation:glitch 2s infinite linear alternate-reverse}
+    .effect-glitch::after{text-shadow:2px 0 #0ff;clip-path:polygon(0 56%,100% 56%,100% 98%,0 98%);animation:glitch 1.8s infinite linear alternate}
+    @keyframes glitch{0%{transform:translate(0,0)}20%{transform:translate(-2px,1px)}40%{transform:translate(2px,-1px)}60%{transform:translate(-1px,2px)}80%{transform:translate(1px,-2px)}100%{transform:translate(0,0)}}
+    .effect-vhs{position:relative;filter:contrast(1.1) saturate(1.2)}
+    .effect-vhs::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.08) 0 2px,rgba(0,0,0,0) 2px 4px);mix-blend-mode:overlay;pointer-events:none}
+    .effect-blurpulse{animation:blurPulse 2.5s ease-in-out infinite}
+    @keyframes blurPulse{0%,100%{filter:blur(0px) brightness(1)}50%{filter:blur(2px) brightness(1.1)}}
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Media Effects (Glitch / VHS / BlurPulse)</h2>
+        <p>Click a button to apply effects to the media below.</p>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center;">
+         
+          <video class="fx-target" src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" style="max-width:340px;border-radius:12px;" autoplay muted loop playsinline></video>
+        </div>
+        <div style="margin-top:12px;">
+          <button class="fx-btn" data-fx="none">None</button>
+          <button class="fx-btn" data-fx="glitch">Glitch</button>
+          <button class="fx-btn" data-fx="vhs">VHS</button>
+          <button class="fx-btn" data-fx="blurpulse">BlurPulse</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Reveal.js scripts via CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      slideNumber: 'c/t',
+      hash: true,
+      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+    });
+
+    function setFx(mode){
+      const cur=Reveal.getCurrentSlide();
+      cur?.querySelectorAll('.fx-target').forEach(t=>{
+        t.classList.remove('effect-glitch','effect-vhs','effect-blurpulse');
+        if(mode==='glitch'){
+          if(/^H[1-6]$/.test(t.tagName)) t.setAttribute('data-glitch-text', t.textContent.trim());
+          t.classList.add('effect-glitch');
+        }
+        if(mode==='vhs'){ t.classList.add('effect-vhs'); }
+        if(mode==='blurpulse'){ t.classList.add('effect-blurpulse'); }
+      });
+    }
+    document.querySelectorAll('button[data-fx]').forEach(b=>b.onclick=()=>setFx(b.dataset.fx));
+  </script>
+</body>
+</html>

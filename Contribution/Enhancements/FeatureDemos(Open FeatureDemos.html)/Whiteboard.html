@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Whiteboard Overlay (Standalone • CDN • Draggable Fix)</title>
+
+  <!-- Reveal.js via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reset.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css" id="theme">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css">
+
+  <style>
+    :root { --wb-z-ui: 9999; --wb-z-canvas: 9990; }
+
+    /* Draggable toggle button */
+    #whiteboardToggle {
+      position: fixed; top: 12px; right: 12px;
+      z-index: var(--wb-z-ui);
+      cursor: move;
+      padding: 8px 10px; border-radius: 10px;
+      border: 1px solid #444; background: #111; color: #fff;
+      user-select: none;
+    }
+
+    /* Draggable toolbar */
+    #whiteboardToolbar {
+      position: fixed; top: 56px; right: 12px;
+      z-index: var(--wb-z-ui);
+      display: none;
+      background: rgba(0,0,0,0.6); color: #fff;
+      padding: 8px 10px; border-radius: 8px;
+      backdrop-filter: blur(4px);
+      cursor: move; user-select: none;
+      border: 1px solid rgba(255,255,255,.2);
+    }
+    #whiteboardToolbar .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    #whiteboardToolbar label { user-select: none; }
+    #whiteboardToolbar input[type="color"],
+    #whiteboardToolbar input[type="range"] { vertical-align: middle; }
+    #sizeVal { min-width: 2ch; display:inline-block; text-align:right; }
+
+    /* Fullscreen overlay canvas */
+    #whiteboardCanvas {
+      position: fixed; inset: 0;
+      z-index: var(--wb-z-canvas);
+      display: none; cursor: crosshair;
+    }
+  </style>
+</head>
+<body>
+  <!-- Whiteboard UI -->
+  <button id="whiteboardToggle" title="Toggle whiteboard overlay">✏️ Whiteboard</button>
+  <div id="whiteboardToolbar" title="Drag me">
+    <div class="row">
+      <label>Color <input id="wbColor" type="color" value="#ffcc00"></label>
+      <label>Size <input id="wbSize" type="range" min="1" max="30" value="6" step="1">
+        <span id="sizeVal">6</span>px
+      </label>
+      <button id="wbClear">Clear</button>
+      <small>Hotkeys: <b>W</b> toggle • <b>ESC</b> exit</small>
+    </div>
+  </div>
+  <canvas id="whiteboardCanvas"></canvas>
+
+  <!-- Minimal slides to test on -->
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Whiteboard (Standalone)</h2>
+        <p>Click ✏️ to toggle, drag the toggle/toolbar, change brush size, draw, then Clear.</p>
+      </section>
+      <section style="background:#f6f7f9;color:#111"><h2>Light Slide</h2></section>
+      <section style="background:#121212;color:#eee"><h2>Dark Slide</h2></section>
+    </div>
+  </div>
+
+  <!-- Reveal.js (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/notes/notes.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+
+  <script>
+    // Reveal init
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      slideNumber: 'c/t',
+      hash: true,
+      plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+    });
+
+    // --- Elements
+    const wbCanvas  = document.getElementById('whiteboardCanvas');
+    const wbCtx     = wbCanvas.getContext('2d');
+    const wbToggle  = document.getElementById('whiteboardToggle');
+    const wbToolbar = document.getElementById('whiteboardToolbar');
+    const wbColor   = document.getElementById('wbColor');
+    const wbSize    = document.getElementById('wbSize');
+    const sizeVal   = document.getElementById('sizeVal');
+    const wbClear   = document.getElementById('wbClear');
+
+    // --- Drag helper (FIXED):
+    // Ignore inputs/buttons INSIDE a draggable container (toolbar),
+    // but DO allow dragging when the draggable element itself is a button (the toggle).
+    function isInteractive(el){ return el.closest('input,select,textarea,button,[contenteditable=""],[contenteditable="true"]'); }
+    function makeDraggable(el){
+      let dragging=false, sx=0, sy=0, sl=0, st=0;
+      el.addEventListener('pointerdown', e=>{
+        // Only block if clicking an interactive descendant.
+        // If the draggable root itself is the button, allow dragging.
+        const interactive = isInteractive(e.target);
+        if (interactive && e.currentTarget !== e.target) return;
+
+        dragging=true;
+        const r=el.getBoundingClientRect();
+        sx=e.clientX; sy=e.clientY; sl=r.left; st=r.top;
+      });
+      window.addEventListener('pointermove', e=>{
+        if(!dragging) return;
+        el.style.left  = (sl + e.clientX - sx) + 'px';
+        el.style.top   = (st + e.clientY - sy) + 'px';
+        el.style.right = 'auto'; el.style.bottom = 'auto';
+      });
+      window.addEventListener('pointerup', ()=> dragging=false);
+      window.addEventListener('pointercancel', ()=> dragging=false);
+    }
+    makeDraggable(wbToggle);
+    makeDraggable(wbToolbar);
+
+    // --- Canvas sizing (CSS px == canvas px)
+    function resizeWB(){
+      wbCanvas.width  = window.innerWidth;
+      wbCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeWB);
+    resizeWB();
+
+    // --- Visibility + hotkeys
+    let wbActive=false;
+    function setWBVisible(v){
+      wbCanvas.style.display  = v ? 'block' : 'none';
+      wbToolbar.style.display = v ? 'block' : 'none';
+      wbActive = v;
+    }
+    function toggleWB(){ setWBVisible(!wbActive); }
+
+    wbToggle.addEventListener('click', toggleWB);
+    document.addEventListener('keydown', e=>{
+      if(e.key === 'Escape' && wbActive) setWBVisible(false);
+      if(e.key.toLowerCase() === 'w') toggleWB();
+    });
+
+    // --- Brush size UI updates (live)
+    function updateSizeLabel(){ sizeVal.textContent = wbSize.value; }
+    wbSize.addEventListener('input', updateSizeLabel);
+    updateSizeLabel();
+
+    // --- Drawing (reads slider value on every move)
+    let drawing=false, lastX=0, lastY=0;
+    wbCanvas.addEventListener('pointerdown', e => { drawing=true; [lastX,lastY]=[e.clientX,e.clientY]; });
+    wbCanvas.addEventListener('pointerup',   () => { drawing=false; });
+    wbCanvas.addEventListener('pointerout',  () => { drawing=false; });
+    wbCanvas.addEventListener('pointermove', e => {
+      if(!drawing) return;
+      wbCtx.strokeStyle = wbColor.value;
+      wbCtx.lineWidth   = Number(wbSize.value);
+      wbCtx.lineCap     = 'round';
+      wbCtx.beginPath();
+      wbCtx.moveTo(lastX, lastY);
+      wbCtx.lineTo(e.clientX, e.clientY);
+      wbCtx.stroke();
+      [lastX,lastY] = [e.clientX, e.clientY];
+    });
+
+    // --- Clear
+    wbClear.addEventListener('click', () => {
+      wbCtx.clearRect(0, 0, wbCanvas.width, wbCanvas.height);
+    });
+
+    // --- Optional: Auto-contrast UI for light/dark slides
+    function parseRGB(str){ const m=str && str.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i); return m?m.slice(1,4).map(Number):null; }
+    function brightness([r,g,b]){ return (r*299 + g*587 + b*114) / 1000; }
+    function applyUI(rgb){
+      if(!rgb) return;
+      if(brightness(rgb) > 128){
+        wbToggle.style.background='#111'; wbToggle.style.color='#fff'; wbToggle.style.border='1px solid #444';
+        wbToolbar.style.background='rgba(0,0,0,0.6)'; wbToolbar.style.color='#fff'; wbToolbar.style.border='1px solid rgba(255,255,255,.2)';
+      } else {
+        wbToggle.style.background='#fff'; wbToggle.style.color='#000'; wbToggle.style.border='1px solid #ddd';
+        wbToolbar.style.background='rgba(255,255,255,0.85)'; wbToolbar.style.color='#000'; wbToolbar.style.border='1px solid rgba(0,0,0,.15)';
+      }
+    }
+    function updateContrast(){
+      const bgEl = document.querySelector('.reveal .backgrounds .slide-background.present');
+      let rgb = null;
+      if(bgEl){
+        const cs = getComputedStyle(bgEl);
+        rgb = parseRGB(cs.backgroundColor);
+        if (rgb && cs.backgroundColor !== 'rgba(0, 0, 0, 0)') return applyUI(rgb);
+      }
+      const slide = Reveal.getCurrentSlide();
+      const cs = slide && getComputedStyle(slide);
+      rgb = parseRGB((cs && cs.backgroundColor) || 'rgb(0,0,0)') || [0,0,0];
+      applyUI(rgb);
+    }
+    Reveal.on('ready', updateContrast);
+    Reveal.on('slidechanged', updateContrast);
+  </script>
+</body>
+</html>

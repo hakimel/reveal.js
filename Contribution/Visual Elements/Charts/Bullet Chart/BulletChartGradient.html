@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal.js Bullet Chart Example</title>
+    
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="./../../../../dist/reveal.css">
+    <link rel="stylesheet" href="./../../../../dist/theme/league.css">
+    
+    <!-- Chart.js for the chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* Custom styling for the presentation */
+        .reveal {
+            font-family: Arial, sans-serif;
+        }
+        
+        .slide-title {
+            margin-bottom: 30px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 70vh;
+            width: 90%;
+            margin: 0 auto;
+        }
+        
+        .next-slide-btn {
+            margin-top: 30px;
+            background: linear-gradient(to right, #4CAF50, #2E8B57);
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .next-slide-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+            background: linear-gradient(to right, #45a049, #26734d);
+        }
+        
+        .slide-content {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Custom background for the bullet chart slide */
+        #bullet-chart-slide {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            padding: 20px;
+        }
+        
+        .bullet-marker {
+            position: absolute;
+            height: 30px;
+            width: 4px;
+            background-color: #fff;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+        }
+        
+        .bullet-label {
+            position: absolute;
+            font-size: 14px;
+            color: #fff;
+            text-align: right;
+            width: 120px;
+            padding-right: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+        
+        .performance-line {
+            position: absolute;
+            height: 2px;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 5;
+        }
+        
+        .performance-label {
+            position: absolute;
+            font-size: 12px;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        /* Bullet chart legend */
+        .bullet-legend {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0 15px 10px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            border-radius: 3px;
+        }
+        
+        .legend-text {
+            font-size: 14px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Title Slide -->
+            <section>
+                <h1>Project Performance Metrics</h1>
+                <p>Tracking progress with bullet charts</p>
+            </section>
+            
+            <!-- Bullet Chart Slide -->
+            <section id="bullet-chart-slide">
+                <div class="slide-content">
+                    <h2 class="slide-title">Project Performance vs. Targets</h2>
+                    <div class="chart-container">
+                        <canvas id="bulletChart"></canvas>
+                    </div>
+                    
+                    <!-- Bullet chart legend -->
+                    <div class="bullet-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: rgba(255, 99, 132, 0.7);"></div>
+                            <div class="legend-text">Poor Range</div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: rgba(255, 206, 86, 0.7);"></div>
+                            <div class="legend-text">Satisfactory Range</div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: rgba(75, 192, 192, 0.7);"></div>
+                            <div class="legend-text">Good Range</div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: rgba(54, 162, 235, 0.7);"></div>
+                            <div class="legend-text">Excellent Range</div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: rgba(153, 102, 255, 0.7);"></div>
+                            <div class="legend-text">Actual Performance</div>
+                        </div>
+                    </div>
+                    
+                    <!-- MODIFICATION AREA: Update the data-id attribute to point to your next slide -->
+                    <button class="next-slide-btn" data-id="next-slide">
+                        Continue to Analysis
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Next Slide (example) -->
+            <section id="next-slide">
+                <h2>Performance Analysis</h2>
+                <p>Development is performing well above target, exceeding by 15 points.</p>
+                <p>Design is slightly below target and may need additional resources.</p>
+                <p>Testing is significantly below target and requires immediate attention.</p>
+            </section>
+        </div>
+    </div>
+
+    <!-- Reveal.js Initialization & Chart Code -->
+    <script src="./../../../../dist/reveal.js"></script>
+    <script>
+        // Initialize Reveal.js
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: true,
+            transition: 'slide'
+        });
+        
+        // Create gradient colors for the chart (from second code)
+        function createGradients(ctx) {
+            // Create gradient for Poor Range
+            const poorGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            poorGradient.addColorStop(0, 'rgba(255, 99, 132, 0.8)');
+            poorGradient.addColorStop(1, 'rgba(255, 99, 132, 0.4)');
+            
+            // Create gradient for Satisfactory Range
+            const satisfactoryGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            satisfactoryGradient.addColorStop(0, 'rgba(255, 206, 86, 0.8)');
+            satisfactoryGradient.addColorStop(1, 'rgba(255, 206, 86, 0.4)');
+            
+            // Create gradient for Good Range
+            const goodGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            goodGradient.addColorStop(0, 'rgba(75, 192, 192, 0.8)');
+            goodGradient.addColorStop(1, 'rgba(75, 192, 192, 0.4)');
+            
+            // Create gradient for Excellent Range
+            const excellentGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            excellentGradient.addColorStop(0, 'rgba(54, 162, 235, 0.8)');
+            excellentGradient.addColorStop(1, 'rgba(54, 162, 235, 0.4)');
+            
+            // Create gradient for Actual Performance
+            const performanceGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            performanceGradient.addColorStop(0, 'rgba(153, 102, 255, 0.8)');
+            performanceGradient.addColorStop(1, 'rgba(153, 102, 255, 0.4)');
+            
+            return [poorGradient, satisfactoryGradient, goodGradient, excellentGradient, performanceGradient];
+        }
+        
+        // Create the bullet chart when the slide is loaded
+        Reveal.addEventListener('ready', function() {
+            createBulletChart();
+        });
+        
+        // Recreate chart when navigating to the slide (in case of viewport changes)
+        Reveal.addEventListener('slidechanged', function(event) {
+            if (event.currentSlide.querySelector('#bulletChart')) {
+                createBulletChart();
+            }
+        });
+        
+        function createBulletChart() {
+            const ctx = document.getElementById('bulletChart').getContext('2d');
+            
+            // Create gradients for the chart
+            const gradients = createGradients(ctx);
+            
+            // MODIFICATION AREA: Update this data with your chart information
+            const chartData = {
+                labels: ['Development', 'Design', 'Testing', 'Documentation', 'Marketing'],
+                datasets: [
+                    {
+                        label: 'Poor Range',
+                        data: [20, 15, 10, 5, 10],
+                        backgroundColor: gradients[0],
+                        borderWidth: 0,
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.7
+                    },
+                    {
+                        label: 'Satisfactory Range',
+                        data: [30, 25, 20, 15, 20],
+                        backgroundColor: gradients[1],
+                        borderWidth: 0,
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.7
+                    },
+                    {
+                        label: 'Good Range',
+                        data: [50, 40, 30, 25, 30],
+                        backgroundColor: gradients[2],
+                        borderWidth: 0,
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.7
+                    },
+                    {
+                        label: 'Excellent Range',
+                        data: [20, 20, 40, 55, 40],
+                        backgroundColor: gradients[3],
+                        borderWidth: 0,
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.7
+                    },
+                    {
+                        label: 'Actual Performance',
+                        data: [55, 35, 15, 30, 25],
+                        backgroundColor: gradients[4],
+                        borderWidth: 2,
+                        borderColor: '#fff',
+                        barPercentage: 0.3,
+                        categoryPercentage: 0.7
+                    }
+                ]
+            };
+            
+            const config = {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            stacked: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Performance Score',
+                                color: '#fff'
+                            },
+                            ticks: {
+                                color: '#fff'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            title: {
+                                display: true,
+                                text: 'Project Areas',
+                                color: '#fff'
+                            },
+                            ticks: {
+                                color: '#fff'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            bodyFont: {
+                                size: 14
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    const datasetLabel = context.dataset.label || '';
+                                    return `${datasetLabel}: ${context.raw}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            
+            // Destroy previous chart instance if it exists
+            if (window.bulletChartInstance) {
+                window.bulletChartInstance.destroy();
+            }
+            
+            // Create new chart instance
+            window.bulletChartInstance = new Chart(ctx, config);
+            
+            // Add target markers after chart is rendered
+            setTimeout(addTargetMarkers, 500);
+        }
+        
+        function addTargetMarkers() {
+            // Remove any existing markers
+            document.querySelectorAll('.bullet-marker, .bullet-label, .performance-line, .performance-label').forEach(el => el.remove());
+            
+            const chartContainer = document.querySelector('.chart-container');
+            const chart = document.getElementById('bulletChart');
+            const chartRect = chart.getBoundingClientRect();
+            const containerRect = chartContainer.getBoundingClientRect();
+            
+            // Target values for each category
+            const targets = [40, 40, 40, 40, 40];
+            const maxValue = 100; // Maximum value on the scale
+            
+            // Add markers for each category
+            targets.forEach((target, index) => {
+                // Calculate position
+                const xPos = (target / maxValue) * chartRect.width;
+                
+                // Create marker line
+                const marker = document.createElement('div');
+                marker.className = 'bullet-marker';
+                marker.style.left = `${xPos}px`;
+                marker.style.top = `${calculateCategoryPosition(index)}px`;
+                chartContainer.appendChild(marker);
+                
+                // Create target label
+                const label = document.createElement('div');
+                label.className = 'bullet-label';
+                label.textContent = `Target: ${target}`;
+                label.style.left = `${xPos + 10}px`;
+                label.style.top = `${calculateCategoryPosition(index) + 5}px`;
+                chartContainer.appendChild(label);
+            });
+            
+            // Add performance comparison lines
+            const performanceData = [55, 35, 15, 30, 25];
+            performanceData.forEach((value, index) => {
+                const xPos = (value / maxValue) * chartRect.width;
+                const targetXPos = (targets[index] / maxValue) * chartRect.width;
+                
+                // Create performance line
+                const line = document.createElement('div');
+                line.className = 'performance-line';
+                line.style.left = `${Math.min(xPos, targetXPos)}px`;
+                line.style.width = `${Math.abs(targetXPos - xPos)}px`;
+                line.style.top = `${calculateCategoryPosition(index) + 15}px`;
+                chartContainer.appendChild(line);
+                
+                // Add performance difference label
+                if (value !== targets[index]) {
+                    const diffLabel = document.createElement('div');
+                    diffLabel.className = 'performance-label';
+                    diffLabel.textContent = `${Math.abs(targets[index] - value)} ${value > targets[index] ? 'above' : 'below'} target`;
+                    diffLabel.style.left = `${(Math.min(xPos, targetXPos) + Math.abs(targetXPos - xPos)/2) - 40}px`;
+                    diffLabel.style.top = `${calculateCategoryPosition(index) + 30}px`;
+                    chartContainer.appendChild(diffLabel);
+                }
+            });
+        }
+        
+        function calculateCategoryPosition(index) {
+            // Calculate vertical position based on category index
+            const chartRect = document.getElementById('bulletChart').getBoundingClientRect();
+            const categoryHeight = chartRect.height / 5; // 5 categories
+            return (index * categoryHeight) + (categoryHeight / 2) - 15;
+        }
+        
+        // Add navigation functionality to the button
+        document.querySelector('.next-slide-btn').addEventListener('click', function() {
+            // MODIFICATION AREA: Update the data-id value to match your target slide
+            const nextSlideId = this.getAttribute('data-id');
+            const nextSlideElement = document.getElementById(nextSlideId);
+            
+            if (nextSlideElement) {
+                const nextSlideIndex = Array.from(nextSlideElement.parentNode.children).indexOf(nextSlideElement);
+                Reveal.slide(nextSlideIndex);
+            } else {
+                // Fallback: just go to the next slide
+                Reveal.next();
+            }
+        });
+    </script>
+</body>
+</html>

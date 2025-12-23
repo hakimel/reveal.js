@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>FlipBook Reveal.js Demo</title>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/black.css" id="theme">
+
+  <style>
+    /* Flipbook container */
+    .flipbook {
+      perspective: 1200px;
+      position: relative;
+      width: 420px;
+      height: 260px;
+      margin: 20px auto;
+    }
+
+    /* Each sheet (front+back) */
+    .page {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 1s;
+      transform-origin: left;
+    }
+
+    /* Front and back faces */
+    .page .front,
+    .page .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      padding: 20px;
+      box-sizing: border-box;
+      backface-visibility: hidden;
+    }
+
+    .page .front {
+      background: #ffffff;
+      color: #000000;
+      font-size: 50px;
+    }
+
+    .page .back {
+      transform: rotateY(180deg);
+      background: #e0e0e0;
+      color: transparent;
+    }
+
+    .page.flipped {
+      transform: rotateY(-180deg);
+    }
+
+    .flipbook-btn {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 8px 18px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #4CAF50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <h2>Welcome</h2>
+        <p>Normal slide before the demo.</p>
+      </section>
+
+      <section>
+        <h2>📖 INTERACTIVE FLIPBOOK </h2>
+
+        <div class="flipbook">
+          <div class="page" style="z-index:2;">
+            <div class="front">Welcome to animated page</div>
+            <div class="back"></div>
+          </div>
+          <div class="page" style="z-index:1;">
+            <div class="front">You can flip page</div>
+            <div class="back"></div>
+          </div>
+          <div class="page" style="z-index:0;">
+            <div class="front">Notice that text doesn’t rotate</div>
+            <div class="back"></div>
+          </div>
+          <div class="page" style="z-index:-1;">
+            <div class="front">Thank You</div>
+            <div class="back"></div>
+          </div>
+        </div>
+
+        <div style="text-align:center;">
+          <button class="flipbook-btn">Flip Page</button>
+        </div>
+
+        <audio id="flipSound" src="page-flip.mp3" preload="auto"></audio>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
+
+  <script>
+    Reveal.initialize({
+      controls: true,
+      center: true
+    });
+
+    Reveal.addEventListener('ready', () => {
+      const pages = document.querySelectorAll('.flipbook .page');
+      const button = document.querySelector('.flipbook-btn');
+      const flipSound = document.getElementById('flipSound'); 
+      let current = 0;
+
+      button.addEventListener('click', () => {
+        flipSound.currentTime = 0;
+        flipSound.play();
+
+        if (current < pages.length) {
+          pages[current].classList.add('flipped');
+          current++;
+        } else {
+          pages.forEach(p => p.classList.remove('flipped'));
+          current = 0;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

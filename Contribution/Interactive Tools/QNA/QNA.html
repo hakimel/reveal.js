@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Q&A Poll Demo</title>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js/dist/theme/black.css">
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; }
+    .qna-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 50px;
+      margin-top: 30px;
+    }
+
+    .left-side, .right-side {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Make QR code and chart same height */
+    #qrCode {
+      width: 250px;
+      height: 250px;
+      margin-bottom: 10px;
+    }
+
+    #qnaChart {
+      width: 400px;
+      height: 500px;
+    }
+
+    /* Small but visible text under QR */
+    .qr-text {
+      font-size: 14px;
+      color: white;
+      text-align: center;
+    }
+
+    h2 { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h2>Do you have any questions?</h2>
+        <div class="qna-container">
+          <!-- Left side: QR code -->
+          <div class="left-side">
+            <canvas id="qrCode"></canvas>
+            <div class="qr-text">Scan to vote</div>
+          </div>
+
+          <!-- Right side: live poll chart -->
+          <div class="right-side">
+            <canvas id="qnaChart"></canvas>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/reveal.js/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+  <script>
+    // Initialize Reveal.js
+    Reveal.initialize();
+
+    // Generate QR code
+    const qrCanvas = document.getElementById('qrCode');
+    QRCode.toCanvas(qrCanvas, 'https://dummy-vote-link.com', { width: 250, margin: 1 }, function(error) {
+      if (error) console.error(error);
+    });
+
+    // Mock votes: [Yes, No]
+    let votes = [3, 1];
+
+    // Chart
+    const ctx = document.getElementById('qnaChart').getContext('2d');
+    const qnaChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Yes', 'No'],
+        datasets: [{
+          label: 'Votes',
+          data: votes,
+          backgroundColor: ['#4caf50', '#f44336']
+        }]
+      },
+      options: { 
+        responsive: false, // fixed size
+        scales: { y: { beginAtZero: true, stepSize: 1 } }
+      }
+    });
+
+    // Simulate live votes
+    setInterval(() => {
+      votes[0] += Math.floor(Math.random()*2);
+      votes[1] += Math.floor(Math.random()*1);
+      qnaChart.data.datasets[0].data = votes;
+      qnaChart.update();
+    }, 2000);
+  </script>
+</body>
+</html>

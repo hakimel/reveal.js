@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 24px; }
+    .box { 
+      width: 120px; 
+      height: 120px; 
+      border-radius: 12px;
+      display: grid; 
+      place-items: center; 
+      border: 2px solid #222; 
+      cursor: pointer; /* makes it clear it's clickable */
+      transition: transform 0.3s ease, background 0.3s ease; /* smooth effect */
+    }
+  </style>
+</head>
+<body>
+  <h3>Hello, Playground!</h3>
+  <div class="box" id="b">Click me</div>
+
+  <script>
+    const b = document.getElementById('b');
+    let n = 0;
+
+    b.addEventListener('click', () => {
+      n++;
+      b.style.transform = `rotate(${n * 15}deg)`;
+      b.style.background = `hsl(${(n * 40) % 360} 80% 80%)`;
+      b.textContent = n;
+    });
+  </script>
+</body>
+</html>

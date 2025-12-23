@@ -1,0 +1,24 @@
+{
+  "slides": [
+    {
+      "id": 1001,
+      "background": { "type": "color", "value": "#1E3A8A" },
+      "transition": "fade",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Blue Professional Title", "animation": "fade-in", "fontSize": "36px", "color": "#FFFFFF" },
+        { "type": "subtitle", "text": "Subtitle Example", "animation": "none", "fontSize": "22px", "color": "#DDDDDD" }
+      ]
+    },
+    {
+      "id": 1002,
+      "background": { "type": "gradient", "value": "linear-gradient(to right, #06b6d4, #3b82f6)" },
+      "transition": "slide",
+      "notes": "",
+      "elements": [
+        { "type": "title", "text": "Gradient Template", "animation": "slide-in-left", "fontSize": "40px", "color": "#FFFFFF" },
+        { "type": "bullets", "items": ["First point", "Second point", "Third point"], "animation": "fade-in", "fontSize": "20px", "color": "#FFFFFF" }
+      ]
+    }
+  ]
+}
