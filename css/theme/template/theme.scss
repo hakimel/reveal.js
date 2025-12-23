@@ -130,6 +130,10 @@
 	list-style-type: circle;
 }
 
+.reveal li:has(> input[type="checkbox"]) {
+	list-style: none;
+}
+
 .reveal ul ul,
 .reveal ul ol,
 .reveal ol ol,
