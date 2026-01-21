@@ -1046,8 +1046,15 @@ $controlsArrowAngleActive: 36deg;
 .reveal.fade .slides section:not([data-transition]),
 .reveal.fade .slides>section>section:not([data-transition]) {
 	transform: none;
-	transition: opacity 0.5s;
+	transition: opacity;
 }
+
+.reveal .slides section[data-transition=fade],
+.reveal.fade .slides section:not([data-transition-speed]),
+.reveal.fade .slides>section>section:not([data-transition-speed]) {
+	transition-duration: 0.5s;
+}
+
 
 
 .reveal.fade.overview .slides section,
