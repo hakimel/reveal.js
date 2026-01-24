@@ -15,7 +15,7 @@ export = Reveal;
  */
 declare const Reveal: {
 	new (options?: Config): Reveal.Api;
-	new (revealElement: HTMLElement, options: Config): Reveal.Api;
+	new (revealElement: HTMLElement, options?: Config): Reveal.Api;
 } & Reveal.Api;
 
 declare namespace Reveal {

@@ -1,5 +1,5 @@
 const M = () => {
-  let n, s = {
+  let a, s = {
     version: "latest",
     delimiters: [
       { left: "$$", right: "$$", display: !0 },
@@ -11,34 +11,34 @@ const M = () => {
     ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
   };
   const r = (t) => {
-    let e = document.createElement("link");
-    e.rel = "stylesheet", e.href = t, document.head.appendChild(e);
-  }, l = (t) => new Promise((e, i) => {
-    const o = document.createElement("script");
-    o.type = "text/javascript", o.onload = e, o.onerror = i, o.src = t, document.head.append(o);
+    let n = document.createElement("link");
+    n.rel = "stylesheet", n.href = t, document.head.appendChild(n);
+  }, o = (t) => new Promise((n, i) => {
+    const l = document.createElement("script");
+    l.type = "text/javascript", l.onload = n, l.onerror = i, l.src = t, document.head.append(l);
   });
-  async function a(t) {
-    for (const e of t)
-      await l(e);
+  async function e(t) {
+    for (const n of t)
+      await o(n);
   }
   return {
     id: "katex",
     init: function(t) {
-      n = t;
-      let e = n.getConfig().katex || {}, i = { ...s, ...e };
-      const { local: o, version: u, extensions: k, ...m } = i;
-      let c = i.local || "https://cdn.jsdelivr.net/npm/katex", d = i.local ? "" : "@" + i.version, f = c + d + "/dist/katex.min.css", y = c + d + "/dist/katex.min.js", g = c + d + "/dist/contrib/mhchem.min.js", j = c + d + "/dist/contrib/auto-render.min.js", p = [y];
-      i.extensions && i.extensions.includes("mhchem") && p.push(g), p.push(j);
+      a = t;
+      let n = a.getConfig().katex || {}, i = { ...s, ...n };
+      const { local: l, version: u, extensions: k, ...m } = i;
+      let p = i.local || "https://cdn.jsdelivr.net/npm/katex", c = i.local ? "" : "@" + i.version, f = p + c + "/dist/katex.min.css", y = p + c + "/dist/katex.min.js", j = p + c + "/dist/contrib/mhchem.min.js", g = p + c + "/dist/contrib/auto-render.min.js", d = [y];
+      i.extensions && i.extensions.includes("mhchem") && d.push(j), d.push(g);
       const h = () => {
-        renderMathInElement(t.getSlidesElement(), m), n.layout();
+        renderMathInElement(t.getSlidesElement(), m), a.layout();
       };
-      r(f), a(p).then(() => {
-        n.isReady() ? h() : n.on("ready", h.bind(this));
+      r(f), e(d).then(() => {
+        a.isReady() ? h() : a.on("ready", h.bind(this));
       });
     }
   };
 }, x = () => {
-  let n, s = {
+  let a, s = {
     messageStyle: "none",
     tex2jax: {
       inlineMath: [["$", "$"], ["\\(", "\\)"]],
@@ -46,30 +46,30 @@ const M = () => {
     },
     skipStartupTypeset: !0
   };
-  function r(l, a) {
-    let t = document.querySelector("head"), e = document.createElement("script");
-    e.type = "text/javascript", e.src = l;
+  function r(o, e) {
+    let t = document.querySelector("head"), n = document.createElement("script");
+    n.type = "text/javascript", n.src = o;
     let i = () => {
-      typeof a == "function" && (a.call(), a = null);
+      typeof e == "function" && (e.call(), e = null);
     };
-    e.onload = i, e.onreadystatechange = () => {
+    n.onload = i, n.onreadystatechange = () => {
       this.readyState === "loaded" && i();
-    }, t.appendChild(e);
+    }, t.appendChild(n);
   }
   return {
     id: "mathjax2",
-    init: function(l) {
-      n = l;
-      let a = n.getConfig().mathjax2 || n.getConfig().math || {}, t = { ...s, ...a }, e = t.mathjax || "https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js", i = t.config || "TeX-AMS_HTML-full", o = e + "?config=" + i;
-      t.tex2jax = { ...s.tex2jax, ...a.tex2jax }, t.mathjax = t.config = null, r(o, function() {
-        MathJax.Hub.Config(t), MathJax.Hub.Queue(["Typeset", MathJax.Hub, n.getRevealElement()]), MathJax.Hub.Queue(n.layout), n.on("slidechanged", function(u) {
+    init: function(o) {
+      a = o;
+      let e = a.getConfig().mathjax2 || a.getConfig().math || {}, t = { ...s, ...e }, n = t.mathjax || "https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js", i = t.config || "TeX-AMS_HTML-full", l = n + "?config=" + i;
+      t.tex2jax = { ...s.tex2jax, ...e.tex2jax }, t.mathjax = t.config = null, r(l, function() {
+        MathJax.Hub.Config(t), MathJax.Hub.Queue(["Typeset", MathJax.Hub, a.getRevealElement()]), MathJax.Hub.Queue(a.layout), a.on("slidechanged", function(u) {
           MathJax.Hub.Queue(["Typeset", MathJax.Hub, u.currentSlide]);
         });
       });
     }
   };
-}, v = () => {
-  let n, s = {
+}, J = () => {
+  let a, s = {
     tex: {
       inlineMath: [["$", "$"], ["\\(", "\\)"]]
     },
@@ -79,41 +79,80 @@ const M = () => {
     startup: {
       ready: () => {
         MathJax.startup.defaultReady(), MathJax.startup.promise.then(() => {
-          n.layout();
+          a.layout();
         });
       }
     }
   };
-  function r(l, a) {
+  function r(o, e) {
     let t = document.createElement("script");
-    t.type = "text/javascript", t.id = "MathJax-script", t.src = l, t.async = !0, t.onload = () => {
-      typeof a == "function" && (a.call(), a = null);
+    t.type = "text/javascript", t.id = "MathJax-script", t.src = o, t.async = !0, t.onload = () => {
+      typeof e == "function" && (e.call(), e = null);
     }, document.head.appendChild(t);
   }
   return {
     id: "mathjax3",
-    init: function(l) {
-      n = l;
-      let a = n.getConfig().mathjax3 || {}, t = { ...s, ...a };
-      t.tex = { ...s.tex, ...a.tex }, t.options = { ...s.options, ...a.options }, t.startup = { ...s.startup, ...a.startup };
-      let e = t.mathjax || "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js";
-      t.mathjax = null, window.MathJax = t, r(e, function() {
-        n.addEventListener("slidechanged", function(i) {
+    init: function(o) {
+      a = o;
+      let e = a.getConfig().mathjax3 || {}, t = { ...s, ...e };
+      t.tex = { ...s.tex, ...e.tex }, t.options = { ...s.options, ...e.options }, t.startup = { ...s.startup, ...e.startup };
+      let n = t.mathjax || "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js";
+      t.mathjax = null, window.MathJax = t, r(n, function() {
+        a.addEventListener("slidechanged", function(i) {
           MathJax.typeset();
         });
       });
     }
   };
-}, J = x;
+}, v = () => {
+  let a, s = {
+    tex: {
+      inlineMath: [["$", "$"], ["\\(", "\\)"]]
+    },
+    options: {
+      skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+    },
+    startup: {
+      ready: () => {
+        MathJax.startup.defaultReady(), MathJax.startup.promise.then(() => {
+          a.layout();
+        });
+      }
+    }
+  };
+  function r(o, e) {
+    let t = document.createElement("script");
+    t.type = "text/javascript", t.id = "MathJax-script", t.src = o, t.async = !0, t.onload = () => {
+      typeof e == "function" && (e.call(), e = null);
+    }, document.head.appendChild(t);
+  }
+  return {
+    id: "mathjax4",
+    init: function(o) {
+      a = o;
+      let e = a.getConfig().mathjax4 || {}, t = { ...s, ...e };
+      t.tex = { ...s.tex, ...e.tex }, t.options = { ...s.options, ...e.options }, t.startup = { ...s.startup, ...e.startup };
+      let n = t.mathjax || "https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js";
+      t.mathjax = null, window.MathJax = t, r(n, function() {
+        MathJax.startup.promise.then(() => {
+          MathJax.typeset(), a.addEventListener("slidechanged", function(i) {
+            MathJax.typeset();
+          });
+        });
+      });
+    }
+  };
+}, S = x;
 /*!
  * This plugin is a wrapper for the MathJax2,
- * MathJax3 and KaTeX typesetter plugins.
+ * MathJax3, MathJax4 and KaTeX typesetter plugins.
  */
-const S = Plugin = Object.assign(J(), {
+const $ = Plugin = Object.assign(S(), {
   KaTeX: M,
   MathJax2: x,
-  MathJax3: v
+  MathJax3: J,
+  MathJax4: v
 });
 export {
-  S as default
+  $ as default
 };

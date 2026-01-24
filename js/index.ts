@@ -37,8 +37,14 @@ type RevealApiFunction = (deck: Reveal.Api) => any;
 const enqueuedAPICalls: RevealApiFunction[] = [];
 
 Reveal.initialize = (options?: Config) => {
+	const revealElement = document.querySelector('.reveal');
+
+	if (!(revealElement instanceof HTMLElement)) {
+		throw new Error('Unable to find presentation root (<div class="reveal">).');
+	}
+
 	// Create our singleton reveal.js instance
-	Object.assign(Reveal, new Deck(document.querySelector('.reveal'), options));
+	Object.assign(Reveal, new Deck(revealElement, options));
 
 	// Invoke any enqueued API calls
 	enqueuedAPICalls.map((method) => method(Reveal as Reveal.Api));
