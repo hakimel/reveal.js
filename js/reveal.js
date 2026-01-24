@@ -1,35 +1,35 @@
-import SlideContent from './controllers/slidecontent.js'
-import SlideNumber from './controllers/slidenumber.js'
-import JumpToSlide from './controllers/jumptoslide.js'
-import Backgrounds from './controllers/backgrounds.js'
-import AutoAnimate from './controllers/autoanimate.js'
-import ScrollView from './controllers/scrollview.js'
-import PrintView from './controllers/printview.js'
-import Fragments from './controllers/fragments.js'
-import Overview from './controllers/overview.js'
-import Keyboard from './controllers/keyboard.js'
-import Location from './controllers/location.js'
-import Controls from './controllers/controls.js'
-import Progress from './controllers/progress.js'
-import Pointer from './controllers/pointer.js'
-import Plugins from './controllers/plugins.js'
-import Overlay from './controllers/overlay.js'
-import Touch from './controllers/touch.js'
-import Focus from './controllers/focus.js'
-import Notes from './controllers/notes.js'
-import Playback from './components/playback.js'
-import defaultConfig from './config.js'
-import * as Util from './utils/util.js'
-import * as Device from './utils/device.js'
+import SlideContent from './controllers/slidecontent'
+import SlideNumber from './controllers/slidenumber'
+import JumpToSlide from './controllers/jumptoslide'
+import Backgrounds from './controllers/backgrounds'
+import AutoAnimate from './controllers/autoanimate'
+import ScrollView from './controllers/scrollview'
+import PrintView from './controllers/printview'
+import Fragments from './controllers/fragments'
+import Overview from './controllers/overview'
+import Keyboard from './controllers/keyboard'
+import Location from './controllers/location'
+import Controls from './controllers/controls'
+import Progress from './controllers/progress'
+import Pointer from './controllers/pointer'
+import Plugins from './controllers/plugins'
+import Overlay from './controllers/overlay'
+import Touch from './controllers/touch'
+import Focus from './controllers/focus'
+import Notes from './controllers/notes'
+import Playback from './components/playback'
+import { defaultConfig } from './config.ts'
+import * as Util from './utils/util'
+import * as Device from './utils/device'
 import {
 	SLIDES_SELECTOR,
 	HORIZONTAL_SLIDES_SELECTOR,
 	VERTICAL_SLIDES_SELECTOR,
 	POST_MESSAGE_METHOD_BLACKLIST
-} from './utils/constants.js'
+} from './utils/constants'
 
 // The reveal.js version
-export const VERSION = '5.2.1';
+export const VERSION = '6.0.0-rc.2';
 
 /**
  * reveal.js
