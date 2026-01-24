@@ -83,9 +83,10 @@ export default class Controls {
 		let pointerEvents = [ 'touchstart', 'click' ];
 
 		// Only support touch for Android, fixes double navigations in
-		// stock browser
+		// stock browser. Use touchend for it to be considered a valid
+		// user interaction (so we're allowed to autoplay media).
 		if( isAndroid ) {
-			pointerEvents = [ 'touchstart' ];
+			pointerEvents = [ 'touchend' ];
 		}
 
 		pointerEvents.forEach( eventName => {
@@ -102,7 +103,7 @@ export default class Controls {
 
 	unbind() {
 
-		[ 'touchstart', 'click' ].forEach( eventName => {
+		[ 'touchstart', 'touchend', 'click' ].forEach( eventName => {
 			this.controlsLeft.forEach( el => el.removeEventListener( eventName, this.onNavigateLeftClicked, false ) );
 			this.controlsRight.forEach( el => el.removeEventListener( eventName, this.onNavigateRightClicked, false ) );
 			this.controlsUp.forEach( el => el.removeEventListener( eventName, this.onNavigateUpClicked, false ) );

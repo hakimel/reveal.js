@@ -319,6 +319,13 @@ interface Config {
 	preloadIframes?: null | boolean;
 
 	/**
+	 * Prevent embedded iframes from automatically focusing on themselves
+	 *
+	 * @defaultValue false
+	 */
+	preventIframeAutoFocus?: boolean;
+
+	/**
 	 * Can be used to globally disable auto-animation
 	 *
 	 * @defaultValue true

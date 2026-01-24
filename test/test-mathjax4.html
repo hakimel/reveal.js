@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>reveal.js - MathJax4 Plugin Test</title>
+    <link rel="stylesheet" href="../dist/reveal.css">
+    <link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+    <script src="../node_modules/qunit/qunit/qunit.js"></script>
+</head>
+
+<body style="overflow: auto;">
+
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+
+    <div class="reveal" style="display: none;">
+        <div class="slides">
+            <section>
+                <h2>MathJax4 Test</h2>
+                <p>Testing MathJax4 plugin functionality</p>
+            </section>
+
+            <section>
+                <h3>Simple Math</h3>
+                <p>Inline math: \(E = mc^2\)</p>
+                <p>Display math:</p>
+                \[
+                \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+                \]
+            </section>
+
+            <section>
+                <h3>Macros Test</h3>
+                <p>Using custom macros: \(\R\) and \(\set{x}{x > 0}\)</p>
+                \[
+                L^2(\R) = \set{u : \R \to \R}{\int_\R |u|^2 < +\infty}
+                \]
+            </section>
+
+            <section>
+                <h3>Complex Math</h3>
+                \[
+                \begin{aligned}
+                \nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} & = \frac{4\pi}{c}\vec{\mathbf{j}} \\
+                \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
+                \nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
+                \nabla \cdot \vec{\mathbf{B}} & = 0
+                \end{aligned}
+                \]
+            </section>
+        </div>
+    </div>
+
+    <script src="../dist/reveal.js"></script>
+    <script src="../plugin/math/math.js"></script>
+    <script>
+        QUnit.config.testTimeout = 30000;
+        QUnit.module('MathJax4 Plugin');
+
+        QUnit.test('MathJax4 plugin is available', function(assert) {
+            assert.ok(typeof RevealMath !== 'undefined', 'RevealMath is defined');
+            assert.ok(typeof RevealMath.MathJax4 !== 'undefined', 'MathJax4 plugin is available');
+            assert.strictEqual(typeof RevealMath.MathJax4, 'function', 'MathJax4 is a function');
+        });
+
+        QUnit.test('MathJax4 plugin has correct structure', function(assert) {
+            var mathJax4Plugin = RevealMath.MathJax4();
+            assert.strictEqual(mathJax4Plugin.id, 'mathjax4', 'Plugin has correct ID');
+            assert.strictEqual(typeof mathJax4Plugin.init, 'function', 'Plugin has init method');
+        });
+
+        QUnit.test('MathJax4 plugin can be initialized', function(assert) {
+            assert.expect(1);
+            var done = assert.async();
+
+            // Create proper reveal.js DOM structure
+            var testContainer = document.createElement('div');
+            testContainer.className = 'reveal';
+            var slidesContainer = document.createElement('div');
+            slidesContainer.className = 'slides';
+            var slide = document.createElement('section');
+            slide.textContent = 'Test slide';
+            slidesContainer.appendChild(slide);
+            testContainer.appendChild(slidesContainer);
+            document.body.appendChild(testContainer);
+
+            var testReveal = new Reveal(testContainer, {
+                plugins: [RevealMath.MathJax4()]
+            });
+
+            testReveal.initialize().then(function() {
+                assert.ok(testReveal.hasPlugin('mathjax4'), 'MathJax4 plugin is registered');
+                document.body.removeChild(testContainer);
+                done();
+            }).catch(function(error) {
+                assert.ok(false, 'MathJax4 plugin initialization failed: ' + error.message);
+                document.body.removeChild(testContainer);
+                done();
+            });
+        });
+
+        QUnit.test('MathJax4 loads MathJax 4.0.0 and processes math', function(assert) {
+            assert.expect(3);
+            var done = assert.async();
+
+            // Create proper reveal.js DOM structure
+            var testContainer = document.createElement('div');
+            testContainer.className = 'reveal';
+            var slidesContainer = document.createElement('div');
+            slidesContainer.className = 'slides';
+            var slide = document.createElement('section');
+            slide.innerHTML = '<p>Inline: \\(E = mc^2\\)</p><p>Display: \\[ \\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi} \\]</p>';
+            slidesContainer.appendChild(slide);
+            testContainer.appendChild(slidesContainer);
+            document.body.appendChild(testContainer);
+
+            var testReveal = new Reveal(testContainer, {
+                plugins: [RevealMath.MathJax4()],
+                mathjax4: {
+                    tex: {
+                        inlineMath: [['$', '$'], ['\\(', '\\)']],
+                        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+                    }
+                }
+            });
+
+            testReveal.initialize().then(function() {
+                setTimeout(function() {
+                    assert.ok(typeof window.MathJax !== 'undefined', 'MathJax is loaded');
+                    
+                    var mathElements = testContainer.querySelectorAll('.MathJax');
+                    assert.ok(mathElements.length > 0, 'Math elements are processed by MathJax');
+                    
+                    // Check that inline and display math are both processed
+                    var inlineMath = testContainer.querySelectorAll('.MathJax');
+                    assert.ok(inlineMath.length >= 2, 'Both inline and display math are processed');
+                    
+                    document.body.removeChild(testContainer);
+                    done();
+                }, 3000); // Give MathJax more time to load and process
+            }).catch(function(error) {
+                assert.ok(false, 'MathJax4 test failed: ' + error.message);
+                document.body.removeChild(testContainer);
+                done();
+            });
+        });
+
+        QUnit.test('MathJax4 supports custom macros', function(assert) {
+            assert.expect(2);
+            var done = assert.async();
+
+            // Create proper reveal.js DOM structure
+            var testContainer = document.createElement('div');
+            testContainer.className = 'reveal';
+            var slidesContainer = document.createElement('div');
+            slidesContainer.className = 'slides';
+            var slide = document.createElement('section');
+            slide.innerHTML = '<p>Macro test: \\(\\R\\) and \\(\\set{x}{x > 0}\\)</p>';
+            slidesContainer.appendChild(slide);
+            testContainer.appendChild(slidesContainer);
+            document.body.appendChild(testContainer);
+
+            var testReveal = new Reveal(testContainer, {
+                plugins: [RevealMath.MathJax4()],
+                mathjax4: {
+                    tex: {
+                        inlineMath: [['$', '$'], ['\\(', '\\)']],
+                        macros: {
+                            R: '\\mathbb{R}',
+                            set: ['\\left\\{#1 \\; ; \\; #2\\right\\}', 2]
+                        }
+                    }
+                }
+            });
+
+            testReveal.initialize().then(function() {
+                setTimeout(function() {
+                    var mathElements = testContainer.querySelectorAll('.MathJax');
+                    assert.ok(mathElements.length > 0, 'Math with macros is processed');
+                    
+                    // Check that macros are working (should render as math elements)
+                    var macroElements = testContainer.querySelectorAll('.MathJax');
+                    assert.ok(macroElements.length >= 2, 'Both macro expressions are processed');
+                    
+                    document.body.removeChild(testContainer);
+                    done();
+                }, 3000);
+            }).catch(function(error) {
+                assert.ok(false, 'MathJax4 macros test failed: ' + error.message);
+                document.body.removeChild(testContainer);
+                done();
+            });
+        });
+    </script>
+
+</body>
+</html>
