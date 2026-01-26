@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Marketing Templates</title>
+    <link rel="stylesheet" href="../../../dist/reveal.css">
+    <link rel="stylesheet" href="../../../dist/theme/sky.css">
+    <link rel="stylesheet" href="custom.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+
+        <section>
+            <h1>Marketing Campaign</h1>
+            <p>Campaign Name / Team</p>
+        </section>
+
+        <section>
+            <h2>Target Audience</h2>
+            <p>Describe the target demographics and key segments</p>
+        </section>
+
+        <section>
+            <h2>Marketing Channels</h2>
+            <div class="columns">
+                <div class="column">
+                    <h3>Channel 1</h3>
+                    <p>Description or strategy</p>
+                </div>
+                <div class="column">
+                    <h3>Channel 2</h3>
+                    <p>Description or strategy</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Key Metrics</h2>
+            <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+            </div>
+            <p>KPIs like reach, conversion rate, engagement</p>
+        </section>
+
+        <section>
+            <h2>Call to Action</h2>
+            <p>Next steps for marketing implementation</p>
+            <ul>
+                <li>Email: marketing@company.com</li>
+                <li>Website / Landing Page</li>
+                <li>Social Media Links</li>
+            </ul>
+        </section>
+
+    </div>
+</div>
+<script src="../../../dist/reveal.js"></script>
+<script src="businesschart.js"></script>
+<script>
+    Reveal.initialize({ hash: true, slideNumber: true });
+</script>
+</body>
+</html>

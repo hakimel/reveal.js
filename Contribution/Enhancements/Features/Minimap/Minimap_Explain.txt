@@ -1,0 +1,36 @@
+Explaining Minimap Feature (Code Explanation)
+
+1. HTML Structure:
+   - A toggle button (#minimapToggle) to open/close the minimap panel.
+   - A minimap panel (#minimap) containing a grid (#miniGrid) of slide thumbnails.
+   - Standard Reveal.js slides (<section>) used as the main presentation content.
+
+2. CSS Styling:
+   - Thumbnails are created as small frames (140x80 px) with scaled content.
+   - The active slide gets a bright cyan border and glow effect.
+   - Both the button and panel are styled as draggable floating elements.
+
+3. JavaScript Logic:
+   - Reveal.js is initialized via CDN with progress bar, slide numbers, and hash navigation.
+   - buildMinimap():
+       • Iterates over all top-level slides.
+       • Creates a .thumb element for each slide with scaled-down background and heading/paragraph.
+       • Adds a slide number badge in the corner.
+       • Attaches a click event to jump to that slide.
+   - highlightActive():
+       • Tracks the current slide index via Reveal.getIndices().h.
+       • Updates thumbnail highlighting whenever slides change.
+   - makeDraggable():
+       • Makes the toggle button and panel draggable.
+       • Stores their positions in localStorage so they persist across reloads.
+   - toggleMinimap():
+       • Shows/hides the minimap when clicking the button or pressing 'M'.
+       • Builds the minimap content dynamically when opened.
+
+4. Advantages:
+   - Presenter can see an overview and jump anywhere instantly.
+   - Audience can follow structure visually (active slide is always highlighted).
+   - Works well with large decks (scrollable panel).
+   - Portable: no external dependencies besides Reveal.js CDN.
+
+This makes the Minimap a practical navigation aid in large presentations and a strong demonstration of extending Reveal.js with custom HTML, CSS, and JavaScript.

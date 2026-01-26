@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pitches Templates</title>
+    <link rel="stylesheet" href="../../../dist/reveal.css">
+    <link rel="stylesheet" href="../../../dist/theme/dracula.css">
+    <link rel="stylesheet" href="custom.css"/>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+
+        <section>
+            <h1>Pitch Title</h1>
+            <p>Presenter / Company</p>
+        </section>
+
+        <section>
+            <h2>Problem Statement</h2>
+            <p>Describe the problem your product/service solves</p>
+        </section>
+
+        <section>
+            <h2>Solution / Product</h2>
+            <div class="columns">
+                <div class="column">
+                    <h3>Product Feature 1</h3>
+                    <p>Explanation</p>
+                </div>
+                <div class="column">
+                    <h3>Product Feature 2</h3>
+                    <p>Explanation</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Market / Competition</h2>
+            <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+            </div>
+            <p>Market size, competitors, opportunities</p>
+        </section>
+
+        <section>
+            <h2>Call to Action / Closing</h2>
+            <p>Next steps, investment request, or contact info</p>
+            <ul>
+                <li>Email: contact@company.com</li>
+                <li>Website: www.company.com</li>
+                <li>Phone: +123456789</li>
+            </ul>
+        </section>
+
+    </div>
+</div>
+<script src="../../../dist/reveal.js"></script>
+<script src="businesschart.js"></script>
+<script>
+    Reveal.initialize({ hash: true, slideNumber: true });
+</script>
+</body>
+</html>

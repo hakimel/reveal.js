@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Reveal Poll — Host</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, Arial, sans-serif; margin: 24px; max-width: 900px; }
+    h1 { margin: 0 0 8px; }
+    .row { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 12px 0; }
+    label { font-size: 12px; color: #666; display: block; margin-bottom: 6px; }
+    input[type="text"], textarea, input[type="number"] { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #aaa; }
+    button { padding: 10px 14px; border-radius: 10px; border: 0; cursor: pointer; }
+    button.primary { background: #4f46e5; color: white; }
+    button.warn { background: #ef4444; color: white; }
+    button.ghost { background: #e5e7eb; }
+    .panel { border: 1px solid #ddd; border-radius: 14px; padding: 16px; }
+    #chart { margin-top: 8px; }
+    .bar { height: 28px; background: #60a5fa; border-radius: 8px; display: flex; align-items: center; padding: 0 8px; color: white; font-weight: 600; }
+    .bar-wrap { margin: 8px 0; }
+    .flex { display: flex; gap: 10px; align-items: center; }
+    .muted { color: #666; font-size: 12px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    #qr { width: 160px; height: 160px; }
+    .grid2 { display: grid; grid-template-columns: 180px 1fr; gap: 16px; align-items: start; }
+    .status { font-size: 12px; color: #10b981; }
+    .error { color: #ef4444; font-weight: 600; }
+  </style>
+
+  <!-- ✅ Load QRCode library first -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+          integrity="sha512-M6V7mG4GZ7uQnZkqf1rX9fB7k+XG5G0f8c3W0b9cM8mS7X3b6v7ZQn0Xb3w3u2S9sD6b8D8lYp5iZQSU6Q0cNA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+  <h1>Reveal Poll — Host</h1>
+  <p class="muted">Controls to publish/lock/reset polls, show a QR voters can scan, and a live results chart.</p>
+
+  <div class="panel">
+    <div class="row">
+      <div>
+        <label>Poll ID (slug)</label>
+        <input id="pollId" type="text" value="test123" />
+      </div>
+      <div>
+        <label>Admin Secret (stored locally)</label>
+        <input id="admin" type="text" placeholder="Paste ADMIN_SIGNING_SECRET" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label>Question</label>
+        <input id="question" type="text" placeholder="What should we do next?" />
+      </div>
+      <div>
+        <label>Options (one per line)</label>
+        <textarea id="options" rows="4" placeholder="Yes&#10;No"></textarea>
+      </div>
+      <div>
+        <label>Max selections (1 = single choice)</label>
+        <input id="multiMax" type="number" min="1" value="1" />
+      </div>
+    </div>
+
+    <div class="flex">
+      <button id="publish" class="primary">Publish (Open)</button>
+      <button id="lock" class="ghost">Lock</button>
+      <button id="reset" class="warn">Reset</button>
+      <span id="hostStatus" class="status"></span>
+    </div>
+  </div>
+
+  <div class="panel grid2" style="margin-top:16px;">
+    <div>
+      <div id="qr"></div>
+      <div class="muted mono" id="voterUrl"></div>
+    </div>
+    <div>
+      <div class="flex">
+        <div>
+          <div class="muted">Active version</div>
+          <div class="mono" id="activeVersion">—</div>
+        </div>
+        <div>
+          <div class="muted">State</div>
+          <div class="mono" id="state">—</div>
+        </div>
+        <div>
+          <div class="muted">Total votes</div>
+          <div class="mono" id="total">0</div>
+        </div>
+      </div>
+      <div id="questionView" style="font-size:18px; font-weight:700; margin-top:8px;"></div>
+      <div id="chart"></div>
+      <div id="err" class="error"></div>
+    </div>
+  </div>
+
+  <!-- ✅ Your host logic runs AFTER QRCode is loaded -->
+ <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+  import { getDatabase, ref, onValue, get, child } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+  // --- Firebase public config (yours) ---
+  const firebaseConfig = {
+    apiKey: "AIzaSyCb3pWl_fpJiDZ7qZPuNxb4_1t0hRj0Eis",
+    authDomain: "pollfeature.firebaseapp.com",
+    databaseURL: "https://pollfeature-default-rtdb.firebaseio.com",
+    projectId: "pollfeature",
+    storageBucket: "pollfeature.appspot.com",
+    messagingSenderId: "68650811635",
+    appId: "1:68650811635:web:c2e238496ac3a08354b786"
+  };
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // --- tiny dom helpers ---
+  const $ = (id) => document.getElementById(id);
+  const status = (msg, isErr = false) => {
+  const hostStatus = $("hostStatus");
+  const errBox = $("err");
+  if (isErr) {
+    hostStatus.textContent = "";      // clear normal status
+    if (errBox) {
+      errBox.textContent = msg;       // show error message
+      errBox.style.display = "block";
+    }
+  } else {
+    if (hostStatus) hostStatus.textContent = msg;  // show success/info
+    if (errBox) errBox.style.display = "none";     // hide error box
+  }
+};
+
+
+  // restore/store admin secret locally
+  const adminEl = $("admin");
+  adminEl.value = localStorage.getItem("HOST_SECRET") || "";
+  adminEl.addEventListener("change", () => localStorage.setItem("HOST_SECRET", adminEl.value.trim()));
+
+  // show QR + subscribe to counts
+  function showQR(pollId) {
+    const voter = `${location.origin}/voter/?poll=${encodeURIComponent(pollId)}`;
+    $("voterUrl").textContent = voter;
+    $("qr").innerHTML = "";
+    new QRCode(document.getElementById("qr"), { text: voter, width: 160, height: 160 });
+  }
+
+  async function subscribe(pollId) {
+    const root = ref(db, `polls/${pollId}`);
+    const avSnap = await get(child(root, "activeVersion"));
+    const activeVersion = avSnap.exists() ? avSnap.val() : null;
+    $("activeVersion").textContent = activeVersion ?? "—";
+
+    if (!activeVersion) { $("questionView").textContent = "(no active version)"; $("state").textContent = "—"; $("chart").innerHTML=""; return; }
+
+    const metaRef   = ref(db, `polls/${pollId}/versions/${activeVersion}`);
+    const countsRef = ref(db, `polls/${pollId}/versions/${activeVersion}/counts`);
+
+    onValue(metaRef, (s) => {
+      const m = s.val() || {};
+      $("questionView").textContent = m.question || "";
+      $("state").textContent = m.state || "—";
+      renderChart(m.options || [], []);
+    });
+    onValue(countsRef, async (s) => {
+      const counts = s.val() || [];
+      const m = (await get(metaRef)).val() || {};
+      renderChart(m.options || [], counts);
+    });
+  }
+
+  function renderChart(options, counts) {
+    const total = (counts||[]).reduce((a,b)=>a+(b||0),0);
+    $("total").textContent = total;
+    const chart = $("chart"); chart.innerHTML = "";
+    const max = Math.max(1, ...(counts||[1]));
+    options.forEach((opt,i)=>{
+      const c = counts[i]||0;
+      const pct = Math.round((c/Math.max(total,1))*100);
+      const w = Math.max(4, Math.round((c/max)*100));
+      const wrap = document.createElement("div");
+      wrap.className="bar-wrap";
+      wrap.innerHTML = `
+        <div class="muted">${opt}</div>
+        <div class="bar" style="width:${w}%">${c} (${isFinite(pct)?pct:0}%)</div>
+      `;
+      chart.appendChild(wrap);
+    });
+  }
+
+  // call Netlify function helpers
+  async function callFn(path, body, needAuth=true) {
+    const headers = { "Content-Type": "application/json" };
+    const token = adminEl.value.trim();
+    if (needAuth) {
+      if (!token) throw new Error("Admin secret missing.");
+      headers["Authorization"] = "Bearer " + token;
+    }
+    const res = await fetch(`/.netlify/functions/${path}`, { method: "POST", headers, body: JSON.stringify(body) });
+    const data = await res.json().catch(()=> ({}));
+    if (!res.ok) throw new Error(data?.error || "Request failed");
+    return data;
+  }
+
+  // wire buttons
+  $("publish").onclick = async () => {
+    try {
+      status("Publishing…");
+      const pollId = $("pollId").value.trim();
+      const q      = $("question").value.trim() || "Untitled poll";
+      const opts   = $("options").value.split("\n").map(s=>s.trim()).filter(Boolean);
+      const mm     = Math.max(1, Math.min(parseInt($("multiMax").value || "1",10), Math.max(1, opts.length)));
+      if (opts.length < 2) throw new Error("Enter at least two options.");
+      const out = await callFn("publish", { pollId, question: q, options: opts, multiMax: mm, state: "open" }, true);
+      showQR(pollId);
+      await subscribe(pollId);
+      $("activeVersion").textContent = out.version ?? "—";
+      $("state").textContent = "open";
+      status("Published ✅");
+    } catch (e) { status(e.message||String(e), true); }
+  };
+
+  $("lock").onclick = async () => {
+    try {
+      status("Locking…");
+      const pollId = $("pollId").value.trim();
+      const out = await callFn("lock", { pollId }, true);
+      $("state").textContent = out.state || "locked";
+      status("Locked ✅");
+    } catch (e) { status(e.message||String(e), true); }
+  };
+
+  $("reset").onclick = async () => {
+    try {
+      status("Resetting…");
+      const pollId = $("pollId").value.trim();
+      await callFn("reset", { pollId }, true);
+      status("Reset ✅");
+    } catch (e) { status(e.message||String(e), true); }
+  };
+
+  // initial UI
+  const initialId = $("pollId").value.trim();
+  showQR(initialId);
+  subscribe(initialId).catch(()=>{});
+</script>
+
+
+
+</body>
+</html>

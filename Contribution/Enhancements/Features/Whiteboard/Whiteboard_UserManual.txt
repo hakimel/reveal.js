@@ -1,0 +1,33 @@
+Whiteboard Overlay - User Manual
+
+Overview:
+The Whiteboard feature is a drawing tool integrated into Reveal.js presentations. It allows presenters to annotate slides in real-time using a draggable toolbar and a toggle button.
+
+How to Use:
+1. Toggle Whiteboard:
+   - Click the ✏️ Whiteboard button (top-right corner) to open/close the whiteboard.
+   - Press 'W' on your keyboard to toggle visibility.
+   - Press 'ESC' to close quickly.
+
+2. Toolbar Controls:
+   - Color Picker: Change brush color.
+   - Size Slider: Adjust brush thickness; the number beside shows current size in pixels.
+   - Clear Button: Erase everything on the canvas instantly.
+
+3. Drawing:
+   - Hold the mouse button (or touch/pen) and move to draw.
+   - Brush color and size are applied live as you draw.
+
+4. Moving UI:
+   - The Whiteboard button and the toolbar can be dragged anywhere on the screen.
+   - Drag them out of the way to avoid blocking slide content.
+
+5. Auto Contrast:
+   - The UI automatically switches between light/dark styles depending on the slide background for readability.
+
+Advantages:
+- Easy annotation directly on slides during presentations.
+- Fully integrated with Reveal.js (via CDN, works standalone).
+- Adjustable brush color and size with live preview.
+- Toolbar and toggle are draggable for convenience.
+- Keyboard shortcuts for quick actions.

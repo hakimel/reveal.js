@@ -1,0 +1,307 @@
+:root {
+  --bg: linear-gradient(to right, #6b46c1, #f6ad55); /* Violet to orange gradient */
+  --panel-bg: linear-gradient(to right, #7c3aed, #ed8936); /* Slightly darker gradient for panels */
+  --text: #000000; /* Black text */
+  --muted: #000000; /* Black for muted text */
+  --button-bg: linear-gradient(to right, #FF0000, #0000FF); /* Red to blue gradient for buttons and preview top in violet-orange theme */
+  --green-yellow-button-bg: linear-gradient(to right, #87CEEB, #FFFF00); /* Light blue to yellow gradient for buttons and preview top in green-yellow theme */
+  --danger: #dc2626; /* Red for delete buttons */
+  --card-border: rgba(255, 255, 255, 0.2); /* Semi-transparent white border */
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Softer shadow */
+  --green-yellow-bg: linear-gradient(to right, #90EE90, #FFFF00); /* Light green to yellow gradient */
+  --green-yellow-panel-bg: linear-gradient(to right, #98FB98, #FFFF99); /* Slightly lighter gradient for panels */
+}
+
+/* base layout and existing rules (unchanged) */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Roboto', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: background 0.3s ease;
+}
+
+/* Green-yellow theme */
+body.green-yellow-theme {
+  background: var(--green-yellow-bg);
+}
+body.green-yellow-theme .panel {
+  background: var(--green-yellow-panel-bg);
+}
+body.green-yellow-theme #toolbar {
+  background: var(--green-yellow-panel-bg);
+}
+body.green-yellow-theme #preview-top {
+  background: var(--green-yellow-button-bg);
+}
+body.green-yellow-theme .slide-item {
+  background: rgba(255, 255, 255, 0.1);
+}
+body.green-yellow-theme .slide-item.selected {
+  background: var(--green-yellow-button-bg);
+}
+body.green-yellow-theme #edit-panel input,
+body.green-yellow-theme #edit-panel select,
+body.green-yellow-theme #edit-panel textarea {
+  background: rgba(255, 255, 255, 0.1);
+  font-family: 'Roboto', sans-serif;
+}
+body.green-yellow-theme button {
+  background: var(--green-yellow-button-bg);
+}
+
+/* Force black text for select options and lists */
+select, select option, .slide-item, #edit-panel input, #edit-panel textarea, #edit-panel select {
+  color: #000000 !important;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* ===== Toolbar ===== */
+#toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--panel-bg);
+  border-bottom: 1px solid var(--card-border);
+  gap: 10px;
+  flex-shrink: 0;
+  box-shadow: var(--shadow);
+}
+
+/* Buttons */
+button {
+  background: var(--button-bg);
+  color: var(--text);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+button:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+button:active {
+  transform: translateY(0);
+}
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Danger button for deletes inside list */
+.slide-item button {
+  background: var(--danger);
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+/* ===== Main columns ===== */
+#main {
+  display: grid;
+  grid-template-columns: 300px 1fr 560px;
+  gap: 16px;
+  padding: 16px;
+  width: 100%;
+  flex: 1;
+}
+
+/* Left column panels */
+#left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Panels */
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease;
+}
+.panel:hover {
+  transform: translateY(-2px);
+}
+
+/* Slide list */
+#slide-list {
+  margin-top: 10px;
+}
+.slide-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  cursor: grab;
+  font-family: 'Roboto', sans-serif;
+  transition: transform 0.1s ease, background 0.2s ease;
+}
+.slide-item:active {
+  cursor: grabbing;
+  transform: scale(0.98);
+}
+.slide-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.slide-item.selected {
+  background: var(--button-bg);
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Edit panel area */
+#edit-panel-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+#edit-panel input, #edit-panel select, #edit-panel textarea {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  font-family: 'Roboto', sans-serif;
+  transition: border-color 0.2s ease;
+}
+#edit-panel input:focus, #edit-panel select:focus, #edit-panel textarea:focus {
+  border-color: var(--button-bg);
+  outline: none;
+}
+
+/* Element item */
+.element-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+  padding: 10px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s ease;
+  font-family: 'Roboto', sans-serif;
+}
+.element-item:hover {
+  transform: translateY(-1px);
+}
+
+/* Preview column */
+#preview-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+#preview-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--button-bg);
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+  font-family: 'Roboto', sans-serif;
+}
+#preview-frame {
+  width: 100%;
+  height: calc(100vh - 220px);
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  #main {
+    grid-template-columns: 240px 1fr;
+    grid-auto-rows: auto;
+  }
+  #preview-column {
+    display: none;
+  }
+}
+
+/* ========== New: Text animation & effects for preview ========== */
+/* Style note: these styles are used inside the generated reveal.html via <style> injection too,
+   but we keep mirror styles here in case any in-app preview styling is required. */
+
+
+/* --- fragments base mapping (Reveal fragment system) --- */
+.reveal .fragment.typewriter { white-space: nowrap; overflow: hidden; display: inline-block; animation: typewriter 2.5s steps(30, end) forwards; border-right: .12em solid rgba(0,0,0,0.6); }
+.reveal .fragment.wave span { display: inline-block; animation: wave 1.2s ease-in-out infinite; transform-origin: 50% 50%; }
+.reveal .fragment.neon { text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 0 18px rgba(255,0,255,0.3); animation: neonPulse 1.6s ease-in-out infinite; }
+.reveal .fragment.gradient { background: linear-gradient(90deg,#ff8a00,#e52e71,#6a11cb); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; }
+.reveal .fragment.outline { color: transparent; -webkit-text-stroke: 1px rgba(0,0,0,0.85); text-stroke: 1px rgba(0,0,0,0.85); }
+.reveal .fragment.shadow { text-shadow: 3px 4px 8px rgba(0,0,0,0.4); }
+.reveal .fragment.letter-pop { display:inline-block; animation: letterPop 0.45s ease forwards; }
+.reveal .fragment.letter-sprinkle { display:inline-block; animation: sprinkle 0.9s ease forwards; }
+
+/* Animated letter staggering for wave, pop, sprinkle: we will wrap letters in spans in generated HTML */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; border-right: .12em solid rgba(0,0,0,0.0); }
+}
+@keyframes wave {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10%); }
+  100% { transform: translateY(0); }
+}
+@keyframes neonPulse {
+  0% { text-shadow: 0 0 6px rgba(255,255,255,0.9), 0 0 14px rgba(255,0,255,0.25); }
+  50% { text-shadow: 0 0 12px rgba(255,255,255,1), 0 0 26px rgba(255,0,255,0.4); }
+  100% { text-shadow: 0 0 6px rgba(255,255,255,0.9), 0 0 14px rgba(255,0,255,0.25); }
+}
+@keyframes letterPop {
+  0% { transform: scale(0.7) translateY(6px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+@keyframes sprinkle {
+  0% { transform: translateY(-14px) rotate(-6deg); opacity: 0; }
+  100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+}
+
+/* helper: per-letter stagger delays applied inline in generated HTML */
+.reveal .fragment.wave span { animation-delay: var(--delay, 0ms); }
+.reveal .fragment.letter-pop span { animation-delay: var(--delay, 0ms); }
+.reveal .fragment.letter-sprinkle span { animation-delay: var(--delay, 0ms); }
+
+/* small utility to uppercase/lowercase */
+.reveal .text-effect-uppercase { text-transform: uppercase; letter-spacing: 0.06em; }
+.reveal .text-effect-lowercase { text-transform: lowercase; }
+
+/* neon / glow alternative color variants (can be set inline via style color) */
+
+.slide-media {
+  max-width: 80%;
+  max-height: 60%;
+  margin: 10px auto;
+  display: block;
+}
+
+.audio-player {
+  margin: 10px auto;
+  display: block;
+}
+

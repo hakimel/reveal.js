@@ -1,0 +1,31 @@
+Explaining Whiteboard.html (Code Explanation)
+
+1. HTML Structure:
+   - A button (#whiteboardToggle) to open/close the overlay.
+   - A toolbar (#whiteboardToolbar) with color picker, size slider, and Clear button.
+   - A fullscreen canvas (#whiteboardCanvas) used for drawing.
+   - A Reveal.js slide deck for testing integration.
+
+2. CSS Styling:
+   - The toggle button is fixed at the top-right.
+   - Toolbar is styled with semi-transparent background, draggable, and placed under the toggle button.
+   - The canvas covers the entire viewport but is hidden until toggled.
+
+3. JavaScript Logic:
+   - Reveal.js initialized via CDN with plugins (Markdown, Highlight, Notes).
+   - Elements are selected for button, toolbar, canvas, inputs, and clear button.
+   - makeDraggable(el): helper function so button and toolbar can be dragged, ignoring interactions with form inputs.
+   - resizeWB(): ensures canvas always matches viewport dimensions.
+   - setWBVisible(): shows/hides the canvas and toolbar. Controlled by button click, 'W' key, and 'ESC' key.
+   - Brush size label updates live as slider moves (#sizeVal).
+   - Drawing: pointer events handle start, move, stop; line width and color read from controls on every move.
+   - Clear button: wipes the canvas with ctx.clearRect().
+   - updateContrast(): detects slide background brightness and changes UI style accordingly.
+
+4. Advantages:
+   - Stable and simple: coordinates match window size, so drawing and clearing always align.
+   - Interactive controls: brush color and size can be changed live.
+   - Usability: draggable UI, hotkeys, and auto contrast improve the presenter experience.
+   - Portability: works standalone anywhere via CDN (no local dist/ required).
+
+This makes Whiteboard.html a powerful, portable annotation tool for Reveal.js presentations.

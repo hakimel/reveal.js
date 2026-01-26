@@ -1,0 +1,71 @@
+Drag Blocks — Diagram Builder (Centered-Arrow Connectors)
+=======================================================================
+
+Overview
+--------
+This is a lightweight, client‑side diagramming tool built with HTML/CSS/JS and an SVG overlay.
+You can place “blocks” (flowchart-like nodes), style them, and connect them with lines whose
+arrowheads sit neatly at the midpoint.
+
+What you can do
+---------------
+• Toggle **Edit mode** to design your diagram (turn it off to safely present/navigate).
+• **Add, select, drag, and delete** blocks.
+• **Rename** a block (double‑click in Edit mode).
+• Change **shape** (Process, Terminator, Decision, I/O, Circle, Connector).
+• Change **Fill** and **Text** colors for a selected block.
+• Turn on **Connector mode** and click **Block A → Block B** to connect.
+• Choose **Line style**: Solid, Dotted, or **Double** (two parallel lines).
+• Choose **Arrow**: Centered (arrowhead at midpoint) or None.
+• **Select & delete** a connector.
+• **Auto‑save** to localStorage so your work persists across reloads on the same device.
+
+How selection works
+-------------------
+• Click a block to select it. Click empty canvas to clear selection.
+• In connector mode: first click picks the FROM block, second click the TO block.
+• Selected blocks and connectors are highlighted for clarity.
+
+Controls (top toolbar)
+----------------------
+• Edit mode — master toggle for designing vs. presenting.
+• Label + Update selected — set the selected block’s text.
+• Shape / Fill / Text + Apply style — style the selected block.
+• Add block / Delete selected — manage nodes.
+• Connector mode — allows drawing new connectors.
+• Line / Arrow — set connector style for new links.
+• Delete connector — remove the selected connector.
+
+Persistence model (tech notes)
+------------------------------
+• The app stores `{ blocks: [...], connectors: [...] }` in `localStorage` under the key `dragblocks.v4`.
+• Each block stores id, text, x/y position, shape, fill color, and text color.
+• Each connector stores id, fromId, toId, style (`solid|dotted|double`), arrow (`center|none`).
+
+Under the hood
+--------------
+• **Blocks** are absolutely positioned `<div class="node">` elements.
+• **Connectors** live in an **SVG** that stretches to the canvas area.
+• Centered arrows are achieved by splitting the path at the midpoint and applying an SVG `marker-mid` arrow.
+• Double connectors render two parallel visible paths plus an invisible “helper” path to carry the centered arrow.
+• On every drag, the connectors recompute using node center points and update their paths.
+
+Accessibility & UX
+------------------
+• Blocks have `role="group"` and an ARIA label that includes the shape.
+• A small toast appears for saved operations.
+• Edit mode temporarily disables Reveal.js keyboard bindings to avoid conflict when presenting.
+
+Limitations
+-----------
+• No multi‑select or keyboard nudging.
+• Lines are straight (no curves, no orthogonal routing yet).
+• No explicit undo/redo; the app snapshots to storage but doesn’t provide history controls.
+• No import/export UI (copy out from localStorage if needed).
+
+Troubleshooting
+---------------
+• “Nothing moves”: Make sure **Edit mode** is ON.
+• “Arrows not showing”: Set Arrow to **Centered** before creating the connector (existing ones keep their setting).
+• “My diagram vanished”: localStorage is domain‑scoped; use the same browser/profile and avoid private windows.
+• “Connectors misaligned after resize”: resizing recalculates automatically; a quick click on the canvas can refresh focus.

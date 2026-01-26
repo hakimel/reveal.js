@@ -1,0 +1,78 @@
+How to Use the Tiny Paint App Inside Reveal.js
+==================================================
+
+Option A — Use the provided paintslide.html as a ready‑to‑present deck
+---------------------------------------------------------------------
+1) Put `paintslide.html` anywhere in your project (or open it directly in a browser).
+2) It already includes Reveal.js from a CDN and embeds the Tiny Paint App on its own slide.
+3) Present with arrow keys or space; draw on the “Tiny Paint App” slide.
+
+Option B — Embed the app into your existing Reveal.js deck
+----------------------------------------------------------
+You have two choices: inline (recommended for simplicity) or via iframe (isolated sandbox).
+
+B1) Inline (copy sections and script)
+-------------------------------------
+1) In your deck’s HTML, add a slide where the app will live:
+
+   <section>
+     <div class="app" id="paint-deck-app">
+       <!-- toolbar + canvas + footer go here -->
+     </div>
+   </section>
+
+2) Copy the CSS rules that scope to `.app` into your page’s <style> block (or a CSS file).
+3) Copy the Tiny Paint App JS into a <script> tag near the end of the body, after Reveal is loaded.
+4) Make sure Reveal is initialized (e.g., `Reveal.initialize({ hash:true })`).
+5) Open the deck in a browser; navigate to the paint slide and draw.
+
+B2) Iframe (keeps styles isolated)
+----------------------------------
+1) Save the standalone app as `tiny-paint.html`.
+2) In your slide, embed it like:
+
+   <section>
+     <iframe src="tiny-paint.html" style="width:100%;height:80vh;border:0;border-radius:12px"></iframe>
+   </section>
+
+3) Present as usual; the paint app stays contained in the iframe.
+
+CDN vs Local Reveal.js
+----------------------
+• The sample uses Reveal.js via CDN for convenience.
+• If your project already ships Reveal locally, remove the CDN <link>/<script> tags and use your local `dist/` and `plugin/` files.
+
+Keyboard Shortcuts (during a talk)
+----------------------------------
+• E — eraser toggle
+• Ctrl/⌘ + Z — undo
+• Ctrl/⌘ + S — download PNG
+• Hold Shift — straight lines
+• [ / ] — brush size down/up
+
+Tips for Presenting
+-------------------
+• Add a “reset/clear” moment between topics: hit “Clear” so the audience sees the next sketch build from zero.
+• Keep brush size visible; it’s echoed as “14px” etc next to the slider.
+• Practice the first stroke on each slide to create an undo snapshot early.
+
+Common Pitfalls
+---------------
+• If your deck uses aggressive CSS resets, keep the app styles scoped under `.app` to avoid conflicts.
+• Canvas too short? Ensure the slide container has enough height; the app computes size from layout.
+• Mobile devices may have toolbars that reduce viewport size; rotate to landscape for more drawing space.
+
+Deployment
+----------
+• Works as a static HTML file—host it on Netlify/GitHub Pages or open from disk.
+• No backend required.
+
+File Map (suggested)
+--------------------
+/your-deck/
+  index.html            ← your Reveal.js deck
+  tiny-paint.html       ← optional standalone app (for iframe mode)
+  css/app.css           ← if you extract .app styles
+  js/paint-app.js       ← if you extract the inline <script>
+
+That’s it—drag, draw, erase, undo, and save!

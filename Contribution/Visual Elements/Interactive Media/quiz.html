@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal.js Quiz Presentation</title>
+    
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="./../../../dist/reveal.css">
+   <link rel="stylesheet" href="./../../../dist/theme/moon.css">
+    <!-- Quiz CSS -->
+    <link rel="stylesheet" href="quiz.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Title Slide -->
+            <section>
+                <h1>Interactive Quiz</h1>
+                <p>Test your knowledge with this quiz!</p>
+                <p>Use the arrow keys to navigate</p>
+                <small>Press ➡️ to begin</small>
+            </section>
+
+            <!-- Question 1 -->
+            <section>
+                <h3>Question 1 of 5</h3>
+                <p>What does HTML stand for?</p>
+                <div class="quiz-options">
+                    <button class="quiz-btn" onclick="checkAnswer(0, 0)">Hyper Text Markup Language</button>
+                    <button class="quiz-btn" onclick="checkAnswer(0, 1)">High Tech Modern Language</button>
+                    <button class="quiz-btn" onclick="checkAnswer(0, 2)">Hyper Transfer Markup Language</button>
+                    <button class="quiz-btn" onclick="checkAnswer(0, 3)">Home Tool Markup Language</button>
+                </div>
+                <p class="feedback" id="feedback-0"></p>
+            </section>
+
+            <!-- Question 2 -->
+            <section>
+                <h3>Question 2 of 5</h3>
+                <p>Which of these is a JavaScript framework?</p>
+                <div class="quiz-options">
+                    <button class="quiz-btn" onclick="checkAnswer(1, 0)">Django</button>
+                    <button class="quiz-btn" onclick="checkAnswer(1, 1)">Flask</button>
+                    <button class="quiz-btn" onclick="checkAnswer(1, 2)">React</button>
+                    <button class="quiz-btn" onclick="checkAnswer(1, 3)">Ruby on Rails</button>
+                </div>
+                <p class="feedback" id="feedback-1"></p>
+            </section>
+
+            <!-- Question 3 -->
+            <section>
+                <h3>Question 3 of 5</h3>
+                <p>What does CSS stand for?</p>
+                <div class="quiz-options">
+                    <button class="quiz-btn" onclick="checkAnswer(2, 0)">Computer Style Sheets</button>
+                    <button class="quiz-btn" onclick="checkAnswer(2, 1)">Creative Style System</button>
+                    <button class="quiz-btn" onclick="checkAnswer(2, 2)">Cascading Style Sheets</button>
+                    <button class="quiz-btn" onclick="checkAnswer(2, 3)">Colorful Style Sheets</button>
+                </div>
+                <p class="feedback" id="feedback-2"></p>
+            </section>
+
+            <!-- Question 4 -->
+            <section>
+                <h3>Question 4 of 5</h3>
+                <p>Which symbol is used for comments in JavaScript?</p>
+                <div class="quiz-options">
+                    <button class="quiz-btn" onclick="checkAnswer(3, 0)">//</button>
+                    <button class="quiz-btn" onclick="checkAnswer(3, 1)">/* */</button>
+                    <button class="quiz-btn" onclick="checkAnswer(3, 2)">#</button>
+                    <button class="quiz-btn" onclick="checkAnswer(3, 3)">--</button>
+                </div>
+                <p class="feedback" id="feedback-3"></p>
+            </section>
+
+            <!-- Question 5 -->
+            <section>
+                <h3>Question 5 of 5</h3>
+                <p>Which method converts JSON string to a JavaScript object?</p>
+                <div class="quiz-options">
+                    <button class="quiz-btn" onclick="checkAnswer(4, 0)">JSON.parse()</button>
+                    <button class="quiz-btn" onclick="checkAnswer(4, 1)">JSON.stringify()</button>
+                    <button class="quiz-btn" onclick="checkAnswer(4, 2)">JSON.toObject()</button>
+                    <button class="quiz-btn" onclick="checkAnswer(4, 3)">JSON.convert()</button>
+                </div>
+                <p class="feedback" id="feedback-4"></p>
+            </section>
+
+            <!-- Results Slide -->
+            <section>
+                <h2>Quiz Results</h2>
+                <div class="results">
+                    <p>Your score: <span id="score">0</span> out of 5</p>
+                    <p id="score-message"></p>
+                    <button class="restart-btn" onclick="restartQuiz()">Take Quiz Again</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Reveal.js JS -->
+    <script src="./../../../dist/reveal.js"></script>
+    
+    <!-- Quiz JS -->
+    <script src="quiz.js"></script>
+    
+    <!-- Initialize Reveal.js -->
+    <script>
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            center: true,
+            hash: true,
+            transition: 'slide'
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reveal.js — Local Q&A Chatbot (Standalone)</title>
+
+  <!-- Reveal.js core styles from CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reset.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/black.css" id="theme" />
+  <!-- Code highlighting theme (optional) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/monokai.css" />
+
+  <style>
+    /* --- Q&A UI --- */
+    :root {
+      --qa-bg: rgba(18, 18, 18, 0.96);
+      --qa-fg: #e8e8e8;
+      --qa-muted: #9aa0a6;
+      --qa-accent: #00d3a7;
+      --qa-border: rgba(255,255,255,0.12);
+      --qa-danger: #ff5d5d;
+    }
+
+    .qa-toggle {
+      position: fixed; left: 16px; top: 50%; transform: translateY(-50%);
+      z-index: 9999;
+      background: var(--qa-bg); color: var(--qa-fg);
+      border: 1px solid var(--qa-border); border-radius: 14px;
+      padding: 10px 14px; cursor: pointer; user-select: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    }
+    .qa-toggle .qa-refresh {
+      font-size: 14px; opacity: 0.85; margin-left: 2px; cursor: pointer;
+      border-left: 1px solid var(--qa-border); padding-left: 10px;
+    }
+    .qa-toggle:hover { filter: brightness(1.06); }
+
+    .qa-panel {
+      position: fixed; right: 24px; top: 24px; width: 420px; height: 70vh;
+      max-width: min(92vw, 560px);
+      background: var(--qa-bg); color: var(--qa-fg);
+      border: 1px solid var(--qa-border); border-radius: 16px;
+      display: none; flex-direction: column; z-index: 10000;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+      resize: both; overflow: hidden;
+    }
+    .qa-panel.show { display: flex; }
+
+    .qa-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 12px; background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--qa-border); cursor: move;
+    }
+    .qa-title { font-weight: 600; letter-spacing: 0.2px; }
+    .qa-badges { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--qa-muted); }
+    .qa-badge { padding: 2px 8px; border: 1px solid var(--qa-border); border-radius: 999px; }
+
+    .qa-controls { display: flex; gap: 8px; align-items: center; }
+    .qa-btn {
+      border: 1px solid var(--qa-border); background: rgba(255,255,255,0.04);
+      color: var(--qa-fg); padding: 6px 10px; border-radius: 10px; cursor: pointer;
+    }
+    .qa-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .qa-body { padding: 10px 12px; display: flex; flex-direction: column; gap: 10px; height: 100%; }
+
+    .qa-row { display: flex; gap: 8px; }
+    .qa-input { flex: 1; background: rgba(255,255,255,0.04); color: var(--qa-fg);
+      border: 1px solid var(--qa-border); border-radius: 12px; padding: 10px 12px; }
+
+    .qa-meta { display: flex; gap: 8px; align-items: center; font-size: 12px; color: var(--qa-muted); }
+
+    .qa-answer { flex: 1; overflow: auto; border: 1px dashed var(--qa-border); border-radius: 12px; padding: 10px; }
+    .qa-answer h4 { margin: 0 0 6px 0; font-size: 14px; color: #fff; }
+    .qa-answer .qa-citations { margin-top: 8px; font-size: 12px; color: var(--qa-muted); }
+    .qa-answer .qa-citations a { color: var(--qa-accent); text-decoration: none; }
+
+    .qa-evidence { max-height: 120px; overflow: auto; background: rgba(255,255,255,0.03);
+      border: 1px solid var(--qa-border); border-radius: 10px; padding: 8px; font-size: 12px; }
+    .qa-ev { margin-bottom: 8px; }
+    .qa-ev .from { color: var(--qa-muted); font-size: 11px; }
+
+    .qa-footer { display: flex; gap: 8px; justify-content: flex-end; }
+
+    .qa-toast { position: fixed; left: 50%; transform: translateX(-50%);
+      bottom: 86px; background: var(--qa-bg); color: var(--qa-fg);
+      border: 1px solid var(--qa-border); padding: 8px 12px; border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35); display: none; z-index: 10001; }
+    .qa-toast.show { display: block; }
+
+    /* Subtle highlight around cited slide */
+    .qa-slide-pulse { outline: 4px solid var(--qa-accent); outline-offset: -4px; animation: qaPulse 1.2s ease-out 1; }
+    @keyframes qaPulse { from { outline-color: rgba(0,211,167,0.0); } to { outline-color: rgba(0,211,167,0.65); } }
+
+    /* Make sure overlay never blocks Reveal controller arrows */
+    .reveal .controls { z-index: 10002; }
+  </style>
+</head>
+<body>
+
+  <!-- Q&A Toggle Button -->
+  <div class="qa-toggle" id="qaToggle" title="Toggle Q&A (Q)">
+    <span>💬 Q&A</span>
+    <span class="qa-refresh" id="qaQuickRebuild" title="Rebuild index (Shift+R)">↻</span>
+  </div>
+
+  <!-- Q&A Panel -->
+  <div class="qa-panel" id="qaPanel" aria-live="polite" aria-label="Local Q&A panel">
+    <div class="qa-header" id="qaHeader">
+      <div class="qa-title">Local Q&A Tutor</div>
+      <div class="qa-controls">
+        <button class="qa-btn" id="qaRebuildBtn" title="Rebuild index (R)">↻ Rebuild</button>
+        <button class="qa-btn" id="qaCloseBtn" title="Close (Esc)">✕</button>
+      </div>
+    </div>
+    <div class="qa-body">
+      <div class="qa-badges">
+        <span class="qa-badge" id="qaPrivacy">Local‑only</span>
+        <span class="qa-badge" id="qaStats">Indexed: 0 slides, 0 notes, 0 chunks</span>
+      </div>
+
+      <div class="qa-row">
+        <input id="qaInput" class="qa-input" placeholder="Ask a question about these slides… (Enter)" />
+        <button class="qa-btn" id="qaAskBtn">Ask</button>
+      </div>
+
+      <div class="qa-meta">
+        <label><input type="checkbox" id="qaUseSlides" checked /> Slides</label>
+        <label><input type="checkbox" id="qaUseNotes" checked /> Notes</label>
+        <label><input type="checkbox" id="qaStrict" /> Quotes‑only</label>
+        <label style="margin-left:auto;">Style:
+          <select id="qaStyle">
+            <option value="concise">Concise</option>
+            <option value="detailed">Detailed</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="qa-answer" id="qaAnswer">
+        <h4>Answer</h4>
+        <div id="qaAnswerText" style="white-space: pre-wrap; line-height: 1.4;"></div>
+        <div class="qa-citations" id="qaCitations"></div>
+      </div>
+
+      <div class="qa-evidence" id="qaEvidence"></div>
+
+      <div class="qa-footer">
+        <button class="qa-btn" id="qaCopy">Copy answer</button>
+        <button class="qa-btn" id="qaCopyCited">Copy w/ citations</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="qa-toast" id="qaToast">Toast</div>
+
+  <!-- Reveal.js deck -->
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- 1 -->
+      <section>
+        <h2>Local Q&amp;A Tutor for Reveal.js</h2>
+        <p>This deck includes a built-in chatbot that answers questions using only the slide content and speaker notes.</p>
+        <aside class="notes">The chatbot is local-only and never sends data to the internet.</aside>
+      </section>
+
+      <!-- 2 -->
+      <section>
+        <h3>What it does</h3>
+        <ul>
+          <li>The chatbot runs locally in your browser.</li>
+          <li>It reads the visible slide text and speaker notes.</li>
+          <li>Answers include slide citations; clicking a citation jumps to that slide.</li>
+        </ul>
+        <aside class="notes">Ground all answers strictly in the deck / notes.</aside>
+      </section>
+
+      <!-- 3 -->
+      <section>
+        <h3>Auto‑Animate (Feature)</h3>
+        <p>Auto‑Animate automatically morphs matching elements across consecutive slides to create smooth transitions.</p>
+        <p>Enable by adding <code>data-auto-animate</code> on slides with similar element structures.</p>
+      </section>
+
+      <!-- 4 -->
+      <section>
+        <h3>Themes</h3>
+        <p>Reveal.js ships with multiple themes (black, white, league, night, moon, etc.).</p>
+        <p>Switch themes by changing the CSS file referenced as the theme.</p>
+      </section>
+
+      <!-- 5 -->
+      <section>
+        <h3>Keyboard Shortcuts</h3>
+        <ul>
+          <li><kbd>Space</kbd> / arrow keys: navigate</li>
+          <li><kbd>S</kbd>: Speaker view</li>
+          <li><kbd>ESC</kbd>: Slide overview</li>
+          <li><kbd>B</kbd> or <kbd>.</kbd>: Pause (blank screen)</li>
+        </ul>
+      </section>
+
+      <!-- 6 -->
+      <section>
+        <h3>Whiteboard Companion</h3>
+        <p>A whiteboard overlay can be used during the talk for quick sketches.</p>
+        <p>The chatbot behaves like the whiteboard: toggle on/off and float above slides.</p>
+      </section>
+
+      <!-- 7 -->
+      <section>
+        <h3>Export to PDF</h3>
+        <p>You can export presentations to PDF using Reveal.js' print stylesheet.</p>
+      </section>
+
+      <!-- 8 -->
+      <section>
+        <h3>Limits (Grounding)</h3>
+        <ul>
+          <li>The chatbot only answers from this deck’s content.</li>
+          <li>If a topic isn’t covered, it will politely say it can’t find the answer.</li>
+        </ul>
+      </section>
+
+      <!-- 9 -->
+      <section>
+        <h3>Speaker Notes</h3>
+        <p>Speaker notes can add extra details for the chatbot.</p>
+        <p>Put notes in <code>&lt;aside class="notes"&gt;</code> to have them indexed locally.</p>
+        <aside class="notes">Speaker notes are included by default; you can disable them in the Q&A panel.</aside>
+      </section>
+
+      <!-- 10 -->
+      <section>
+        <h3>Troubleshooting</h3>
+        <ul>
+          <li>Rephrase questions using slide keywords.</li>
+          <li>Ensure the deck is fully loaded before asking.</li>
+          <li>Hidden slides are ignored unless explicitly included.</li>
+        </ul>
+      </section>
+
+      <!-- Famous People -->
+      <!-- 11 -->
+      <section>
+        <h3>Albert Einstein</h3>
+        <ul>
+          <li>Theoretical physicist who developed the theory of relativity.</li>
+          <li>Famous for the equation E = mc².</li>
+          <li>Won the 1921 Nobel Prize in Physics.</li>
+        </ul>
+        <aside class="notes">His ideas reshaped our understanding of time, space, and gravity.</aside>
+      </section>
+
+      <!-- 12 -->
+      <section>
+        <h3>Marie Curie</h3>
+        <ul>
+          <li>Pioneer in radioactivity research.</li>
+          <li>First person to win Nobel Prizes in two sciences (Physics and Chemistry).</li>
+          <li>Discovered polonium and radium.</li>
+        </ul>
+        <aside class="notes">Her work laid foundations for nuclear physics and medicine.</aside>
+      </section>
+
+      <!-- 13 -->
+      <section>
+        <h3>Nikola Tesla</h3>
+        <ul>
+          <li>Inventor and engineer known for contributions to alternating current (AC) electricity.</li>
+          <li>Explored wireless energy transfer.</li>
+        </ul>
+        <aside class="notes">Visionary ideas about energy and communication.</aside>
+      </section>
+
+      <!-- 14 -->
+      <section>
+        <h3>Ada Lovelace</h3>
+        <ul>
+          <li>Mathematician often regarded as the first computer programmer.</li>
+          <li>Wrote notes on Babbage’s Analytical Engine.</li>
+        </ul>
+        <aside class="notes">Predicted machines could go beyond calculation to creative uses.</aside>
+      </section>
+
+      <!-- 15 -->
+      <section>
+        <h3>Leonardo da Vinci</h3>
+        <ul>
+          <li>Renaissance polymath: artist, inventor, scientist.</li>
+          <li>Painted <em>Mona Lisa</em> and <em>The Last Supper</em>.</li>
+          <li>Designed early concepts of flying machines and anatomical studies.</li>
+        </ul>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal core + plugins from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/markdown/markdown.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
+
+  <script>
+    // Initialize Reveal
+    const deck = new Reveal({
+      hash: true,
+      plugins: [ RevealNotes, RevealMarkdown, RevealHighlight ]
+    });
+    deck.initialize();
+
+    // ===== Q&A: Lightweight local retriever =====
+    const qa = (() => {
+      const state = {
+        docs: [], // {id, text, title, h, v, type}
+        df: new Map(),
+        idf: new Map(),
+        tf: new Map(), // id -> Map(term -> count)
+        lengths: new Map(),
+        totalDocs: 0,
+        useSlides: true,
+        useNotes: true,
+        strict: false,
+        style: 'concise',
+        stop: new Set('a,an,the,of,for,to,in,on,at,by,and,or,if,then,else,with,from,as,is,are,was,were,be,been,being,this,that,these,those,it,its,into,over,about,via,can,will,your,our,their,you,i,he,she,they,we,them,us'.split(','))
+      };
+      let justDragged = false; // suppress accidental click after drag
+
+      const ui = {
+        panel: document.getElementById('qaPanel'),
+        toggle: document.getElementById('qaToggle'),
+        quickRebuild: document.getElementById('qaQuickRebuild'),
+        header: document.getElementById('qaHeader'),
+        rebuildBtn: document.getElementById('qaRebuildBtn'),
+        closeBtn: document.getElementById('qaCloseBtn'),
+        input: document.getElementById('qaInput'),
+        askBtn: document.getElementById('qaAskBtn'),
+        answerBox: document.getElementById('qaAnswer'),
+        answerText: document.getElementById('qaAnswerText'),
+        citations: document.getElementById('qaCitations'),
+        evidence: document.getElementById('qaEvidence'),
+        stats: document.getElementById('qaStats'),
+        toast: document.getElementById('qaToast'),
+        chkSlides: document.getElementById('qaUseSlides'),
+        chkNotes: document.getElementById('qaUseNotes'),
+        chkStrict: document.getElementById('qaStrict'),
+        styleSel: document.getElementById('qaStyle'),
+        copy: document.getElementById('qaCopy'),
+        copyCited: document.getElementById('qaCopyCited')
+      };
+
+      // --- Helpers ---
+      function toast(msg, ms=1600) {
+        ui.toast.textContent = msg; ui.toast.classList.add('show');
+        setTimeout(() => ui.toast.classList.remove('show'), ms);
+      }
+
+      function sanitize(str) {
+        return (str||'').replace(/\s+/g, ' ').trim();
+      }
+
+      function tokenize(text) {
+        return (text||'').toLowerCase().replace(/[^\p{L}\p{N}\s]/gu,' ').split(/\s+/)
+          .filter(t => t && !state.stop.has(t));
+      }
+
+      function getSlidesList() {
+        // Build a flat list of leaf slides (handle vertical stacks)
+        const slidesRoot = document.querySelector('.reveal .slides');
+        const top = Array.from(slidesRoot.children).filter(el => el.tagName === 'SECTION');
+        const list = [];
+        top.forEach((sec, h) => {
+          const children = Array.from(sec.children).filter(el => el.tagName === 'SECTION');
+          if (children.length) {
+            children.forEach((sub, v) => list.push({el: sub, h, v}));
+          } else {
+            list.push({el: sec, h, v: 0});
+          }
+        });
+        return list;
+      }
+
+      function extractTextFromSlide(el) {
+        const clone = el.cloneNode(true);
+        // Remove scripts and asides from main slide text (notes handled separately)
+        clone.querySelectorAll('script').forEach(n => n.remove());
+        clone.querySelectorAll('aside.notes').forEach(n => n.remove());
+        return sanitize(clone.textContent || '');
+      }
+
+      function extractNotesFromSlide(el) {
+        const notes = el.querySelector('aside.notes');
+        if (notes) return sanitize(notes.textContent || '');
+        const dn = el.getAttribute('data-notes');
+        return sanitize(dn || '');
+      }
+
+      function firstHeading(el) {
+        const h = el.querySelector('h1,h2,h3,h4,h5,h6');
+        return h ? sanitize(h.textContent) : 'Slide';
+      }
+
+      function buildIndex() {
+        const t0 = performance.now();
+        const slides = getSlidesList();
+        const docs = [];
+        let chunks = 0, notesCount = 0;
+
+        slides.forEach(({el, h, v}) => {
+          const title = firstHeading(el);
+          const text = extractTextFromSlide(el);
+          if (text) {
+            docs.push({ id: `s:${h}:${v}`, text, title, h, v, type: 'slide' });
+            chunks++;
+          }
+          const notes = extractNotesFromSlide(el);
+          if (notes) {
+            docs.push({ id: `n:${h}:${v}`, text: notes, title: title + ' (notes)', h, v, type: 'notes' });
+            chunks++; notesCount++;
+          }
+        });
+
+        // Build TF/DF
+        const df = new Map();
+        const tf = new Map();
+        const lengths = new Map();
+
+        docs.forEach(d => {
+          const terms = tokenize(d.text);
+          lengths.set(d.id, Math.max(terms.length, 1));
+          const map = new Map();
+          terms.forEach(t => map.set(t, (map.get(t)||0) + 1));
+          tf.set(d.id, map);
+          // document frequency
+          new Set(terms).forEach(t => df.set(t, (df.get(t)||0)+1));
+        });
+
+        // IDF
+        const idf = new Map();
+        const N = docs.length || 1;
+        df.forEach((dfi, term) => {
+          const val = Math.log( (1 + N) / (1 + dfi) ) + 1; // smoothed idf
+          idf.set(term, val);
+        });
+
+        state.docs = docs; state.df = df; state.idf = idf; state.tf = tf; state.lengths = lengths; state.totalDocs = N;
+
+        // Update stats UI
+        const slideCount = new Set(docs.filter(d=>d.type==='slide').map(d=>`${d.h}:${d.v}`)).size;
+        const noteCount  = new Set(docs.filter(d=>d.type==='notes').map(d=>`${d.h}:${d.v}`)).size;
+        ui.stats.textContent = `Indexed: ${slideCount} slides, ${noteCount} notes, ${chunks} chunks`;
+
+        const t1 = performance.now();
+        return { chunks, slideCount, noteCount, ms: Math.round(t1 - t0) };
+      }
+
+      function scoreDocs(query) {
+        const qTerms = tokenize(query);
+        if (!qTerms.length) return [];
+        const { idf, tf, lengths, docs } = state;
+        const scores = new Map();
+        // Simple TF-IDF with length norm
+        docs.forEach(d => {
+          // respect source toggles
+          if (!state.useSlides && d.type === 'slide') return;
+          if (!state.useNotes && d.type === 'notes') return;
+          let s = 0;
+          qTerms.forEach(t => {
+            const tfij = (tf.get(d.id)?.get(t)) || 0;
+            if (tfij) s += (tfij / lengths.get(d.id)) * (idf.get(t) || 0);
+          });
+          if (s > 0) scores.set(d.id, s);
+        });
+        const arr = Array.from(scores.entries()).sort((a,b)=>b[1]-a[1]).map(([id,score])=>{
+          const d = state.docs.find(x=>x.id===id); return { ...d, score };
+        });
+        return arr;
+      }
+
+      function bestSentences(text, qTerms, limit=2) {
+        const sents = text.split(/(?<=[.!?])\s+/).map(s=>s.trim()).filter(Boolean);
+        const scored = sents.map(s => {
+          const tks = tokenize(s);
+          const hit = qTerms.reduce((acc,t)=> acc + (tks.includes(t)?1:0), 0);
+          return { s, hit };
+        }).sort((a,b)=> b.hit - a.hit || b.s.length - a.s.length);
+        return scored.slice(0, limit).map(x=>x.s);
+      }
+
+      function composeAnswer(results, query) {
+        if (!results.length) return { text: null, cites: [], ev: [] };
+        const qTerms = tokenize(query);
+        const top = results.slice(0, 4);
+        let answer = '';
+        const cites = [];
+        const ev = [];
+
+        if (state.strict) {
+          // quotes-only: stitch the best sentences verbatim
+          const chunks = [];
+          top.forEach(r => {
+            const ss = bestSentences(r.text, qTerms, state.style==='detailed'?3:2);
+            if (ss.length) {
+              chunks.push('“' + ss.join(' ') + '”');
+              cites.push({h:r.h, v:r.v, title:r.title, type:r.type});
+              ev.push({from: r.title, text: ss.join(' ') });
+            }
+          });
+          answer = chunks.join('\n\n');
+        } else {
+          // summarize-lite: stitch brief paraphrases based on top snippets
+          top.forEach(r => {
+            const ss = bestSentences(r.text, qTerms, state.style==='detailed'?3:2);
+            if (ss.length) {
+              // Create a light paraphrase by trimming/merging; still grounded
+              const merged = ss.join(' ');
+              answer += (answer? '\n\n' : '') + merged;
+              cites.push({h:r.h, v:r.v, title:r.title, type:r.type});
+              ev.push({from: r.title, text: merged});
+            }
+          });
+        }
+        return { text: sanitize(answer), cites, ev };
+      }
+
+      function jumpTo(h, v) {
+        try { deck.slide(h, v); } catch(e) {}
+        // Pulse highlight the slide root
+        const slidesRoot = document.querySelector('.reveal .slides');
+        const sel = `.reveal .slides > section:nth-child(${h+1})`;
+        const top = document.querySelector(sel);
+        let target = top;
+        if (top && v>0) {
+          const inner = top.querySelector(`section:nth-child(${v})`);
+          if (inner) target = inner;
+        }
+        if (target) {
+          target.classList.add('qa-slide-pulse');
+          setTimeout(()=>target.classList.remove('qa-slide-pulse'), 1000);
+        }
+      }
+
+      function renderAnswer(ansObj, query) {
+        ui.answerText.textContent = '';
+        ui.citations.innerHTML = '';
+        ui.evidence.innerHTML = '';
+
+        if (!ansObj.text) {
+          ui.answerText.textContent = "I couldn’t find a reliable answer in these slides. Try rephrasing your question or check if the topic is covered in the deck.";
+          return;
+        }
+        ui.answerText.textContent = ansObj.text;
+
+        if (ansObj.cites.length) {
+          const frag = document.createDocumentFragment();
+          const label = document.createElement('span');
+          label.textContent = 'Grounded in: ';
+          frag.appendChild(label);
+          ansObj.cites.slice(0,3).forEach((c, i) => {
+            const a = document.createElement('a');
+            a.href = 'javascript:void(0)';
+            a.textContent = `${c.title.replace(/\s+\(notes\)$/,'')} (slide ${c.h+1}${c.v?('/'+c.v):''})`;
+            a.style.marginRight = '8px';
+            a.addEventListener('click', ()=> jumpTo(c.h, c.v));
+            frag.appendChild(a);
+            if (i < Math.min(2, ansObj.cites.length-1)) {
+              const sep = document.createElement('span'); sep.textContent = ' · ';
+              frag.appendChild(sep);
+            }
+          });
+          ui.citations.appendChild(frag);
+        }
+
+        // Evidence list
+        ansObj.ev.slice(0,5).forEach(e => {
+          const div = document.createElement('div');
+          div.className = 'qa-ev';
+          const from = document.createElement('div'); from.className = 'from'; from.textContent = e.from;
+          const txt = document.createElement('div'); txt.textContent = '… ' + e.text;
+          div.appendChild(from); div.appendChild(txt);
+          ui.evidence.appendChild(div);
+        });
+      }
+
+      function ask() {
+        const q = sanitize(ui.input.value);
+        if (!q) return;
+        // Clear previous answer/evidence/citations immediately
+        ui.answerText.textContent = '';
+        ui.citations.innerHTML = '';
+        ui.evidence.innerHTML = '';
+        ui.askBtn.disabled = true;
+        const results = scoreDocs(q);
+        const ans = composeAnswer(results, q);
+        renderAnswer(ans, q);
+        ui.askBtn.disabled = false;
+      }
+
+      function rebuild() {
+        ui.rebuildBtn.disabled = true; ui.askBtn.disabled = true;
+        toast('Rebuilding index…');
+        setTimeout(() => {
+          const stats = buildIndex();
+          toast(`Index updated • ${stats.chunks} chunks • ${stats.slideCount} slides + ${stats.noteCount} notes • ${stats.ms}ms`);
+          ui.rebuildBtn.disabled = false; ui.askBtn.disabled = false;
+          ui.input.focus();
+        }, 50);
+      }
+
+      function copy(text) {
+        navigator.clipboard.writeText(text).then(()=> toast('Copied')).catch(()=> toast('Copy failed'));
+      }
+
+      // --- Dragging panel via header ---
+      (function makePanelDraggable() {
+        const el = ui.panel; const handle = ui.header;
+        let sx=0, sy=0, ox=0, oy=0, dragging=false;
+        handle.addEventListener('pointerdown', (e)=>{
+          dragging=true; sx=e.clientX; sy=e.clientY;
+          const r = el.getBoundingClientRect(); ox=r.left; oy=r.top;
+          handle.setPointerCapture(e.pointerId);
+        });
+        handle.addEventListener('pointermove', (e)=>{
+          if (!dragging) return;
+          const dx=e.clientX-sx, dy=e.clientY-sy;
+          el.style.left = Math.max(8, ox+dx) + 'px';
+          el.style.top  = Math.max(8, oy+dy) + 'px';
+          el.style.right = 'auto';
+          el.style.bottom = 'auto';
+          el.style.transform = 'none';
+        });
+        handle.addEventListener('pointerup', ()=> dragging=false);
+      })();
+
+      // --- Dragging the floating toggle button ---
+      (function makeToggleDraggable() {
+        const el = ui.toggle;
+        const THRESH = 8;
+        let sx=0, sy=0, ox=0, oy=0, dragging=false, moved=false;
+        el.addEventListener('pointerdown', (e)=>{
+          if (e.target === ui.quickRebuild) return; // let refresh click work normally
+          dragging=true; moved=false; sx=e.clientX; sy=e.clientY;
+          const r = el.getBoundingClientRect(); ox=r.left; oy=r.top;
+          el.setPointerCapture(e.pointerId);
+        });
+        el.addEventListener('pointermove', (e)=>{
+          if (!dragging) return;
+          const dx=e.clientX-sx, dy=e.clientY-sy;
+          if (Math.abs(dx) > THRESH || Math.abs(dy) > THRESH) moved = true;
+          el.style.left = Math.max(8, ox+dx) + 'px';
+          el.style.top  = Math.max(8, oy+dy) + 'px';
+          el.style.right = 'auto';
+          el.style.bottom = 'auto';
+          el.style.transform = 'none';
+        });
+        el.addEventListener('pointerup', ()=>{
+          if (dragging && moved) {
+            justDragged = true;
+            setTimeout(()=> justDragged = false, 180);
+          }
+          dragging=false;
+        });
+      })();
+
+      // --- Events ---
+      ui.toggle.addEventListener('click', ()=>{
+        if (justDragged) { justDragged = false; return; }
+        ui.panel.classList.toggle('show');
+        if (ui.panel.classList.contains('show')) ui.input.focus();
+      });
+      // Prevent header drag from hijacking close clicks
+      ui.closeBtn.addEventListener('pointerdown', (e)=>{ e.stopPropagation(); e.preventDefault(); });
+      ui.closeBtn.addEventListener('click', (e)=>{ e.stopPropagation(); ui.panel.classList.remove('show'); });
+      ui.askBtn.addEventListener('click', ask);
+      ui.input.addEventListener('keydown', e=>{ if (e.key==='Enter') ask(); });
+
+      ui.rebuildBtn.addEventListener('click', rebuild);
+      ui.quickRebuild.addEventListener('click', (e)=>{ e.stopPropagation(); rebuild(); });
+
+      ui.chkSlides.addEventListener('change', ()=> state.useSlides = ui.chkSlides.checked);
+      ui.chkNotes.addEventListener('change', ()=> state.useNotes = ui.chkNotes.checked);
+      ui.chkStrict.addEventListener('change', ()=> state.strict = ui.chkStrict.checked);
+      ui.styleSel.addEventListener('change', ()=> state.style = ui.styleSel.value);
+
+      ui.copy.addEventListener('click', ()=> copy(ui.answerText.textContent||''));
+      ui.copyCited.addEventListener('click', ()=> {
+        const ans = ui.answerText.textContent||'';
+        const cites = Array.from(ui.citations.querySelectorAll('a')).map(a=>a.textContent).join(' · ');
+        copy(ans + (cites? `\n\nSources: ${cites}` : ''));
+      });
+
+      // Keyboard shortcuts
+      document.addEventListener('keydown', (e)=>{
+        // Don’t hijack when typing in inputs
+        if (['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)) return;
+        if (e.key.toLowerCase() === 'q') {
+          ui.toggle.click();
+        } else if (e.key.toLowerCase() === 'r') {
+          if (e.shiftKey) rebuild();
+          else if (ui.panel.classList.contains('show')) rebuild();
+        } else if (e.key === 'Escape' && ui.panel.classList.contains('show')) {
+          ui.panel.classList.remove('show');
+        }
+      });
+
+      // Initial build after Reveal is ready
+      deck.on('ready', ()=> rebuild());
+
+      return { rebuild, ask };
+    })();
+  </script>
+</body>
+</html>

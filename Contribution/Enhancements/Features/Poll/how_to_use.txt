@@ -1,0 +1,42 @@
+Reveal.js Live Poll Feature — How to Use (Step-by-Step)
+
+Host link (console): https://newpoll.netlify.app/
+Voter link pattern:   https://newpoll.netlify.app/voter/?poll=<pollId>
+
+A) Presenting a Poll (Host)
+1) Open the host page on any computer: https://newpoll.netlify.app/
+2) In “Admin Secret”, paste your ADMIN_SIGNING_SECRET (it’s stored locally after first use).
+3) In “Poll ID”, type a short identifier (e.g., test123).
+4) Type your question and put each option on its own line.
+5) Set “Max selections”:
+   - 1 = single choice
+   - >1 = audience can pick up to that many options
+6) Click “Publish (Open)”.
+   - A QR code appears with the voter link for this pollId.
+   - The “Active version” and “State” are shown on the right.
+7) Ask the audience to scan the QR code or visit the voter link. The chart updates live.
+
+B) Voting (Audience)
+1) Open the QR link (e.g., https://newpoll.netlify.app/voter/?poll=test123).
+2) Read the question and pick your option(s).
+3) Press “Submit vote”. You’ll see a confirmation.
+   Notes:
+   - If you vote again from the same device, your previous vote is replaced (no duplicates).
+
+C) Locking and Resetting (Host)
+- Lock: stops new votes for the active version.
+- Reset: clears current counts and device votes for the active version (useful for rerunning the same question).
+
+D) Tips During a Lecture
+- Publish the poll while introducing the question so the QR code is already on screen.
+- Keep Poll ID simple and readable in case anyone types the URL manually.
+- After discussion, press Lock and briefly recap the results.
+- For a new question, change the text/options and press Publish again (creates a new version automatically).
+
+E) If Something Doesn’t Work
+- Buttons do nothing → Enter the Admin Secret on the host page first.
+- QR not showing → Ensure the QRCode script is loaded (already bundled in the host page).
+- Votes not changing → Check internet connectivity; if the poll is “locked”, unlock or publish a new version.
+- Error about firebaseConfig → Make sure the page initializes Firebase once (avoid duplicate declarations).
+
+That’s it — publish, share the QR, watch the chart, lock/reset when done.

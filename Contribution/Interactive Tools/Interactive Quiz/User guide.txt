@@ -1,0 +1,4 @@
+go to backend folder
+in cmd : node server.js
+
+in browser : http://localhost:3000

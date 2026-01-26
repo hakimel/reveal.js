@@ -1,0 +1,22 @@
+:root {
+  --r-background-color: #dbe9f4;
+  --r-main-font: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  --r-main-font-size: 36px;
+  --r-main-color: #1b2b34;
+  --r-heading-color: #6699cc;
+
+  --rtp-accent-h: 210;
+  --rtp-accent-s: 70%;
+  --rtp-accent-l: 55%;
+  --r-link-color: hsl(var(--rtp-accent-h) var(--rtp-accent-s) var(--rtp-accent-l));
+  --r-selection-background-color: hsla(var(--rtp-accent-h), 80%, 60%, 0.25);
+}
+
+.reveal-viewport {
+  background: #dbe9f4;
+  background-image: radial-gradient(700px 500px at 25% 25%, rgba(102,153,204,0.12), transparent);
+}
+
+.reveal a { text-decoration-color: rgba(0,0,0,0.2); }
+.reveal pre code { line-height: 1.3; font-size: 0.85em; }
+.reveal .controls button { border-radius: 10px; }

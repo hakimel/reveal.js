@@ -1,0 +1,54 @@
+Tiny Paint App — What It Is and How It Works
+=================================================
+
+Overview
+--------
+This is a tiny drawing app that runs entirely in the browser using an HTML <canvas>. 
+It’s lightweight, fast, and designed to embed cleanly inside a Reveal.js slide deck or work as a standalone page.
+
+What you can do
+---------------
+• Draw freehand with adjustable brush size.
+• Pick any color using the color picker.
+• Toggle an eraser mode to remove strokes.
+• Undo (keeps a short history of snapshots).
+• Clear the whole canvas.
+• Download your drawing as a PNG image.
+
+Keyboard shortcuts
+------------------
+• E — Toggle eraser on/off
+• Ctrl/⌘ + Z — Undo
+• Ctrl/⌘ + S — Download PNG
+• [ and ] — Decrease / Increase brush size
+• Hold Shift while drawing — Keep lines straight
+
+How it feels on screen
+----------------------
+• The canvas automatically resizes to fit your slide area (retina-friendly).
+• Smooth brush edges thanks to round line caps/joins.
+• History size is capped to keep memory usage sane.
+
+What’s inside (tech notes)
+--------------------------
+• HTML5 <canvas> for rendering.
+• Pointer events for drawing (works with mouse, touch, pen).
+• A small history stack using getImageData/putImageData for undo.
+• Device pixel ratio aware sizing so drawings look crisp on high‑DPI screens.
+
+Limitations
+-----------
+• Undo history is limited (defaults to ~25 snapshots).
+• There’s no shape tool—this is a quick sketch pad, not an Illustrator replacement.
+• The “eraser” paints the background color, it doesn’t do layer-aware deletion.
+
+Export behavior
+---------------
+• “Download PNG” exports the current canvas contents to drawing.png via a data URL.
+• The exported image uses the canvas pixel size (which scales with device pixel ratio).
+
+Troubleshooting
+---------------
+• Canvas looks blurry: your browser is zoomed; return to 100% or resize the window.
+• Undo doesn’t work: only strokes after the last snapshot are undoable; try another stroke and undo again.
+• Touch input doesn’t draw: confirm the page isn’t being scrolled; the canvas uses `touch-action: none` to avoid this, but some mobile browsers may still capture gestures.

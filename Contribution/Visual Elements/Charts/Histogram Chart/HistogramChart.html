@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal.js Histogram Example</title>
+    
+    <!-- Reveal.js CSS -->
+    <link rel="stylesheet" href="./../../../../dist/reveal.css">
+    <link rel="stylesheet" href="./../../../../dist/theme/moon.css">
+    
+    <!-- Chart.js for the histogram -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* Custom styling for the presentation */
+        .reveal {
+            font-family: Arial, sans-serif;
+        }
+        
+        .slide-title {
+            margin-bottom: 30px;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 60vh;
+            width: 80%;
+            margin: 0 auto;
+        }
+        
+        .next-slide-btn {
+            margin-top: 30px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .next-slide-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .instructions {
+            background-color: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin-top: 30px;
+            text-align: left;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Title Slide -->
+            <section>
+                <h1>Histogram Presentation</h1>
+                <p>An example of using charts with Reveal.js</p>
+            </section>
+            
+            <!-- Histogram Chart Slide -->
+            <section>
+                <h2 class="slide-title">Project Budget Allocation</h2>
+				
+                <div class="chart-container">
+                    <canvas id="histogramChart"></canvas>
+                </div>
+                
+                <!-- MODIFICATION AREA: Update the data-id attribute to point to your next slide -->
+                <button class="next-slide-btn" data-id="next-slide">
+                    Continue to Next Section
+                </button>
+                
+                
+            </section>
+            
+            <!-- Next Slide (example) -->
+            <section id="next-slide">
+                <h2>Next Section: Project Timeline</h2>
+                <p>This is the slide that follows the histogram.</p>
+                <p>You would replace this with your actual content.</p>
+            </section>
+        </div>
+    </div>
+
+    <!-- Reveal.js Initialization & Chart Code -->
+    <script src="./../../../../dist/reveal.js"></script>
+    <script>
+        // Initialize Reveal.js
+        Reveal.initialize({
+            hash: true,
+            controls: true,
+            progress: true,
+            center: true,
+            transition: 'slide'
+        });
+        
+        // Create the histogram when the slide is loaded
+        Reveal.addEventListener('ready', function() {
+            createHistogram();
+        });
+        
+        // Recreate chart when navigating to the slide (in case of viewport changes)
+        Reveal.addEventListener('slidechanged', function(event) {
+            if (event.currentSlide.querySelector('#histogramChart')) {
+                createHistogram();
+            }
+        });
+        
+        function createHistogram() {
+            const ctx = document.getElementById('histogramChart').getContext('2d');
+            
+            // MODIFICATION AREA: Update this data with your chart information
+            // For a histogram, we need numerical ranges as labels
+            const chartData = {
+                datasets: [{
+                    label: 'Number of Projects',
+                    data: [5, 10, 15, 20, 12, 8, 6], // Frequency values
+                    backgroundColor: '#36A2EB', // Consistent color for all bars
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            };
+            
+            const config = {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 16
+                                },
+                                color: '#fff'
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    // Custom tooltip to show the budget range
+                                    const index = tooltipItems[0].dataIndex;
+                                    const ranges = ['0-10%', '11-20%', '21-30%', '31-40%', '41-50%', '51-60%', '61-70%'];
+                                    return 'Budget Range: ' + ranges[index];
+                                },
+                                label: function(context) {
+                                    return 'Number of Projects: ' + context.raw;
+                                }
+                            },
+                            bodyFont: {
+                                size: 16
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Frequency',
+                                color: '#fff',
+                                font: {
+                                    size: 14
+                                }
+                            },
+                            ticks: {
+                                color: '#fff',
+                                stepSize: 2
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Budget Allocation Ranges (%)',
+                                color: '#fff',
+                                font: {
+                                    size: 14
+                                }
+                            },
+                            ticks: {
+                                color: '#fff'
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            };
+            
+            // Destroy previous chart instance if it exists
+            if (window.histogramInstance) {
+                window.histogramInstance.destroy();
+            }
+            
+            // Create new chart instance
+            window.histogramInstance = new Chart(ctx, config);
+            
+            // Set the bin labels after chart creation
+            const ranges = ['0-10%', '11-20%', '21-30%', '31-40%', '41-50%', '51-60%', '61-70%'];
+            window.histogramInstance.data.labels = ranges;
+            window.histogramInstance.update();
+        }
+        
+        // Add navigation functionality to the button
+        document.querySelector('.next-slide-btn').addEventListener('click', function() {
+            // MODIFICATION AREA: Update the data-id value to match your target slide
+            const nextSlideId = this.getAttribute('data-id');
+            const nextSlideElement = document.getElementById(nextSlideId);
+            
+            if (nextSlideElement) {
+                const nextSlideIndex = Array.from(nextSlideElement.parentNode.children).indexOf(nextSlideElement);
+                Reveal.slide(nextSlideIndex);
+            } else {
+                // Fallback: just go to the next slide
+                Reveal.next();
+            }
+        });
+    </script>
+</body>
+</html>

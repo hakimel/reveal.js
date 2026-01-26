@@ -1,0 +1,17 @@
+Explaining Media Effects (CDN Version)
+
+What it is
+A slide that applies fun effects like Glitch, VHS scan lines, or a pulsing blur to images/videos.
+
+Why this file is standalone
+The file loads Reveal.js and highlight.js directly from a CDN, so it works from any location without relying on local dist/ or plugin/ paths.
+
+How the code works (short breakdown)
+• HTML: Buttons with data-fx attributes and media elements marked with class="fx-target".
+• CSS: Defines animations for glitch, VHS scanlines, and blur pulse.
+• JS:
+  - On button click, remove old effect classes and add the chosen one.
+  - For Glitch, a data-glitch-text attribute mirrors text for layered pseudo-elements.
+
+One-sentence explanation to say out loud
+“This demo uses CSS classes for effects like glitch, VHS, and blurpulse, toggled by buttons, and because it uses CDN links it works from anywhere.”

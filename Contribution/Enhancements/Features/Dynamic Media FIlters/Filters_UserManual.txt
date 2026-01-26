@@ -1,0 +1,14 @@
+Dynamic Media Filters — User Manual (CDN Version)
+
+Feature
+Sliders that apply CSS filters (blur, grayscale, hue, brightness, contrast) to an image in real time.
+
+How to Use
+1) Open this HTML file in a browser. It works anywhere because Reveal.js loads from CDN.
+2) Adjust the sliders under the image.
+3) The image updates instantly with the applied filters.
+
+Advantages
+• Demonstrates CSS filter effects interactively.
+• Helps explain image processing or visual design concepts.
+• CDN links ensure portability and no local setup needed.
