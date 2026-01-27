@@ -5,7 +5,7 @@ export default class Location {
 
 	// The minimum number of milliseconds that must pass between
 	// calls to history.replaceState
-	MAX_REPLACE_STATE_FREQUENCY = 1000
+	MAX_REPLACE_STATE_FREQUENCY = 300
 
 	constructor( Reveal ) {
 
