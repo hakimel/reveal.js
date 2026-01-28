@@ -1575,6 +1575,8 @@ export default function( revealElement, options ) {
 			overview.layout();
 		}
 
+		dispatchEvent({ type: 'sync' });
+
 	}
 
 	/**
@@ -2934,7 +2936,8 @@ export default function( revealElement, options ) {
 		layoutSlideContents,
 		transformSlides,
 		cueAutoSlide,
-		cancelAutoSlide
+		cancelAutoSlide,
+		removeHiddenSlides
 	} );
 
 	return API;
