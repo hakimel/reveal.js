@@ -29,7 +29,7 @@ reveal.js ${pkg.version}
 ${pkg.homepage}
 MIT licensed
 
-Copyright (C) 2011-2024 Hakim El Hattab, https://hakim.se
+Copyright (C) 2011-2026 Hakim El Hattab, https://hakim.se
 `;
 
 const jsLicense = `/*!
@@ -37,7 +37,7 @@ const jsLicense = `/*!
  * ${pkg.homepage}
  * MIT licensed
  *
- * Copyright (C) 2011-2024 Hakim El Hattab, https://hakim.se
+ * Copyright (C) 2011-2026 Hakim El Hattab, https://hakim.se
  */\n`;
 
 // Prevents warnings from opening too many test pages
