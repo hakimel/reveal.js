@@ -2883,6 +2883,9 @@ export default function( revealElement, options ) {
 		getComputedSlideSize,
 		setCurrentScrollPage,
 
+		// Allows for manually removign slides prior to reveal.js initialization
+		removeHiddenSlides,
+
 		// Returns the current scale of the presentation content
 		getScale: () => scale,
 
@@ -2936,8 +2939,7 @@ export default function( revealElement, options ) {
 		layoutSlideContents,
 		transformSlides,
 		cueAutoSlide,
-		cancelAutoSlide,
-		removeHiddenSlides
+		cancelAutoSlide
 	} );
 
 	return API;
