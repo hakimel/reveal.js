@@ -36,7 +36,14 @@ export default defineConfig({
 			'reveal.css': '/css/reveal.scss',
 		},
 	},
-	plugins: [dts({ insertTypesEntry: true, rollupTypes: true })],
+	plugins: [
+		dts({
+			insertTypesEntry: true,
+			rollupTypes: false,
+			exclude: ['**/index.ts'],
+			copyDtsFiles: true
+		}),
+	],
 	css: {
 		preprocessorOptions: {
 			scss: {

@@ -1,6 +1,21 @@
-export { }
+import { Config } from './config';
+export as namespace Reveal;
 
+export = Reveal;
 
+/**
+ * reveal.js - MIT licensed
+ *
+ * Copyright (C) 2011-2025 Hakim El Hattab, https://hakim.se
+ *
+ * @see {@link https://revealjs.com}
+ * @see {@link https://github.com/hakimel/reveal.js/blob/master/js/reveal.js}
+ * @see {@link https://revealjs.com/api/}
+ */
+declare const Reveal: {
+	new (options?: Config): Reveal.Api;
+	new (revealElement: HTMLElement, options?: Config): Reveal.Api;
+} & Reveal.Api;
 
 declare namespace Reveal {
 	/**
@@ -500,7 +515,7 @@ declare namespace Reveal {
 		 * @returns an array of objects where each object represents the
 		 * attributes on its respective slide.
 		 */
-		getSlidesAttributes(): any[];
+		getSlidesAttributes(): Record<string, string>[];
 
 		/**
 		 * Returns the number of past slides. This can be used as a global
@@ -527,7 +542,7 @@ declare namespace Reveal {
 		 *
 		 * @returns the slide element matching the specified index
 		 */
-		getSlide(x: number, y?: number): HTMLElement;
+		getSlide(x: number, y?: number): HTMLElement | undefined;
 
 		/**
 		 * Returns the previous slide element, may be null
@@ -761,10 +776,10 @@ declare namespace Reveal {
 		 * @param id - unique plugin identifier
 		 * @returns plugin instance
 		 */
-		getPlugin(id: string): Plugin;
+		getPlugin(id: string): Plugin | undefined;
 
 		/**
-		 * @returns array of plugin instances
+		 * @returns id:plugin hash of all plugins
 		 */
 		getPlugins(): { [id: string]: Plugin };
 	}
@@ -839,7 +854,7 @@ declare namespace Reveal {
 	 */
 	interface HighlightConfig {
 		highlightOnLoad?: boolean;
-		excapeHTML?: boolean;
+		escapeHTML?: boolean;
 		beforeHighlight?: (...args: any) => any;
 	}
 

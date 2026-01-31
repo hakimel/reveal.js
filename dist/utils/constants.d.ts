@@ -1,0 +1,10 @@
+export declare const SLIDES_SELECTOR = ".slides section";
+export declare const HORIZONTAL_SLIDES_SELECTOR = ".slides>section";
+export declare const VERTICAL_SLIDES_SELECTOR = ".slides>section.present>section";
+export declare const HORIZONTAL_BACKGROUNDS_SELECTOR = ".backgrounds>.slide-background";
+export declare const POST_MESSAGE_METHOD_BLACKLIST: RegExp;
+export declare const FRAGMENT_STYLE_REGEX: RegExp;
+export declare const SLIDE_NUMBER_FORMAT_HORIZONTAL_DOT_VERTICAL = "h.v";
+export declare const SLIDE_NUMBER_FORMAT_HORIZONTAL_SLASH_VERTICAL = "h/v";
+export declare const SLIDE_NUMBER_FORMAT_CURRENT = "c";
+export declare const SLIDE_NUMBER_FORMAT_CURRENT_SLASH_TOTAL = "c/t";
