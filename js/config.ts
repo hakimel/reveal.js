@@ -153,7 +153,7 @@ interface Config {
 	 *
 	 * @defaultValue true
 	 */
-	keyboard?: boolean;
+	keyboard?: boolean | { [keyCode: number]: string | ((event: KeyboardEvent) => void) };
 
 	/**
 	 * Optional function that blocks keyboard events when returning false
