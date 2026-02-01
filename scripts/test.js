@@ -1,20 +1,21 @@
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { dirname, resolve } from 'path';
 import { glob } from 'glob';
 import { runQunitPuppeteer, printFailedTests } from 'node-qunit-puppeteer';
 import { createServer } from 'vite';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+const root = resolve(__dirname, '..');
 
-const testFiles = glob.sync('test/*.html');
+const testFiles = glob.sync('test/*.html', { cwd: root });
 
 const combinedResults = { passed: 0, failed: 0, total: 0, runtime: 0 };
 
-// Create and start Vite server
+// Create and start Vite server (root = project root)
 const startServer = async () => {
 	const server = await createServer({
-		root: __dirname,
+		root,
 		server: {
 			port: 8009,
 		},

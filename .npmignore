@@ -1,5 +1,7 @@
 /test
+/scripts
 /examples
+/plugin
 .github
 .sass-cache
-gulpfile.js
+.codespellrc

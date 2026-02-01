@@ -13,6 +13,7 @@ export const appendExtension = (format: ModuleFormat, name: String): string => {
 
 export default defineConfig({
 	build: {
+		target: ['es2015'],
 		emptyOutDir: true,
 		lib: {
 			formats: ['es', 'umd'],

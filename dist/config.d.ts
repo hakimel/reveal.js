@@ -20,15 +20,12 @@ interface Config {
      */
     margin?: number;
     /**
-     * The minimum scale to shrink presentation content to in order to fit the
-     * available viewport.
+     * Bounds for smallest/largest possible scale to apply to content
      *
      * @defaultValue 0.2
      */
     minScale?: number;
     /**
-     * The maximum scale to expand presentation content to in order to fill the
-     * available viewport.
      *
      * @defaultValue 2.0
      */

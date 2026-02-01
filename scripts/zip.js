@@ -32,7 +32,7 @@ function switchToStaticScripts(htmlContent) {
 	// Clean up any remaining empty lines and trim
 	moduleCode = moduleCode.replace(/^\s*[\r\n]/gm, '').trim();
 
-	const scriptTags = scriptPaths.map((path) => `${indentation}<script src="${path}"></script>`);
+	const scriptTags = scriptPaths.map((scriptPath) => `${indentation}<script src="${scriptPath}"></script>`);
 	const replacement =
 		'\n\n' +
 		scriptTags.join('\n') +

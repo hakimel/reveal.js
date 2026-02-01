@@ -4,7 +4,7 @@ Themes are written using Sass to keep things modular and reduce the need for rep
 
 ## Creating a Theme
 
-To create your own theme, start by duplicating a `.scss` file in [/css/theme/source](https://github.com/hakimel/reveal.js/blob/master/css/theme/source). It will be automatically compiled from Sass to CSS (see the [gulpfile](https://github.com/hakimel/reveal.js/blob/master/gulpfile.js)) when you run `npm run build:styles`.
+To create your own theme, start by duplicating a `.scss` file in [css/theme](css/theme). It will be automatically compiled from Sass to CSS when you run `npm run build:styles` (see [vite.config.styles.ts](../../vite.config.styles.ts)).
 
 Each theme file follows the same structure:
 
