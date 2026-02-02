@@ -1,7 +1,14 @@
+/**
+ * Configuration object for reveal.js.
+ *
+ * @see {@link https://revealjs.com/config/}
+ */
 interface Config {
 	/**
 	 * The "normal" size of the presentation, aspect ratio will be preserved
 	 * when the presentation is scaled to fit different resolutions
+	 *
+	 * @see {@link https://revealjs.com/presentation-size/}
 	 *
 	 * @defaultValue 960
 	 */
@@ -10,6 +17,8 @@ interface Config {
 	/**
 	 * The "normal" size of the presentation, aspect ratio will be preserved
 	 * when the presentation is scaled to fit different resolutions
+	 *
+	 * @see {@link https://revealjs.com/presentation-size/}
 	 *
 	 * @defaultValue 700
 	 */
@@ -176,6 +185,8 @@ interface Config {
 	/**
 	 * Enable the slide overview mode
 	 *
+	 * @see {@link https://revealjs.com/overview/}
+	 *
 	 * @defaultValue true
 	 */
 	overview?: boolean;
@@ -247,6 +258,8 @@ interface Config {
 
 	/**
 	 * Turns fragments on and off globally
+	 *
+	 * @see {@link https://revealjs.com/fragments/}
 	 *
 	 * @defaultValue true
 	 */
@@ -327,6 +340,8 @@ interface Config {
 
 	/**
 	 * Can be used to globally disable auto-animation
+	 *
+	 * @see {@link https://revealjs.com/auto-animate/}
 	 *
 	 * @defaultValue true
 	 */
@@ -445,6 +460,8 @@ interface Config {
 	/**
 	 * Transition style
 	 *
+	 * @see {@link https://revealjs.com/transitions/}
+	 *
 	 * @defaultValue 'slide'
 	 */
 	transition?: 'none' | 'fade' | 'slide' | 'convex' | 'concave' | 'zoom';
@@ -508,6 +525,8 @@ interface Config {
 	 * - print:   Render the presentation so that it can be printed to PDF
 	 * - scroll:  Show the presentation as a tall scrollable page with scroll
 	 *            triggered animations
+	 *
+	 * @see {@link https://revealjs.com/scroll-view/}
 	 *
 	 * @defaultValue null
 	 */
