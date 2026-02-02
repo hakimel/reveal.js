@@ -36,7 +36,7 @@ export const VERSION = '6.0.0-rc.2';
  * https://revealjs.com
  * MIT licensed
  *
- * Copyright (C) 2011-2022 Hakim El Hattab, https://hakim.se
+ * Copyright (C) 2011-2026 Hakim El Hattab, https://hakim.se
  */
 export default function( revealElement, options ) {
 
@@ -1575,6 +1575,8 @@ export default function( revealElement, options ) {
 			overview.layout();
 		}
 
+		dispatchEvent({ type: 'sync' });
+
 	}
 
 	/**
@@ -2880,6 +2882,9 @@ export default function( revealElement, options ) {
 
 		getComputedSlideSize,
 		setCurrentScrollPage,
+
+		// Allows for manually removign slides prior to reveal.js initialization
+		removeHiddenSlides,
 
 		// Returns the current scale of the presentation content
 		getScale: () => scale,
