@@ -1,0 +1,8 @@
+[package]
+name = "slide-template"
+version = "0.1.0"
+entrypoint = "main.typ"
+authors = ["Your Name"]
+
+[tool.typst]
+root = "."

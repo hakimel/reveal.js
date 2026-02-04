@@ -1,0 +1,114 @@
+@article{cropper_learning_2021,
+    title = {Learning programs by learning from failures},
+    volume = {110},
+    issn = {0885-6125, 1573-0565},
+    url = {https://link.springer.com/10.1007/s10994-020-05934-z},
+    doi = {10.1007/s10994-020-05934-z},
+    abstract = {We describe an inductive logic programming ({ILP}) approach
+                called learning from failures. In this approach, an {ILP} system
+                (the learner) decomposes the learning problem into three separate
+                stages: generate, test, and constrain. In the generate stage, the
+                learner generates a hypothesis (a logic program) that satisﬁes a
+                set of hypothesis constraints (constraints on the syntactic form
+                of hypotheses). In the test stage, the learner tests the
+                hypothesis against training examples. A hypothesis fails when it
+                does not entail all the positive examples or entails a negative
+                example. If a hypothesis fails, then, in the constrain stage, the
+                learner learns constraints from the failed hypothesis to prune
+                the hypothesis space, i.e. to constrain subsequent hypothesis
+                generation. For instance, if a hypothesis is too general (entails
+                a negative example), the constraints prune generalisations of the
+                hypothesis. If a hypothesis is too speciﬁc (does not entail all
+                the positive examples), the constraints prune specialisations of
+                the hypothesis. This loop repeats until either (i) the learner
+                ﬁnds a hypothesis that entails all the positive and none of the
+                negative examples, or (ii) there are no more hypotheses to test.
+                We introduce Popper, an {ILP} system that implements this
+                approach by combining answer set programming and Prolog. Popper
+                supports inﬁnite problem domains, reasoning about lists and
+                numbers, learning textually minimal programs, and learning
+                recursive programs. Our experimental results on three domains
+                (toy game problems, robot strategies, and list transformations)
+                show that (i) constraints drastically improve learning
+                performance, and (ii) Popper can outperform existing {ILP}
+                systems, both in terms of predictive accuracies and learning
+                times.},
+    pages = {801--856},
+    number = {4},
+    journaltitle = {Machine Learning},
+    shortjournal = {Mach Learn},
+    author = {Cropper, Andrew and Morel, Rolf},
+    urldate = {2026-02-02},
+    date = {2021-04},
+    langid = {english},
+    keywords = {/unread, inductive-logic-programming},
+    file = {PDF:/Users/anton/Zotero/storage/UVIZ4EV9/Cropper and Morel - 2021 -
+            Learning programs by learning from failures.pdf:application/pdf},
+}
+
+
+@article{cerna_generalisation_2024,
+    title = {Generalisation Through Negation and Predicate Invention},
+    volume = {38},
+    issn = {2374-3468, 2159-5399},
+    url = {http://arxiv.org/abs/2301.07629},
+    doi = {10.1609/aaai.v38i9.28915},
+    abstract = {The ability to generalise from a small number of examples is a
+                fundamental challenge in machine learning. To tackle this
+                challenge, we introduce an inductive logic programming ({ILP})
+                approach that combines negation and predicate invention.
+                Combining these two features allows an {ILP} system to generalise
+                better by learning rules with universally quantified body-only
+                variables. We implement our idea in {NOPI}, which can learn
+                normal logic programs with predicate invention, including Datalog
+                programs with stratified negation. Our experimental results on
+                multiple domains show that our approach can improve predictive
+                accuracies and learning times.},
+    pages = {10467--10475},
+    number = {9},
+    journaltitle = {Proceedings of the {AAAI} Conference on Artificial
+                    Intelligence},
+    shortjournal = {{AAAI}},
+    author = {Cerna, David M. and Cropper, Andrew},
+    urldate = {2025-09-24},
+    date = {2024-03-24},
+    langid = {english},
+    eprinttype = {arxiv},
+    eprint = {2301.07629 [cs]},
+    keywords = {Computer Science - Artificial Intelligence,
+                inductive-logic-programming},
+    file = {PDF:/Users/anton/Zotero/storage/CEE2JBLW/Cerna and Cropper - 2024 -
+            Generalisation Through Negation and Predicate
+            Invention.pdf:application/pdf},
+}
+
+
+@misc{cropper_inductive_2022,
+    title = {Inductive logic programming at 30: a new introduction},
+    url = {http://arxiv.org/abs/2008.07912},
+    doi = {10.48550/arXiv.2008.07912},
+    shorttitle = {Inductive logic programming at 30},
+    abstract = {Inductive logic programming ({ILP}) is a form of machine
+                learning. The goal of {ILP} is to induce a hypothesis (a set of
+                logical rules) that generalises training examples. As {ILP} turns
+                30, we provide a new introduction to the ﬁeld. We introduce the
+                necessary logical notation and the main learning settings;
+                describe the building blocks of an {ILP} system; compare several
+                systems on several dimensions; describe four systems (Aleph, {
+                TILDE}, {ASPAL}, and Metagol); highlight key application areas;
+                and, ﬁnally, summarise current limitations and directions for
+                future research.},
+    number = {{arXiv}:2008.07912},
+    publisher = {{arXiv}},
+    author = {Cropper, Andrew and Dumančić, Sebastijan},
+    urldate = {2025-09-24},
+    date = {2022-03-22},
+    langid = {english},
+    eprinttype = {arxiv},
+    eprint = {2008.07912 [cs]},
+    keywords = {Computer Science - Artificial Intelligence, Computer Science -
+                Machine Learning, inductive-logic-programming},
+    file = {PDF:/Users/anton/Zotero/storage/EMP2FCPA/Cropper and Dumančić - 2022
+            - Inductive logic programming at 30 a new
+            introduction.pdf:application/pdf},
+}
