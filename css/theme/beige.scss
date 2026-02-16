@@ -1,0 +1,58 @@
+/**
+ * Beige theme for reveal.js.
+ *
+ * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ */
+
+// Load utils
+@use 'sass:color';
+@use 'template/mixins' as mixins;
+
+$active-color: #8b743d;
+
+// Inject theme variables (with some overrides)
+@use 'template/settings' with (
+	$background-color: #f7f3de,
+	$background: radial-gradient(rgba(255, 255, 255, 1), rgba(247, 242, 211, 1)),
+	$main-font: "'Source Sans Pro', Helvetica, sans-serif",
+	$main-font-size: 42px,
+	$main-color: #333,
+
+	$heading-color: #333,
+	$heading-font: "'Source Sans Pro', Helvetica, sans-serif",
+	$heading-font-weight: 600,
+
+	$heading1-text-shadow: #{0 1px 0 #ccc,
+	0 2px 0 #c9c9c9,
+	0 3px 0 #bbb,
+	0 4px 0 #b9b9b9,
+	0 5px 0 #aaa,
+	0 6px 1px rgba(0, 0, 0, 0.1),
+	0 0 5px rgba(0, 0, 0, 0.1),
+	0 1px 3px rgba(0, 0, 0, 0.3),
+	0 3px 5px rgba(0, 0, 0, 0.2),
+	0 5px 10px rgba(0, 0, 0, 0.25),
+	0 20px 20px rgba(0, 0, 0, 0.15)},
+
+	$heading1-size: 2.5em,
+	$heading2-size: 1.6em,
+	$heading3-size: 1.3em,
+	$heading4-size: 1em,
+
+	$link-color: $active-color,
+	$link-color-hover: color.scale($active-color, $lightness: 20%),
+	$selection-color: #333,
+	$selection-background-color: color.scale($active-color, $lightness: 35%),
+	$overlay-element-bg-color: '0 0 0',
+	$overlay-element-fg-color: '240 240 240'
+);
+
+// Inject the theme template
+@use 'template/theme';
+
+// Include theme-specific fonts
+@import url('./fonts/league-gothic/league-gothic.css');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic');
+
+// Change text colors against light slide backgrounds
+@include mixins.dark-bg-text-color(#fff);

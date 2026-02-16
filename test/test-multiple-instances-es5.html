@@ -5,10 +5,6 @@
 		<meta charset="utf-8">
 
 		<title>reveal.js - Test Iframes</title>
-
-		<link rel="stylesheet" href="../dist/reveal.css">
-		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
-		<script src="../node_modules/qunit/qunit/qunit.js"></script>
 	</head>
 
 	<body style="overflow: auto;">
@@ -36,9 +32,12 @@
 			</div>
 		</div>
 
-		<script src="../dist/reveal.js"></script>
-		<script src="../plugin/zoom/zoom.js"></script>
-		<script>
+		<script type="module">
+			import 'reveal.css';
+			import 'qunit/qunit/qunit.css';
+			import QUnit from 'qunit';
+			import Reveal from 'reveal.js';
+			import RevealZoom from 'reveal.js/plugin/zoom';
 
 			QUnit.config.testTimeout = 30000;
 			QUnit.module( 'Multiple reveal.js instances' );

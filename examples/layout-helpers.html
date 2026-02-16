@@ -1,24 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 	<head>
-		<meta charset="utf-8">
+		<meta charset="utf-8" />
 
 		<title>reveal.js - Layout Helpers</title>
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
 
-		<link rel="stylesheet" href="../dist/reveal.css">
-		<link rel="stylesheet" href="../dist/theme/white.css" id="theme">
-		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+		<link rel="stylesheet" href="../dist/reveal.css" />
+		<link rel="stylesheet" href="../dist/theme/white.css" id="theme" />
+		<link rel="stylesheet" href="../dist/plugin/highlight/monokai.css" />
 	</head>
 
 	<body>
-
 		<div class="reveal">
-
 			<div class="slides">
-
 				<section>
 					<h2>Layout Helper Examples</h2>
 					<ul>
@@ -59,7 +58,7 @@
 
 				<section>
 					<h2>Stretch Example</h2>
-					<img src="assets/image2.png" class="r-stretch">
+					<img src="assets/image2.png" class="r-stretch" />
 					<p>Image byline</p>
 				</section>
 
@@ -84,9 +83,9 @@
 						<p class="fragment fade-in-then-out">Four</p>
 					</div>
 					<div class="r-stack">
-						<img src="https://placekitten.com/450/300" width="450" height="300" class="fragment">
-						<img src="https://placekitten.com/300/450" width="300" height="450" class="fragment">
-						<img src="https://placekitten.com/400/400" width="400" height="400" class="fragment">
+						<img src="https://placekitten.com/450/300" width="450" height="300" class="fragment" />
+						<img src="https://placekitten.com/300/450" width="300" height="450" class="fragment" />
+						<img src="https://placekitten.com/400/400" width="400" height="400" class="fragment" />
 					</div>
 				</section>
 
@@ -94,9 +93,24 @@
 					<h2>Stack Example</h2>
 					<p>fade-in-then-out fragments</p>
 					<div class="r-stack">
-						<img src="https://placekitten.com/450/300" width="450" height="300" class="fragment fade-in-then-out">
-						<img src="https://placekitten.com/300/450" width="300" height="450" class="fragment fade-in-then-out">
-						<img src="https://placekitten.com/400/400" width="400" height="400" class="fragment fade-in-then-out">
+						<img
+							src="https://placekitten.com/450/300"
+							width="450"
+							height="300"
+							class="fragment fade-in-then-out"
+						/>
+						<img
+							src="https://placekitten.com/300/450"
+							width="300"
+							height="450"
+							class="fragment fade-in-then-out"
+						/>
+						<img
+							src="https://placekitten.com/400/400"
+							width="400"
+							height="400"
+							class="fragment fade-in-then-out"
+						/>
 					</div>
 				</section>
 
@@ -115,9 +129,9 @@
 				<section data-auto-animate>
 					<h2>HStack Example</h2>
 					<div class="r-hstack">
-						<p style="padding: 0.50em; background: #eee; margin: 0.25em">One</p>
+						<p style="padding: 0.5em; background: #eee; margin: 0.25em">One</p>
 						<p style="padding: 0.75em; background: #eee; margin: 0.25em">Two</p>
-						<p style="padding: 1.00em; background: #eee; margin: 0.25em">Three</p>
+						<p style="padding: 1em; background: #eee; margin: 0.25em">Three</p>
 					</div>
 				</section>
 
@@ -136,25 +150,22 @@
 				<section data-auto-animate>
 					<h2>VStack Example</h2>
 					<div class="r-vstack">
-						<p style="padding: 0.50em; background: #eee; margin: 0.25em">One</p>
+						<p style="padding: 0.5em; background: #eee; margin: 0.25em">One</p>
 						<p style="padding: 0.75em; background: #eee; margin: 0.25em">Two</p>
-						<p style="padding: 1.00em; background: #eee; margin: 0.25em">Three</p>
+						<p style="padding: 1em; background: #eee; margin: 0.25em">Three</p>
 					</div>
 				</section>
-
 			</div>
-
 		</div>
 
 		<script src="../dist/reveal.js"></script>
-		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../dist/plugin/highlight.js"></script>
 		<script>
 			Reveal.initialize({
 				center: true,
 				hash: true,
-				plugins: [ RevealHighlight ]
+				plugins: [RevealHighlight],
 			});
 		</script>
-
 	</body>
 </html>

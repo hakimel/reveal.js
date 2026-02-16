@@ -1,0 +1,96 @@
+/**
+ * Dracula Dark theme for reveal.js.
+ * Based on https://draculatheme.com
+ */
+
+// Load utils
+@use 'sass:color';
+@use 'template/mixins' as mixins;
+
+// Include theme-specific fonts
+$systemFontsSansSerif: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui,
+	helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+$systemFontsMono: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+
+$background: #282a36;
+$foreground: #f8f8f2;
+$selection: #44475a;
+$comment: #6272a4;
+$red: #ff5555;
+$orange: #ffb86c;
+$yellow: #f1fa8c;
+$green: #50fa7b;
+$purple: #bd93f9;
+$cyan: #8be9fd;
+$pink: #ff79c6;
+
+$mainFont: $systemFontsSansSerif;
+$codeFont: 'Fira Code', $systemFontsMono;
+
+// Inject theme variables (with some overrides)
+@use 'template/settings' with (
+	$background-color: #191919,
+
+	$main-font: $mainFont,
+	$main-font-size: 42px,
+	$main-color: $foreground,
+
+	$code-font: $codeFont,
+
+	$heading-color: $purple,
+	$heading-font: $mainFont,
+	$heading-font-weight: 600,
+	$heading-text-transform: none,
+
+	$heading1-size: 2.5em,
+	$heading2-size: 1.6em,
+	$heading3-size: 1.3em,
+	$heading4-size: 1em,
+
+	$link-color: $pink,
+	$link-color-hover: $cyan,
+
+	$selection-color: #fff,
+	$selection-background-color: $selection
+);
+
+// Inject the theme template
+@use 'template/theme';
+
+// Change text colors against light slide backgrounds
+@include mixins.light-bg-text-color($background);
+
+// Define additional color effects based on Dracula spec
+// https://spec.draculatheme.com/
+:root {
+	--r-bold-color: #{$orange};
+	--r-italic-color: #{$yellow};
+	--r-inline-code-color: #{$green};
+	--r-list-bullet-color: #{$cyan};
+}
+
+/**
+ * Dracula colors by Zeno Rocha
+ * https://draculatheme.com/contribute
+ */
+.reveal {
+	strong,
+	b {
+		color: var(--r-bold-color);
+	}
+	em,
+	i,
+	blockquote {
+		color: var(--r-italic-color);
+	}
+	code {
+		color: var(--r-inline-code-color);
+	}
+	// Dracula colored list bullets and numbers
+	ul,
+	ol {
+		li::marker {
+			color: var(--r-list-bullet-color);
+		}
+	}
+}
