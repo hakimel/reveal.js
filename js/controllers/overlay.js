@@ -348,7 +348,9 @@ export default class Overlay {
 				// Let the browser handle meta keys naturally so users can cmd+click
 				return;
 			}
-			let url = linkTarget.getAttribute( 'href' ) || linkTarget.getAttribute( 'data-preview-link' );
+			const dataPreviewLink = linkTarget.getAttribute( 'data-preview-link' );
+			const dataPreviewLinkIsUrl = typeof dataPreviewLink === 'string' && dataPreviewLink.startsWith( 'http' );
+			let url = dataPreviewLinkIsUrl ? dataPreviewLink : linkTarget.getAttribute( 'href' );
 			if( url ) {
 				this.previewIframe( url );
 				event.preventDefault();
