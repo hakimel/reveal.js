@@ -18,7 +18,7 @@ export default {
 	// Display presentation control arrows.
 	// - true: Display controls on all screens
 	// - false: Hide controls on all screens
-	// - "speaker-only": Only display controls in the speaker view
+	// - "speaker": Only display controls in the speaker view
 	controls: true,
 
 	// Help the user learn the controls by providing hints, for example by
