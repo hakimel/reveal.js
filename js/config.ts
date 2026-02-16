@@ -27,18 +27,27 @@ interface Config {
 	/**
 	 * Factor of the display size that should remain empty around the content
 	 *
+	 * @see {@link https://revealjs.com/presentation-size/}
+	 *
 	 * @defaultValue 0.04
 	 */
 	margin?: number;
 
 	/**
-	 * Bounds for smallest/largest possible scale to apply to content
+	 * The smallest possible factor to scale content down by in order to fit
+	 * the available viewport.
+	 *
+	 * @see {@link https://revealjs.com/presentation-size/}
 	 *
 	 * @defaultValue 0.2
 	 */
 	minScale?: number;
 
 	/**
+	 * The largest possible factor to scale content up by in order to cover
+	 * the available viewport.
+	 *
+	 * @see {@link https://revealjs.com/presentation-size/}
 	 *
 	 * @defaultValue 2.0
 	 */

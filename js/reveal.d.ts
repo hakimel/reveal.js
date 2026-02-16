@@ -11,7 +11,7 @@ export = Reveal;
 /**
  * reveal.js - MIT licensed
  *
- * Copyright (C) 2011-2025 Hakim El Hattab, https://hakim.se
+ * Copyright (C) 2011-2026 Hakim El Hattab, https://hakim.se
  *
  * @see {@link https://revealjs.com}
  * @see {@link https://github.com/hakimel/reveal.js/blob/master/js/reveal.js}
@@ -106,28 +106,28 @@ declare namespace Reveal {
 		): void;
 
 		/**
-		 * Navigate to the left slide
+		 * Navigate one step to the left
 		 *
 		 * @param params see {@link NavigateParams}
 		 */
 		left: NavigationFunction;
 
 		/**
-		 * Navigate to the right slide
+		 * Navigate one step to the right
 		 *
 		 * @param params see {@link NavigateParams}
 		 */
 		right: NavigationFunction;
 
 		/**
-		 * Navigate to the above slide
+		 * Navigate one step up
 		 *
 		 * @param params see {@link NavigateParams}
 		 */
 		up: NavigationFunction;
 
 		/**
-		 * Navigate to the below slide
+		 * Navigate one step down
 		 *
 		 * @param params see {@link NavigateParams}
 		 */
@@ -382,7 +382,7 @@ declare namespace Reveal {
 		isFocused(): boolean;
 
 		/**
-		 * Checks if this instance is being used to print a PDF.
+		 * Checks if this reveal.js instance is being used to print a PDF.
 		 *
 		 * @returns true if being used to print a PDF, false otherwise
 		 */
@@ -889,6 +889,26 @@ declare namespace Reveal {
 		indexf: number;
 		paused: boolean;
 		overview: boolean;
+
+		/**
+		 * URL of an iframe being previewed
+		 */
+		previewIframe?: string;
+
+		/**
+		 * URL of an image being previewed
+		 */
+		previewImage?: string;
+
+		/**
+		 * URL of a video being previewed
+		 */
+		previewVideo?: string;
+
+		/**
+		 * Fit mode of the previewed media
+		 */
+		previewFit?: 'none' | 'scale-down' | 'contain' | 'cover';
 	}
 
 	// NOTE: it is possible to extend type definitions depend on the plugin
