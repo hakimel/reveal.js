@@ -341,6 +341,11 @@ const Plugin = () => {
 	 */
 	function addAttributes( section, element, previousElement, separatorElementAttributes, separatorSectionAttributes ) {
 
+		// Inline HTML elements that should not be targeted by .element attribute
+		// comments; when a comment follows one of these as a sibling, the
+		// attribute should be applied to the parent block element instead.
+		const INLINE_TAGS = /^(A|ABBR|B|BDI|BDO|BR|CITE|CODE|DATA|DFN|EM|I|KBD|MARK|Q|RP|RT|RTC|RUBY|S|SAMP|SMALL|SPAN|STRONG|SUB|SUP|TIME|U|VAR|WBR)$/;
+
 		if ( element !== null && element.childNodes !== undefined && element.childNodes.length > 0 ) {
 			let previousParentElement = element;
 			for( let i = 0; i < element.childNodes.length; i++ ) {
@@ -349,7 +354,7 @@ const Plugin = () => {
 					let j = i - 1;
 					while ( j >= 0 ) {
 						const aPreviousChildElement = element.childNodes[j];
-						if ( typeof aPreviousChildElement.setAttribute === 'function' && aPreviousChildElement.tagName !== "BR" ) {
+						if ( typeof aPreviousChildElement.setAttribute === 'function' && aPreviousChildElement.tagName !== "BR" && !INLINE_TAGS.test( aPreviousChildElement.tagName ) ) {
 							previousParentElement = aPreviousChildElement;
 							break;
 						}
