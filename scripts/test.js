@@ -17,19 +17,21 @@ const startServer = async () => {
 	const server = await createServer({
 		root,
 		server: {
-			port: 8009,
+			port: 8009
 		},
 	});
 	await server.listen();
-	return server;
+
+	const baseUrl = server.resolvedUrls?.local?.[0] || 'http://127.0.0.1:8009/';
+	return { server, baseUrl };
 };
 
 // Run tests
-const runTests = async (server) => {
+const runTests = async (baseUrl) => {
 	await Promise.all(
 		testFiles.map(async (file) => {
 			const qunitArgs = {
-				targetUrl: `http://localhost:8009/${file}`,
+				targetUrl: new URL(file, baseUrl).href,
 				timeout: 30000,
 				redirectConsole: false,
 				puppeteerArgs: ['--allow-file-access-from-files'],
@@ -66,18 +68,24 @@ const runTests = async (server) => {
 		`\n${combinedResults.passed}/${combinedResults.total} tests passed, ${combinedResults.failed} failed, ${combinedResults.runtime}ms runtime`
 	);
 
-	// Exit with status code 1 if any tests failed, otherwise exit with 0
-	process.exit(combinedResults.failed > 0 ? 1 : 0);
+	return combinedResults.failed > 0 ? 1 : 0;
 };
 
 // Main execution
 (async () => {
+	let server;
+
 	try {
-		const server = await startServer();
-		await runTests(server);
-		await server.close();
+		const startedServer = await startServer();
+		server = startedServer.server;
+
+		process.exitCode = await runTests(startedServer.baseUrl);
 	} catch (error) {
 		console.error('An error occurred:', error);
-		process.exit(1);
+		process.exitCode = 1;
+	} finally {
+		if (server) {
+			await server.close();
+		}
 	}
 })();
