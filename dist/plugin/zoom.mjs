@@ -1,6 +1,3 @@
-/*!
- * reveal.js Zoom plugin
- */
 const c = {
   id: "zoom",
   init: function(n) {
@@ -18,14 +15,7 @@ const c = {
     r.reset();
   }
 }, h = () => c;
-/*!
- * zoom.js 0.3 (modified for use with reveal.js)
- * http://lab.hakim.se/zoom-js
- * MIT licensed
- *
- * Copyright (C) 2011-2014 Hakim El Hattab, http://hakim.se
- */
-var r = function() {
+var r = (function() {
   var n = 1, o = 0, l = 0, f = -1, m = -1, u = "transform" in document.body.style;
   u && (document.body.style.transition = "transform 0.8s ease"), document.addEventListener("keyup", function(e) {
     n !== 1 && e.keyCode === 27 && r.out();
@@ -96,7 +86,7 @@ var r = function() {
       return n;
     }
   };
-}();
+})();
 export {
   h as default
 };

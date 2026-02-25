@@ -3,10 +3,14 @@ export as namespace Reveal;
 
 export = Reveal;
 
+// The type definitions in this file are adapted from those
+// originally created by the community on DefinitelyTyped:
+// https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/reveal.js
+
 /**
  * reveal.js - MIT licensed
  *
- * Copyright (C) 2011-2025 Hakim El Hattab, https://hakim.se
+ * Copyright (C) 2011-2026 Hakim El Hattab, https://hakim.se
  *
  * @see {@link https://revealjs.com}
  * @see {@link https://github.com/hakimel/reveal.js/blob/master/js/reveal.js}
@@ -83,11 +87,13 @@ declare namespace Reveal {
 		 */
 		syncFragments(slide: HTMLElement): HTMLElement[];
 
-		// Navigation methods
+		/**
+		 * Removes hidden slides (data-visibility="hidden") from the DOM.
+		 * This happens automatically when reveal.js initialized, so only
+		 * call this to remove hidden slides before initialization.
+		 */
+		removeHiddenSlides(): void;
 
-		//     TODO: this type definition may not be correct as the
-		// optional parameters are placed before the required parameters
-		// see https://github.com/hakimel/reveal.js/blob/master/js/reveal.js#L1234
 		/**
 		 * Steps from the current point in the presentation to the
 		 * slide which matches the specified horizontal and vertical
@@ -106,28 +112,28 @@ declare namespace Reveal {
 		): void;
 
 		/**
-		 * Navigate to the left slide
+		 * Navigate one step to the left
 		 *
 		 * @param params see {@link NavigateParams}
 		 */
 		left: NavigationFunction;
 
 		/**
-		 * Navigate to the right slide
+		 * Navigate one step to the right
 		 *
 		 * @param params see {@link NavigateParams}
 		 */
 		right: NavigationFunction;
 
 		/**
-		 * Navigate to the above slide
+		 * Navigate one step up
 		 *
 		 * @param params see {@link NavigateParams}
 		 */
 		up: NavigationFunction;
 
 		/**
-		 * Navigate to the below slide
+		 * Navigate one step down
 		 *
 		 * @param params see {@link NavigateParams}
 		 */
@@ -185,8 +191,6 @@ declare namespace Reveal {
 		 */
 		navigateNext: NavigationFunction;
 
-		// Fragment methods
-
 		/**
 		 * Navigate to the specified slide fragment.
 		 *
@@ -216,8 +220,6 @@ declare namespace Reveal {
 		 */
 		nextFragment(): boolean;
 
-		// TODO - These functions are used for handling custom events defined by reveal.js on the `revealElement`.
-		// The `dispatchEvent` function can help finding the correct event names, but library users can dispatch any synthetic events.
 		/**
 		 * Adds a listener to one of our custom reveal.js events,
 		 * like slidechanged.
@@ -328,8 +330,6 @@ declare namespace Reveal {
 		 */
 		toggleAutoSlide(override?: boolean): void;
 
-		// Slide navigation checks
-
 		/**
 		 * @returns true if we're currently on the first slide in
 		 * the presentation.
@@ -358,8 +358,6 @@ declare namespace Reveal {
 		 * @return true if the current or specified slide is vertical
 		 */
 		isVerticalSlide(slide?: HTMLElement): boolean;
-
-		// State checks
 
 		/**
 		 * @returns true if we are currently in the paused mode.
@@ -390,7 +388,7 @@ declare namespace Reveal {
 		isFocused(): boolean;
 
 		/**
-		 * Checks if this instance is being used to print a PDF.
+		 * Checks if this reveal.js instance is being used to print a PDF.
 		 *
 		 * @returns true if being used to print a PDF, false otherwise
 		 */
@@ -402,8 +400,6 @@ declare namespace Reveal {
 		 * @returns true if reveal.js is ready for use, false otherwise
 		 */
 		isReady(): boolean;
-
-		// Slide preloading
 
 		/**
 		 * Called when the given slide is within the configured view
@@ -422,8 +418,6 @@ declare namespace Reveal {
 		 */
 		unloadSlide(slide: HTMLElement): void;
 
-		// Preview management
-
 		/**
 		 * Opens a preview window for the target URL.
 		 *
@@ -435,8 +429,6 @@ declare namespace Reveal {
 		 * Closes any currently open overlay.
 		 */
 		hidePreview(): void;
-
-		// Adds or removes all internal event listeners
 
 		/**
 		 * Binds all internal event listeners.
@@ -464,8 +456,6 @@ declare namespace Reveal {
 			data: any;
 			bubbles?: boolean;
 		}): Event;
-
-		// Facility for persisting and restoring the presentation state
 
 		/**
 		 * Retrieves the current state of the presentation as
@@ -504,9 +494,6 @@ declare namespace Reveal {
 		 * or specified, slide. {h, v, f}
 		 */
 		getIndices(slide?: HTMLElement): { h: number; v: number; f: number };
-
-		// Returns an Array of key:value maps of the attributes of each
-		// slide in the deck
 
 		/**
 		 * Returns an array of objects where each object represents the
@@ -616,9 +603,6 @@ declare namespace Reveal {
 		 */
 		getVerticalSlides(): HTMLElement[];
 
-		// Checks if the presentation contains two or more horizontal
-		// and vertical slides
-
 		/**
 		 * Returns true if there are at least two horizontal slides.
 		 *
@@ -648,8 +632,6 @@ declare namespace Reveal {
 		 * at least once
 		 */
 		hasNavigatedVertically(): boolean;
-
-		// Custom keyboard bindings
 
 		/**
 		 * Add a custom key binding with optional description to
@@ -747,8 +729,6 @@ declare namespace Reveal {
 		 * @returns reveal.js DOM element
 		 */
 		getBackgroundsElement(): HTMLDivElement | undefined;
-
-		// API for registering and retrieving plugins
 
 		/**
 		 * Registers a new plugin with this reveal.js instance.
@@ -915,6 +895,26 @@ declare namespace Reveal {
 		indexf: number;
 		paused: boolean;
 		overview: boolean;
+
+		/**
+		 * URL of an iframe being previewed
+		 */
+		previewIframe?: string;
+
+		/**
+		 * URL of an image being previewed
+		 */
+		previewImage?: string;
+
+		/**
+		 * URL of a video being previewed
+		 */
+		previewVideo?: string;
+
+		/**
+		 * Fit mode of the previewed media
+		 */
+		previewFit?: 'none' | 'scale-down' | 'contain' | 'cover';
 	}
 
 	// NOTE: it is possible to extend type definitions depend on the plugin

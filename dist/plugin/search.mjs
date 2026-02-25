@@ -1,21 +1,9 @@
-/*!
- * Handles finding a text string anywhere in the slides and showing the next occurrence to the user
- * by navigatating to that slide and highlighting it.
- *
- * @author Jon Snyder <snyder.jon@gmail.com>, February 2013
- */
 const D = () => {
   let c, t, l, n, a, y, s;
   function g() {
     t = document.createElement("div"), t.classList.add("searchbox"), t.style.position = "absolute", t.style.top = "10px", t.style.right = "10px", t.style.zIndex = 10, t.innerHTML = `<input type="search" class="searchinput" placeholder="Search..." style="vertical-align: top;"/>
 		</span>`, l = t.querySelector(".searchinput"), l.style.width = "240px", l.style.fontSize = "14px", l.style.padding = "4px 6px", l.style.color = "#000", l.style.background = "#fff", l.style.borderRadius = "2px", l.style.border = "0", l.style.outline = "0", l.style.boxShadow = "0 2px 18px rgba(0, 0, 0, 0.2)", l.style["-webkit-appearance"] = "none", c.getRevealElement().appendChild(t), l.addEventListener("keyup", function(r) {
-      switch (r.keyCode) {
-        case 13:
-          r.preventDefault(), k(), y = !1;
-          break;
-        default:
-          y = !0;
-      }
+      r.keyCode === 13 ? (r.preventDefault(), k(), y = !1) : y = !0;
     }, !1), v();
   }
   function w() {

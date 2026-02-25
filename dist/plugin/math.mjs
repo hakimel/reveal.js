@@ -143,10 +143,6 @@ const M = () => {
     }
   };
 }, S = x;
-/*!
- * This plugin is a wrapper for the MathJax2,
- * MathJax3, MathJax4 and KaTeX typesetter plugins.
- */
 const $ = Plugin = Object.assign(S(), {
   KaTeX: M,
   MathJax2: x,

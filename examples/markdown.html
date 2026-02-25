@@ -134,7 +134,19 @@
 					\dot{y} &amp; = \rho x - y - xz \\
 					\dot{z} &amp; = -\beta z + xy
 					\end{aligned} \]`
-                </section>
+        </section>
+
+				<!-- Smartypants -->
+				<section data-markdown>
+					Turn quotation marks into "curly" 'quotes' with smartypants.
+					```javascript
+					Reveal.initialize({
+						markdown: {
+							smartypants: true,
+						},
+					});
+					```
+				</section>
 			</div>
 		</div>
 
@@ -151,6 +163,10 @@
 				progress: true,
 				history: true,
 				center: true,
+
+				markdown: {
+					smartypants: true,
+				},
 
 				plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX],
 			});

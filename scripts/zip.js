@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import JSZip from 'jszip';
-import { glob } from 'glob';
+import { globSync } from 'glob';
 
 function switchToStaticScripts(htmlContent) {
 	// Look for the module script block and capture indentation
@@ -91,7 +91,7 @@ async function main() {
 	zip.file(htmlFileName, htmlContent);
 
 	for (const pattern of filesToInclude) {
-		const files = glob.sync(pattern, {
+		const files = globSync(pattern, {
 			nodir: true,
 			dot: false,
 			ignore: ['./examples/**', './test/**'],

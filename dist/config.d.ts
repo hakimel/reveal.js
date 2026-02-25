@@ -1,7 +1,14 @@
+/**
+ * Configuration object for reveal.js.
+ *
+ * @see {@link https://revealjs.com/config/}
+ */
 interface Config {
     /**
      * The "normal" size of the presentation, aspect ratio will be preserved
      * when the presentation is scaled to fit different resolutions
+     *
+     * @see {@link https://revealjs.com/presentation-size/}
      *
      * @defaultValue 960
      */
@@ -10,22 +17,33 @@ interface Config {
      * The "normal" size of the presentation, aspect ratio will be preserved
      * when the presentation is scaled to fit different resolutions
      *
+     * @see {@link https://revealjs.com/presentation-size/}
+     *
      * @defaultValue 700
      */
     height?: number | string;
     /**
      * Factor of the display size that should remain empty around the content
      *
+     * @see {@link https://revealjs.com/presentation-size/}
+     *
      * @defaultValue 0.04
      */
     margin?: number;
     /**
-     * Bounds for smallest/largest possible scale to apply to content
+     * The smallest possible factor to scale content down by in order to fit
+     * the available viewport.
+     *
+     * @see {@link https://revealjs.com/presentation-size/}
      *
      * @defaultValue 0.2
      */
     minScale?: number;
     /**
+     * The largest possible factor to scale content up by in order to cover
+     * the available viewport.
+     *
+     * @see {@link https://revealjs.com/presentation-size/}
      *
      * @defaultValue 2.0
      */
@@ -34,11 +52,11 @@ interface Config {
      * Display presentation control arrows
      * - true: Display controls in all views
      * - false: Hide controls in all views
-     * - 'speaker-only': Display controls only in the speaker view
+     * - 'speaker': Display controls only in the speaker view
      *
      * @defaultValue true
      */
-    controls?: boolean | 'speaker-only';
+    controls?: boolean | 'speaker' | 'speaker-only';
     /**
      * Help the user learn the controls by providing hints, for example by
      * bouncing the down arrow when they first encounter a vertical slide
@@ -152,6 +170,8 @@ interface Config {
     /**
      * Enable the slide overview mode
      *
+     * @see {@link https://revealjs.com/overview/}
+     *
      * @defaultValue true
      */
     overview?: boolean;
@@ -216,6 +236,8 @@ interface Config {
     shuffle?: boolean;
     /**
      * Turns fragments on and off globally
+     *
+     * @see {@link https://revealjs.com/fragments/}
      *
      * @defaultValue true
      */
@@ -286,6 +308,8 @@ interface Config {
     preventIframeAutoFocus?: boolean;
     /**
      * Can be used to globally disable auto-animation
+     *
+     * @see {@link https://revealjs.com/auto-animate/}
      *
      * @defaultValue true
      */
@@ -389,6 +413,8 @@ interface Config {
     /**
      * Transition style
      *
+     * @see {@link https://revealjs.com/transitions/}
+     *
      * @defaultValue 'slide'
      */
     transition?: 'none' | 'fade' | 'slide' | 'convex' | 'concave' | 'zoom';
@@ -444,6 +470,8 @@ interface Config {
      * - print:   Render the presentation so that it can be printed to PDF
      * - scroll:  Show the presentation as a tall scrollable page with scroll
      *            triggered animations
+     *
+     * @see {@link https://revealjs.com/scroll-view/}
      *
      * @defaultValue null
      */

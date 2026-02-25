@@ -68,7 +68,7 @@
 		"url": "git://github.com/hakimel/reveal.js.git"
 	},
 	"engines": {
-		"node": ">=18.0.0"
+		"node": ">=20.19.0"
 	},
 	"keywords": [
 		"reveal",
@@ -77,15 +77,16 @@
 	],
 	"devDependencies": {
 		"fitty": "^2.4.2",
-		"glob": "^10.3.10",
+		"glob": "^13.0.0",
 		"highlight.js": "^11.10.0",
 		"jszip": "^3.10.1",
-		"marked": "^4.3.0",
+		"marked": "^17.0.0",
+		"marked-smartypants": "^1.1.0",
 		"node-qunit-puppeteer": "^2.2.0",
 		"qunit": "^2.22.0",
 		"sass": "^1.80.2",
 		"typescript": "^5.2.2",
-		"vite": "^5.4.10",
+		"vite": "^7.0.0",
 		"vite-plugin-dts": "^4.2.4"
 	}
 }
