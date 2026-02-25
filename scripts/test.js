@@ -9,6 +9,11 @@ const __dirname = dirname(__filename);
 const root = resolve(__dirname, '..');
 
 const testFiles = glob.sync('test/*.html', { cwd: root });
+const isCI = process.env.CI === 'true' || process.env.CI === '1';
+const puppeteerArgs = [
+	'--allow-file-access-from-files',
+	...( isCI ? [ '--no-sandbox', '--disable-setuid-sandbox' ] : [] )
+];
 
 const combinedResults = { passed: 0, failed: 0, total: 0, runtime: 0, errors: 0 };
 
@@ -34,7 +39,7 @@ const runTests = async (baseUrl) => {
 				targetUrl: new URL(file, baseUrl).href,
 				timeout: 30000,
 				redirectConsole: false,
-				puppeteerArgs: ['--allow-file-access-from-files'],
+				puppeteerArgs,
 			};
 
 			try {
