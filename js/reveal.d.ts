@@ -89,6 +89,13 @@ declare namespace Reveal {
 		syncFragments(slide: HTMLElement): HTMLElement[];
 
 		/**
+		 * Removes hidden slides (data-visibility="hidden") from the DOM.
+		 * This happens automatically when reveal.js initialized, so only
+		 * call this to remove hidden slides before initialization.
+		 */
+		removeHiddenSlides(): void;
+
+		/**
 		 * Steps from the current point in the presentation to the
 		 * slide which matches the specified horizontal and vertical
 		 * indices.

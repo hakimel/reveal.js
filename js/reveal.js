@@ -29,7 +29,7 @@ import {
 } from './utils/constants'
 
 // The reveal.js version
-export const VERSION = '6.0.0-rc.2';
+export const VERSION = '6.0.0-rc.1';
 
 /**
  * reveal.js
@@ -2883,7 +2883,7 @@ export default function( revealElement, options ) {
 		getComputedSlideSize,
 		setCurrentScrollPage,
 
-		// Allows for manually removign slides prior to reveal.js initialization
+		// Allows for manually removing slides prior to reveal.js initialization
 		removeHiddenSlides,
 
 		// Returns the current scale of the presentation content
