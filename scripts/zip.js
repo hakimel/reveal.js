@@ -12,22 +12,49 @@ function switchToStaticScripts(htmlContent) {
 
 	const indentation = match[1].replace(/\n/g, '');
 	let moduleCode = match[2];
-	let scriptPaths = [];
+	const scriptPaths = [];
+	const pluginAliasMap = new Map();
+	const moduleAliasMap = new Map();
 
-	// Replace main reveal.js import
-	if (moduleCode.includes("import Reveal from 'reveal.js';")) {
-		scriptPaths.push('dist/reveal.js');
-		moduleCode = moduleCode.replace("import Reveal from 'reveal.js';", '');
-	}
+	const addScriptPath = (scriptPath) => {
+		if (!scriptPaths.includes(scriptPath)) {
+			scriptPaths.push(scriptPath);
+		}
+	};
 
-	// Replace plugin imports
+	const replaceIdentifier = (code, identifier, replacement) => {
+		if (!identifier || identifier === replacement) return code;
+		const escaped = identifier.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+		return code.replace(new RegExp(`\\b${escaped}\\b`, 'g'), replacement);
+	};
+
+	// Replace main reveal.js import.
 	moduleCode = moduleCode.replace(
-		/import\s+(\w+)\s+from\s+'reveal\.js\/plugin\/(\w+)';/g,
-		(match, pluginVar, pluginName) => {
-			scriptPaths.push(`dist/plugin/${pluginName}.js`);
+		/^\s*import\s+(\w+)\s+from\s+['"]reveal\.js['"]\s*;?\s*$/gm,
+		(match, revealVar) => {
+			addScriptPath('dist/reveal.js');
+			moduleAliasMap.set(revealVar, 'Reveal');
 			return '';
 		}
 	);
+
+	// Replace plugin imports
+	moduleCode = moduleCode.replace(
+		/^\s*import\s+(\w+)\s+from\s+['"]reveal\.js\/plugin\/(\w+)['"]\s*;?\s*$/gm,
+		(match, pluginVar, pluginName) => {
+			const pluginGlobal = `Reveal${pluginName.charAt(0).toUpperCase()}${pluginName.slice(1)}`;
+			addScriptPath(`dist/plugin/${pluginName}.js`);
+			pluginAliasMap.set(pluginVar, pluginGlobal);
+			return '';
+		}
+	);
+
+	for (const [pluginVar, pluginGlobal] of pluginAliasMap) {
+		moduleCode = replaceIdentifier(moduleCode, pluginVar, pluginGlobal);
+	}
+	for (const [moduleVar, moduleGlobal] of moduleAliasMap) {
+		moduleCode = replaceIdentifier(moduleCode, moduleVar, moduleGlobal);
+	}
 
 	// Clean up any remaining empty lines and trim
 	moduleCode = moduleCode.replace(/^\s*[\r\n]/gm, '').trim();
@@ -65,8 +92,12 @@ async function main() {
 	const args = process.argv.slice(2);
 	const htmlTarget = args.length > 0 ? args[0] : 'index.html';
 
-	// Ensure the target has ./ prefix if it's a relative path
-	const targetFile = htmlTarget.startsWith('./') ? htmlTarget : `./${htmlTarget}`;
+	// Ensure relative paths are read from cwd while keeping absolute paths intact
+	const targetFile = path.isAbsolute(htmlTarget)
+		? htmlTarget
+		: htmlTarget.startsWith('./')
+			? htmlTarget
+			: `./${htmlTarget}`;
 
 	console.log(`Packaging presentation with target file: ${targetFile}`);
 

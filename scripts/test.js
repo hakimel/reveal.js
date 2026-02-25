@@ -10,7 +10,7 @@ const root = resolve(__dirname, '..');
 
 const testFiles = glob.sync('test/*.html', { cwd: root });
 
-const combinedResults = { passed: 0, failed: 0, total: 0, runtime: 0 };
+const combinedResults = { passed: 0, failed: 0, total: 0, runtime: 0, errors: 0 };
 
 // Create and start Vite server (root = project root)
 const startServer = async () => {
@@ -59,16 +59,17 @@ const runTests = async (baseUrl) => {
 					);
 				}
 			} catch (error) {
+				combinedResults.errors += 1;
 				console.error(`Error running tests for ${file}:`, error);
 			}
 		})
 	);
 
 	console.log(
-		`\n${combinedResults.passed}/${combinedResults.total} tests passed, ${combinedResults.failed} failed, ${combinedResults.runtime}ms runtime`
+		`\n${combinedResults.passed}/${combinedResults.total} tests passed, ${combinedResults.failed} failed, ${combinedResults.errors} errors, ${combinedResults.runtime}ms runtime`
 	);
 
-	return combinedResults.failed > 0 ? 1 : 0;
+	return combinedResults.failed > 0 || combinedResults.errors > 0 ? 1 : 0;
 };
 
 // Main execution
