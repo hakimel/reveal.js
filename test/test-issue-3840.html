@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>reveal.js - Test Issue #3840 (spaces in image URLs)</title>
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+		<style>
+			.reveal .slides section { text-align: left; font-size: 0.7em; }
+			.result { background: #1a1a2e; padding: 1em; border-radius: 6px; margin: 0.5em 0; font-family: monospace; }
+			.pass { color: #4ade80; }
+			.fail { color: #f87171; }
+			.label { color: #94a3b8; font-size: 0.85em; }
+		</style>
+	</head>
+
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<!-- Slide 1: explanation -->
+				<section>
+					<h2>Issue #3840</h2>
+					<p>Markdown image links with spaces in the filename<br>were rendered as literal text instead of <code>&lt;img&gt;</code> tags.</p>
+					<pre><code># Before fix:
+![](more banana.png)  →  rendered as plain text ✗
+
+# After fix:
+![](more banana.png)  →  &lt;img src="more%20banana.png"&gt; ✓</code></pre>
+					<p style="color:#94a3b8; font-size:0.7em;">Press → to see the live test cases</p>
+				</section>
+
+				<!-- Slide 2: live markdown rendering test -->
+				<section data-markdown>
+					<script type="text/template">
+## Live Test Cases
+
+**Case 1** — no spaces (baseline, always worked)
+
+![reveal logo](assets/reveallogo.png)
+
+**Case 2** — one space in filename (the reported bug)
+
+![reveal logo](assets/reveal logo.png)
+
+**Case 3** — multiple spaces in filename
+
+![reveal logo](assets/reveal js logo.png)
+
+**Case 4** — angle bracket syntax (always worked)
+
+![reveal logo](<assets/reveal logo.png>)
+
+**Case 5** — space in URL with a title
+
+![reveal logo](assets/reveal logo.png "Reveal.js Logo")
+					</script>
+				</section>
+
+			</div>
+		</div>
+
+		<script type="module">
+			import Reveal from '../dist/reveal.esm.js';
+			import Markdown from '../plugin/markdown/markdown.esm.js';
+
+			Reveal.initialize({ plugins: [ Markdown ] });
+		</script>
+	</body>
+</html>

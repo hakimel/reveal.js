@@ -26,6 +26,48 @@ const HTML_ESCAPE_MAP = {
   "'": '&#39;'
 };
 
+/**
+ * Pre-processes Markdown text to encode spaces in image and link
+ * URLs. Standard Markdown requires angle bracket notation for URLs
+ * that contain spaces (e.g. ![alt](<file name.ext>)), but this step
+ * makes reveal.js more forgiving by automatically encoding spaces
+ * as %20 so that filenames with spaces work out of the box.
+ */
+function preprocessMarkdown( markdown ) {
+
+	return markdown.replace(
+		/(!?\[[^\]]*\])\(([^)]*)\)/g,
+		( match, prefix, parenContent ) => {
+
+			// Skip angle-bracket URLs which marked already handles correctly,
+			// e.g. ![alt](<file with spaces.png>)
+			if( /^\s*</.test( parenContent ) ) return match;
+
+			// Detect an optional quoted title at the end of the URL,
+			// e.g. ![alt](file.png "My Title") or ![alt](file.png 'My Title')
+			const titleMatch = parenContent.match(
+				/^(.*?)\s+("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')\s*$/
+			);
+
+			let href, suffix;
+			if( titleMatch ) {
+				href = titleMatch[1];
+				suffix = ` ${titleMatch[2]}`;
+			} else {
+				href = parenContent.trim();
+				suffix = '';
+			}
+
+			// Only encode if the href actually contains spaces
+			if( !/ /.test( href ) ) return match;
+
+			return `${prefix}(${href.replace( / /g, '%20' )}${suffix})`;
+
+		}
+	);
+
+}
+
 const Plugin = () => {
 
 	// The reveal.js instance this plugin is attached to
@@ -117,7 +159,7 @@ const Plugin = () => {
 		const notesMatch = content.split( new RegExp( options.notesSeparator, 'mgi' ) );
 
 		if( notesMatch.length === 2 ) {
-			content = notesMatch[0] + '<aside class="notes">' + marked(notesMatch[1].trim()) + '</aside>';
+			content = notesMatch[0] + '<aside class="notes">' + marked( preprocessMarkdown( notesMatch[1].trim() ) ) + '</aside>';
 		}
 
 		// prevent script end tags in the content from interfering
@@ -389,7 +431,7 @@ const Plugin = () => {
 			const notes = section.querySelector( 'aside.notes' );
 			const markdown = getMarkdownFromSlide( section );
 
-			section.innerHTML = marked( markdown );
+			section.innerHTML = marked( preprocessMarkdown( markdown ) );
 			addAttributes( 	section, section, null, section.getAttribute( 'data-element-attributes' ) ||
 							section.parentNode.getAttribute( 'data-element-attributes' ) ||
 							DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR,
