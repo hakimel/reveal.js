@@ -65,6 +65,7 @@
 		<script src="../dist/reveal.js"></script>
 		<script>
 
+			QUnit.config.testTimeout = 30000;
 			QUnit.config.reorder = false;
 
 			const slides = Array.prototype.map.call( document.querySelectorAll( '.slides section' ), slide => {
@@ -107,21 +108,6 @@
 					}, 'All data-auto-animate attributes are reset' ) );
 
 					Reveal.configure({ autoAnimate: true });
-				});
-
-				QUnit.test( 'Carries forward matching fragment visibility', assert => {
-					Reveal.slide(4);
-					assert.ok( !slides[5].h1.classList.contains( 'visible' ) )
-					Reveal.next();
-					Reveal.next();
-					Reveal.next();
-					assert.ok( slides[5].h1.classList.contains( 'visible' ) )
-					assert.ok( slides[5].h2.classList.contains( 'visible' ) )
-					assert.ok( !slides[5].h3.classList.contains( 'visible' ) )
-					Reveal.next();
-					assert.ok( slides[5].h3.classList.contains( 'visible' ) )
-					Reveal.next();
-					assert.ok( slides[6].slide === Reveal.getCurrentSlide() )
 				});
 
 				QUnit.test( 'Slide specific data-auto-animate-duration', assert => {

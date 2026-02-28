@@ -1,3 +1,10 @@
+import {
+	SLIDE_NUMBER_FORMAT_CURRENT,
+	SLIDE_NUMBER_FORMAT_CURRENT_SLASH_TOTAL,
+	SLIDE_NUMBER_FORMAT_HORIZONTAL_DOT_VERTICAL,
+	SLIDE_NUMBER_FORMAT_HORIZONTAL_SLASH_VERTICAL
+} from "../utils/constants";
+
 /**
  * Handles the display of reveal.js' optional slide number.
  */
@@ -23,7 +30,7 @@ export default class SlideNumber {
 	configure( config, oldConfig ) {
 
 		let slideNumberDisplay = 'none';
-		if( config.slideNumber && !this.Reveal.isPrintingPDF() ) {
+		if( config.slideNumber && !this.Reveal.isPrintView() ) {
 			if( config.showSlideNumber === 'all' ) {
 				slideNumberDisplay = 'block';
 			}
@@ -56,7 +63,7 @@ export default class SlideNumber {
 
 		let config = this.Reveal.getConfig();
 		let value;
-		let format = 'h.v';
+		let format = SLIDE_NUMBER_FORMAT_HORIZONTAL_DOT_VERTICAL;
 
 		if ( typeof config.slideNumber === 'function' ) {
 			value = config.slideNumber( slide );
@@ -69,7 +76,7 @@ export default class SlideNumber {
 			// If there are ONLY vertical slides in this deck, always use
 			// a flattened slide number
 			if( !/c/.test( format ) && this.Reveal.getHorizontalSlides().length === 1 ) {
-				format = 'c';
+				format = SLIDE_NUMBER_FORMAT_CURRENT;
 			}
 
 			// Offset the current slide number by 1 to make it 1-indexed
@@ -77,16 +84,16 @@ export default class SlideNumber {
 
 			value = [];
 			switch( format ) {
-				case 'c':
+				case SLIDE_NUMBER_FORMAT_CURRENT:
 					value.push( this.Reveal.getSlidePastCount( slide ) + horizontalOffset );
 					break;
-				case 'c/t':
+				case SLIDE_NUMBER_FORMAT_CURRENT_SLASH_TOTAL:
 					value.push( this.Reveal.getSlidePastCount( slide ) + horizontalOffset, '/', this.Reveal.getTotalSlides() );
 					break;
 				default:
 					let indices = this.Reveal.getIndices( slide );
 					value.push( indices.h + horizontalOffset );
-					let sep = format === 'h/v' ? '/' : '.';
+					let sep = format === SLIDE_NUMBER_FORMAT_HORIZONTAL_SLASH_VERTICAL ? '/' : '.';
 					if( this.Reveal.isVerticalSlide( slide ) ) value.push( sep, indices.v + 1 );
 			}
 		}
@@ -120,6 +127,12 @@ export default class SlideNumber {
 					<span class="slide-number-a">${a}</span>
 					</a>`;
 		}
+
+	}
+
+	destroy() {
+
+		this.element.remove();
 
 	}
 

@@ -24,7 +24,7 @@ export default class Overview {
 	activate() {
 
 		// Only proceed if enabled in config
-		if( this.Reveal.getConfig().overview && !this.isActive() ) {
+		if( this.Reveal.getConfig().overview && !this.Reveal.isScrollView() && !this.isActive() ) {
 
 			this.active = true;
 

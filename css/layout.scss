@@ -16,7 +16,7 @@
 	box-sizing: border-box;
 }
 
-// Text that auto-fits it's container
+// Text that auto-fits its container
 .reveal .r-fit-text {
 	display: inline-block; // https://github.com/rikschennink/fitty#performance
 	white-space: nowrap;
@@ -25,6 +25,7 @@
 // Stack multiple elements on top of each other
 .reveal .r-stack {
 	display: grid;
+	grid-template-rows: 100%;
 }
 
 .reveal .r-stack > * {

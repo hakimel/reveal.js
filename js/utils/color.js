@@ -29,9 +29,9 @@ export const colorToRgb = ( color ) => {
 	if( hex6 && hex6[1] ) {
 		hex6 = hex6[1];
 		return {
-			r: parseInt( hex6.substr( 0, 2 ), 16 ),
-			g: parseInt( hex6.substr( 2, 2 ), 16 ),
-			b: parseInt( hex6.substr( 4, 2 ), 16 )
+			r: parseInt( hex6.slice( 0, 2 ), 16 ),
+			g: parseInt( hex6.slice( 2, 4 ), 16 ),
+			b: parseInt( hex6.slice( 4, 6 ), 16 )
 		};
 	}
 
@@ -44,7 +44,7 @@ export const colorToRgb = ( color ) => {
 		};
 	}
 
-	let rgba = color.match( /^rgba\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\,\s*([\d]+|[\d]*.[\d]+)\s*\)$/i );
+	let rgba = color.match( /^rgba\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d]+|[\d]*.[\d]+)\s*\)$/i );
 	if( rgba ) {
 		return {
 			r: parseInt( rgba[1], 10 ),

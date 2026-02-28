@@ -1,0 +1,8 @@
+[codespell]
+# Ref: https://github.com/codespell-project/codespell#using-a-config-file
+skip = .git*,node_modules,package-lock.json,*.css,.codespellrc
+check-hidden = true
+# Ignore super long lines -- must be minimized etc, acronyms
+# and some near hit variables
+ignore-regex = ^.{120,}|\b(currentY|FOM)\b
+# ignore-words-list =

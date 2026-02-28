@@ -27,12 +27,10 @@ export default class Pointer {
 	configure( config, oldConfig ) {
 
 		if( config.mouseWheel ) {
-			document.addEventListener( 'DOMMouseScroll', this.onDocumentMouseScroll, false ); // FF
-			document.addEventListener( 'mousewheel', this.onDocumentMouseScroll, false );
+			document.addEventListener( 'wheel', this.onDocumentMouseScroll, false );
 		}
 		else {
-			document.removeEventListener( 'DOMMouseScroll', this.onDocumentMouseScroll, false ); // FF
-			document.removeEventListener( 'mousewheel', this.onDocumentMouseScroll, false );
+			document.removeEventListener( 'wheel', this.onDocumentMouseScroll, false );
 		}
 
 		// Auto-hide the mouse pointer when its inactive
@@ -72,6 +70,16 @@ export default class Pointer {
 			this.cursorHidden = true;
 			this.Reveal.getRevealElement().style.cursor = 'none';
 		}
+
+	}
+
+	destroy() {
+
+		this.showCursor();
+
+		document.removeEventListener( 'wheel', this.onDocumentMouseScroll, false );
+		document.removeEventListener( 'mousemove', this.onDocumentCursorActive, false );
+		document.removeEventListener( 'mousedown', this.onDocumentCursorActive, false );
 
 	}
 

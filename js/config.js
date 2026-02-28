@@ -15,7 +15,10 @@ export default {
 	minScale: 0.2,
 	maxScale: 2.0,
 
-	// Display presentation control arrows
+	// Display presentation control arrows.
+	// - true: Display controls on all screens
+	// - false: Hide controls on all screens
+	// - "speaker": Only display controls in the speaker view
 	controls: true,
 
 	// Help the user learn the controls by providing hints, for example by
@@ -65,13 +68,16 @@ export default {
 	// Flags if we should monitor the hash and change slides accordingly
 	respondToHashChanges: true,
 
+	// Enable support for jump-to-slide navigation shortcuts
+	jumpToSlide: true,
+
 	// Push each slide change to the browser history.  Implies `hash: true`
 	history: false,
 
 	// Enable keyboard shortcuts for navigation
 	keyboard: true,
 
-	// Optional function that blocks keyboard events when retuning false
+	// Optional function that blocks keyboard events when returning false
 	//
 	// If you set this to 'focused', we will only capture keyboard events
 	// for embedded decks when they are in focus
@@ -161,6 +167,9 @@ export default {
 	// - true:   All iframes with data-src will be loaded when within the viewDistance
 	// - false:  All iframes with data-src will be loaded only when visible
 	preloadIframes: null,
+
+	// Prevent embedded iframes from automatically focusing on themselves
+	preventIframeAutoFocus: true,
 
 	// Can be used to globally disable auto-animation
 	autoAnimate: true,
@@ -253,6 +262,36 @@ export default {
 	parallaxBackgroundHorizontal: null,
 	parallaxBackgroundVertical: null,
 
+	// Can be used to initialize reveal.js in one of the following views:
+	// - print:   Render the presentation so that it can be printed to PDF
+	// - scroll:  Show the presentation as a tall scrollable page with scroll
+	//            triggered animations
+	view: null,
+
+	// Adjusts the height of each slide in the scroll view.
+	// - full:       Each slide is as tall as the viewport
+	// - compact:    Slides are as small as possible, allowing multiple slides
+	//               to be visible in parallel on tall devices
+	scrollLayout: 'full',
+
+	// Control how scroll snapping works in the scroll view.
+	// - false:   	No snapping, scrolling is continuous
+	// - proximity:  Snap when close to a slide
+	// - mandatory:  Always snap to the closest slide
+	//
+	// Only applies to presentations in scroll view.
+	scrollSnap: 'mandatory',
+
+	// Enables and configure the scroll view progress bar.
+	// - 'auto':    Show the scrollbar while scrolling, hide while idle
+	// - true:      Always show the scrollbar
+	// - false:     Never show the scrollbar
+	scrollProgress: 'auto',
+
+	// Automatically activate the scroll view when we the viewport falls
+	// below the given width.
+	scrollActivationWidth: 435,
+
 	// The maximum number of pages a single slide can expand onto when printing
 	// to PDF, unlimited by default
 	pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY,
@@ -283,6 +322,10 @@ export default {
 
 	// Time before the cursor is hidden (in ms)
 	hideCursorTime: 5000,
+
+	// Should we automatically sort and set indices for fragments
+	// at each sync? (See Reveal.sync)
+	sortFragmentsOnSync: true,
 
 	// Script dependencies to load
 	dependencies: [],

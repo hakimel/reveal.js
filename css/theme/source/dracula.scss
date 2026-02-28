@@ -1,0 +1,107 @@
+/**
+ * Dracula Dark theme for reveal.js.
+ * Based on https://draculatheme.com
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+// Include theme-specific fonts
+@import url(./fonts/league-gothic/league-gothic.css);
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);
+
+$systemFontsSansSerif: -apple-system,
+					   BlinkMacSystemFont,
+					   avenir next,
+					   avenir,
+					   segoe ui,
+					   helvetica neue,
+					   helvetica,
+					   Cantarell,
+					   Ubuntu,
+					   roboto,
+					   noto,
+					   arial,
+					   sans-serif;
+$systemFontsMono: Menlo,
+				  Consolas,
+				  Monaco,
+				  Liberation Mono,
+				  Lucida Console,
+				  monospace;
+
+/**
+ * Dracula colors by Zeno Rocha
+ * https://draculatheme.com/contribute
+ */
+html * {
+	color-profile: sRGB;
+	rendering-intent: auto;
+}
+
+$background: #282A36;
+$foreground: #F8F8F2;
+$selection: #44475A;
+$comment: #6272A4;
+$red: #FF5555;
+$orange: #FFB86C;
+$yellow: #F1FA8C;
+$green: #50FA7B;
+$purple: #BD93F9;
+$cyan: #8BE9FD;
+$pink: #FF79C6;
+
+
+
+// Override theme settings (see ../template/settings.scss)
+$mainColor: $foreground;
+$headingColor: $purple;
+$headingTextShadow: none;
+$headingTextTransform: none;
+$backgroundColor: $background;
+$linkColor: $pink;
+$linkColorHover: $cyan;
+$selectionBackgroundColor: $selection;
+$inlineCodeColor: $green;
+$listBulletColor: $cyan;
+
+$mainFont: $systemFontsSansSerif;
+$codeFont: "Fira Code", $systemFontsMono;
+
+// Change text colors against light slide backgrounds
+@include light-bg-text-color($background);
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+
+// Define additional color effects based on Dracula spec
+// https://spec.draculatheme.com/
+:root {
+	--r-bold-color: #{$orange};
+	--r-italic-color: #{$yellow};
+	--r-inline-code-color: #{$inlineCodeColor};
+	--r-list-bullet-color: #{$listBulletColor};
+}
+
+.reveal {
+	strong, b {
+		color: var(--r-bold-color);
+	}
+	em, i, blockquote {
+		color: var(--r-italic-color);
+	}
+	code {
+		color: var(--r-inline-code-color);
+	}
+	// Dracula colored list bullets and numbers
+	ul, ol {
+		li::marker {
+			color: var(--r-list-bullet-color);
+		}
+	}
+}
+

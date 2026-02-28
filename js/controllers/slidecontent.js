@@ -1,5 +1,4 @@
-import { HORIZONTAL_SLIDES_SELECTOR, VERTICAL_SLIDES_SELECTOR } from '../utils/constants.js'
-import { extend, queryAll, closest } from '../utils/util.js'
+import { extend, queryAll, closest, getMimeTypeFromFile, encodeRFC3986URI } from '../utils/util.js'
 import { isMobile } from '../utils/device.js'
 
 import fitty from 'fitty';
@@ -10,11 +9,44 @@ import fitty from 'fitty';
  */
 export default class SlideContent {
 
+	allowedToPlayAudio = null;
+
 	constructor( Reveal ) {
 
 		this.Reveal = Reveal;
 
+		this.startEmbeddedMedia = this.startEmbeddedMedia.bind( this );
 		this.startEmbeddedIframe = this.startEmbeddedIframe.bind( this );
+		this.preventIframeAutoFocus = this.preventIframeAutoFocus.bind( this );
+		this.ensureMobileMediaPlaying = this.ensureMobileMediaPlaying.bind( this );
+
+		this.failedAudioPlaybackTargets = new Set();
+		this.failedVideoPlaybackTargets = new Set();
+		this.failedMutedVideoPlaybackTargets = new Set();
+
+		this.renderMediaPlayButton();
+
+	}
+
+	renderMediaPlayButton() {
+
+		this.mediaPlayButton = document.createElement( 'button' );
+		this.mediaPlayButton.className = 'r-overlay-button r-media-play-button';
+		this.mediaPlayButton.addEventListener( 'click', () => {
+			this.resetTemporarilyMutedMedia();
+
+			const failedTargets = new Set( [
+				...this.failedAudioPlaybackTargets,
+				...this.failedVideoPlaybackTargets,
+				...this.failedMutedVideoPlaybackTargets
+			] );
+
+			failedTargets.forEach( target => {
+				this.startEmbeddedMedia( { target: target } );
+			} );
+
+			this.clearMediaPlaybackErrors();
+		} );
 
 	}
 
@@ -25,6 +57,10 @@ export default class SlideContent {
 	 * @param {HTMLElement} element
 	 */
 	shouldPreload( element ) {
+
+		if( this.Reveal.isScrollView() ) {
+			return true;
+		}
 
 		// Prefer an explicit global preload setting
 		let preload = this.Reveal.getConfig().preloadIframes;
@@ -48,14 +84,25 @@ export default class SlideContent {
 	load( slide, options = {} ) {
 
 		// Show the slide element
-		slide.style.display = this.Reveal.getConfig().display;
+		const displayValue = this.Reveal.getConfig().display;
+		if( displayValue.includes('!important') ) {
+			const value = displayValue.replace(/\s*!important\s*$/, '').trim();
+			slide.style.setProperty('display', value, 'important');
+		} else {
+			slide.style.display = displayValue;
+		}
 
-		// Media elements with data-src attributes
+		// Media and iframe elements with data-src attributes
 		queryAll( slide, 'img[data-src], video[data-src], audio[data-src], iframe[data-src]' ).forEach( element => {
-			if( element.tagName !== 'IFRAME' || this.shouldPreload( element ) ) {
+			const isIframe = element.tagName === 'IFRAME';
+			if( !isIframe || this.shouldPreload( element ) ) {
 				element.setAttribute( 'src', element.getAttribute( 'data-src' ) );
 				element.setAttribute( 'data-lazy-loaded', '' );
 				element.removeAttribute( 'data-src' );
+
+				if( isIframe ) {
+					element.addEventListener( 'load', this.preventIframeAutoFocus );
+				}
 			}
 		} );
 
@@ -109,35 +156,40 @@ export default class SlideContent {
 					// URL(s)
 					else {
 						backgroundContent.style.backgroundImage = backgroundImage.split( ',' ).map( background => {
-							return `url(${encodeURI(background.trim())})`;
+							// Decode URL(s) that are already encoded first
+							let decoded = decodeURI(background.trim());
+							return `url(${encodeRFC3986URI(decoded)})`;
 						}).join( ',' );
 					}
 				}
 				// Videos
-				else if ( backgroundVideo && !this.Reveal.isSpeakerNotes() ) {
+				else if ( backgroundVideo ) {
 					let video = document.createElement( 'video' );
 
 					if( backgroundVideoLoop ) {
 						video.setAttribute( 'loop', '' );
 					}
 
-					if( backgroundVideoMuted ) {
+					if( backgroundVideoMuted || this.Reveal.isSpeakerNotes() ) {
 						video.muted = true;
 					}
 
 					// Enable inline playback in mobile Safari
-					//
-					// Mute is required for video to play when using
-					// swipe gestures to navigate since they don't
-					// count as direct user actions :'(
 					if( isMobile ) {
-						video.muted = true;
 						video.setAttribute( 'playsinline', '' );
 					}
 
 					// Support comma separated lists of video sources
 					backgroundVideo.split( ',' ).forEach( source => {
-						video.innerHTML += '<source src="'+ source +'">';
+						const sourceElement = document.createElement( 'source' );
+						sourceElement.setAttribute( 'src', source );
+
+						let type = getMimeTypeFromFile( source );
+						if( type ) {
+							sourceElement.setAttribute( 'type', type );
+						}
+
+						video.appendChild( sourceElement );
 					} );
 
 					backgroundContent.appendChild( video );
@@ -181,15 +233,14 @@ export default class SlideContent {
 	}
 
 	/**
-	 * Applies JS-dependent layout helpers for the given slide,
-	 * if there are any.
+	 * Applies JS-dependent layout helpers for the scope.
 	 */
-	layout( slide ) {
+	layout( scopeElement ) {
 
 		// Autosize text with the r-fit-text class based on the
 		// size of its container. This needs to happen after the
 		// slide is visible in order to measure the text.
-		Array.from( slide.querySelectorAll( '.r-fit-text' ) ).forEach( element => {
+		Array.from( scopeElement.querySelectorAll( '.r-fit-text' ) ).forEach( element => {
 			fitty( element, {
 				minSize: 24,
 				maxSize: this.Reveal.getConfig().height * 0.8,
@@ -268,7 +319,9 @@ export default class SlideContent {
 	 */
 	startEmbeddedContent( element ) {
 
-		if( element && !this.Reveal.isSpeakerNotes() ) {
+		if( element ) {
+
+			const isSpeakerNotesWindow = this.Reveal.isSpeakerNotes();
 
 			// Restart GIFs
 			queryAll( element, 'img[src$=".gif"]' ).forEach( el => {
@@ -294,6 +347,9 @@ export default class SlideContent {
 
 				if( autoplay && typeof el.play === 'function' ) {
 
+					// In the speaker view we only auto-play muted media
+					if( isSpeakerNotesWindow && !el.muted ) return;
+
 					// If the media is ready, start playback
 					if( el.readyState > 1 ) {
 						this.startEmbeddedMedia( { target: el } );
@@ -301,20 +357,9 @@ export default class SlideContent {
 					// Mobile devices never fire a loaded event so instead
 					// of waiting, we initiate playback
 					else if( isMobile ) {
-						let promise = el.play();
+						el.addEventListener( 'canplay', this.ensureMobileMediaPlaying );
 
-						// If autoplay does not work, ensure that the controls are visible so
-						// that the viewer can start the media on their own
-						if( promise && typeof promise.catch === 'function' && el.controls === false ) {
-							promise.catch( () => {
-								el.controls = true;
-
-								// Once the video does start playing, hide the controls again
-								el.addEventListener( 'play', () => {
-									el.controls = false;
-								} );
-							} );
-						}
+						this.playMediaElement( el );
 					}
 					// If the media isn't loaded, wait before playing
 					else {
@@ -325,29 +370,69 @@ export default class SlideContent {
 				}
 			} );
 
-			// Normal iframes
-			queryAll( element, 'iframe[src]' ).forEach( el => {
-				if( closest( el, '.fragment' ) && !closest( el, '.fragment.visible' ) ) {
-					return;
-				}
+			// Don't play iframe content in the speaker view since we can't
+			// guarantee that it's muted
+			if( !isSpeakerNotesWindow ) {
 
-				this.startEmbeddedIframe( { target: el } );
-			} );
+				// Normal iframes
+				queryAll( element, 'iframe[src]' ).forEach( el => {
+					if( closest( el, '.fragment' ) && !closest( el, '.fragment.visible' ) ) {
+						return;
+					}
 
-			// Lazy loading iframes
-			queryAll( element, 'iframe[data-src]' ).forEach( el => {
-				if( closest( el, '.fragment' ) && !closest( el, '.fragment.visible' ) ) {
-					return;
-				}
+					this.startEmbeddedIframe( { target: el } );
+				} );
 
-				if( el.getAttribute( 'src' ) !== el.getAttribute( 'data-src' ) ) {
-					el.removeEventListener( 'load', this.startEmbeddedIframe ); // remove first to avoid dupes
-					el.addEventListener( 'load', this.startEmbeddedIframe );
-					el.setAttribute( 'src', el.getAttribute( 'data-src' ) );
-				}
-			} );
+				// Lazy loading iframes
+				queryAll( element, 'iframe[data-src]' ).forEach( el => {
+					if( closest( el, '.fragment' ) && !closest( el, '.fragment.visible' ) ) {
+						return;
+					}
+
+					if( el.getAttribute( 'src' ) !== el.getAttribute( 'data-src' ) ) {
+						el.removeEventListener( 'load', this.startEmbeddedIframe ); // remove first to avoid dupes
+						el.addEventListener( 'load', this.startEmbeddedIframe );
+						el.setAttribute( 'src', el.getAttribute( 'data-src' ) );
+					}
+				} );
+
+			}
 
 		}
+
+	}
+
+	/**
+	 * Ensure that an HTMLMediaElement is playing on mobile devices.
+	 *
+	 * This is a workaround for a bug in mobile Safari where
+	 * the media fails to display if many videos are started
+	 * at the same moment. When this happens, Mobile Safari
+	 * reports the video is playing, and the current time
+	 * advances, but nothing is visible.
+	 *
+	 * @param {Event} event
+	 */
+	ensureMobileMediaPlaying( event ) {
+
+		const el = event.target;
+
+		// Ignore this check incompatible browsers
+		if( typeof el.getVideoPlaybackQuality !== 'function' ) {
+			return;
+		}
+
+		setTimeout( () => {
+
+			const playing = el.paused === false;
+			const totalFrames = el.getVideoPlaybackQuality().totalVideoFrames;
+
+			if( playing && totalFrames === 0 ) {
+				el.load();
+				el.play();
+			}
+
+		}, 1000 );
 
 	}
 
@@ -363,11 +448,63 @@ export default class SlideContent {
 			isVisible  		= !!closest( event.target, '.present' );
 
 		if( isAttachedToDOM && isVisible ) {
-			event.target.currentTime = 0;
-			event.target.play();
+			// Don't restart if media is already playing
+			if( event.target.paused || event.target.ended ) {
+				event.target.currentTime = 0;
+				this.playMediaElement( event.target );
+			}
 		}
 
 		event.target.removeEventListener( 'loadeddata', this.startEmbeddedMedia );
+
+	}
+
+	/**
+	 * Plays the given HTMLMediaElement and handles any playback
+	 * errors, such as the browser not allowing audio to play without
+	 * user action.
+	 *
+	 * @param {HTMLElement} mediaElement
+	 */
+	playMediaElement( mediaElement ) {
+
+		const promise = mediaElement.play();
+
+		if( promise && typeof promise.catch === 'function' ) {
+			promise
+				.then( () => {
+					if( !mediaElement.muted ) {
+						this.allowedToPlayAudio = true;
+					}
+				} )
+				.catch( ( error ) => {
+					if( error.name === 'NotAllowedError' ) {
+						this.allowedToPlayAudio = false;
+
+						// If this is a video, we record the error and try to play it
+						// muted as a fallback. The user will be presented with an unmute
+						// button.
+						if( mediaElement.tagName === 'VIDEO' ) {
+							this.onVideoPlaybackNotAllowed( mediaElement );
+
+							let isAttachedToDOM = !!closest( mediaElement, 'html' ),
+								isVisible  		= !!closest( mediaElement, '.present' ),
+								isMuted 		= mediaElement.muted;
+
+							if( isAttachedToDOM && isVisible && !isMuted ) {
+								mediaElement.setAttribute( 'data-muted-by-reveal', 'true' );
+								mediaElement.muted = true;
+								mediaElement.play().catch(() => {
+									this.onMutedVideoPlaybackNotAllowed( mediaElement );
+								});
+							}
+						}
+						else if( mediaElement.tagName === 'AUDIO' ) {
+							this.onAudioPlaybackNotAllowed( mediaElement );
+						}
+					}
+				} );
+		}
 
 	}
 
@@ -380,6 +517,8 @@ export default class SlideContent {
 	startEmbeddedIframe( event ) {
 
 		let iframe = event.target;
+
+		this.preventIframeAutoFocus( event );
 
 		if( iframe && iframe.contentWindow ) {
 
@@ -435,12 +574,17 @@ export default class SlideContent {
 				if( !el.hasAttribute( 'data-ignore' ) && typeof el.pause === 'function' ) {
 					el.setAttribute('data-paused-by-reveal', '');
 					el.pause();
+
+					if( isMobile ) {
+						el.removeEventListener( 'canplay', this.ensureMobileMediaPlaying );
+					}
 				}
 			} );
 
 			// Generic postMessage API for non-lazy loaded iframes
 			queryAll( element, 'iframe' ).forEach( el => {
 				if( el.contentWindow ) el.contentWindow.postMessage( 'slide:stop', '*' );
+				el.removeEventListener( 'load', this.preventIframeAutoFocus );
 				el.removeEventListener( 'load', this.startEmbeddedIframe );
 			});
 
@@ -468,6 +612,134 @@ export default class SlideContent {
 				} );
 			}
 		}
+
+	}
+
+	/**
+	 * Checks whether media playback is blocked by the browser. This
+	 * typically happens when media playback is initiated without a
+	 * direct user interaction.
+	 */
+	isAllowedToPlayAudio() {
+
+		return this.allowedToPlayAudio;
+
+	}
+
+	/**
+	 * Shows a manual button in situations where autoamtic media playback
+	 * is not allowed by the browser.
+	 */
+	showPlayOrUnmuteButton() {
+
+		const audioTargets = this.failedAudioPlaybackTargets.size;
+		const videoTargets = this.failedVideoPlaybackTargets.size;
+		const mutedVideoTargets = this.failedMutedVideoPlaybackTargets.size;
+
+		let label = 'Play media';
+
+		if( mutedVideoTargets > 0 ) {
+			label = 'Play video';
+		}
+		else if( videoTargets > 0 ) {
+			label = 'Unmute video';
+		}
+		else if( audioTargets > 0 ) {
+			label = 'Play audio';
+		}
+
+		this.mediaPlayButton.textContent = label;
+
+		this.Reveal.getRevealElement().appendChild( this.mediaPlayButton );
+
+	}
+
+	onAudioPlaybackNotAllowed( target ) {
+
+		this.failedAudioPlaybackTargets.add( target );
+		this.showPlayOrUnmuteButton( target );
+
+	}
+
+	onVideoPlaybackNotAllowed( target ) {
+
+		this.failedVideoPlaybackTargets.add( target );
+		this.showPlayOrUnmuteButton();
+
+	}
+
+	onMutedVideoPlaybackNotAllowed( target ) {
+
+		this.failedMutedVideoPlaybackTargets.add( target );
+		this.showPlayOrUnmuteButton();
+
+	}
+
+	/**
+	 * Videos may be temporarily muted by us to get around browser
+	 * restrictions on automatic playback. This method rolls back
+	 * all such temporary audio changes.
+	 */
+	resetTemporarilyMutedMedia() {
+
+		const failedTargets = new Set( [
+			...this.failedAudioPlaybackTargets,
+			...this.failedVideoPlaybackTargets,
+			...this.failedMutedVideoPlaybackTargets
+		] );
+
+		failedTargets.forEach( target => {
+			if( target.hasAttribute( 'data-muted-by-reveal' ) ) {
+				target.muted = false;
+				target.removeAttribute( 'data-muted-by-reveal' );
+			}
+		} );
+
+	}
+
+	clearMediaPlaybackErrors() {
+
+		this.resetTemporarilyMutedMedia();
+
+		this.failedAudioPlaybackTargets.clear();
+		this.failedVideoPlaybackTargets.clear();
+		this.failedMutedVideoPlaybackTargets.clear();
+		this.mediaPlayButton.remove();
+
+	}
+
+	/**
+	 * Prevents iframes from automatically focusing themselves.
+	 *
+	 * @param {Event} event
+	 */
+	preventIframeAutoFocus( event ) {
+
+		const iframe = event.target;
+
+		if( iframe && this.Reveal.getConfig().preventIframeAutoFocus ) {
+
+			let elapsed = 0;
+			const interval = 100;
+			const maxTime = 1000;
+			const checkFocus = () => {
+				if( document.activeElement === iframe ) {
+					document.activeElement.blur();
+				} else if( elapsed < maxTime ) {
+					elapsed += interval;
+					setTimeout( checkFocus, interval );
+				}
+			};
+
+			setTimeout( checkFocus, interval );
+
+		}
+
+	}
+
+	afterSlideChanged() {
+
+		this.clearMediaPlaybackErrors();
 
 	}
 

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Ligthbox</title>
+
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css" id="theme">
+
+		<style>
+			.reveal {
+				font-size: 24px;
+			}
+			.reveal figure {
+				margin: 0 0 1rem 0;
+				text-align: left;
+			}
+			.reveal figure img,
+			.reveal figure video {
+				margin: 0.25rem 0 0 0;
+			}
+			figcaption, a {
+				font-size: 16px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section>
+
+					<h2>Preview Overlays</h2>
+
+					<div class="r-hstack items-start">
+						<div class="r-vstack items-start">
+							<h5>Images</h5>
+							<figure>
+								<figcaption>Preview with default settings:</figcaption>
+								<img height="50" src="https://static.slid.es/images/alphabet/v1/a.png" data-preview-image>
+							</figure>
+							<figure>
+								<figcaption>Preview with data-preview-fit="contain"</figcaption>
+								<img height="50" src="https://static.slid.es/images/alphabet/v1/a.png" data-preview-image data-preview-fit="contain">
+							</figure>
+							<figure>
+								<figcaption>Preview with data-preview-fit="cover"</figcaption>
+								<img height="50" src="https://static.slid.es/images/alphabet/v1/a.png" data-preview-image data-preview-fit="cover">
+							</figure>
+							<figure>
+								<figcaption>Preview another image (c)</figcaption>
+								<img height="50" src="https://static.slid.es/images/alphabet/v1/b.png" data-preview-image="https://static.slid.es/images/alphabet/v1/c.png">
+							</figure>
+							<a href="#" data-preview-image="https://static.slid.es/images/alphabet/v1/x.png">
+								Preview image from a link.
+							</a>
+						</div>
+
+						<div style="width: 1px; height: 30vh; margin: 0 3rem;background-color: #999;"></div>
+
+						<div class="r-vstack items-start">
+							<h5>Videos</h5>
+							<figure>
+								<figcaption>Preview video</figcaption>
+								<img height="50" src="https://static.slid.es/images/alphabet/v1/x.png" data-preview-video="https://static.slid.es/site/homepage/v1/homepage-video-editor.mp4">
+							</figure>
+							<figure>
+								<figcaption>Preview video</figcaption>
+								<video height="50" src="https://static.slid.es/site/homepage/v1/homepage-video-editor.mp4" data-preview-video></video>
+							</figure>
+							<a href="#" data-preview-video="https://static.slid.es/site/homepage/v1/homepage-video-editor.mp4">
+								Preview video from a link.
+							</a>
+						</div>
+
+						<div style="width: 1px; height: 30vh; margin: 0 3rem;background-color: #999;"></div>
+
+						<div class="r-vstack items-start">
+							<h5>Iframes</h5>
+							<a href="https://hakim.se">https://hakim.se</a>
+							<a data-preview-link href="https://hakim.se">https://hakim.se | data-preview-link</a>
+							<br />
+							<a data-preview-link="false" href="https://hakim.se">https://hakim.se | data-preview-link=false</a>
+							<br />
+							<figure>
+								<figcaption>Preview link from an image</figcaption>
+								<img height="50" src="https://static.slid.es/images/alphabet/v1/a.png" data-preview-link="https://hakim.se">
+							</figure>
+						</div>
+					</div>
+
+				</section>
+
+				<section style="text-align: left;">
+
+					<h2>Lightbox</h2>
+
+					<div class="r-hstack items-start justify-start">
+						<div class="r-vstack items-start">
+							<h5>Images</h5>
+							<figure>
+								<img height="100" src="https://static.slid.es/images/alphabet/v1/a.png" data-preview-image data-preview-fit="contain">
+							</figure>
+						</div>
+
+						<div style="width: 1px; height: 20vh; margin: 0 3rem;background-color: #222;"></div>
+
+						<div class="r-vstack items-start">
+							<h5>Videos</h5>
+							<figure>
+								<video height="100" src="https://static.slid.es/site/homepage/v1/homepage-video-editor.mp4" data-preview-video></video>
+							</figure>
+						</div>
+
+						<div style="width: 1px; height: 20vh; margin: 0 3rem;background-color: #222;"></div>
+
+						<div class="r-vstack items-start">
+							<h5>Iframes</h5>
+							<a style="font-size: 28px;" data-preview-link href="https://hakim.se">https://hakim.se</a>
+						</div>
+					</div>
+
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script>
+			Reveal.initialize({
+				previewLinks: false,
+				width: 1280,
+				height: 720
+			});
+		</script>
+
+	</body>
+</html>

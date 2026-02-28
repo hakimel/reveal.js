@@ -101,5 +101,10 @@ export default class Progress {
 
 	}
 
+	destroy() {
+
+		this.element.remove();
+
+	}
 
 }
