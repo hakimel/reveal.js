@@ -27,9 +27,8 @@ import {
 	VERTICAL_SLIDES_SELECTOR,
 	POST_MESSAGE_METHOD_BLACKLIST
 } from './utils/constants'
-
-// The reveal.js version
-export const VERSION = '6.0.0-rc.1';
+import { version as VERSION } from '../package.json';
+export { VERSION };
 
 /**
  * reveal.js
