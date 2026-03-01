@@ -1,4 +1,9 @@
-import { Config } from './config';
+import {
+	Config,
+	TransitionStyle as _TransitionStyle,
+	TransitionSpeed as _TransitionSpeed,
+	FragmentAnimation as _FragmentAnimation,
+} from './config';
 
 export as namespace Reveal;
 
@@ -23,6 +28,10 @@ declare const Reveal: {
 } & Reveal.Api;
 
 declare namespace Reveal {
+	export type TransitionStyle = _TransitionStyle;
+	export type TransitionSpeed = _TransitionSpeed;
+	export type FragmentAnimation = _FragmentAnimation;
+
 	/**
 	 * The public reveal.js API
 	 *
