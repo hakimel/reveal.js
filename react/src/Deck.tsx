@@ -16,6 +16,7 @@ export function Deck(props: DeckProps) {
 	const {
 		plugins,
 		onReady,
+		onSync,
 		onSlideChange,
 		onSlideTransitionEnd,
 		onFragmentShown,
@@ -70,6 +71,7 @@ export function Deck(props: DeckProps) {
 		if (!deck) return;
 
 		const events: [string, ((e: any) => void) | undefined][] = [
+			['sync', onSync],
 			['slidechanged', onSlideChange],
 			['slidetransitionend', onSlideTransitionEnd],
 			['fragmentshown', onFragmentShown],
@@ -104,6 +106,14 @@ export function Deck(props: DeckProps) {
 		onPaused,
 		onResumed,
 	]);
+
+	useEffect(() => {
+		if (!deck) return;
+		deck.configure({
+			...revealOptions,
+			plugins: plugins ?? [],
+		});
+	}, [deck, revealOptions, plugins]);
 
 	useLayoutEffect(() => {
 		if (revealRef.current?.isReady()) {

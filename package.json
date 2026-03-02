@@ -18,6 +18,7 @@
 		"./reveal.css": "./dist/reveal.css",
 		"./reset.css": "./dist/reset.css",
 		"./theme/*": "./dist/theme/*",
+		"./plugin/highlight/monokai.css": "./dist/plugin/highlight/monokai.css",
 		"./plugin/highlight": {
 			"import": "./dist/plugin/highlight.mjs",
 			"require": "./dist/plugin/highlight.js",

@@ -6,6 +6,7 @@ type RevealConfig = NonNullable<Parameters<Reveal.Api['initialize']>[0]>;
 export type DeckProps = Omit<RevealConfig, 'plugins'> & {
 	plugins?: any[];
 	onReady?: (deck: Reveal.Api) => void;
+	onSync?: (deck: Reveal.Api) => void;
 	onSlideChange?: (event: any) => void;
 	onSlideTransitionEnd?: (event: any) => void;
 	onFragmentShown?: (event: any) => void;
