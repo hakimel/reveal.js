@@ -2,20 +2,23 @@ import type { CSSProperties, ReactNode, ElementType, Ref } from 'react';
 import type Reveal from 'reveal.js';
 
 type RevealConfig = NonNullable<Parameters<Reveal.Api['initialize']>[0]>;
+type RevealPlugin = Reveal.Plugin | Reveal.PluginFunction;
+type RevealEventHandler = Parameters<Reveal.Api['on']>[1];
 
 export type DeckProps = {
 	config?: Omit<RevealConfig, 'plugins'>;
-	plugins?: any[];
+	/** Registered during deck initialization only. Subsequent prop updates are ignored. */
+	plugins?: RevealPlugin[];
 	onReady?: (deck: Reveal.Api) => void;
-	onSync?: (deck: Reveal.Api) => void;
-	onSlideChange?: (event: any) => void;
-	onSlideTransitionEnd?: (event: any) => void;
-	onFragmentShown?: (event: any) => void;
-	onFragmentHidden?: (event: any) => void;
-	onOverviewShown?: () => void;
-	onOverviewHidden?: () => void;
-	onPaused?: () => void;
-	onResumed?: () => void;
+	onSync?: RevealEventHandler;
+	onSlideChange?: RevealEventHandler;
+	onSlideTransitionEnd?: RevealEventHandler;
+	onFragmentShown?: RevealEventHandler;
+	onFragmentHidden?: RevealEventHandler;
+	onOverviewShown?: RevealEventHandler;
+	onOverviewHidden?: RevealEventHandler;
+	onPaused?: RevealEventHandler;
+	onResumed?: RevealEventHandler;
 	deckRef?: Ref<Reveal.Api | null>;
 	className?: string;
 	style?: CSSProperties;

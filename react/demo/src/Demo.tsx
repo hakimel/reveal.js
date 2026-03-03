@@ -121,18 +121,24 @@ function Demo() {
 			</Stack>
 
 			<Slide>
-				<h2>API Hook</h2>
-				<p>Components inside slides can access the reveal.js API via the useReveal() hook.</p>
-				<Code language="javascript" lineNumbers="1|4">
-					{`
-					const deck = useReveal();
+				<Columns>
+					<div style={{ textAlign: 'left' }}>
+						<h2>API Hook</h2>
+						<p>Components inside slides can access the reveal.js API via the useReveal() hook.</p>
+						<NavigationControls />
+					</div>
+					<div>
+						<Code language="javascript" lineNumbers="1|4">
+							{`
+							const deck = useReveal();
 
-					function nextSlide() {
-						deck?.next();
-					}
-					`}
-				</Code>
-				<NavigationControls />
+							function nextSlide() {
+								deck?.next();
+							}
+							`}
+						</Code>
+					</div>
+				</Columns>
 			</Slide>
 
 			<Slide>

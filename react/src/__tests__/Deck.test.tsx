@@ -188,6 +188,37 @@ describe('Deck', () => {
 		);
 	});
 
+	it('registers plugins only on initialization', async () => {
+		const pluginA = () => ({ id: 'a', init: () => {} });
+		const pluginB = () => ({ id: 'b', init: () => {} });
+
+		let rerender: ReturnType<typeof render>['rerender'];
+		await act(async () => {
+			({ rerender } = render(
+				<Deck plugins={[pluginA]}>
+					<Slide>Test</Slide>
+				</Deck>
+			));
+		});
+
+		mockApi.configure.mockClear();
+
+		await act(async () => {
+			rerender(
+				<Deck plugins={[pluginB]}>
+					<Slide>Test</Slide>
+				</Deck>
+			);
+		});
+
+		expect(RevealConstructor).toHaveBeenCalledTimes(1);
+		expect(RevealConstructor).toHaveBeenCalledWith(
+			expect.any(HTMLElement),
+			expect.objectContaining({ plugins: [pluginA] })
+		);
+		expect(mockApi.configure).not.toHaveBeenCalled();
+	});
+
 	it('applies className and style to the .reveal div', async () => {
 		let container: HTMLElement;
 		await act(async () => {
@@ -214,6 +245,40 @@ describe('Deck', () => {
 
 		expect(RevealConstructor).toHaveBeenCalledTimes(1);
 		expect(mockApi.initialize).toHaveBeenCalledTimes(1);
+	});
+
+	it('updates deckRef when the ref prop changes', async () => {
+		const refA = vi.fn();
+		const refB = vi.fn();
+
+		let rerender: ReturnType<typeof render>['rerender'];
+		let unmount: ReturnType<typeof render>['unmount'];
+		await act(async () => {
+			({ rerender, unmount } = render(
+				<Deck deckRef={refA}>
+					<Slide>Test</Slide>
+				</Deck>
+			));
+		});
+
+		expect(refA).toHaveBeenCalledWith(mockApi);
+
+		await act(async () => {
+			rerender(
+				<Deck deckRef={refB}>
+					<Slide>Test</Slide>
+				</Deck>
+			);
+		});
+
+		expect(refA).toHaveBeenCalledWith(null);
+		expect(refB).toHaveBeenCalledWith(mockApi);
+
+		await act(async () => {
+			unmount();
+		});
+
+		expect(refB).toHaveBeenCalledWith(null);
 	});
 });
 

@@ -3,7 +3,8 @@ import Reveal from 'reveal.js';
 import { RevealContext } from './context';
 import type { DeckProps } from './types';
 
-const DEFAULT_PLUGINS: any[] = [];
+const DEFAULT_PLUGINS: NonNullable<DeckProps['plugins']> = [];
+type DeckEventHandler = NonNullable<DeckProps['onSync']>;
 
 function setRef<T>(ref: React.Ref<T | null> | undefined, value: T | null) {
 	if (!ref) return;
@@ -35,14 +36,16 @@ export function Deck({
 	const deckDivRef = useRef<HTMLDivElement>(null);
 	const revealRef = useRef<Reveal.Api | null>(null);
 	const [deck, setDeck] = useState<Reveal.Api | null>(null);
+
+	// Plugins are init-only in reveal.js; we register them once when creating the instance.
+	const initialPluginsRef = useRef<NonNullable<DeckProps['plugins']>>(plugins);
+
 	// configure() performs its own sync in Reveal; this flag prevents us from running an
 	// immediate second sync in the next layout effect pass.
 	const skipNextSyncRef = useRef(false);
-	// Track the last config/plugins references we applied so we can skip redundant configure() calls.
-	const appliedConfigRef = useRef<{ config: DeckProps['config']; plugins: any[] }>({
-		config,
-		plugins,
-	});
+
+	// Track the last config reference we applied so we can skip redundant configure() calls.
+	const appliedConfigRef = useRef<DeckProps['config']>(config);
 
 	// Create the Reveal instance once on mount and destroy it on unmount.
 	useEffect(() => {
@@ -52,15 +55,14 @@ export function Deck({
 
 		const instance = new Reveal(deckDivRef.current!, {
 			...config,
-			plugins,
+			plugins: initialPluginsRef.current,
 		});
-		appliedConfigRef.current = { config, plugins };
+		appliedConfigRef.current = config;
 		revealRef.current = instance;
 
 		instance.initialize().then(() => {
 			if (!mounted) return;
 			setDeck(instance);
-			setRef(deckRef, instance);
 			onReady?.(instance);
 		});
 
@@ -73,15 +75,20 @@ export function Deck({
 			}
 			revealRef.current = null;
 			setDeck(null);
-			setRef(deckRef, null);
 		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+	// Keep consumer refs in sync, including when the ref prop itself changes.
+	useEffect(() => {
+		setRef(deckRef, deck);
+		return () => setRef(deckRef, null);
+	}, [deckRef, deck]);
 
 	// Attach and detach Reveal event listeners from the provided callbacks.
 	useEffect(() => {
 		if (!deck) return;
 
-		const events: [string, ((e: any) => void) | undefined][] = [
+		const events: [string, DeckEventHandler | undefined][] = [
 			['sync', onSync],
 			['slidechanged', onSlideChange],
 			['slidetransitionend', onSlideTransitionEnd],
@@ -93,7 +100,7 @@ export function Deck({
 			['resumed', onResumed],
 		];
 
-		const bound: [string, (e: any) => void][] = [];
+		const bound: [string, DeckEventHandler][] = [];
 		for (const [name, handler] of events) {
 			if (handler) {
 				deck.on(name, handler);
@@ -119,23 +126,17 @@ export function Deck({
 		onResumed,
 	]);
 
-	// Re-apply config/plugins after init and mark that configure already performed a sync.
+	// Re-apply config after init and mark that configure already performed a sync.
 	useLayoutEffect(() => {
 		if (!deck || !revealRef.current?.isReady()) return;
-		if (
-			appliedConfigRef.current.config === config &&
-			appliedConfigRef.current.plugins === plugins
-		) {
-			return;
-		}
+		if (appliedConfigRef.current === config) return;
 
 		skipNextSyncRef.current = true;
 		revealRef.current.configure({
 			...config,
-			plugins,
 		});
-		appliedConfigRef.current = { config, plugins };
-	}, [deck, config, plugins]);
+		appliedConfigRef.current = config;
+	}, [deck, config]);
 
 	// Sync Reveal's internal slide bookkeeping after React renders unless configure already did.
 	useLayoutEffect(() => {
@@ -146,7 +147,7 @@ export function Deck({
 			}
 			revealRef.current.sync();
 		}
-	}, [deck, children, config, plugins]);
+	}, [deck, children, config]);
 
 	return (
 		<RevealContext.Provider value={deck}>

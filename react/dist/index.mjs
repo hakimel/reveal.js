@@ -1,188 +1,184 @@
-import { createContext as D, useRef as v, useState as E, useEffect as _, useLayoutEffect as L, useContext as B, useMemo as z } from "react";
-import { jsx as m } from "react/jsx-runtime";
+import { createContext as E, useRef as g, useState as P, useEffect as N, useLayoutEffect as _, useContext as D, useMemo as z } from "react";
+import { jsx as h } from "react/jsx-runtime";
 import M from "reveal.js";
-const N = D(null), P = [];
-function w(t, e) {
-  t && (typeof t == "function" ? t(e) : typeof t == "object" && (t.current = e));
+const w = E(null), T = [];
+function B(e, t) {
+  e && (typeof e == "function" ? e(t) : typeof e == "object" && (e.current = t));
 }
-function Y({
-  config: t,
-  plugins: e = P,
+function q({
+  config: e,
+  plugins: t = T,
   onReady: r,
   onSync: s,
-  onSlideChange: c,
-  onSlideTransitionEnd: u,
+  onSlideChange: u,
+  onSlideTransitionEnd: o,
   onFragmentShown: a,
-  onFragmentHidden: g,
-  onOverviewShown: A,
-  onOverviewHidden: C,
-  onPaused: j,
-  onResumed: k,
-  deckRef: x,
+  onFragmentHidden: p,
+  onOverviewShown: C,
+  onOverviewHidden: j,
+  onPaused: x,
+  onResumed: S,
+  deckRef: y,
   className: f,
-  style: S,
-  children: y
+  style: k,
+  children: b
 }) {
-  const p = v(null), l = v(null), [i, I] = E(null), b = v(!1), n = v({
-    config: t,
-    plugins: e
-  });
-  return _(() => {
+  const v = g(null), l = g(null), [i, I] = P(null), L = g(t), n = g(!1), d = g(e);
+  return N(() => {
     if (l.current) return;
-    let d = !0;
-    const o = new M(p.current, {
-      ...t,
-      plugins: e
+    let m = !0;
+    const c = new M(v.current, {
+      ...e,
+      plugins: L.current
     });
-    return n.current = { config: t, plugins: e }, l.current = o, o.initialize().then(() => {
-      d && (I(o), w(x, o), r?.(o));
+    return d.current = e, l.current = c, c.initialize().then(() => {
+      m && (I(c), r?.(c));
     }), () => {
-      d = !1;
+      m = !1;
       try {
-        o.destroy();
+        c.destroy();
       } catch {
       }
-      l.current = null, I(null), w(x, null);
+      l.current = null, I(null);
     };
-  }, []), _(() => {
+  }, []), N(() => (B(y, i), () => B(y, null)), [y, i]), N(() => {
     if (!i) return;
-    const d = [
+    const m = [
       ["sync", s],
-      ["slidechanged", c],
-      ["slidetransitionend", u],
+      ["slidechanged", u],
+      ["slidetransitionend", o],
       ["fragmentshown", a],
-      ["fragmenthidden", g],
-      ["overviewshown", A],
-      ["overviewhidden", C],
-      ["paused", j],
-      ["resumed", k]
-    ], o = [];
-    for (const [h, R] of d)
-      R && (i.on(h, R), o.push([h, R]));
+      ["fragmenthidden", p],
+      ["overviewshown", C],
+      ["overviewhidden", j],
+      ["paused", x],
+      ["resumed", S]
+    ], c = [];
+    for (const [R, A] of m)
+      A && (i.on(R, A), c.push([R, A]));
     return () => {
-      for (const [h, R] of o)
-        i.off(h, R);
+      for (const [R, A] of c)
+        i.off(R, A);
     };
   }, [
     i,
     s,
-    c,
     u,
+    o,
     a,
-    g,
-    A,
+    p,
     C,
     j,
-    k
-  ]), L(() => {
-    !i || !l.current?.isReady() || n.current.config === t && n.current.plugins === e || (b.current = !0, l.current.configure({
-      ...t,
-      plugins: e
-    }), n.current = { config: t, plugins: e });
-  }, [i, t, e]), L(() => {
+    x,
+    S
+  ]), _(() => {
+    !i || !l.current?.isReady() || d.current !== e && (n.current = !0, l.current.configure({
+      ...e
+    }), d.current = e);
+  }, [i, e]), _(() => {
     if (l.current?.isReady()) {
-      if (b.current) {
-        b.current = !1;
+      if (n.current) {
+        n.current = !1;
         return;
       }
       l.current.sync();
     }
-  }, [i, y, t, e]), /* @__PURE__ */ m(N.Provider, { value: i, children: /* @__PURE__ */ m("div", { className: f ? `reveal ${f}` : "reveal", style: S, ref: p, children: /* @__PURE__ */ m("div", { className: "slides", children: y }) }) });
+  }, [i, b, e]), /* @__PURE__ */ h(w.Provider, { value: i, children: /* @__PURE__ */ h("div", { className: f ? `reveal ${f}` : "reveal", style: k, ref: v, children: /* @__PURE__ */ h("div", { className: "slides", children: b }) }) });
 }
-function q({ children: t, ...e }) {
-  return /* @__PURE__ */ m("section", { ...e, children: t });
+function H({ children: e, ...t }) {
+  return /* @__PURE__ */ h("section", { ...t, children: e });
 }
-function H({ className: t, style: e, children: r }) {
-  return /* @__PURE__ */ m("section", { className: t, style: e, children: r });
-}
-function J({
-  animation: t,
-  index: e,
-  as: r = "span",
-  className: s,
-  style: c,
-  children: u
-}) {
-  const a = ["fragment", t, s].filter(Boolean).join(" ");
-  return /* @__PURE__ */ m(r, { className: a, style: c, "data-fragment-index": e, children: u });
-}
-function T(t) {
-  const e = t.replace(/\r\n/g, `
-`).split(`
-`);
-  for (; e.length && e[0].trim().length === 0; ) e.shift();
-  for (; e.length && e[e.length - 1].trim().length === 0; ) e.pop();
-  if (!e.length) return "";
-  const r = e.filter((s) => s.trim().length > 0).reduce(
-    (s, c) => Math.min(s, c.match(/^\s*/)?.[0].length ?? 0),
-    Number.POSITIVE_INFINITY
-  );
-  return e.map((s) => s.slice(r)).join(`
-`);
-}
-function G(t) {
-  const e = t.parentElement;
-  e && Array.from(e.children).forEach((r) => {
-    r !== t && r instanceof HTMLElement && r.tagName === "CODE" && r.classList.contains("fragment") && r.remove();
-  });
+function J({ className: e, style: t, children: r }) {
+  return /* @__PURE__ */ h("section", { className: e, style: t, children: r });
 }
 function K({
-  children: t,
-  code: e,
+  animation: e,
+  index: t,
+  as: r = "span",
+  className: s,
+  style: u,
+  children: o
+}) {
+  const a = ["fragment", e, s].filter(Boolean).join(" ");
+  return /* @__PURE__ */ h(r, { className: a, style: u, "data-fragment-index": t, children: o });
+}
+function G(e) {
+  const t = e.replace(/\r\n/g, `
+`).split(`
+`);
+  for (; t.length && t[0].trim().length === 0; ) t.shift();
+  for (; t.length && t[t.length - 1].trim().length === 0; ) t.pop();
+  if (!t.length) return "";
+  const r = t.filter((s) => s.trim().length > 0).reduce(
+    (s, u) => Math.min(s, u.match(/^\s*/)?.[0].length ?? 0),
+    Number.POSITIVE_INFINITY
+  );
+  return t.map((s) => s.slice(r)).join(`
+`);
+}
+function U(e) {
+  const t = e.parentElement;
+  t && Array.from(t.children).forEach((r) => {
+    r !== e && r instanceof HTMLElement && r.tagName === "CODE" && r.classList.contains("fragment") && r.remove();
+  });
+}
+function O({
+  children: e,
+  code: t,
   language: r,
   trim: s = !0,
-  lineNumbers: c,
-  startFrom: u,
+  lineNumbers: u,
+  startFrom: o,
   noEscape: a,
-  codeClassName: g,
-  codeStyle: A,
-  codeProps: C,
-  className: j,
-  style: k,
-  ...x
+  codeClassName: p,
+  codeStyle: C,
+  codeProps: j,
+  className: x,
+  style: S,
+  ...y
 }) {
-  const f = B(N), S = v(null), y = v(""), p = typeof e == "string" ? e : typeof t == "string" ? t : "", l = z(() => s ? T(p) : p, [p, s]), i = c === !0 ? "" : c === !1 || c == null ? void 0 : String(c), I = [r, g].filter(Boolean).join(" "), b = ["code-wrapper", j].filter(Boolean).join(" ");
-  return L(() => {
-    const n = S.current;
+  const f = D(w), k = g(null), b = g(""), v = typeof t == "string" ? t : typeof e == "string" ? e : "", l = z(() => s ? G(v) : v, [v, s]), i = u === !0 ? "" : u === !1 || u == null ? void 0 : String(u), I = [r, p].filter(Boolean).join(" "), L = ["code-wrapper", x].filter(Boolean).join(" ");
+  return _(() => {
+    const n = k.current;
     if (!n || !f) return;
     const d = f.getPlugin?.("highlight");
     if (!d || typeof d.highlightBlock != "function") return;
-    const o = [
+    const m = [
       l,
       r || "",
-      g || "",
+      p || "",
       i == null ? "__none__" : `lineNumbers:${i}`,
-      u == null ? "" : String(u),
+      o == null ? "" : String(o),
       a ? "1" : "0"
     ].join("::");
-    if (y.current === o && n.getAttribute("data-highlighted") === "yes")
+    if (b.current === m && n.getAttribute("data-highlighted") === "yes")
       return;
-    G(n), n.textContent = l, n.removeAttribute("data-highlighted"), n.classList.remove("hljs"), n.classList.remove("has-highlights"), i == null ? n.removeAttribute("data-line-numbers") : n.setAttribute("data-line-numbers", i), u == null ? n.removeAttribute("data-ln-start-from") : n.setAttribute("data-ln-start-from", String(u)), a ? n.setAttribute("data-noescape", "") : n.removeAttribute("data-noescape"), d.highlightBlock(n);
-    const h = typeof n.closest == "function" ? n.closest("section") : null;
-    h && typeof f.syncSlide == "function" && f.syncSlide(h), y.current = o;
-  }, [f, l, r, g, i, u, a]), /* @__PURE__ */ m("pre", { className: b, style: k, ...x, children: /* @__PURE__ */ m(
+    U(n), n.textContent = l, n.removeAttribute("data-highlighted"), n.classList.remove("hljs"), n.classList.remove("has-highlights"), i == null ? n.removeAttribute("data-line-numbers") : n.setAttribute("data-line-numbers", i), o == null ? n.removeAttribute("data-ln-start-from") : n.setAttribute("data-ln-start-from", String(o)), a ? n.setAttribute("data-noescape", "") : n.removeAttribute("data-noescape"), d.highlightBlock(n);
+    const c = typeof n.closest == "function" ? n.closest("section") : null;
+    c && typeof f.syncSlide == "function" && f.syncSlide(c), b.current = m;
+  }, [f, l, r, p, i, o, a]), /* @__PURE__ */ h("pre", { className: L, style: S, ...y, children: /* @__PURE__ */ h(
     "code",
     {
-      ...C,
-      ref: S,
+      ...j,
+      ref: k,
       className: I || void 0,
-      style: A,
+      style: C,
       "data-line-numbers": i,
-      "data-ln-start-from": u,
+      "data-ln-start-from": o,
       "data-noescape": a ? "" : void 0,
       children: l
     }
   ) });
 }
-function O() {
-  return B(N);
+function Q() {
+  return D(w);
 }
 export {
-  K as Code,
-  Y as Deck,
-  J as Fragment,
-  N as RevealContext,
-  q as Slide,
-  H as Stack,
-  O as useReveal
+  O as Code,
+  q as Deck,
+  K as Fragment,
+  w as RevealContext,
+  H as Slide,
+  J as Stack,
+  Q as useReveal
 };
