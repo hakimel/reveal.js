@@ -40,3 +40,16 @@ export type FragmentProps = {
 	style?: CSSProperties;
 	children?: ReactNode;
 };
+
+export type CodeProps = Omit<React.HTMLAttributes<HTMLPreElement>, 'children'> & {
+	children?: string;
+	code?: string;
+	language?: string;
+	trim?: boolean;
+	lineNumbers?: boolean | string;
+	startFrom?: number;
+	noEscape?: boolean;
+	codeClassName?: string;
+	codeStyle?: CSSProperties;
+	codeProps?: Omit<React.HTMLAttributes<HTMLElement>, 'children' | 'className' | 'style'>;
+};

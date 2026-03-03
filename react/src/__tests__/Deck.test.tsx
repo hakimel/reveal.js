@@ -51,7 +51,7 @@ describe('Deck', () => {
 	it('calls new Reveal() and initialize() on mount', async () => {
 		await act(async () => {
 			render(
-				<Deck transition="slide" hash>
+				<Deck config={{ transition: 'slide', hash: true }}>
 					<Slide>Test</Slide>
 				</Deck>
 			);
@@ -94,6 +94,35 @@ describe('Deck', () => {
 		});
 
 		expect(mockApi.sync).toHaveBeenCalled();
+	});
+
+	it('does not call sync() twice when configure() already syncs', async () => {
+		mockApi.configure.mockImplementation(() => {
+			mockApi.sync();
+		});
+
+		let rerender: ReturnType<typeof render>['rerender'];
+		await act(async () => {
+			({ rerender } = render(
+				<Deck config={{ transition: 'slide' }}>
+					<Slide>Test</Slide>
+				</Deck>
+			));
+		});
+
+		mockApi.configure.mockClear();
+		mockApi.sync.mockClear();
+
+		await act(async () => {
+			rerender(
+				<Deck config={{ transition: 'convex' }}>
+					<Slide>Test</Slide>
+				</Deck>
+			);
+		});
+
+		expect(mockApi.configure).toHaveBeenCalledTimes(1);
+		expect(mockApi.sync).toHaveBeenCalledTimes(1);
 	});
 
 	it('fires onReady callback after initialization', async () => {
