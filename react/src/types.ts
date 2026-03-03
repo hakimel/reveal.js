@@ -3,7 +3,8 @@ import type Reveal from 'reveal.js';
 
 type RevealConfig = NonNullable<Parameters<Reveal.Api['initialize']>[0]>;
 
-export type DeckProps = Omit<RevealConfig, 'plugins'> & {
+export type DeckProps = {
+	config?: Omit<RevealConfig, 'plugins'>;
 	plugins?: any[];
 	onReady?: (deck: Reveal.Api) => void;
 	onSync?: (deck: Reveal.Api) => void;

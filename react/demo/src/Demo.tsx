@@ -31,9 +31,11 @@ function Demo() {
 
 	return (
 		<Deck
-			transition="slide"
-			hash
-			controls={controls}
+			config={{
+				transition: 'slide',
+				hash: true,
+				controls,
+			}}
 			onReady={(deck) => console.log('Deck ready!', deck)}
 			onSync={() => console.log('Deck synced')}
 			onSlideChange={(e) => console.log('Slide changed')}

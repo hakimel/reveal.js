@@ -12,26 +12,24 @@ function setRef<T>(ref: React.Ref<T | null> | undefined, value: T | null) {
 	}
 }
 
-export function Deck(props: DeckProps) {
-	const {
-		plugins,
-		onReady,
-		onSync,
-		onSlideChange,
-		onSlideTransitionEnd,
-		onFragmentShown,
-		onFragmentHidden,
-		onOverviewShown,
-		onOverviewHidden,
-		onPaused,
-		onResumed,
-		deckRef,
-		className,
-		style,
-		children,
-		...revealOptions
-	} = props;
-
+export function Deck({
+	config,
+	plugins = [],
+	onReady,
+	onSync,
+	onSlideChange,
+	onSlideTransitionEnd,
+	onFragmentShown,
+	onFragmentHidden,
+	onOverviewShown,
+	onOverviewHidden,
+	onPaused,
+	onResumed,
+	deckRef,
+	className,
+	style,
+	children,
+}: DeckProps) {
 	const deckDivRef = useRef<HTMLDivElement>(null);
 	const revealRef = useRef<Reveal.Api | null>(null);
 	const [deck, setDeck] = useState<Reveal.Api | null>(null);
@@ -42,8 +40,8 @@ export function Deck(props: DeckProps) {
 		let mounted = true;
 
 		const instance = new Reveal(deckDivRef.current!, {
-			...revealOptions,
-			plugins: plugins ?? [],
+			...config,
+			plugins,
 		});
 		revealRef.current = instance;
 
@@ -97,6 +95,7 @@ export function Deck(props: DeckProps) {
 		};
 	}, [
 		deck,
+		onSync,
 		onSlideChange,
 		onSlideTransitionEnd,
 		onFragmentShown,
@@ -108,12 +107,12 @@ export function Deck(props: DeckProps) {
 	]);
 
 	useEffect(() => {
-		if (!deck) return;
-		deck.configure({
-			...revealOptions,
-			plugins: plugins ?? [],
+		if (!revealRef.current) return;
+		revealRef.current.configure({
+			...config,
+			plugins,
 		});
-	}, [deck, revealOptions, plugins]);
+	}, [config, plugins]);
 
 	useLayoutEffect(() => {
 		if (revealRef.current?.isReady()) {
