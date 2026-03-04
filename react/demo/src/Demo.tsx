@@ -22,7 +22,7 @@ function Columns({ children }: { children: React.ReactNode }) {
 	return (
 		<div style={{ display: 'flex', flexDirection: 'row' }}>
 			{Children.map(children, (child, index) => (
-				<div key={index} style={{ width: '50%' }}>
+				<div key={index} style={{ flex: 1 }}>
 					{child}
 				</div>
 			))}

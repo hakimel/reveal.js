@@ -6,6 +6,25 @@ import type { DeckProps } from './types';
 const DEFAULT_PLUGINS: NonNullable<DeckProps['plugins']> = [];
 type DeckEventHandler = NonNullable<DeckProps['onSync']>;
 
+function hasShallowConfigChanges(prev: DeckProps['config'], next: DeckProps['config']) {
+	if (prev === next) return false;
+	if (!prev || !next) return prev !== next;
+
+	const prevKeys = Object.keys(prev);
+	const nextKeys = Object.keys(next);
+
+	if (prevKeys.length !== nextKeys.length) return true;
+
+	for (const key of prevKeys) {
+		if (!(key in next)) return true;
+		if ((prev as Record<string, unknown>)[key] !== (next as Record<string, unknown>)[key]) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
 function setRef<T>(ref: React.Ref<T | null> | undefined, value: T | null) {
 	if (!ref) return;
 	if (typeof ref === 'function') {
@@ -129,7 +148,7 @@ export function Deck({
 	// Re-apply config after init and mark that configure already performed a sync.
 	useLayoutEffect(() => {
 		if (!deck || !revealRef.current?.isReady()) return;
-		if (appliedConfigRef.current === config) return;
+		if (!hasShallowConfigChanges(appliedConfigRef.current, config)) return;
 
 		skipNextSyncRef.current = true;
 		revealRef.current.configure({

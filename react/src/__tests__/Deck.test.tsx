@@ -125,6 +125,29 @@ describe('Deck', () => {
 		expect(mockApi.sync).toHaveBeenCalledTimes(1);
 	});
 
+	it('does not reconfigure when config object is recreated with same values', async () => {
+		let rerender: ReturnType<typeof render>['rerender'];
+		await act(async () => {
+			({ rerender } = render(
+				<Deck config={{ transition: 'slide', hash: true }}>
+					<Slide>Test</Slide>
+				</Deck>
+			));
+		});
+
+		mockApi.configure.mockClear();
+
+		await act(async () => {
+			rerender(
+				<Deck config={{ transition: 'slide', hash: true }}>
+					<Slide>Test</Slide>
+				</Deck>
+			);
+		});
+
+		expect(mockApi.configure).not.toHaveBeenCalled();
+	});
+
 	it('fires onReady callback after initialization', async () => {
 		const onReady = vi.fn();
 
