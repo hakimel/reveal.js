@@ -2,6 +2,7 @@
 /scripts
 /examples
 /plugin
+/react
 .github
 .sass-cache
 .codespellrc

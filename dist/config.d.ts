@@ -1,4 +1,22 @@
 /**
+ * Slide transition styles.
+ *
+ * @see {@link https://revealjs.com/transitions/}
+ */
+type TransitionStyle = 'none' | 'fade' | 'slide' | 'convex' | 'concave' | 'zoom';
+/**
+ * Slide transition speeds.
+ *
+ * @see {@link https://revealjs.com/transitions/}
+ */
+type TransitionSpeed = 'default' | 'fast' | 'slow';
+/**
+ * Fragment animation classes.
+ *
+ * @see {@link https://revealjs.com/fragments/}
+ */
+type FragmentAnimation = 'fade-out' | 'fade-up' | 'fade-down' | 'fade-left' | 'fade-right' | 'fade-in-then-out' | 'fade-in-then-semi-out' | 'grow' | 'shrink' | 'strike' | 'highlight-red' | 'highlight-blue' | 'highlight-green' | 'highlight-current-red' | 'highlight-current-blue' | 'highlight-current-green' | (string & {});
+/**
  * Configuration object for reveal.js.
  *
  * @see {@link https://revealjs.com/config/}
@@ -417,19 +435,19 @@ interface Config {
      *
      * @defaultValue 'slide'
      */
-    transition?: 'none' | 'fade' | 'slide' | 'convex' | 'concave' | 'zoom';
+    transition?: TransitionStyle;
     /**
      * Transition speed
      *
      * @defaultValue 'default'
      */
-    transitionSpeed?: 'default' | 'fast' | 'slow';
+    transitionSpeed?: TransitionSpeed;
     /**
      * Transition style for full page slide backgrounds
      *
      * @defaultValue 'fade'
      */
-    backgroundTransition?: 'fade' | 'none' | 'slide' | 'convex' | 'concave' | 'zoom';
+    backgroundTransition?: TransitionStyle;
     /**
      * Parallax background image
      *
@@ -591,5 +609,5 @@ interface Config {
  * The default reveal.js config object.
  */
 declare const defaultConfig: Config;
-export type { Config };
+export type { Config, TransitionStyle, TransitionSpeed, FragmentAnimation };
 export { defaultConfig };

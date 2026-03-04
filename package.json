@@ -18,6 +18,7 @@
 		"./reveal.css": "./dist/reveal.css",
 		"./reset.css": "./dist/reset.css",
 		"./theme/*": "./dist/theme/*",
+		"./plugin/highlight/monokai.css": "./dist/plugin/highlight/monokai.css",
 		"./plugin/highlight": {
 			"import": "./dist/plugin/highlight.mjs",
 			"require": "./dist/plugin/highlight.js",
@@ -57,7 +58,10 @@
 		"build:styles": "vite build -c vite.config.styles.ts",
 		"build": "tsc && vite build && vite build -c vite.config.styles.ts && vite build -c plugin/highlight/vite.config.ts && vite build -c plugin/markdown/vite.config.ts && vite build -c plugin/math/vite.config.ts && vite build -c plugin/notes/vite.config.ts && vite build -c plugin/search/vite.config.ts && vite build -c plugin/zoom/vite.config.ts && node scripts/add-banner.js dist/reveal.js",
 		"package": "node scripts/zip.js",
-		"test": "node scripts/test.js"
+		"test": "node scripts/test.js",
+		"react:build": "vite build -c react/vite.config.ts",
+		"react:demo": "npm run --prefix react demo",
+		"react:test": "npm run --prefix react test"
 	},
 	"author": {
 		"name": "Hakim El Hattab",

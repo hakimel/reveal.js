@@ -1550,6 +1550,14 @@ export default function( revealElement, options ) {
 			fragments.sortAll();
 		}
 
+		// Re-apply slide state classes for the current indices.
+		// This ensures dynamically inserted/removed slides receive
+		// proper past/present/future classes on sync.
+		if( typeof indexh !== 'undefined' ) {
+			indexh = updateSlides( HORIZONTAL_SLIDES_SELECTOR, indexh );
+			indexv = updateSlides( VERTICAL_SLIDES_SELECTOR, indexv );
+		}
+
 		controls.update();
 		progress.update();
 
