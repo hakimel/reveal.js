@@ -1,4 +1,5 @@
 import { render, act, cleanup } from '@testing-library/react';
+import { StrictMode } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 const mockApi = vi.hoisted(() => ({
@@ -122,6 +123,44 @@ describe('Deck', () => {
 		});
 
 		expect(mockApi.configure).toHaveBeenCalledTimes(1);
+		expect(mockApi.sync).toHaveBeenCalledTimes(1);
+	});
+
+	it('calls sync() after children change even when isReady() was false during the config-change render', async () => {
+		let rerender: ReturnType<typeof render>['rerender'];
+		await act(async () => {
+			({ rerender } = render(
+				<Deck config={{ transition: 'slide' }}>
+					<Slide>Slide 1</Slide>
+				</Deck>
+			));
+		});
+
+		// Make isReady() return true for the configure effect but false for the sync effect,
+		// simulating Reveal briefly being non-ready during configuration. Without the fix the
+		// skip flag would never be reset and the subsequent sync() call would be wrongly skipped.
+		mockApi.isReady.mockReturnValueOnce(true).mockReturnValueOnce(false);
+
+		await act(async () => {
+			rerender(
+				<Deck config={{ transition: 'convex' }}>
+					<Slide>Slide 1</Slide>
+				</Deck>
+			);
+		});
+
+		mockApi.isReady.mockReturnValue(true);
+		mockApi.sync.mockClear();
+
+		await act(async () => {
+			rerender(
+				<Deck config={{ transition: 'convex' }}>
+					<Slide>Slide 1</Slide>
+					<Slide>Slide 2</Slide>
+				</Deck>
+			);
+		});
+
 		expect(mockApi.sync).toHaveBeenCalledTimes(1);
 	});
 
@@ -260,9 +299,11 @@ describe('Deck', () => {
 	it('does not initialize twice in StrictMode', async () => {
 		await act(async () => {
 			render(
-				<Deck>
-					<Slide>Test</Slide>
-				</Deck>
+				<StrictMode>
+					<Deck>
+						<Slide>Test</Slide>
+					</Deck>
+				</StrictMode>
 			);
 		});
 

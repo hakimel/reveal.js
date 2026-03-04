@@ -6,6 +6,8 @@ import type { DeckProps } from './types';
 const DEFAULT_PLUGINS: NonNullable<DeckProps['plugins']> = [];
 type DeckEventHandler = NonNullable<DeckProps['onSync']>;
 
+// Shallow-compare config objects so that re-renders where the parent creates a new object
+// literal with identical values do not trigger an unnecessary configure() call.
 function hasShallowConfigChanges(prev: DeckProps['config'], next: DeckProps['config']) {
 	if (prev === next) return false;
 	if (!prev || !next) return prev !== next;
@@ -29,8 +31,8 @@ function setRef<T>(ref: React.Ref<T | null> | undefined, value: T | null) {
 	if (!ref) return;
 	if (typeof ref === 'function') {
 		ref(value);
-	} else if (typeof ref === 'object') {
-		(ref as { current: T | null }).current = value;
+	} else {
+		(ref as React.RefObject<T | null>).current = value;
 	}
 }
 
@@ -65,35 +67,60 @@ export function Deck({
 
 	// Track the last config reference we applied so we can skip redundant configure() calls.
 	const appliedConfigRef = useRef<DeckProps['config']>(config);
+	const mountedRef = useRef(false);
+	const teardownRequestRef = useRef(0);
 
 	// Create the Reveal instance once on mount and destroy it on unmount.
 	useEffect(() => {
-		if (revealRef.current) return;
+		mountedRef.current = true;
+		teardownRequestRef.current += 1;
 
-		let mounted = true;
+		if (!revealRef.current) {
+			const instance = new Reveal(deckDivRef.current!, {
+				...config,
+				plugins: initialPluginsRef.current,
+			});
+			// Capture the config that was passed to the constructor so the configure
+			// effect can later detect whether anything actually changed.
+			appliedConfigRef.current = config;
+			revealRef.current = instance;
 
-		const instance = new Reveal(deckDivRef.current!, {
-			...config,
-			plugins: initialPluginsRef.current,
-		});
-		appliedConfigRef.current = config;
-		revealRef.current = instance;
-
-		instance.initialize().then(() => {
-			if (!mounted) return;
-			setDeck(instance);
-			onReady?.(instance);
-		});
+			instance.initialize().then(() => {
+				if (!mountedRef.current || revealRef.current !== instance) return;
+				setDeck(instance);
+				onReady?.(instance);
+			});
+		} else if (revealRef.current.isReady()) {
+			// React StrictMode unmounts and remounts every effect. On the second mount
+			// the instance is already live, so skip construction. The isReady() guard
+			// ensures we only expose it once initialization has fully completed.
+			setDeck(revealRef.current);
+		}
 
 		return () => {
-			mounted = false;
-			try {
-				instance.destroy();
-			} catch (e) {
-				// Ignore errors during cleanup
-			}
-			revealRef.current = null;
-			setDeck(null);
+			mountedRef.current = false;
+			const instance = revealRef.current;
+			if (!instance) return;
+
+			// Defer teardown to the next microtask. In StrictMode the component
+			// remounts immediately, incrementing teardownRequestRef before the
+			// microtask runs. The stale request number causes the callback to bail
+			// out, preventing the instance from being destroyed on a live component.
+			const teardownRequest = ++teardownRequestRef.current;
+			Promise.resolve().then(() => {
+				if (mountedRef.current || teardownRequestRef.current !== teardownRequest) return;
+				if (revealRef.current !== instance) return;
+
+				try {
+					instance.destroy();
+				} catch (e) {
+					// Ignore errors during cleanup
+				}
+
+				if (revealRef.current === instance) {
+					revealRef.current = null;
+				}
+			});
 		};
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -119,12 +146,9 @@ export function Deck({
 			['resumed', onResumed],
 		];
 
-		const bound: [string, DeckEventHandler][] = [];
-		for (const [name, handler] of events) {
-			if (handler) {
-				deck.on(name, handler);
-				bound.push([name, handler]);
-			}
+		const bound = events.filter((e): e is [string, DeckEventHandler] => e[1] != null);
+		for (const [name, handler] of bound) {
+			deck.on(name, handler);
 		}
 
 		return () => {
@@ -151,19 +175,18 @@ export function Deck({
 		if (!hasShallowConfigChanges(appliedConfigRef.current, config)) return;
 
 		skipNextSyncRef.current = true;
-		revealRef.current.configure({
-			...config,
-		});
+		revealRef.current.configure(config ?? {});
 		appliedConfigRef.current = config;
 	}, [deck, config]);
 
 	// Sync Reveal's internal slide bookkeeping after React renders unless configure already did.
+	// The flag is captured and reset unconditionally so it cannot leak into subsequent render
+	// cycles if an early-return path (e.g. !isReady()) is taken before the flag check.
 	useLayoutEffect(() => {
-		if (revealRef.current?.isReady()) {
-			if (skipNextSyncRef.current) {
-				skipNextSyncRef.current = false;
-				return;
-			}
+		const shouldSkip = skipNextSyncRef.current;
+		skipNextSyncRef.current = false;
+
+		if (revealRef.current?.isReady() && !shouldSkip) {
 			revealRef.current.sync();
 		}
 	}, [deck, children, config]);
