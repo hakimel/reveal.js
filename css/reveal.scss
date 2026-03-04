@@ -6,15 +6,9 @@
  * Copyright (C) Hakim El Hattab, https://hakim.se
  */
 
-@use "sass:math";
+@use 'sass:math';
+@use 'sass:meta';
 @use 'layout';
-
-/*********************************************
- * PRINT STYLES
- *********************************************/
-
-@use 'print/pdf.scss';
-@use 'print/paper.scss';
 
 /*********************************************
  * GLOBAL STYLES
@@ -24,7 +18,7 @@ html.reveal-full-page {
 	width: 100%;
 	height: 100%;
 	height: 100vh;
-	height: calc( var(--vh, 1vh) * 100 );
+	height: calc(var(--vh, 1vh) * 100);
 	height: 100dvh;
 	overflow: hidden;
 }
@@ -339,7 +333,10 @@ $controlsArrowAngleActive: 36deg;
 		cursor: pointer;
 		color: currentColor;
 		transform: scale(0.9999);
-		transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+		transition:
+			color 0.2s ease,
+			opacity 0.2s ease,
+			transform 0.2s ease;
 		z-index: 2; // above slides
 		pointer-events: auto;
 		font-size: inherit;
@@ -362,7 +359,9 @@ $controlsArrowAngleActive: 36deg;
 		border-radius: $controlArrowThickness * 0.5;
 		background-color: currentColor;
 
-		transition: all 0.15s ease, background-color 0.8s ease;
+		transition:
+			all 0.15s ease,
+			background-color 0.8s ease;
 		transform-origin: math.div(math.floor(($controlArrowThickness * 0.5) * 10), 10) 50%;
 		will-change: transform;
 	}
@@ -712,7 +711,8 @@ $controlsArrowAngleActive: 36deg;
 
 	z-index: 10;
 	transform-style: flat;
-	transition: transform-origin 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985),
+	transition:
+		transform-origin 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985),
 		transform 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985),
 		visibility 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985),
 		opacity 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
@@ -1036,8 +1036,8 @@ $controlsArrowAngleActive: 36deg;
 	border-radius: 4px;
 	box-shadow: 0px 95px 25px rgba(0, 0, 0, 0.2);
 
-	transform: translateZ(-90px) rotateX( 65deg );
-	}
+	transform: translateZ(-90px) rotateX(65deg);
+}
 
 .reveal.page .slides > section.stack {
 	padding: 0;
@@ -1427,7 +1427,7 @@ $controlsArrowAngleActive: 36deg;
 	}
 	.slides section:hover,
 	.slides section.present {
-		outline: 10px solid rgba(150,150,150,0.6);
+		outline: 10px solid rgba(150, 150, 150, 0.6);
 		outline-offset: 10px;
 	}
 	.slides section.present {
@@ -1529,18 +1529,26 @@ $controlsArrowAngleActive: 36deg;
  *********************************************/
 
 @keyframes fade-in {
-	from { opacity: 0; }
-	to { opacity: 1; }
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
 }
 
 @keyframes scale-up {
-	from { transform: scale( 0.95 ); }
-	to { transform: scale( 1 ); }
+	from {
+		transform: scale(0.95);
+	}
+	to {
+		transform: scale(1);
+	}
 }
 
 .reveal [data-preview-image],
 .reveal [data-preview-video],
-.reveal [data-preview-link]:not(a):not([data-preview-link=false]) {
+.reveal [data-preview-link]:not(a):not([data-preview-link='false']) {
 	cursor: zoom-in;
 }
 
@@ -1550,14 +1558,19 @@ $controlsArrowAngleActive: 36deg;
 	right: var(--r-overlay-margin);
 	bottom: var(--r-overlay-margin);
 	left: var(--r-overlay-margin);
-	border-radius: min( var(--r-overlay-margin), 6px );
+	border-radius: min(var(--r-overlay-margin), 6px);
 	z-index: 99;
-	background: rgba( 0, 0, 0, 0.95 );
-	backdrop-filter: blur( 10px );
+	background: rgba(0, 0, 0, 0.95);
+	backdrop-filter: blur(10px);
 	transition: all 0.3s ease;
 	color: #fff;
 	animation: fade-in 0.3s ease;
-	font-family: ui-sans-serif, system-ui, -apple-system, Helvetica, sans-serif;
+	font-family:
+		ui-sans-serif,
+		system-ui,
+		-apple-system,
+		Helvetica,
+		sans-serif;
 }
 
 .r-overlay-viewport {
@@ -1598,7 +1611,7 @@ $controlsArrowAngleActive: 36deg;
 }
 .r-overlay-header .r-overlay-header-button:hover {
 	opacity: 1;
-	background-color: rgba( 255, 255, 255, 0.15 );
+	background-color: rgba(255, 255, 255, 0.15);
 }
 .r-overlay-header .icon {
 	display: inline-block;
@@ -1624,7 +1637,7 @@ $controlsArrowAngleActive: 36deg;
 	overflow: hidden;
 	flex-grow: 1;
 	background-color: rgba(20, 20, 20, 0.8);
-	animation: scale-up 0.5s cubic-bezier(0.260, 0.860, 0.440, 0.985);
+	animation: scale-up 0.5s cubic-bezier(0.26, 0.86, 0.44, 0.985);
 }
 
 .r-overlay-spinner {
@@ -1655,7 +1668,7 @@ $controlsArrowAngleActive: 36deg;
 	transition: all 0.3s ease;
 }
 
-.r-overlay-preview[data-state="loaded"] iframe {
+.r-overlay-preview[data-state='loaded'] iframe {
 	opacity: 1;
 	visibility: visible;
 }
@@ -1671,27 +1684,27 @@ $controlsArrowAngleActive: 36deg;
 	object-fit: scale-down;
 }
 
-.r-overlay-preview[data-preview-fit="none"] img,
-.r-overlay-preview[data-preview-fit="none"] video {
+.r-overlay-preview[data-preview-fit='none'] img,
+.r-overlay-preview[data-preview-fit='none'] video {
 	object-fit: none;
 }
 
-.r-overlay-preview[data-preview-fit="scale-down"] img,
-.r-overlay-preview[data-preview-fit="scale-down"] video {
+.r-overlay-preview[data-preview-fit='scale-down'] img,
+.r-overlay-preview[data-preview-fit='scale-down'] video {
 	object-fit: scale-down;
 }
 
-.r-overlay-preview[data-preview-fit="contain"] img,
-.r-overlay-preview[data-preview-fit="contain"] video {
+.r-overlay-preview[data-preview-fit='contain'] img,
+.r-overlay-preview[data-preview-fit='contain'] video {
 	object-fit: contain;
 }
 
-.r-overlay-preview[data-preview-fit="cover"] img,
-.r-overlay-preview[data-preview-fit="cover"] video {
+.r-overlay-preview[data-preview-fit='cover'] img,
+.r-overlay-preview[data-preview-fit='cover'] video {
 	object-fit: cover;
 }
 
-.r-overlay-preview[data-state="loaded"] .r-overlay-content-inner  {
+.r-overlay-preview[data-state='loaded'] .r-overlay-content-inner {
 	position: absolute;
 	z-index: -1;
 	left: 0;
@@ -1705,15 +1718,15 @@ $controlsArrowAngleActive: 36deg;
 	color: orange;
 }
 
-.r-overlay-preview .x-frame-error  {
+.r-overlay-preview .x-frame-error {
 	opacity: 0;
 	transition: opacity 0.3s ease 0.3s;
 }
-.r-overlay-preview[data-state="loaded"] .x-frame-error  {
+.r-overlay-preview[data-state='loaded'] .x-frame-error {
 	opacity: 1;
 }
 
-.r-overlay-preview[data-state="loading"] .r-overlay-spinner {
+.r-overlay-preview[data-state='loading'] .r-overlay-spinner {
 	opacity: 0.6;
 	visibility: visible;
 }
@@ -2019,7 +2032,7 @@ $notesWidthPercent: 25%;
 	font-size: 0.4em;
 	z-index: 30;
 	cursor: pointer;
-	-webkit-tap-highlight-color: rgba( 0, 0, 0, 0 );
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	-webkit-appearance: none;
 	appearance: none;
 	color: #fff;
@@ -2043,7 +2056,6 @@ $notesWidthPercent: 25%;
 	left: 15px;
 	bottom: 20px;
 }
-
 
 /*********************************************
  * ZOOM PLUGIN
@@ -2286,7 +2298,9 @@ $notesWidthPercent: 25%;
 		left: 50%;
 		transform: translate(-50%, -50%);
 		background-color: rgba(var(--r-overlay-element-bg-color), 1);
-		transition: transform 0.2s ease, opacity 0.2s ease;
+		transition:
+			transform 0.2s ease,
+			opacity 0.2s ease;
 		opacity: 0.4;
 	}
 
@@ -2300,3 +2314,10 @@ $notesWidthPercent: 25%;
 		background-color: rgba(var(--r-overlay-element-bg-color), 1);
 	}
 }
+
+/*********************************************
+ * PRINT STYLES
+ *********************************************/
+
+@include meta.load-css('print/pdf.scss');
+@include meta.load-css('print/paper.scss');

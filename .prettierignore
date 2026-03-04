@@ -3,3 +3,4 @@ plugin/**/*.js
 test/**/*.md
 test/**/*.html
 examples/**/*.md
+dist/**/*
