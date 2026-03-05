@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>reveal.js - Markdown whitespace normalization tests (#3839)</title>
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
+		<script src="../node_modules/qunit/qunit/qunit.js"></script>
+		<script>QUnit.config.autostart = false;</script>
+	</head>
+
+	<body style="overflow: auto;">
+
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<!--
+			#3839 — whitespace normalization corrupts mid-line spaces.
+
+			Script content uses exactly 2-space indentation so that leadingWs = 2
+			and the normalization branch runs. Pre blocks inside each slide use
+			zero indentation, giving the buggy regex (which used \n? instead of
+			(^|\n)) a chance to match spaces mid-line.
+		-->
+		<div class="reveal deck1" style="display: none;">
+			<div class="slides">
+
+				<!--
+					Core bug: leadingWs=2, pre block line has no leading spaces
+					but contains exactly 2 consecutive spaces mid-line.
+					Buggy regex matches those 2 spaces and injects a newline;
+					fixed regex requires a real line start (^ or \n).
+				-->
+				<section data-markdown class="ws-spaces-equal">
+<script type="text/template">
+  ## Heading
+<pre>
+result  value
+</pre>
+</script>
+				</section>
+
+				<!--
+					More spaces than leadingWs: 4 consecutive spaces mid-line
+					(> leadingWs of 2). Buggy regex still matches the first 2
+					and corrupts the content.
+				-->
+				<section data-markdown class="ws-spaces-exceed">
+<script type="text/template">
+  ## Heading
+<pre>
+result    value
+</pre>
+</script>
+				</section>
+
+				<!--
+					Regression: normal indented content.
+					Leading 2-space indent must still be stripped so markdown
+					renders correctly (heading and paragraph present, no
+					residual leading spaces in the HTML).
+				-->
+				<section data-markdown class="ws-indent-stripped">
+<script type="text/template">
+  ## Heading
+  A paragraph
+</script>
+				</section>
+
+				<!--
+					Tab indentation: leadingTabs=1. Pre block line has a literal
+					tab mid-line. Buggy regex (with \n?) matches the tab and
+					injects a newline; the fix requires a real line start.
+				-->
+				<section data-markdown class="ws-tab-indent">
+<script type="text/template">
+	## Heading
+<pre>
+result	value
+</pre>
+</script>
+				</section>
+
+			</div>
+		</div>
+
+		<script type="module">
+			import Reveal from '../dist/reveal.esm.js';
+			import Markdown from '../plugin/markdown/markdown.esm.js';
+
+			QUnit.config.testTimeout = 30000;
+
+			let deck1 = new Reveal( document.querySelector( '.deck1' ), { plugins: [ Markdown ] } );
+			deck1.addEventListener( 'ready', function() {
+
+				QUnit.module( 'Markdown whitespace normalization (#3839)' );
+
+				QUnit.test( 'Mid-line spaces equal to leadingWs are preserved in pre block', function( assert ) {
+					const el = deck1.getRevealElement().querySelector( '.ws-spaces-equal' );
+					const pre = el.querySelector( 'pre' );
+					assert.ok( pre !== null, 'pre element exists' );
+					assert.ok( pre.textContent.indexOf( 'result  value' ) !== -1, 'two consecutive spaces preserved' );
+				} );
+
+				QUnit.test( 'Mid-line spaces exceeding leadingWs are preserved in pre block', function( assert ) {
+					const el = deck1.getRevealElement().querySelector( '.ws-spaces-exceed' );
+					const pre = el.querySelector( 'pre' );
+					assert.ok( pre !== null, 'pre element exists' );
+					assert.ok( pre.textContent.indexOf( 'result    value' ) !== -1, 'four consecutive spaces preserved' );
+				} );
+
+				QUnit.test( 'Leading indentation is still stripped from all lines', function( assert ) {
+					const el = deck1.getRevealElement().querySelector( '.ws-indent-stripped' );
+					assert.ok( el.querySelector( 'h2' ) !== null, 'heading rendered (leading indent was stripped)' );
+					assert.ok( el.querySelector( 'p' ) !== null, 'paragraph rendered' );
+					assert.strictEqual( el.querySelector( 'h2' ).textContent.trim(), 'Heading', 'no residual leading spaces on heading text' );
+				} );
+
+				QUnit.test( 'Tab-indented content: mid-line tab preserved in pre block', function( assert ) {
+					const el = deck1.getRevealElement().querySelector( '.ws-tab-indent' );
+					const pre = el.querySelector( 'pre' );
+					assert.ok( pre !== null, 'pre element exists' );
+					assert.ok( pre.textContent.indexOf( 'result\tvalue' ) !== -1, 'mid-line tab preserved' );
+				} );
+
+				QUnit.start();
+
+			} );
+
+			deck1.initialize();
+
+		</script>
+
+	</body>
+</html>
