@@ -41,6 +41,7 @@ export function Deck({
 	plugins = DEFAULT_PLUGINS,
 	onReady,
 	onSync,
+	onSlideSync,
 	onSlideChange,
 	onSlideTransitionEnd,
 	onFragmentShown,
@@ -136,6 +137,7 @@ export function Deck({
 
 		const events: [string, DeckEventHandler | undefined][] = [
 			['sync', onSync],
+			['slidesync', onSlideSync],
 			['slidechanged', onSlideChange],
 			['slidetransitionend', onSlideTransitionEnd],
 			['fragmentshown', onFragmentShown],
@@ -159,6 +161,7 @@ export function Deck({
 	}, [
 		deck,
 		onSync,
+		onSlideSync,
 		onSlideChange,
 		onSlideTransitionEnd,
 		onFragmentShown,

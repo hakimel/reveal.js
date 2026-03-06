@@ -11,6 +11,7 @@ export type DeckProps = {
 	plugins?: RevealPlugin[];
 	onReady?: (deck: Reveal.Api) => void;
 	onSync?: RevealEventHandler;
+	onSlideSync?: RevealEventHandler;
 	onSlideChange?: RevealEventHandler;
 	onSlideTransitionEnd?: RevealEventHandler;
 	onFragmentShown?: RevealEventHandler;

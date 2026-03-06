@@ -215,6 +215,20 @@ describe('Deck', () => {
 		expect(mockApi.on).toHaveBeenCalledWith('slidechanged', onSlideChange);
 	});
 
+	it('wires onSlideSync to the slidesync event', async () => {
+		const onSlideSync = vi.fn();
+
+		await act(async () => {
+			render(
+				<Deck onSlideSync={onSlideSync}>
+					<Slide>Test</Slide>
+				</Deck>
+			);
+		});
+
+		expect(mockApi.on).toHaveBeenCalledWith('slidesync', onSlideSync);
+	});
+
 	it('cleans up event listeners on unmount', async () => {
 		const onSlideChange = vi.fn();
 

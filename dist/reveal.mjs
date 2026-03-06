@@ -3098,7 +3098,12 @@ function Ut(c, e) {
     be(), et(), he(), M = t.autoSlide, ue(), L.create(), T.writeURL(), t.sortFragmentsOnSync === !0 && C.sortAll(), typeof r != "undefined" && (r = Ee(te, r), o = Ee(_e, o)), X.update(), K.update(), Ve(), _.update(), _.updateVisibility(), H.update(), L.update(!0), B.update(), R.formatEmbeddedContent(), t.autoPlayMedia === !1 ? R.stopEmbeddedContent(u, { unloadIframes: !1 }) : R.startEmbeddedContent(u), f.isActive() && f.layout(), j({ type: "sync" });
   }
   function ri(n = u) {
-    L.sync(n), C.sync(n), R.load(n), L.update(), _.update();
+    L.sync(n), C.sync(n), R.load(n), L.update(), _.update(), j({
+      type: "slidesync",
+      data: {
+        slide: n
+      }
+    });
   }
   function ni() {
     se().forEach((n) => {

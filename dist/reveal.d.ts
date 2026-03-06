@@ -74,7 +74,8 @@ declare namespace Reveal {
 		 * this to have reveal.js render the new background image.
 		 *
 		 * Similar to #sync() but more efficient when you only need to
-		 * refresh a specific slide.
+		 * refresh a specific slide. Dispatches a `slidesync` event
+		 * when syncing has completed.
 		 *
 		 * @param  slide
 		 * @see {@link sync}
@@ -226,7 +227,7 @@ declare namespace Reveal {
 
 		/**
 		 * Adds a listener to one of our custom reveal.js events,
-		 * like slidechanged.
+		 * like slidechanged and slidesync.
 		 *
 		 * @param type
 		 * @param listener
@@ -246,7 +247,7 @@ declare namespace Reveal {
 		/**
 		 * Legacy event binding methods left in for backwards compatibility
 		 * Adds a listener to one of our custom reveal.js events,
-		 * like slidechanged.
+		 * like slidechanged and slidesync.
 		 * See: {@link on}
 		 *
 		 * @param type
@@ -919,6 +920,10 @@ declare namespace Reveal {
 		 * Fit mode of the previewed media
 		 */
 		previewFit?: 'none' | 'scale-down' | 'contain' | 'cover';
+	}
+
+	interface SlideSyncEvent extends Event {
+		slide: HTMLElement;
 	}
 
 	// NOTE: it is possible to extend type definitions depend on the plugin

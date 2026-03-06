@@ -7,13 +7,29 @@ import 'reveal.js/plugin/highlight/monokai.css';
 // @ts-ignore
 import RevealHighlight from 'reveal.js/plugin/highlight';
 
+const buttonStyle: React.CSSProperties = {
+	padding: '0.55em 0.95em',
+	fontSize: '0.7em',
+	fontWeight: 600,
+	lineHeight: 1.2,
+	color: '#ffffff',
+	background: 'rgba(8, 13, 24, 0.72)',
+	border: '1px solid rgba(255, 255, 255, 0.4)',
+	borderRadius: '0.35em',
+	cursor: 'pointer',
+};
+
 function NavigationControls() {
 	const deck = useReveal();
 
 	return (
 		<div style={{ marginTop: '1em' }}>
-			<button onClick={() => deck?.prev()}>Previous</button>{' '}
-			<button onClick={() => deck?.next()}>Next</button>
+			<button style={buttonStyle} onClick={() => deck?.prev()}>
+				Previous
+			</button>{' '}
+			<button style={buttonStyle} onClick={() => deck?.next()}>
+				Next
+			</button>
 		</div>
 	);
 }
@@ -27,6 +43,45 @@ function Columns({ children }: { children: React.ReactNode }) {
 				</div>
 			))}
 		</div>
+	);
+}
+
+function SlideSyncPlayground() {
+	const [count, setCount] = useState(0);
+	const [slideColor, setSlideColor] = useState('#1b1f2a');
+
+	const randomColor = () => {
+		const value = Math.floor(Math.random() * 0xffffff)
+			.toString(16)
+			.padStart(6, '0');
+		return `#${value}`;
+	};
+
+	return (
+		<Slide data-background-color={slideColor}>
+			<h2>Slide-local HTML updates</h2>
+			<p>
+				This slide updates only its own React-rendered HTML, without manually calling{' '}
+				<code>sync</code> or <code>syncSlide</code>.
+			</p>
+			<div>
+				<div style={{ marginBottom: '0.75em' }}>
+					<button style={buttonStyle} onClick={() => setCount((c) => c + 1)}>
+						Increase count
+					</button>{' '}
+					<button style={buttonStyle} onClick={() => setSlideColor(randomColor())}>
+						Randomize background
+					</button>
+				</div>
+
+				<p>
+					<strong>Current count:</strong> {count}
+				</p>
+				<p>
+					<strong>Slide color:</strong> {slideColor}
+				</p>
+			</div>
+		</Slide>
 	);
 }
 
@@ -56,6 +111,10 @@ function Demo() {
 			plugins={[RevealHighlight]}
 			onReady={(deck) => console.log('Deck ready!', deck)}
 			onSync={() => console.log('Deck synced')}
+			onSlideSync={(e) => {
+				const slide = (e as Reveal.SlideSyncEvent).slide;
+				console.log('Slide synced', slide);
+			}}
 			onSlideChange={(e) => console.log('Slide changed')}
 		>
 			<Slide>
@@ -141,10 +200,12 @@ function Demo() {
 				</Columns>
 			</Slide>
 
+			<SlideSyncPlayground />
+
 			<Slide>
 				<h2>Dynamic Slides</h2>
 				<p>Add slides at runtime — sync() handles it</p>
-				<button onClick={() => setShowBonus((b) => !b)}>
+				<button style={buttonStyle} onClick={() => setShowBonus((b) => !b)}>
 					{showBonus ? 'Remove' : 'Add'} bonus slide
 				</button>
 			</Slide>

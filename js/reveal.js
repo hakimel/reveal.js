@@ -1606,6 +1606,13 @@ export default function( revealElement, options ) {
 		backgrounds.update();
 		notes.update();
 
+		dispatchEvent({
+			type: 'slidesync',
+			data: {
+				slide
+			}
+		});
+
 	}
 
 	/**
