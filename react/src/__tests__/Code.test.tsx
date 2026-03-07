@@ -48,7 +48,7 @@ describe('Code', () => {
 		});
 		const deck = {
 			getPlugin: vi.fn().mockReturnValue({ highlightBlock }),
-			syncSlide: vi.fn(),
+			syncFragments: vi.fn(),
 		} as any;
 
 		const { container } = render(
@@ -62,7 +62,7 @@ describe('Code', () => {
 		const code = container.querySelector('pre > code');
 		expect(deck.getPlugin).toHaveBeenCalledWith('highlight');
 		expect(highlightBlock).toHaveBeenCalledWith(code);
-		expect(deck.syncSlide).toHaveBeenCalledWith(expect.any(HTMLElement));
+		expect(deck.syncFragments).toHaveBeenCalledWith(expect.any(HTMLElement));
 	});
 
 	it('rehighlights updated code without accumulating generated fragments', () => {
@@ -75,7 +75,7 @@ describe('Code', () => {
 
 		const deck = {
 			getPlugin: vi.fn().mockReturnValue({ highlightBlock }),
-			syncSlide: vi.fn(),
+			syncFragments: vi.fn(),
 		} as any;
 
 		const { container, rerender } = render(
@@ -118,7 +118,7 @@ describe('Code', () => {
 
 		const deck = {
 			getPlugin: vi.fn().mockReturnValue({ highlightBlock }),
-			syncSlide: vi.fn(),
+			syncFragments: vi.fn(),
 		} as any;
 
 		const { rerender } = render(

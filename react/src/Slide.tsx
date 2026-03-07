@@ -21,16 +21,24 @@ export function Slide({ children, ...rest }: SlideProps) {
 	const dataAttributesSignature = useMemo(() => getDataAttributesSignature(rest), [rest]);
 
 	useLayoutEffect(() => {
-		if (!deck || !slideRef.current || typeof deck.syncSlide !== 'function') return;
-		const hasSyncedBefore =
-			lastSyncedDeckRef.current !== null || lastSyncedSignatureRef.current !== null;
-		if (!hasSyncedBefore && dataAttributesSignature === EMPTY_DATA_ATTRIBUTES_SIGNATURE) return;
+		const slide = slideRef.current;
+		if (!deck || !slide || typeof deck.syncSlide !== 'function') return;
+
+		// The first render for a given deck instance is handled by the parent Deck.sync() pass.
+		// syncSlide() is only safe once Reveal is aware of this slide.
+		if (lastSyncedDeckRef.current !== deck) {
+			lastSyncedDeckRef.current = deck;
+			lastSyncedSignatureRef.current = dataAttributesSignature;
+			return;
+		}
+
+		if (dataAttributesSignature === EMPTY_DATA_ATTRIBUTES_SIGNATURE) return;
 
 		const sameDeck = lastSyncedDeckRef.current === deck;
 		const sameDataAttributes = lastSyncedSignatureRef.current === dataAttributesSignature;
 		if (sameDeck && sameDataAttributes) return;
 
-		deck.syncSlide(slideRef.current);
+		deck.syncSlide(slide);
 		lastSyncedDeckRef.current = deck;
 		lastSyncedSignatureRef.current = dataAttributesSignature;
 	}, [deck, dataAttributesSignature]);

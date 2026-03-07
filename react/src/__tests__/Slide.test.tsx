@@ -61,7 +61,7 @@ describe('Slide', () => {
 		expect(section?.querySelector('p')).toHaveTextContent('Paragraph');
 	});
 
-	it('calls syncSlide when data-* attributes change', () => {
+	it('calls syncSlide when data-* attributes change after mount', () => {
 		const deck = {
 			syncSlide: vi.fn(),
 		} as any;
@@ -74,7 +74,7 @@ describe('Slide', () => {
 
 		const section = container.querySelector('section');
 		expect(section).toBeInTheDocument();
-		expect(deck.syncSlide).toHaveBeenCalledWith(section);
+		expect(deck.syncSlide).not.toHaveBeenCalled();
 		deck.syncSlide.mockClear();
 
 		rerender(
@@ -85,6 +85,20 @@ describe('Slide', () => {
 
 		expect(deck.syncSlide).toHaveBeenCalledTimes(1);
 		expect(deck.syncSlide).toHaveBeenCalledWith(container.querySelector('section'));
+	});
+
+	it('does not call syncSlide on first render even when data-* attributes are present', () => {
+		const deck = {
+			syncSlide: vi.fn(),
+		} as any;
+
+		render(
+			<RevealContext.Provider value={deck}>
+				<Slide data-background="#111">Content</Slide>
+			</RevealContext.Provider>
+		);
+
+		expect(deck.syncSlide).not.toHaveBeenCalled();
 	});
 
 	it('does not call syncSlide for non-data prop updates', () => {

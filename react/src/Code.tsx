@@ -113,8 +113,8 @@ export function Code({
 		plugin.highlightBlock(block);
 
 		const slide = typeof block.closest === 'function' ? block.closest('section') : null;
-		if (slide && typeof deck.syncSlide === 'function') {
-			deck.syncSlide(slide as HTMLElement);
+		if (slide && typeof deck.syncFragments === 'function') {
+			deck.syncFragments(slide as HTMLElement);
 		}
 
 		lastHighlightSignatureRef.current = highlightSignature;
