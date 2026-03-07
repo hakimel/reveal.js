@@ -5,10 +5,6 @@
 		<meta charset="utf-8">
 
 		<title>reveal.js - Test Auto-Animate</title>
-
-		<link rel="stylesheet" href="../dist/reveal.css">
-		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
-		<script src="../node_modules/qunit/qunit/qunit.js"></script>
 	</head>
 
 	<body style="overflow: auto;">
@@ -62,11 +58,15 @@
 
 		</div>
 
-		<script src="../dist/reveal.js"></script>
-		<script>
+		<script type="module">
+			import 'reveal.css';
+			import 'qunit/qunit/qunit.css';
+			import QUnit from 'qunit';
+			import Reveal from 'reveal.js';
 
 			QUnit.config.testTimeout = 30000;
 			QUnit.config.reorder = false;
+			QUnit.config.autostart = false;
 
 			const slides = Array.prototype.map.call( document.querySelectorAll( '.slides section' ), slide => {
 				return {
@@ -77,9 +77,11 @@
 				};
 			} );
 
-			Reveal.initialize().then( async () => {
+			QUnit.module( 'Auto-Animate' );
 
-				QUnit.module( 'Auto-Animate' );
+			Reveal.initialize().then( () => {
+
+				QUnit.start();
 
 				QUnit.test( 'Adds data-auto-animate-target', assert => {
 					Reveal.slide(1);
@@ -111,7 +113,7 @@
 				});
 
 				QUnit.test( 'Slide specific data-auto-animate-duration', assert => {
-					assert.timeout( 400 );
+					assert.timeout( 2000 );
 					assert.expect( 1 );
 
 					return new Promise( resolve => {

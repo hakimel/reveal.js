@@ -1,5 +1,5 @@
-import { HORIZONTAL_SLIDES_SELECTOR, HORIZONTAL_BACKGROUNDS_SELECTOR } from '../utils/constants.js'
-import { queryAll } from '../utils/util.js'
+import { HORIZONTAL_SLIDES_SELECTOR, HORIZONTAL_BACKGROUNDS_SELECTOR } from '../utils/constants'
+import { queryAll } from '../utils/util'
 
 const HIDE_SCROLLBAR_TIMEOUT = 500;
 const MAX_PROGRESS_SPACING = 4;

@@ -1,4 +1,4 @@
-import { closest } from '../utils/util.js'
+import { closest } from '../utils/util'
 
 /**
  * Manages focus when a presentation is embedded. This

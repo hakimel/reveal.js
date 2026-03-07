@@ -5,10 +5,6 @@
 		<meta charset="utf-8">
 
 		<title>reveal.js - Tests</title>
-
-		<link rel="stylesheet" href="../dist/reveal.css">
-		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
-		<script src="../node_modules/qunit/qunit/qunit.js"></script>
 	</head>
 
 	<body style="overflow: auto;">
@@ -81,8 +77,12 @@
 
 		</div>
 
-		<script src="../dist/reveal.js"></script>
-		<script>
+		<script type="module">
+			import 'reveal.css';
+			import 'qunit/qunit/qunit.css';
+			import QUnit from 'qunit';
+			import Reveal from 'reveal.js';
+
 			QUnit.config.testTimeout = 30000;
 
 			window.location.hash = '';
@@ -284,6 +284,137 @@
 					assert.strictEqual( Reveal.getConfig().customTestValue, 1, 'supports custom values' );
 				});
 
+				QUnit.test( 'Reveal.getState/Reveal.setState', function( assert ) {
+					Reveal.hidePreview();
+					Reveal.toggleOverview( false );
+					Reveal.togglePause( false );
+
+					Reveal.slide( 2, 1, -1 );
+					Reveal.togglePause( true );
+					Reveal.toggleOverview( true );
+
+					var state = Reveal.getState();
+
+					assert.strictEqual( state.indexh, 2, 'state has horizontal index' );
+					assert.strictEqual( state.indexv, 1, 'state has vertical index' );
+					assert.strictEqual( state.indexf, -1, 'state has fragment index' );
+					assert.strictEqual( state.paused, true, 'state has paused=true' );
+					assert.strictEqual( state.overview, true, 'state has overview=true' );
+
+					Reveal.toggleOverview( false );
+					Reveal.togglePause( false );
+					Reveal.slide( 0, 0 );
+
+					Reveal.setState( state );
+
+					assert.deepEqual( Reveal.getIndices(), { h: 2, v: 1, f: -1 }, 'setState restores indices' );
+					assert.strictEqual( Reveal.isPaused(), true, 'setState restores paused' );
+					assert.strictEqual( Reveal.isOverview(), true, 'setState restores overview' );
+
+					Reveal.toggleOverview( false );
+					Reveal.togglePause( false );
+					Reveal.slide( 2, 0 );
+					Reveal.slide( 0, 0 );
+				});
+
+				QUnit.test( 'Reveal.getState includes overlay state', function( assert ) {
+					var previewURL = 'about:blank';
+
+					Reveal.hidePreview();
+					Reveal.previewIframe( previewURL );
+
+					var state = Reveal.getState();
+					assert.strictEqual( state.previewIframe, previewURL, 'state includes preview iframe URL' );
+					assert.strictEqual( Reveal.isOverlayOpen(), true, 'overlay is open' );
+
+					Reveal.hidePreview();
+					assert.strictEqual( Reveal.isOverlayOpen(), false, 'overlay closed' );
+
+					Reveal.setState( state );
+					assert.strictEqual( Reveal.isOverlayOpen(), true, 'setState restores overlay' );
+					assert.strictEqual( Reveal.getState().previewIframe, previewURL, 'restored overlay state has same URL' );
+
+					Reveal.hidePreview();
+				});
+
+				QUnit.test( 'Reveal.removeHiddenSlides', function( assert ) {
+					var slidesElement = Reveal.getSlidesElement();
+					var hiddenSlide = document.createElement( 'section' );
+					hiddenSlide.setAttribute( 'data-visibility', 'hidden' );
+					slidesElement.appendChild( hiddenSlide );
+
+					assert.ok( slidesElement.contains( hiddenSlide ), 'hidden slide was added' );
+					Reveal.removeHiddenSlides();
+					assert.notOk( slidesElement.contains( hiddenSlide ), 'hidden slide removed' );
+				});
+
+				QUnit.test( 'Reveal.sync', function( assert ) {
+					assert.expect( 4 );
+					var done = assert.async();
+					var syncSlide = document.createElement( 'section' );
+					syncSlide.setAttribute( 'data-background-image', 'examples/assets/image1.png' );
+					syncSlide.innerHTML = '<h2>Sync Test Slide</h2>';
+
+					var onSync = function() {
+						assert.ok( true, 'sync event fired' );
+						Reveal.off( 'sync', onSync );
+						done();
+					}
+
+					Reveal.on( 'sync', onSync );
+
+					Reveal.getSlidesElement().appendChild( syncSlide );
+					assert.strictEqual( Reveal.getSlideBackground( syncSlide ), undefined, 'no background before sync' );
+
+					Reveal.sync();
+					assert.ok( Reveal.getSlideBackground( syncSlide ), 'background is created after sync' );
+					assert.ok( Reveal.getSlides().includes( syncSlide ), 'new slide is included after sync' );
+
+					syncSlide.remove();
+					Reveal.sync();
+				});
+
+				QUnit.test( 'Reveal.syncSlide', function( assert ) {
+					var slide = Reveal.getSlide( 3 );
+					var imageURL = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+
+					slide.setAttribute( 'data-background-image', imageURL );
+					Reveal.syncSlide( slide );
+
+					var backgroundImage = Reveal.getSlideBackground( slide )
+						.querySelector( '.slide-background-content' )
+						.style.backgroundImage;
+
+					assert.ok( backgroundImage.indexOf( 'data:image/gif' ) !== -1, 'syncSlide updates slide background' );
+
+					slide.removeAttribute( 'data-background-image' );
+					Reveal.syncSlide( slide );
+				});
+
+				QUnit.test( 'Reveal.syncFragments', function( assert ) {
+					var slide = Reveal.getSlide( 0 );
+					var fragmentA = document.createElement( 'span' );
+					var fragmentB = document.createElement( 'span' );
+
+					fragmentA.className = 'fragment';
+					fragmentB.className = 'fragment';
+					fragmentA.textContent = 'Temporary fragment A';
+					fragmentB.textContent = 'Temporary fragment B';
+
+					slide.appendChild( fragmentA );
+					slide.appendChild( fragmentB );
+
+					var fragments = Reveal.syncFragments( slide );
+
+					assert.strictEqual( fragments.length, 2, 'returns synced fragments' );
+					assert.strictEqual( fragmentA.getAttribute( 'data-fragment-index' ), '0', 'first fragment got index 0' );
+					assert.strictEqual( fragmentB.getAttribute( 'data-fragment-index' ), '1', 'second fragment got index 1' );
+
+					fragmentA.remove();
+					fragmentB.remove();
+					Reveal.syncFragments( slide );
+				});
+
 				QUnit.test( 'Reveal.availableRoutes', function( assert ) {
 					Reveal.slide( 0, 0 );
 					assert.deepEqual( Reveal.availableRoutes(), { left: false, up: false, down: false, right: true }, 'correct for first slide' );
@@ -449,6 +580,45 @@
 
 					triggerKeyboardEvent({ keyCode: 39, altKey: true });
 					assert.strictEqual( Reveal.getIndices().h, 3, 'right arrow skips fragments when alt key is pressed' );
+				});
+
+				// ---------------------------------------------------------------
+				// JUMP-TO-SLIDE TESTS
+
+				QUnit.module( 'Jump To Slide' );
+
+				QUnit.test( 'Can jump by API query', function( assert ) {
+					var jumpInput;
+
+					Reveal.slide( 0, 0 );
+					Reveal.toggleJumpToSlide( true );
+					jumpInput = document.querySelector( '.jump-to-slide-input' );
+					assert.ok( jumpInput, 'jump input is visible' );
+
+					jumpInput.value = '2.2';
+					jumpInput.dispatchEvent( new KeyboardEvent( 'keydown', { keyCode: 13, bubbles: true } ) );
+					assert.deepEqual( Reveal.getIndices(), { h: 1, v: 1, f: undefined }, 'jumps to 2.2 (one-based index)' );
+
+					Reveal.toggleJumpToSlide( true );
+					jumpInput = document.querySelector( '.jump-to-slide-input' );
+					jumpInput.value = 'fragments3';
+					jumpInput.dispatchEvent( new KeyboardEvent( 'keydown', { keyCode: 13, bubbles: true } ) );
+					assert.deepEqual( Reveal.getIndices(), { h: 2, v: 2, f: -1 }, 'jumps to named slide id' );
+				});
+
+				QUnit.test( 'Keyboard toggle and cancel', function( assert ) {
+					Reveal.configure({ jumpToSlide: true });
+					Reveal.slide( 1, 0 );
+
+					triggerKeyboardEvent({ keyCode: 71 });
+					var jumpInput = document.querySelector( '.jump-to-slide-input' );
+					assert.ok( jumpInput, 'G opens jump-to-slide' );
+
+					jumpInput.value = '4';
+					jumpInput.dispatchEvent( new KeyboardEvent( 'keydown', { keyCode: 27, bubbles: true } ) );
+
+					assert.deepEqual( Reveal.getIndices(), { h: 1, v: 0, f: undefined }, 'Escape cancels and restores original slide' );
+					assert.strictEqual( document.querySelector( '.jump-to-slide' ), null, 'jump-to-slide is hidden after cancel' );
 				});
 
 				// ---------------------------------------------------------------

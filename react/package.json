@@ -1,0 +1,47 @@
+{
+	"name": "@revealjs/react",
+	"version": "0.1.0",
+	"description": "React wrapper for reveal.js",
+	"license": "MIT",
+	"type": "module",
+	"module": "dist/index.mjs",
+	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.mjs"
+		}
+	},
+	"scripts": {
+		"build": "vite build",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"demo": "npm run --prefix demo dev"
+	},
+	"peerDependencies": {
+		"react": ">=18",
+		"react-dom": ">=18",
+		"reveal.js": ">=5"
+	},
+	"devDependencies": {
+		"@testing-library/jest-dom": "^6.9.1",
+		"@testing-library/react": "^16.3.2",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-react": "^5.1.4",
+		"jsdom": "^28.1.0",
+		"react": "^19.2.4",
+		"react-dom": "^19.2.4",
+		"reveal.js": "file:..",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.1",
+		"vite-plugin-dts": "^4.5.4",
+		"vitest": "^4.0.18"
+	},
+	"overrides": {
+		"minimatch": ">=10.2.3"
+	},
+	"files": [
+		"dist"
+	]
+}

@@ -1,52 +1,96 @@
-@use "sass:color";
-
 // Base settings for all themes that can optionally be
 // overridden by the super-theme
 
+@use 'sass:color';
+@use 'sass:meta';
+
 // Background of the presentation
-$backgroundColor: #2b2b2b;
+$background: #2b2b2b !default;
+$background-color: #bbb !default;
 
 // Primary/body text
-$mainFont: 'Lato', sans-serif;
-$mainFontSize: 40px;
-$mainColor: #eee;
+$main-font: 'Lato', sans-serif !default;
+$main-font-size: 40px !default;
+$main-color: #eee !default;
 
 // Vertical spacing between blocks of text
-$blockMargin: 20px;
+$block-margin: 20px !default;
 
 // Headings
-$headingMargin: 0 0 $blockMargin 0;
-$headingFont: 'League Gothic', Impact, sans-serif;
-$headingColor: #eee;
-$headingLineHeight: 1.2;
-$headingLetterSpacing: normal;
-$headingTextTransform: uppercase;
-$headingTextShadow: none;
-$headingFontWeight: normal;
-$heading1TextShadow: $headingTextShadow;
+$heading-margin: 0 0 20px 0 !default;
+$heading-font: 'League Gothic', Impact, sans-serif !default;
+$heading-color: #eee !default;
+$heading-line-height: 1.2 !default;
+$heading-letter-spacing: normal !default;
+$heading-text-transform: uppercase !default;
+$heading-text-shadow: none !default;
+$heading-font-weight: normal !default;
+$heading1-text-shadow: none !default;
 
-$heading1Size: 3.77em;
-$heading2Size: 2.11em;
-$heading3Size: 1.55em;
-$heading4Size: 1.00em;
+$heading1-size: 3.77em !default;
+$heading2-size: 2.11em !default;
+$heading3-size: 1.55em !default;
+$heading4-size: 1em !default;
 
-$codeFont: monospace;
+$code-font: monospace !default;
 
 // Links and actions
-$linkColor: #13DAEC;
-$linkColorHover: color.scale( $linkColor, $lightness: 20% );
+$link-color: #13daec !default;
+$link-color-dark: color.scale($link-color, $lightness: -15%) !default;
+$link-color-hover: color.scale($link-color, $lightness: 20%) !default;
 
 // Text selection
-$selectionBackgroundColor: #FF5E99;
-$selectionColor: #fff;
+$selection-background-color: #0fadbb !default;
+$selection-color: #fff !default;
 
 // Colors used for UI elements that are overlaid on top of
 // the presentation
-$overlayElementBgColor: 240, 240, 240;
-$overlayElementFgColor: 0, 0, 0;
+$overlay-element-bg-color: 240, 240, 240 !default;
+$overlay-element-fg-color: 0, 0, 0 !default;
 
-// Generates the presentation background, can be overridden
-// to return a background image or gradient
-@mixin bodyBackground() {
-	background: $backgroundColor;
+// Expose all SCSS variables as CSS custom properties
+:root {
+	// Background of the presentation
+	--r-background: #{$background};
+	--r-background-color: #{$background-color};
+
+	// Primary/body text
+	--r-main-font: #{$main-font};
+	--r-main-font-size: #{$main-font-size};
+	--r-main-color: #{$main-color};
+
+	// Vertical spacing between blocks of text
+	--r-block-margin: #{$block-margin};
+
+	// Headings
+	--r-heading-margin: #{$heading-margin};
+	--r-heading-font: #{$heading-font};
+	--r-heading-color: #{$heading-color};
+	--r-heading-line-height: #{$heading-line-height};
+	--r-heading-letter-spacing: #{$heading-letter-spacing};
+	--r-heading-text-transform: #{$heading-text-transform};
+	--r-heading-text-shadow: #{$heading-text-shadow};
+	--r-heading-font-weight: #{$heading-font-weight};
+	--r-heading1-text-shadow: #{$heading1-text-shadow};
+
+	--r-heading1-size: #{$heading1-size};
+	--r-heading2-size: #{$heading2-size};
+	--r-heading3-size: #{$heading3-size};
+	--r-heading4-size: #{$heading4-size};
+
+	--r-code-font: #{$code-font};
+
+	// Links and actions
+	--r-link-color: #{$link-color};
+	--r-link-color-dark: #{$link-color-dark};
+	--r-link-color-hover: #{$link-color-hover};
+
+	// Text selection
+	--r-selection-background-color: #{$selection-background-color};
+	--r-selection-color: #{$selection-color};
+
+	// Colors used for UI elements that are overlaid on top of
+	// the presentation
+	--r-overlay-element-bg-color: #{$overlay-element-bg-color};
+	--r-overlay-element-fg-color: #{$overlay-element-fg-color};
 }
