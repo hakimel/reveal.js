@@ -82,16 +82,21 @@
 	],
 	"devDependencies": {
 		"fitty": "^2.4.2",
-		"glob": "^13.0.0",
-		"highlight.js": "^11.10.0",
+		"glob": "^13.0.6",
+		"highlight.js": "^11.11.1",
 		"jszip": "^3.10.1",
-		"marked": "^17.0.0",
-		"marked-smartypants": "^1.1.0",
-		"node-qunit-puppeteer": "^2.2.0",
-		"qunit": "^2.22.0",
-		"sass": "^1.80.2",
-		"typescript": "^5.2.2",
-		"vite": "^7.0.0",
-		"vite-plugin-dts": "^4.2.4"
+		"marked": "^17.0.4",
+		"marked-smartypants": "^1.1.11",
+		"node-qunit-puppeteer": "^2.2.1",
+		"qunit": "^2.25.0",
+		"sass": "^1.97.3",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.1",
+		"vite-plugin-dts": "^4.5.4"
+	},
+	"overrides": {
+		"@microsoft/api-extractor": {
+			"minimatch": "10.2.4"
+		}
 	}
 }
