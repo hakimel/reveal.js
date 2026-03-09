@@ -4,3 +4,4 @@ test/**/*.md
 test/**/*.html
 examples/**/*.md
 dist/**/*
+*.html
