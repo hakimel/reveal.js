@@ -20,6 +20,7 @@
 	],
 	"exports": {
 		".": {
+			"types": "./dist/reveal.d.ts",
 			"import": "./dist/reveal.mjs",
 			"require": "./dist/reveal.js",
 			"default": "./dist/reveal.js"
@@ -29,31 +30,37 @@
 		"./theme/*": "./dist/theme/*",
 		"./plugin/highlight/monokai.css": "./dist/plugin/highlight/monokai.css",
 		"./plugin/highlight": {
+			"types": "./dist/plugin/highlight.d.ts",
 			"import": "./dist/plugin/highlight.mjs",
 			"require": "./dist/plugin/highlight.js",
 			"default": "./dist/plugin/highlight.js"
 		},
 		"./plugin/markdown": {
+			"types": "./dist/plugin/markdown.d.ts",
 			"import": "./dist/plugin/markdown.mjs",
 			"require": "./dist/plugin/markdown.js",
 			"default": "./dist/plugin/markdown.js"
 		},
 		"./plugin/math": {
+			"types": "./dist/plugin/math.d.ts",
 			"import": "./dist/plugin/math.mjs",
 			"require": "./dist/plugin/math.js",
 			"default": "./dist/plugin/math.js"
 		},
 		"./plugin/notes": {
+			"types": "./dist/plugin/notes.d.ts",
 			"import": "./dist/plugin/notes.mjs",
 			"require": "./dist/plugin/notes.js",
 			"default": "./dist/plugin/notes.js"
 		},
 		"./plugin/search": {
+			"types": "./dist/plugin/search.d.ts",
 			"import": "./dist/plugin/search.mjs",
 			"require": "./dist/plugin/search.js",
 			"default": "./dist/plugin/search.js"
 		},
 		"./plugin/zoom": {
+			"types": "./dist/plugin/zoom.d.ts",
 			"import": "./dist/plugin/zoom.mjs",
 			"require": "./dist/plugin/zoom.js",
 			"default": "./dist/plugin/zoom.js"
@@ -66,7 +73,7 @@
 		"build:core": "tsc && vite build && vite build -c vite.config.styles.ts && node scripts/add-banner.js dist/reveal.js",
 		"build:es5": "npm run build && node scripts/build-es5.js",
 		"build:styles": "vite build -c vite.config.styles.ts",
-		"build": "tsc && vite build && vite build -c vite.config.styles.ts && vite build -c plugin/highlight/vite.config.ts && vite build -c plugin/markdown/vite.config.ts && vite build -c plugin/math/vite.config.ts && vite build -c plugin/notes/vite.config.ts && vite build -c plugin/search/vite.config.ts && vite build -c plugin/zoom/vite.config.ts && node scripts/add-banner.js dist/reveal.js",
+		"build": "tsc && vite build && vite build -c vite.config.styles.ts && vite build -c plugin/highlight/vite.config.ts && vite build -c plugin/markdown/vite.config.ts && vite build -c plugin/math/vite.config.ts && vite build -c plugin/notes/vite.config.ts && vite build -c plugin/search/vite.config.ts && vite build -c plugin/zoom/vite.config.ts && node scripts/copy-plugin-types.js && node scripts/add-banner.js dist/reveal.js",
 		"package": "node scripts/zip.js",
 		"test": "node scripts/test.js",
 		"react:build": "vite build -c react/vite.config.ts",

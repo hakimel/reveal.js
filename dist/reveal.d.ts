@@ -1,7 +1,7 @@
 import { Config, TransitionStyle as _TransitionStyle, TransitionSpeed as _TransitionSpeed, FragmentAnimation as _FragmentAnimation } from './config';
 export as namespace Reveal;
 
-export = Reveal;
+export default Reveal;
 
 // The type definitions in this file are adapted from those
 // originally created by the community on DefinitelyTyped:
@@ -458,7 +458,7 @@ declare namespace Reveal {
 			/** `revealElement` by default */
 			target?: HTMLElement;
 			type: string;
-			data: any;
+			data?: unknown;
 			bubbles?: boolean;
 		}): Event;
 
@@ -766,7 +766,7 @@ declare namespace Reveal {
 		/**
 		 * @returns id:plugin hash of all plugins
 		 */
-		getPlugins(): { [id: string]: Plugin };
+		getPlugins(): Record<string, Plugin>;
 	}
 
 	/**
@@ -934,8 +934,7 @@ declare namespace Reveal {
 	 */
 	interface Plugin {
 		id: string;
-		// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-		init?(reveal: Api): void | Promise<any>;
+		init?(reveal: Api): void | Promise<void>;
 		destroy?(): void;
 	}
 
