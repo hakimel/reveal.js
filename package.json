@@ -52,7 +52,7 @@
 	},
 	"scripts": {
 		"dev": "npm run start",
-		"start": "vite --port 8000",
+		"start": "vite",
 		"build:core": "tsc && vite build && vite build -c vite.config.styles.ts && node scripts/add-banner.js dist/reveal.js",
 		"build:es5": "npm run build && node scripts/build-es5.js",
 		"build:styles": "vite build -c vite.config.styles.ts",
