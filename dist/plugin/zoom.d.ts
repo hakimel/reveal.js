@@ -1,5 +1,9 @@
 import type Reveal from 'reveal.js';
 
-declare const Zoom: Reveal.PluginFunction;
+export interface ZoomPlugin extends Reveal.Plugin {
+	id: 'zoom';
+}
+
+declare const Zoom: () => ZoomPlugin;
 
 export default Zoom;

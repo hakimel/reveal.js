@@ -37,6 +37,120 @@ type FragmentAnimation =
 	| (string & {});
 
 /**
+ * katex - Math Plugin configuration
+ *
+ * @see {@link https://github.com/reveal/revealjs.com/blob/master/src/math.md}
+ * @see {@link https://github.com/hakimel/reveal.js/blob/master/plugin/math/katex.js}
+ */
+interface KatexConfig {
+	local?: string;
+	version?: string;
+	delimiters?: Array<{ left: string; right: string; display: boolean }>;
+	ignoredTags?: string[];
+}
+
+/**
+ * mathjax2 - Math Plugin configuration
+ *
+ * @see {@link https://github.com/reveal/revealjs.com/blob/master/src/math.md}
+ * @see {@link https://github.com/hakimel/reveal.js/blob/master/plugin/math/mathjax2.js}
+ */
+interface Mathjax2Config {
+	mathjax?: string;
+	config?: string;
+	tex2jax?: {
+		inlineMath?: any;
+		skipTags?: string[];
+	};
+}
+
+/**
+ * mathjax3 - Math Plugin configuration
+ *
+ * @see {@link https://github.com/reveal/revealjs.com/blob/master/src/math.md}
+ * @see {@link https://github.com/hakimel/reveal.js/blob/master/plugin/math/mathjax3.js}
+ */
+interface Mathjax3Config {
+	mathjax?: string;
+	tex?: { inlineMath?: any };
+	options?: { skipHtmlTags: string[] };
+}
+
+/**
+ * mathjax4 - Math Plugin configuration
+ *
+ * @see {@link https://github.com/reveal/revealjs.com/blob/master/src/math.md}
+ * @see {@link https://github.com/hakimel/reveal.js/blob/master/plugin/math/mathjax4.js}
+ */
+interface Mathjax4Config {
+	mathjax?: string;
+	tex?: {
+		inlineMath?: Array<[string, string]>;
+		displayMath?: Array<[string, string]>;
+		macros?: Record<string, string | [string, number]>;
+	};
+	options?: {
+		skipHtmlTags?: string[];
+	};
+	startup?: {
+		ready?: () => void;
+	};
+	output?: {
+		font?: string;
+		displayOverflow?: string;
+		linebreaks?: {
+			inline?: boolean;
+			width?: string;
+			lineleading?: number;
+			LinebreakVisitor?: unknown;
+		};
+	};
+}
+
+/**
+ * Highlight Plugin configuration
+ *
+ * @see {@link https://github.com/hakimel/reveal.js/blob/master/plugin/highlight/plugin.js}
+ */
+interface HighlightConfig {
+	highlightOnLoad?: boolean;
+	escapeHTML?: boolean;
+	beforeHighlight?: (...args: any) => any;
+}
+
+/**
+ * Markdown Plugin configuration
+ *
+ * @see {@link https://github.com/reveal/revealjs.com/blob/master/src/markdown.md}
+ * @see {@link https://marked.js.org/using_advanced}
+ */
+interface MarkdownConfig {
+	async?: boolean;
+	baseUrl?: string;
+	breaks?: boolean;
+	gfm?: boolean;
+	headerIds?: boolean;
+	headerPrefix?: string;
+	highlight?: (...args: any) => any;
+	langPrefix?: string;
+	mangle?: boolean;
+	pedantic?: boolean;
+	renderer?: object;
+	sanitize?: boolean;
+	sanitizer?: (...args: any) => any;
+	silent?: boolean;
+	smartLists?: boolean;
+	smartypants?: boolean;
+	tokenizer?: object;
+	walkTokens?: (...args: any) => any;
+	xhtml?: boolean;
+	separator?: string;
+	verticalSeparator?: string;
+	notesSeparator?: string;
+	attributes?: string;
+}
+
+/**
  * Configuration object for reveal.js.
  *
  * @see {@link https://revealjs.com/config/}
@@ -691,6 +805,36 @@ interface Config {
 	sortFragmentsOnSync?: boolean;
 
 	/**
+	 * Highlight plugin configuration
+	 */
+	highlight?: HighlightConfig;
+
+	/**
+	 * Markdown plugin configuration
+	 */
+	markdown?: MarkdownConfig;
+
+	/**
+	 * KaTeX math plugin configuration
+	 */
+	katex?: KatexConfig;
+
+	/**
+	 * MathJax 2 plugin configuration
+	 */
+	mathjax2?: Mathjax2Config;
+
+	/**
+	 * MathJax 3 plugin configuration
+	 */
+	mathjax3?: Mathjax3Config;
+
+	/**
+	 * MathJax 4 plugin configuration
+	 */
+	mathjax4?: Mathjax4Config;
+
+	/**
 	 * Script dependencies to load
 	 *
 	 * @defaultValue []
@@ -813,6 +957,17 @@ const defaultConfig: Config = {
 	plugins: [],
 };
 
-export type { Config, TransitionStyle, TransitionSpeed, FragmentAnimation };
+export type {
+	Config,
+	TransitionStyle,
+	TransitionSpeed,
+	FragmentAnimation,
+	KatexConfig,
+	Mathjax2Config,
+	Mathjax3Config,
+	Mathjax4Config,
+	HighlightConfig,
+	MarkdownConfig,
+};
 
 export { defaultConfig };

@@ -1,6 +1,7 @@
 import type Reveal from 'reveal.js';
 
-interface SearchPlugin extends Reveal.Plugin {
+export interface SearchPlugin extends Reveal.Plugin {
+	id: 'search';
 	open(): void;
 	close(): void;
 	toggle(): void;

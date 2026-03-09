@@ -1,4 +1,4 @@
-import { Config, TransitionStyle as _TransitionStyle, TransitionSpeed as _TransitionSpeed, FragmentAnimation as _FragmentAnimation } from './config';
+import { Config, TransitionStyle as _TransitionStyle, TransitionSpeed as _TransitionSpeed, FragmentAnimation as _FragmentAnimation, KatexConfig as _KatexConfig, Mathjax2Config as _Mathjax2Config, Mathjax3Config as _Mathjax3Config, Mathjax4Config as _Mathjax4Config, HighlightConfig as _HighlightConfig, MarkdownConfig as _MarkdownConfig } from './config';
 export as namespace Reveal;
 
 export default Reveal;
@@ -25,6 +25,12 @@ declare namespace Reveal {
 	export type TransitionStyle = _TransitionStyle;
 	export type TransitionSpeed = _TransitionSpeed;
 	export type FragmentAnimation = _FragmentAnimation;
+	export type KatexConfig = _KatexConfig;
+	export type Mathjax2Config = _Mathjax2Config;
+	export type Mathjax3Config = _Mathjax3Config;
+	export type Mathjax4Config = _Mathjax4Config;
+	export type HighlightConfig = _HighlightConfig;
+	export type MarkdownConfig = _MarkdownConfig;
 
 	/**
 	 * The public reveal.js API
@@ -790,89 +796,6 @@ declare namespace Reveal {
 		id: string;
 		// Location of socket.io server
 		url: string;
-	}
-
-	/**
-	 * katex - Math Plugin configuration
-	 *
-	 * @see {@link https://github.com/reveal/revealjs.com/blob/master/src/math.md}
-	 * @see {@link https://github.com/hakimel/reveal.js/blob/master/plugin/math/katex.js}
-	 */
-	interface KatexConfig {
-		local?: string;
-		version?: string;
-		delimiters?: Array<{ left: string; right: string; display: boolean }>;
-		ignoredTags?: string[];
-	}
-
-	/**
-	 * mathjax2 - Math Plugin configuration
-	 *
-	 * @see {@link https://github.com/reveal/revealjs.com/blob/master/src/math.md}
-	 * @see {@link https://github.com/hakimel/reveal.js/blob/master/plugin/math/mathjax2.js}
-	 */
-	interface Mathjax2Config {
-		mathjax?: string;
-		config?: string;
-		tex2jax?: {
-			inlineMath?: any;
-			skipTags?: string[];
-		};
-	}
-
-	/**
-	 * mathjax3 - Math Plugin configuration
-	 *
-	 * @see {@link https://github.com/reveal/revealjs.com/blob/master/src/math.md}
-	 * @see {@link https://github.com/hakimel/reveal.js/blob/master/plugin/math/mathjax3.js}
-	 */
-	interface Mathjax3Config {
-		mathjax?: string;
-		tex?: { inlineMath?: any };
-		options?: { skipHtmlTags: string[] };
-	}
-
-	/**
-	 * Highlight Plugin configuration
-	 *
-	 * @see {@link https://github.com/hakimel/reveal.js/blob/master/plugin/highlight/plugin.js}
-	 */
-	interface HighlightConfig {
-		highlightOnLoad?: boolean;
-		escapeHTML?: boolean;
-		beforeHighlight?: (...args: any) => any;
-	}
-
-	/**
-	 * Markdown Plugin configuration
-	 *
-	 * @see {@link https://github.com/reveal/revealjs.com/blob/master/src/markdown.md}
-	 * @see {@link https://marked.js.org/using_advanced}
-	 */
-	interface MarkdownConfig {
-		async?: boolean;
-		baseUrl?: string;
-		breaks?: boolean;
-		gfm?: boolean;
-		headerIds?: boolean;
-		headerPrefix?: string;
-		highlight?: (...args: any) => any;
-		langPrefix?: string;
-		mangle?: boolean;
-		pedantic?: boolean;
-		renderer?: object;
-		sanitize?: boolean;
-		sanitizer?: (...args: any) => any;
-		silent?: boolean;
-		smartLists?: boolean;
-		smartypants?: boolean;
-		tokenizer?: object;
-		walkTokens?: (...args: any) => any;
-		xhtml?: boolean;
-		separator?: string;
-		verticalSeparator?: string;
-		notesSeparator?: string;
-		attributes?: string;
 	}
 
 	/**
