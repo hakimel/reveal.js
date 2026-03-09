@@ -9,6 +9,15 @@
 	"module": "dist/reveal.mjs",
 	"types": "dist/reveal.d.ts",
 	"type": "module",
+	"files": [
+		"dist",
+		"css",
+		"js",
+		"LICENSE",
+		"README.md",
+		"index.html",
+		"demo.html"
+	],
 	"exports": {
 		".": {
 			"import": "./dist/reveal.mjs",
@@ -53,6 +62,7 @@
 	"scripts": {
 		"dev": "npm run start",
 		"start": "vite",
+		"prepack": "npm run build",
 		"build:core": "tsc && vite build && vite build -c vite.config.styles.ts && node scripts/add-banner.js dist/reveal.js",
 		"build:es5": "npm run build && node scripts/build-es5.js",
 		"build:styles": "vite build -c vite.config.styles.ts",
@@ -72,8 +82,12 @@
 		"type": "git",
 		"url": "git://github.com/hakimel/reveal.js.git"
 	},
-	"engines": {
-		"node": ">=20.19.0"
+	"devEngines": {
+		"runtime": {
+			"name": "node",
+			"version": ">=20.19.0",
+			"onFail": "error"
+		}
 	},
 	"keywords": [
 		"reveal",
