@@ -2798,7 +2798,7 @@ const ts = {
   pdfPageHeightOffset: -1,
   dependencies: [],
   plugins: []
-}, Ot = "6.0.0-rc.1";
+}, Ot = "6.0.0";
 function Ut(c, e) {
   arguments.length < 2 && (e = arguments[0], c = document.querySelector(".reveal"));
   const i = {};
