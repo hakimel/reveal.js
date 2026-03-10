@@ -1374,7 +1374,7 @@ const At = `\r?
       return t ? t.getConfig().markdown || {} : {};
     }
   };
-};
+}, It = Lt;
 export {
-  Lt as default
+  It as default
 };

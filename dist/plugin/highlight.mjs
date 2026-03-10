@@ -49443,7 +49443,7 @@ function ku(t) {
 `);
   })(t);
 }
-const Uu = () => oe;
+const Uu = () => oe, Fu = Uu;
 export {
-  Uu as default
+  Fu as default
 };

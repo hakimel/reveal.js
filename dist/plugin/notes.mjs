@@ -2120,7 +2120,7 @@ const oe = () => {
     },
     open: s
   };
-};
+}, ce = oe;
 export {
-  oe as default
+  ce as default
 };

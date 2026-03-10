@@ -1,10 +1,7 @@
-import type { RevealPlugin } from 'reveal.js';
-
+import { RevealPlugin } from 'reveal.js';
 export interface NotesPlugin extends RevealPlugin {
-	id: 'notes';
-	open(): void;
+    id: 'notes';
+    open(): void;
 }
-
 declare const Notes: () => NotesPlugin;
-
 export default Notes;

@@ -1,6 +1,9 @@
 import type { MarkdownConfig, RevealPlugin } from 'reveal.js';
 import type { Marked } from 'marked';
 
+// @ts-expect-error The runtime implementation remains in JS during the migration.
+import MarkdownImplementation from './plugin.js';
+
 export interface MarkdownSlidifyOptions {
 	separator?: string | null;
 	verticalSeparator?: string | null;
@@ -21,6 +24,6 @@ export interface MarkdownPlugin extends RevealPlugin {
 	readonly markdownOptions: MarkdownOptions;
 }
 
-declare const Markdown: () => MarkdownPlugin;
+const Markdown = MarkdownImplementation as () => MarkdownPlugin;
 
 export default Markdown;

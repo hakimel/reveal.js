@@ -1,6 +1,9 @@
 import type { HLJSApi } from 'highlight.js';
 import type { RevealPlugin } from 'reveal.js';
 
+// @ts-expect-error The runtime implementation remains in JS during the migration.
+import HighlightImplementation from './plugin.js';
+
 export interface HighlightLine {
 	start?: number;
 	end?: number;
@@ -48,6 +51,6 @@ export interface HighlightPlugin extends RevealPlugin {
 	serializeHighlightSteps(highlightSteps: HighlightLineStep[]): string;
 }
 
-declare const Highlight: () => HighlightPlugin;
+const Highlight = HighlightImplementation as () => HighlightPlugin;
 
 export default Highlight;

@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite'
 import { appendExtension } from '../../vite.config.ts';
+import { createPluginDts } from '../vite-plugin-dts.ts';
 
 // Once Vite supports multiple entries for plugins, this build can
 // be merged into the main vite.config.ts.
@@ -12,11 +13,11 @@ export default defineConfig({
     lib: {
       formats: ['es', 'umd'],
       entry: {
-        'plugin/search': resolve(__dirname, 'index.js'),
+        'plugin/search': resolve(__dirname, 'index.ts'),
       },
       name: 'RevealSearch',
       fileName: appendExtension
     }
   },
-  plugins: [],
+  plugins: [createPluginDts('search')],
 })

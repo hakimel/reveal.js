@@ -87,6 +87,7 @@ var r = (function() {
     }
   };
 })();
+const g = h;
 export {
-  h as default
+  g as default
 };

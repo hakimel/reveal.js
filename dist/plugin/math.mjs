@@ -26,7 +26,7 @@ const M = () => {
     init: function(t) {
       a = t;
       let n = a.getConfig().katex || {}, i = { ...s, ...n };
-      const { local: l, version: u, extensions: k, ...m } = i;
+      const { local: l, version: u, extensions: $, ...m } = i;
       let p = i.local || "https://cdn.jsdelivr.net/npm/katex", c = i.local ? "" : "@" + i.version, f = p + c + "/dist/katex.min.css", y = p + c + "/dist/katex.min.js", j = p + c + "/dist/contrib/mhchem.min.js", g = p + c + "/dist/contrib/auto-render.min.js", d = [y];
       i.extensions && i.extensions.includes("mhchem") && d.push(j), d.push(g);
       const h = () => {
@@ -143,12 +143,12 @@ const M = () => {
     }
   };
 }, S = x;
-const $ = Plugin = Object.assign(S(), {
+const k = Plugin = Object.assign(S(), {
   KaTeX: M,
   MathJax2: x,
   MathJax3: J,
   MathJax4: v
-});
+}), C = k;
 export {
-  $ as default
+  C as default
 };
