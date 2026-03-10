@@ -58,7 +58,7 @@ function SlideSyncPlayground() {
 	};
 
 	return (
-		<Slide data-background-color={slideColor}>
+		<Slide background={slideColor}>
 			<h2>Slide-local HTML updates</h2>
 			<p>
 				This slide updates only its own React-rendered HTML, without manually calling{' '}
@@ -155,17 +155,17 @@ function Demo() {
 			</Slide>
 
 			<Stack>
-				<Slide data-background-color="indigo">
+				<Slide background="indigo">
 					<h2>Vertical Stack</h2>
 					<p>Press down to navigate</p>
 					<Code language="html" codeStyle={{ padding: '0.5em' }}>
 						{`
 						<Stack>
-							<Slide data-background-color="indigo">
+							<Slide background="indigo">
 								<h2>Vertical Stack</h2>
 								<p>Press down to navigate</p>
 							</Slide>
-							<Slide data-background-color="indigo">
+							<Slide background="indigo">
 								<h2>Stack Slide 2</h2>
 								<p>Vertical navigation works!</p>
 							</Slide>
@@ -173,7 +173,7 @@ function Demo() {
 						`}
 					</Code>
 				</Slide>
-				<Slide data-background-color="indigo">
+				<Slide background="indigo">
 					<h2>Stack Slide 2</h2>
 					<p>Vertical navigation works!</p>
 				</Slide>

@@ -5,6 +5,8 @@ import type {
 	RevealConfig,
 	RevealPlugin,
 	RevealPluginFactory,
+	TransitionSpeed,
+	TransitionStyle,
 } from 'reveal.js';
 
 type DeckConfig = RevealConfig;
@@ -32,7 +34,55 @@ export type DeckProps = {
 	children?: ReactNode;
 };
 
-export type SlideProps = React.HTMLAttributes<HTMLElement> & {
+export type SlideDataAttributeValue = string | number | boolean | undefined;
+
+export type SlideDataAttributes = {
+	[key: `data-${string}`]: SlideDataAttributeValue;
+};
+
+export type SlideBackgroundProps = {
+	background?: string;
+	backgroundImage?: string;
+	backgroundVideo?: string;
+	backgroundVideoLoop?: boolean;
+	backgroundVideoMuted?: boolean;
+	backgroundIframe?: string;
+	backgroundColor?: string;
+	backgroundGradient?: string;
+	backgroundSize?: string;
+	backgroundPosition?: string;
+	backgroundRepeat?: string;
+	backgroundOpacity?: number | string;
+	backgroundTransition?: TransitionStyle;
+};
+
+export type SlideVisibility = 'hidden' | 'uncounted';
+
+export type SlideAutoAnimateProps = {
+	visibility?: SlideVisibility;
+	autoAnimate?: boolean;
+	autoAnimateId?: string;
+	autoAnimateRestart?: boolean;
+	autoAnimateUnmatched?: boolean;
+	autoAnimateEasing?: string;
+	autoAnimateDuration?: number | string;
+	autoAnimateDelay?: number | string;
+};
+
+export type SlideRevealProps = {
+	transition?: string;
+	transitionSpeed?: TransitionSpeed;
+	autoSlide?: number | string;
+	notes?: string;
+	backgroundInteractive?: boolean;
+	preload?: boolean;
+};
+
+export type SlideProps = React.HTMLAttributes<HTMLElement> &
+	SlideDataAttributes &
+	SlideBackgroundProps &
+	SlideAutoAnimateProps &
+	SlideRevealProps & {
 	children?: ReactNode;
 };
 

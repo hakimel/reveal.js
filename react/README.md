@@ -37,7 +37,7 @@ export function Presentation() {
 				<p>My first Reveal deck in React.</p>
 			</Slide>
 
-			<Slide data-background="#111827">
+			<Slide background="#111827">
 				<h2>Second slide</h2>
 			</Slide>
 		</Deck>
@@ -94,7 +94,7 @@ export function Presentation() {
 }
 ```
 
-`config` maps directly to [Reveal's configuration object](https://revealjs.com/config/). Slide `data-*` attributes such as `data-background`, `data-transition`, and `data-auto-animate` are passed through to the rendered `<section>` element.
+`config` maps directly to [Reveal's configuration object](https://revealjs.com/config/). `Slide` supports convenient Reveal slide props such as `background`, `backgroundImage`, `backgroundColor`, `visibility`, `autoAnimate`, `transition`, `transitionSpeed`, `autoSlide`, `notes`, `backgroundInteractive`, and `preload`, while still passing through raw `data-*` attributes to the rendered `<section>` element.
 
 ## Subscribe to events
 
