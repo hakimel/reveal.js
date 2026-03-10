@@ -137,7 +137,7 @@ interface MarkdownConfig {
  *
  * @see {@link https://revealjs.com/config/}
  */
-interface Config {
+interface RevealConfig {
     /**
      * The "normal" size of the presentation, aspect ratio will be preserved
      * when the presentation is scaled to fit different resolutions
@@ -748,6 +748,6 @@ interface Config {
 /**
  * The default reveal.js config object.
  */
-declare const defaultConfig: Config;
-export type { Config, TransitionStyle, TransitionSpeed, FragmentAnimation, KatexConfig, Mathjax2Config, Mathjax3Config, Mathjax4Config, HighlightConfig, MarkdownConfig, };
+declare const defaultConfig: RevealConfig;
+export type { RevealConfig, TransitionStyle, TransitionSpeed, FragmentAnimation, KatexConfig, Mathjax2Config, Mathjax3Config, Mathjax4Config, HighlightConfig, MarkdownConfig, };
 export { defaultConfig };

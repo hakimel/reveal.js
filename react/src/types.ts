@@ -4,11 +4,11 @@ import type {
 	RevealApi,
 	RevealConfig,
 	RevealPlugin,
-	RevealPluginFunction,
+	RevealPluginFactory,
 } from 'reveal.js';
 
 type DeckConfig = RevealConfig;
-type DeckPlugin = RevealPlugin | RevealPluginFunction;
+type DeckPlugin = RevealPlugin | RevealPluginFactory;
 type RevealEventHandler = Parameters<RevealApi['on']>[1];
 
 export type DeckProps = {

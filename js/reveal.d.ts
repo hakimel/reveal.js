@@ -1,5 +1,5 @@
 import type {
-	Config,
+	RevealConfig,
 	TransitionStyle,
 	TransitionSpeed,
 	FragmentAnimation,
@@ -12,7 +12,7 @@ import type {
 } from './config';
 
 export type {
-	Config,
+	RevealConfig,
 	TransitionStyle,
 	TransitionSpeed,
 	FragmentAnimation,
@@ -23,7 +23,6 @@ export type {
 	HighlightConfig,
 	MarkdownConfig,
 } from './config';
-export type RevealConfig = Config;
 
 export default Reveal;
 
@@ -41,8 +40,8 @@ export default Reveal;
  * @see {@link https://revealjs.com/api/}
  */
 declare const Reveal: {
-	new (options?: Config): RevealApi;
-	new (revealElement: HTMLElement, options?: Config): RevealApi;
+	new (options?: RevealConfig): RevealApi;
+	new (revealElement: HTMLElement, options?: RevealConfig): RevealApi;
 } & RevealApi;
 
 	/**
@@ -64,15 +63,15 @@ declare const Reveal: {
 		 * @param options - RevealOption see {@link Options}
 		 * @returns a promise
 		 */
-		initialize(options?: Config): Promise<RevealApi>;
+		initialize(options?: RevealConfig): Promise<RevealApi>;
 
 		/**
 		 * Applies the configuration settings from the config
 		 * object. May be called multiple times.
 		 *
-		 * @param options - RevealOption see {@link Config}
+		 * @param options - RevealOption see {@link RevealConfig}
 		 */
-		configure(options?: Config): void;
+		configure(options?: RevealConfig): void;
 
 		/**
 		 * Uninitializes reveal.js by undoing changes made to the
@@ -717,7 +716,7 @@ declare const Reveal: {
 		 *
 		 * @returns the current configuration object
 		 */
-		getConfig(): Config;
+		getConfig(): RevealConfig;
 
 		/**
 		 * Returns a key:value hash of all query params.
@@ -874,4 +873,4 @@ declare const Reveal: {
 		destroy?(): void;
 	}
 
-	export type RevealPluginFunction = () => RevealPlugin;
+	export type RevealPluginFactory = () => RevealPlugin;

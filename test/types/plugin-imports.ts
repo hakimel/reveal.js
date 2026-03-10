@@ -4,7 +4,7 @@ import Reveal, {
 	type RevealApi,
 	type RevealConfig,
 	type RevealPlugin,
-	type RevealPluginFunction,
+	type RevealPluginFactory,
 } from 'reveal.js';
 import RevealHighlight from 'reveal.js/plugin/highlight';
 import RevealMarkdown from 'reveal.js/plugin/markdown';
@@ -17,8 +17,8 @@ type RevealModule = typeof Reveal;
 const revealModule: RevealModule = Reveal;
 
 const api: RevealApi | null = null;
-const pluginFactory: RevealPluginFunction = RevealZoom;
-const plugins: Array<RevealPlugin | RevealPluginFunction> = [RevealHighlight(), RevealMarkdown(), RevealMath, RevealNotes, RevealSearch, RevealZoom];
+const pluginFactory: RevealPluginFactory = RevealZoom;
+const plugins: Array<RevealPlugin | RevealPluginFactory> = [RevealHighlight(), RevealMarkdown(), RevealMath, RevealNotes, RevealSearch, RevealZoom];
 const markdownConfig: MarkdownConfig = {
 	separator: '\\n---\\n',
 };
