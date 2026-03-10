@@ -97,6 +97,33 @@ describe('Deck', () => {
 		expect(mockApi.sync).toHaveBeenCalled();
 	});
 
+	it('does not call sync() when slide content changes without structural changes', async () => {
+		let rerender: ReturnType<typeof render>['rerender'];
+		await act(async () => {
+			({ rerender } = render(
+				<Deck>
+					<Slide>
+						<p>Tick 1</p>
+					</Slide>
+				</Deck>
+			));
+		});
+
+		mockApi.sync.mockClear();
+
+		await act(async () => {
+			rerender(
+				<Deck>
+					<Slide>
+						<p>Tick 2</p>
+					</Slide>
+				</Deck>
+			);
+		});
+
+		expect(mockApi.sync).not.toHaveBeenCalled();
+	});
+
 	it('does not call sync() twice when configure() already syncs', async () => {
 		mockApi.configure.mockImplementation(() => {
 			mockApi.sync();
@@ -123,6 +150,33 @@ describe('Deck', () => {
 		});
 
 		expect(mockApi.configure).toHaveBeenCalledTimes(1);
+		expect(mockApi.sync).toHaveBeenCalledTimes(1);
+	});
+
+	it('calls sync() when keyed slides are reordered', async () => {
+		let rerender: ReturnType<typeof render>['rerender'];
+		await act(async () => {
+			({ rerender } = render(
+				<Deck>
+					{['first', 'second'].map((label) => (
+						<Slide key={label}>{label}</Slide>
+					))}
+				</Deck>
+			));
+		});
+
+		mockApi.sync.mockClear();
+
+		await act(async () => {
+			rerender(
+				<Deck>
+					{['second', 'first'].map((label) => (
+						<Slide key={label}>{label}</Slide>
+					))}
+				</Deck>
+			);
+		});
+
 		expect(mockApi.sync).toHaveBeenCalledTimes(1);
 	});
 

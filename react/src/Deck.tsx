@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type Ref, type RefObject } from 'react';
 import Reveal from 'reveal.js';
 import type { RevealApi } from 'reveal.js';
 import { RevealContext } from './context';
@@ -6,6 +6,8 @@ import type { DeckProps } from './types';
 
 const DEFAULT_PLUGINS: NonNullable<DeckProps['plugins']> = [];
 type DeckEventHandler = NonNullable<DeckProps['onSync']>;
+type SlideStructureNode = number | [number, SlideStructureNode[]];
+type CurrentRef<T> = { current: T };
 
 // Shallow-compare config objects so that re-renders where the parent creates a new object
 // literal with identical values do not trigger an unnecessary configure() call.
@@ -28,13 +30,45 @@ function hasShallowConfigChanges(prev: DeckProps['config'], next: DeckProps['con
 	return false;
 }
 
-function setRef<T>(ref: React.Ref<T | null> | undefined, value: T | null) {
+function setRef<T>(ref: Ref<T | null> | undefined, value: T | null) {
 	if (!ref) return;
 	if (typeof ref === 'function') {
 		ref(value);
 	} else {
-		(ref as React.RefObject<T | null>).current = value;
+		(ref as RefObject<T | null>).current = value;
 	}
+}
+
+function isSectionElement(element: Element): element is HTMLElement {
+	return element.tagName === 'SECTION';
+}
+
+function getSectionStructure(
+	container: Element,
+	slideIds: WeakMap<HTMLElement, number>,
+	nextSlideIdRef: CurrentRef<number>
+): SlideStructureNode[] {
+	return Array.from(container.children)
+		.filter(isSectionElement)
+		.map((section) => {
+			let id = slideIds.get(section);
+			if (id === undefined) {
+				id = nextSlideIdRef.current++;
+				slideIds.set(section, id);
+			}
+
+			const childSlides = getSectionStructure(section, slideIds, nextSlideIdRef);
+			return childSlides.length > 0 ? [id, childSlides] : id;
+		});
+}
+
+function getSlidesStructureSignature(
+	slidesElement: HTMLElement | null,
+	slideIds: WeakMap<HTMLElement, number>,
+	nextSlideIdRef: CurrentRef<number>
+) {
+	if (!slidesElement) return '[]';
+	return JSON.stringify(getSectionStructure(slidesElement, slideIds, nextSlideIdRef));
 }
 
 export function Deck({
@@ -57,6 +91,7 @@ export function Deck({
 	children,
 }: DeckProps) {
 	const deckDivRef = useRef<HTMLDivElement>(null);
+	const slidesDivRef = useRef<HTMLDivElement>(null);
 	const revealRef = useRef<RevealApi | null>(null);
 	const [deck, setDeck] = useState<RevealApi | null>(null);
 
@@ -69,6 +104,9 @@ export function Deck({
 
 	// Track the last config reference we applied so we can skip redundant configure() calls.
 	const appliedConfigRef = useRef<DeckProps['config']>(config);
+	const lastSyncedSlidesSignatureRef = useRef<string | null>(null);
+	const slideIdsRef = useRef(new WeakMap<HTMLElement, number>());
+	const nextSlideIdRef = useRef(1);
 	const mountedRef = useRef(false);
 	const teardownRequestRef = useRef(0);
 
@@ -183,22 +221,35 @@ export function Deck({
 		appliedConfigRef.current = config;
 	}, [deck, config]);
 
-	// Sync Reveal's internal slide bookkeeping after React renders unless configure already did.
-	// The flag is captured and reset unconditionally so it cannot leak into subsequent render
-	// cycles if an early-return path (e.g. !isReady()) is taken before the flag check.
+	// Sync Reveal's internal slide bookkeeping only when the rendered slide
+	// structure changes. Avoid triggering sync for child changes.
 	useLayoutEffect(() => {
 		const shouldSkip = skipNextSyncRef.current;
 		skipNextSyncRef.current = false;
+		const slidesStructureSignature = getSlidesStructureSignature(
+			slidesDivRef.current,
+			slideIdsRef.current,
+			nextSlideIdRef
+		);
 
-		if (revealRef.current?.isReady() && !shouldSkip) {
-			revealRef.current.sync();
+		if (shouldSkip) {
+			lastSyncedSlidesSignatureRef.current = slidesStructureSignature;
+			return;
 		}
-	}, [deck, children, config]);
+
+		if (!revealRef.current?.isReady()) return;
+		if (lastSyncedSlidesSignatureRef.current === slidesStructureSignature) return;
+
+		revealRef.current.sync();
+		lastSyncedSlidesSignatureRef.current = slidesStructureSignature;
+	});
 
 	return (
 		<RevealContext.Provider value={deck}>
 			<div className={className ? `reveal ${className}` : 'reveal'} style={style} ref={deckDivRef}>
-				<div className="slides">{children}</div>
+				<div className="slides" ref={slidesDivRef}>
+					{children}
+				</div>
 			</div>
 		</RevealContext.Provider>
 	);

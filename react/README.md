@@ -186,7 +186,8 @@ export function Presentation() {
 ## How it works
 
 - `Deck` creates one Reveal instance on mount and destroys it on unmount. Initialization is asynchronous — `onReady` fires once `reveal.initialize()` resolves, after which the instance is also accessible via `useReveal()` and `deckRef`.
-- After every React render that affects `children` or `config`, `Deck` calls `reveal.sync()` to keep Reveal's internal slide model aligned with the DOM.
+- `Deck` calls `reveal.sync()` when the rendered slide structure changes, such as slides being added, removed, reordered, or regrouped into stacks.
+- `Slide` handles slide-level `data-*` attribute updates locally with `reveal.syncSlide()`, so ordinary React content updates inside a slide do not trigger a full deck sync.
 - `config` is shallow-compared on each render so that `reveal.configure()` is only called when a value actually changes.
 - `plugins` are initialization-only, matching Reveal's plugin lifecycle. The prop is captured once on first mount and ignored on subsequent renders.
 - Event props are wired with `deck.on()` after initialization and cleaned up with `deck.off()`. Changing a callback between renders swaps the listener automatically.

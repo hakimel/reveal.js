@@ -1,107 +1,131 @@
-import { createContext as Y, useRef as f, useState as $, useEffect as O, useLayoutEffect as B, useContext as z, useMemo as J } from "react";
+import { createContext as W, useRef as l, useState as Y, useEffect as z, useLayoutEffect as B, useContext as V, useMemo as $ } from "react";
 import { jsx as v } from "react/jsx-runtime";
-import W from "reveal.js";
-const P = Y(null), H = [];
-function Q(e, t) {
+import H from "reveal.js";
+const P = W(null), Q = [];
+function X(e, t) {
   if (e === t) return !1;
   if (!e || !t) return e !== t;
   const n = Object.keys(e), a = Object.keys(t);
   if (n.length !== a.length) return !0;
-  for (const i of n)
-    if (!(i in t) || e[i] !== t[i])
+  for (const r of n)
+    if (!(r in t) || e[r] !== t[r])
       return !0;
   return !1;
 }
 function G(e, t) {
   e && (typeof e == "function" ? e(t) : e.current = t);
 }
-function ot({
+function Z(e) {
+  return e.tagName === "SECTION";
+}
+function q(e, t, n) {
+  return Array.from(e.children).filter(Z).map((a) => {
+    let r = t.get(a);
+    r === void 0 && (r = n.current++, t.set(a, r));
+    const u = q(a, t, n);
+    return u.length > 0 ? [r, u] : r;
+  });
+}
+function F(e, t, n) {
+  return e ? JSON.stringify(q(e, t, n)) : "[]";
+}
+function ct({
   config: e,
-  plugins: t = H,
+  plugins: t = Q,
   onReady: n,
   onSync: a,
-  onSlideSync: i,
+  onSlideSync: r,
   onSlideChange: u,
   onSlideTransitionEnd: s,
-  onFragmentShown: p,
-  onFragmentHidden: S,
-  onOverviewShown: D,
-  onOverviewHidden: I,
-  onPaused: T,
-  onResumed: C,
-  deckRef: g,
-  className: R,
-  style: j,
-  children: k
+  onFragmentShown: k,
+  onFragmentHidden: I,
+  onOverviewShown: T,
+  onOverviewHidden: C,
+  onPaused: N,
+  onResumed: j,
+  deckRef: m,
+  className: A,
+  style: E,
+  children: R
 }) {
-  const m = f(null), r = f(null), [l, N] = $(null), o = f(t), b = f(!1), y = f(e), h = f(!1), E = f(0);
-  return O(() => {
-    if (h.current = !0, E.current += 1, r.current)
-      r.current.isReady() && N(r.current);
+  const p = l(null), h = l(null), o = l(null), [d, i] = Y(null), D = l(t), y = l(!1), S = l(e), L = l(null), U = l(/* @__PURE__ */ new WeakMap()), M = l(1), _ = l(!1), g = l(0);
+  return z(() => {
+    if (_.current = !0, g.current += 1, o.current)
+      o.current.isReady() && i(o.current);
     else {
-      const c = new W(m.current, {
+      const c = new H(p.current, {
         ...e,
-        plugins: o.current
+        plugins: D.current
       });
-      y.current = e, r.current = c, c.initialize().then(() => {
-        !h.current || r.current !== c || (N(c), n?.(c));
+      S.current = e, o.current = c, c.initialize().then(() => {
+        !_.current || o.current !== c || (i(c), n?.(c));
       });
     }
     return () => {
-      h.current = !1;
-      const c = r.current;
+      _.current = !1;
+      const c = o.current;
       if (!c) return;
-      const _ = ++E.current;
+      const f = ++g.current;
       Promise.resolve().then(() => {
-        if (!(h.current || E.current !== _) && r.current === c) {
+        if (!(_.current || g.current !== f) && o.current === c) {
           try {
             c.destroy();
           } catch {
           }
-          r.current === c && (r.current = null);
+          o.current === c && (o.current = null);
         }
       });
     };
-  }, []), O(() => (G(g, l), () => G(g, null)), [g, l]), O(() => {
-    if (!l) return;
-    const _ = [
+  }, []), z(() => (G(m, d), () => G(m, null)), [m, d]), z(() => {
+    if (!d) return;
+    const f = [
       ["sync", a],
-      ["slidesync", i],
+      ["slidesync", r],
       ["slidechanged", u],
       ["slidetransitionend", s],
-      ["fragmentshown", p],
-      ["fragmenthidden", S],
-      ["overviewshown", D],
-      ["overviewhidden", I],
-      ["paused", T],
-      ["resumed", C]
-    ].filter((A) => A[1] != null);
-    for (const [A, d] of _)
-      l.on(A, d);
+      ["fragmentshown", k],
+      ["fragmenthidden", I],
+      ["overviewshown", T],
+      ["overviewhidden", C],
+      ["paused", N],
+      ["resumed", j]
+    ].filter((b) => b[1] != null);
+    for (const [b, w] of f)
+      d.on(b, w);
     return () => {
-      for (const [A, d] of _)
-        l.off(A, d);
+      for (const [b, w] of f)
+        d.off(b, w);
     };
   }, [
-    l,
+    d,
     a,
-    i,
+    r,
     u,
     s,
-    p,
-    S,
-    D,
+    k,
     I,
     T,
-    C
+    C,
+    N,
+    j
   ]), B(() => {
-    !l || !r.current?.isReady() || Q(y.current, e) && (b.current = !0, r.current.configure(e ?? {}), y.current = e);
-  }, [l, e]), B(() => {
-    const c = b.current;
-    b.current = !1, r.current?.isReady() && !c && r.current.sync();
-  }, [l, k, e]), /* @__PURE__ */ v(P.Provider, { value: l, children: /* @__PURE__ */ v("div", { className: R ? `reveal ${R}` : "reveal", style: j, ref: m, children: /* @__PURE__ */ v("div", { className: "slides", children: k }) }) });
+    !d || !o.current?.isReady() || X(S.current, e) && (y.current = !0, o.current.configure(e ?? {}), S.current = e);
+  }, [d, e]), B(() => {
+    const c = y.current;
+    y.current = !1;
+    const f = F(
+      h.current,
+      U.current,
+      M
+    );
+    if (c) {
+      L.current = f;
+      return;
+    }
+    o.current?.isReady() && L.current !== f && (o.current.sync(), L.current = f);
+  }), /* @__PURE__ */ v(P.Provider, { value: d, children: /* @__PURE__ */ v("div", { className: A ? `reveal ${A}` : "reveal", style: E, ref: p, children: /* @__PURE__ */ v("div", { className: "slides", ref: h, children: R }) }) });
 }
-const X = "[]", Z = {
+const tt = "[]", et = {
   background: "data-background",
   backgroundImage: "data-background-image",
   backgroundVideo: "data-background-video",
@@ -130,19 +154,19 @@ const X = "[]", Z = {
   backgroundInteractive: "data-background-interactive",
   preload: "data-preload"
 };
-function F(e) {
+function nt(e) {
   return JSON.stringify(
     Object.entries(e).filter(([t]) => t.startsWith("data-")).sort(([t], [n]) => t.localeCompare(n))
   );
 }
-function tt(e, t) {
+function rt(e, t) {
   const n = { ...e }, a = n;
-  for (const [i, u] of Object.entries(Z)) {
+  for (const [r, u] of Object.entries(et)) {
     if (a[u] !== void 0) continue;
-    const s = t[i];
+    const s = t[r];
     if (s !== void 0) {
       if (s === !1) {
-        i === "autoAnimateUnmatched" && (a[u] = "false");
+        r === "autoAnimateUnmatched" && (a[u] = "false");
         continue;
       }
       a[u] = typeof s == "boolean" ? "" : s;
@@ -150,93 +174,93 @@ function tt(e, t) {
   }
   return n;
 }
-function ut({
+function lt({
   children: e,
   background: t,
   backgroundImage: n,
   backgroundVideo: a,
-  backgroundVideoLoop: i,
+  backgroundVideoLoop: r,
   backgroundVideoMuted: u,
   backgroundIframe: s,
-  backgroundColor: p,
-  backgroundGradient: S,
-  backgroundSize: D,
-  backgroundPosition: I,
-  backgroundRepeat: T,
-  backgroundOpacity: C,
-  backgroundTransition: g,
-  visibility: R,
-  autoAnimate: j,
-  autoAnimateId: k,
-  autoAnimateRestart: m,
-  autoAnimateUnmatched: r,
-  autoAnimateEasing: l,
-  autoAnimateDuration: N,
-  autoAnimateDelay: o,
-  transition: b,
+  backgroundColor: k,
+  backgroundGradient: I,
+  backgroundSize: T,
+  backgroundPosition: C,
+  backgroundRepeat: N,
+  backgroundOpacity: j,
+  backgroundTransition: m,
+  visibility: A,
+  autoAnimate: E,
+  autoAnimateId: R,
+  autoAnimateRestart: p,
+  autoAnimateUnmatched: h,
+  autoAnimateEasing: o,
+  autoAnimateDuration: d,
+  autoAnimateDelay: i,
+  transition: D,
   transitionSpeed: y,
-  autoSlide: h,
-  notes: E,
-  backgroundInteractive: c,
-  preload: _,
-  ...A
+  autoSlide: S,
+  notes: L,
+  backgroundInteractive: U,
+  preload: M,
+  ..._
 }) {
-  const d = z(P), M = f(null), w = f(null), U = f(null), V = tt(A, {
+  const g = V(P), c = l(null), f = l(null), b = l(null), w = rt(_, {
     background: t,
     backgroundImage: n,
     backgroundVideo: a,
-    backgroundVideoLoop: i,
+    backgroundVideoLoop: r,
     backgroundVideoMuted: u,
     backgroundIframe: s,
-    backgroundColor: p,
-    backgroundGradient: S,
-    backgroundSize: D,
-    backgroundPosition: I,
-    backgroundRepeat: T,
-    backgroundOpacity: C,
-    backgroundTransition: g,
-    visibility: R,
-    autoAnimate: j,
-    autoAnimateId: k,
-    autoAnimateRestart: m,
-    autoAnimateUnmatched: r,
-    autoAnimateEasing: l,
-    autoAnimateDuration: N,
-    autoAnimateDelay: o,
-    transition: b,
+    backgroundColor: k,
+    backgroundGradient: I,
+    backgroundSize: T,
+    backgroundPosition: C,
+    backgroundRepeat: N,
+    backgroundOpacity: j,
+    backgroundTransition: m,
+    visibility: A,
+    autoAnimate: E,
+    autoAnimateId: R,
+    autoAnimateRestart: p,
+    autoAnimateUnmatched: h,
+    autoAnimateEasing: o,
+    autoAnimateDuration: d,
+    autoAnimateDelay: i,
+    transition: D,
     transitionSpeed: y,
-    autoSlide: h,
-    notes: E,
-    backgroundInteractive: c,
-    preload: _
-  }), L = F(V);
+    autoSlide: S,
+    notes: L,
+    backgroundInteractive: U,
+    preload: M
+  }), O = nt(w);
   return B(() => {
-    const x = M.current;
-    if (!d || !x || typeof d.syncSlide != "function") return;
-    if (w.current !== d) {
-      w.current = d, U.current = L;
+    const x = c.current;
+    if (!g || !x || typeof g.syncSlide != "function") return;
+    if (f.current !== g) {
+      f.current = g, b.current = O;
       return;
     }
-    if (L === X) return;
-    const q = w.current === d, K = U.current === L;
-    q && K || (d.syncSlide(x), w.current = d, U.current = L);
-  }, [d, L]), /* @__PURE__ */ v("section", { ref: M, ...V, children: e });
+    if (O === tt) return;
+    const J = f.current === g, K = b.current === O;
+    J && K || (g.syncSlide(x), f.current = g, b.current = O);
+  }, [g, O]), /* @__PURE__ */ v("section", { ref: c, ...w, children: e });
 }
-function st({ className: e, style: t, children: n }) {
+function dt({ className: e, style: t, children: n }) {
   return /* @__PURE__ */ v("section", { className: e, style: t, children: n });
 }
-function ct({
+function ft({
   animation: e,
   index: t,
   as: n = "span",
   className: a,
-  style: i,
+  style: r,
   children: u
 }) {
   const s = ["fragment", e, a].filter(Boolean).join(" ");
-  return /* @__PURE__ */ v(n, { className: s, style: i, "data-fragment-index": t, children: u });
+  return /* @__PURE__ */ v(n, { className: s, style: r, "data-fragment-index": t, children: u });
 }
-function et(e) {
+function at(e) {
   const t = e.replace(/\r\n/g, `
 `).split(`
 `);
@@ -244,75 +268,75 @@ function et(e) {
   for (; t.length && t[t.length - 1].trim().length === 0; ) t.pop();
   if (!t.length) return "";
   const n = t.filter((a) => a.trim().length > 0).reduce(
-    (a, i) => Math.min(a, i.match(/^\s*/)?.[0].length ?? 0),
+    (a, r) => Math.min(a, r.match(/^\s*/)?.[0].length ?? 0),
     Number.POSITIVE_INFINITY
   );
   return t.map((a) => a.slice(n)).join(`
 `);
 }
-function nt(e) {
+function it(e) {
   const t = e.parentElement;
   t && Array.from(t.children).forEach((n) => {
     n !== e && n instanceof HTMLElement && n.tagName === "CODE" && n.classList.contains("fragment") && n.remove();
   });
 }
-function lt({
+function gt({
   children: e,
   code: t,
   language: n,
   trim: a = !0,
-  lineNumbers: i,
+  lineNumbers: r,
   startFrom: u,
   noEscape: s,
-  codeClassName: p,
-  codeStyle: S,
-  codeProps: D,
-  className: I,
-  style: T,
-  ...C
+  codeClassName: k,
+  codeStyle: I,
+  codeProps: T,
+  className: C,
+  style: N,
+  ...j
 }) {
-  const g = z(P), R = f(null), j = f(""), k = typeof t == "string" ? t : typeof e == "string" ? e : "", m = J(() => a ? et(k) : k, [k, a]), r = i === !0 ? "" : i === !1 || i == null ? void 0 : String(i), l = [n, p].filter(Boolean).join(" "), N = ["code-wrapper", I].filter(Boolean).join(" ");
+  const m = V(P), A = l(null), E = l(""), R = typeof t == "string" ? t : typeof e == "string" ? e : "", p = $(() => a ? at(R) : R, [R, a]), h = r === !0 ? "" : r === !1 || r == null ? void 0 : String(r), o = [n, k].filter(Boolean).join(" "), d = ["code-wrapper", C].filter(Boolean).join(" ");
   return B(() => {
-    const o = R.current;
-    if (!o || !g) return;
-    const b = g.getPlugin?.("highlight");
-    if (!b || typeof b.highlightBlock != "function") return;
+    const i = A.current;
+    if (!i || !m) return;
+    const D = m.getPlugin?.("highlight");
+    if (!D || typeof D.highlightBlock != "function") return;
     const y = [
-      m,
+      p,
       n || "",
-      p || "",
-      r == null ? "__none__" : `lineNumbers:${r}`,
+      k || "",
+      h == null ? "__none__" : `lineNumbers:${h}`,
       u == null ? "" : String(u),
       s ? "1" : "0"
     ].join("::");
-    if (j.current === y && o.getAttribute("data-highlighted") === "yes")
+    if (E.current === y && i.getAttribute("data-highlighted") === "yes")
       return;
-    nt(o), o.textContent = m, o.removeAttribute("data-highlighted"), o.classList.remove("hljs"), o.classList.remove("has-highlights"), r == null ? o.removeAttribute("data-line-numbers") : o.setAttribute("data-line-numbers", r), u == null ? o.removeAttribute("data-ln-start-from") : o.setAttribute("data-ln-start-from", String(u)), s ? o.setAttribute("data-noescape", "") : o.removeAttribute("data-noescape"), b.highlightBlock(o);
-    const h = typeof o.closest == "function" ? o.closest("section") : null;
-    h && typeof g.syncFragments == "function" && g.syncFragments(h), j.current = y;
-  }, [g, m, n, p, r, u, s]), /* @__PURE__ */ v("pre", { className: N, style: T, ...C, children: /* @__PURE__ */ v(
+    it(i), i.textContent = p, i.removeAttribute("data-highlighted"), i.classList.remove("hljs"), i.classList.remove("has-highlights"), h == null ? i.removeAttribute("data-line-numbers") : i.setAttribute("data-line-numbers", h), u == null ? i.removeAttribute("data-ln-start-from") : i.setAttribute("data-ln-start-from", String(u)), s ? i.setAttribute("data-noescape", "") : i.removeAttribute("data-noescape"), D.highlightBlock(i);
+    const S = typeof i.closest == "function" ? i.closest("section") : null;
+    S && typeof m.syncFragments == "function" && m.syncFragments(S), E.current = y;
+  }, [m, p, n, k, h, u, s]), /* @__PURE__ */ v("pre", { className: d, style: N, ...j, children: /* @__PURE__ */ v(
     "code",
     {
-      ...D,
-      ref: R,
-      className: l || void 0,
-      style: S,
-      "data-line-numbers": r,
+      ...T,
+      ref: A,
+      className: o || void 0,
+      style: I,
+      "data-line-numbers": h,
       "data-ln-start-from": u,
       "data-noescape": s ? "" : void 0,
-      children: m
+      children: p
     }
   ) });
 }
-function dt() {
-  return z(P);
+function mt() {
+  return V(P);
 }
 export {
-  lt as Code,
-  ot as Deck,
-  ct as Fragment,
+  gt as Code,
+  ct as Deck,
+  ft as Fragment,
   P as RevealContext,
-  ut as Slide,
-  st as Stack,
-  dt as useReveal
+  lt as Slide,
+  dt as Stack,
+  mt as useReveal
 };
