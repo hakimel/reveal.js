@@ -1,4 +1,4 @@
-import type Reveal from 'reveal.js';
+import type { MarkdownConfig, RevealPlugin } from 'reveal.js';
 import type { Marked } from 'marked';
 
 export interface MarkdownSlidifyOptions {
@@ -8,11 +8,11 @@ export interface MarkdownSlidifyOptions {
 	attributes?: string;
 }
 
-export interface MarkdownOptions extends Reveal.MarkdownConfig {
+export interface MarkdownOptions extends MarkdownConfig {
 	animateLists?: boolean;
 }
 
-export interface MarkdownPlugin extends Reveal.Plugin {
+export interface MarkdownPlugin extends RevealPlugin {
 	id: 'markdown';
 	processSlides(scope: ParentNode): Promise<void[]>;
 	convertSlides(): Promise<void>;

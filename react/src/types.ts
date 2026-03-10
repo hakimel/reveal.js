@@ -1,15 +1,21 @@
 import type { CSSProperties, ReactNode, ElementType, Ref } from 'react';
-import type Reveal from 'reveal.js';
+import type {
+	FragmentAnimation,
+	RevealApi,
+	RevealConfig,
+	RevealPlugin,
+	RevealPluginFunction,
+} from 'reveal.js';
 
-type RevealConfig = NonNullable<Parameters<Reveal.Api['initialize']>[0]>;
-type RevealPlugin = Reveal.Plugin | Reveal.PluginFunction;
-type RevealEventHandler = Parameters<Reveal.Api['on']>[1];
+type DeckConfig = RevealConfig;
+type DeckPlugin = RevealPlugin | RevealPluginFunction;
+type RevealEventHandler = Parameters<RevealApi['on']>[1];
 
 export type DeckProps = {
-	config?: Omit<RevealConfig, 'plugins'>;
+	config?: Omit<DeckConfig, 'plugins'>;
 	/** Registered during deck initialization only. Subsequent prop updates are ignored. */
-	plugins?: RevealPlugin[];
-	onReady?: (deck: Reveal.Api) => void;
+	plugins?: DeckPlugin[];
+	onReady?: (deck: RevealApi) => void;
 	onSync?: RevealEventHandler;
 	onSlideSync?: RevealEventHandler;
 	onSlideChange?: RevealEventHandler;
@@ -20,7 +26,7 @@ export type DeckProps = {
 	onOverviewHidden?: RevealEventHandler;
 	onPaused?: RevealEventHandler;
 	onResumed?: RevealEventHandler;
-	deckRef?: Ref<Reveal.Api | null>;
+	deckRef?: Ref<RevealApi | null>;
 	className?: string;
 	style?: CSSProperties;
 	children?: ReactNode;
@@ -37,7 +43,7 @@ export type StackProps = {
 };
 
 export type FragmentProps = {
-	animation?: Reveal.FragmentAnimation;
+	animation?: FragmentAnimation;
 	index?: number;
 	as?: ElementType;
 	className?: string;

@@ -1,4 +1,11 @@
-import type Reveal from 'reveal.js';
+import Reveal, {
+	type MarkdownConfig,
+	type Mathjax4Config,
+	type RevealApi,
+	type RevealConfig,
+	type RevealPlugin,
+	type RevealPluginFunction,
+} from 'reveal.js';
 import RevealHighlight from 'reveal.js/plugin/highlight';
 import RevealMarkdown from 'reveal.js/plugin/markdown';
 import RevealMath from 'reveal.js/plugin/math';
@@ -6,10 +13,16 @@ import RevealNotes from 'reveal.js/plugin/notes';
 import RevealSearch from 'reveal.js/plugin/search';
 import RevealZoom from 'reveal.js/plugin/zoom';
 
-const api: Reveal.Api | null = null;
-const pluginFactory: Reveal.PluginFunction = RevealZoom;
-const plugins: Array<Reveal.Plugin | Reveal.PluginFunction> = [RevealHighlight(), RevealMarkdown(), RevealMath, RevealNotes, RevealSearch, RevealZoom];
-const mathjax4Config: Reveal.Mathjax4Config = {
+type RevealModule = typeof Reveal;
+const revealModule: RevealModule = Reveal;
+
+const api: RevealApi | null = null;
+const pluginFactory: RevealPluginFunction = RevealZoom;
+const plugins: Array<RevealPlugin | RevealPluginFunction> = [RevealHighlight(), RevealMarkdown(), RevealMath, RevealNotes, RevealSearch, RevealZoom];
+const markdownConfig: MarkdownConfig = {
+	separator: '\\n---\\n',
+};
+const mathjax4Config: Mathjax4Config = {
 	tex: {
 		inlineMath: [['$', '$']],
 		displayMath: [['$$', '$$']],
@@ -31,7 +44,8 @@ const mathjax4Config: Reveal.Mathjax4Config = {
 		},
 	},
 };
-const revealConfig: Parameters<Reveal.Api['initialize']>[0] = {
+const revealConfig: RevealConfig = {
+	markdown: markdownConfig,
 	mathjax4: mathjax4Config,
 };
 
@@ -85,5 +99,7 @@ void zoomId;
 void api;
 void pluginFactory;
 void plugins;
+void markdownConfig;
 void mathjax4Config;
 void revealConfig;
+void revealModule;

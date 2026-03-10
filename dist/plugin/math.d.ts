@@ -1,18 +1,18 @@
-import type Reveal from 'reveal.js';
+import type { RevealPlugin } from 'reveal.js';
 
-export interface KaTeXPlugin extends Reveal.Plugin {
+export interface KaTeXPlugin extends RevealPlugin {
 	id: 'katex';
 }
 
-export interface MathJax2Plugin extends Reveal.Plugin {
+export interface MathJax2Plugin extends RevealPlugin {
 	id: 'mathjax2';
 }
 
-export interface MathJax3Plugin extends Reveal.Plugin {
+export interface MathJax3Plugin extends RevealPlugin {
 	id: 'mathjax3';
 }
 
-export interface MathJax4Plugin extends Reveal.Plugin {
+export interface MathJax4Plugin extends RevealPlugin {
 	id: 'mathjax4';
 }
 

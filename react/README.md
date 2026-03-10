@@ -170,10 +170,10 @@ To access the Reveal instance outside of the component tree, pass a `deckRef` to
 ```tsx
 import { useRef } from 'react';
 import { Deck, Slide } from '@revealjs/react';
-import type Reveal from 'reveal.js';
+import type { RevealApi } from 'reveal.js';
 
 export function Presentation() {
-	const deckRef = useRef<Reveal.Api>(null);
+	const deckRef = useRef<RevealApi>(null);
 
 	return (
 		<Deck deckRef={deckRef}>

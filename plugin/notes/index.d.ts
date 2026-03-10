@@ -1,6 +1,6 @@
-import type Reveal from 'reveal.js';
+import type { RevealPlugin } from 'reveal.js';
 
-export interface NotesPlugin extends Reveal.Plugin {
+export interface NotesPlugin extends RevealPlugin {
 	id: 'notes';
 	open(): void;
 }

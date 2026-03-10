@@ -361,7 +361,7 @@ describe('Deck', () => {
 });
 
 describe('useReveal', () => {
-	it('returns the Reveal.Api instance inside a Deck', async () => {
+	it('returns the RevealApi instance inside a Deck', async () => {
 		let hookResult: any = undefined;
 
 		function Inspector() {

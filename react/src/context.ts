@@ -1,4 +1,4 @@
 import { createContext } from 'react';
-import type Reveal from 'reveal.js';
+import type { RevealApi } from 'reveal.js';
 
-export const RevealContext = createContext<Reveal.Api | null>(null);
+export const RevealContext = createContext<RevealApi | null>(null);

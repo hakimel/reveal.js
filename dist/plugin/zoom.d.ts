@@ -1,6 +1,6 @@
-import type Reveal from 'reveal.js';
+import type { RevealPlugin } from 'reveal.js';
 
-export interface ZoomPlugin extends Reveal.Plugin {
+export interface ZoomPlugin extends RevealPlugin {
 	id: 'zoom';
 }
 

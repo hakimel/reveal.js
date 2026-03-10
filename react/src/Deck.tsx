@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Reveal from 'reveal.js';
+import type { RevealApi } from 'reveal.js';
 import { RevealContext } from './context';
 import type { DeckProps } from './types';
 
@@ -56,8 +57,8 @@ export function Deck({
 	children,
 }: DeckProps) {
 	const deckDivRef = useRef<HTMLDivElement>(null);
-	const revealRef = useRef<Reveal.Api | null>(null);
-	const [deck, setDeck] = useState<Reveal.Api | null>(null);
+	const revealRef = useRef<RevealApi | null>(null);
+	const [deck, setDeck] = useState<RevealApi | null>(null);
 
 	// Plugins are init-only in reveal.js; we register them once when creating the instance.
 	const initialPluginsRef = useRef<NonNullable<DeckProps['plugins']>>(plugins);

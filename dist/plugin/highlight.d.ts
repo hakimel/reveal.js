@@ -1,5 +1,5 @@
 import type { HLJSApi } from 'highlight.js';
-import type Reveal from 'reveal.js';
+import type { RevealPlugin } from 'reveal.js';
 
 export interface HighlightLine {
 	start?: number;
@@ -29,7 +29,7 @@ export interface HighlightLineBounds {
 
 export type HighlightLineStep = HighlightLine[];
 
-export interface HighlightPlugin extends Reveal.Plugin {
+export interface HighlightPlugin extends RevealPlugin {
 	id: 'highlight';
 	HIGHLIGHT_STEP_DELIMITER: '|';
 	HIGHLIGHT_LINE_DELIMITER: ',';

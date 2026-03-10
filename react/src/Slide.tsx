@@ -1,5 +1,5 @@
 import { useContext, useLayoutEffect, useMemo, useRef } from 'react';
-import type Reveal from 'reveal.js';
+import type { RevealApi } from 'reveal.js';
 import { RevealContext } from './context';
 import type { SlideProps } from './types';
 
@@ -16,7 +16,7 @@ function getDataAttributesSignature(attributes: Omit<SlideProps, 'children'>) {
 export function Slide({ children, ...rest }: SlideProps) {
 	const deck = useContext(RevealContext);
 	const slideRef = useRef<HTMLElement>(null);
-	const lastSyncedDeckRef = useRef<Reveal.Api | null>(null);
+	const lastSyncedDeckRef = useRef<RevealApi | null>(null);
 	const lastSyncedSignatureRef = useRef<string | null>(null);
 	const dataAttributesSignature = useMemo(() => getDataAttributesSignature(rest), [rest]);
 
