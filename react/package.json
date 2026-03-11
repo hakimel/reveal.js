@@ -1,6 +1,6 @@
 {
 	"name": "@revealjs/react",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "React wrapper for reveal.js",
 	"license": "MIT",
 	"homepage": "https://revealjs.com/react",
@@ -23,6 +23,7 @@
 		}
 	},
 	"scripts": {
+		"prepack": "npm run build",
 		"build": "vite build",
 		"test": "vitest run",
 		"test:watch": "vitest",

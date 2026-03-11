@@ -4,7 +4,14 @@ import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 
 export default defineConfig({
-	plugins: [react(), dts({ include: ['src'], exclude: ['src/__tests__'] })],
+	plugins: [
+		react(),
+		dts({
+			include: [resolve(__dirname, 'src')],
+			exclude: [resolve(__dirname, 'src/__tests__')],
+			tsconfigPath: resolve(__dirname, 'tsconfig.json'),
+		}),
+	],
 	build: {
 		outDir: resolve(__dirname, 'dist'),
 		emptyOutDir: true,
