@@ -30,57 +30,50 @@ import 'reveal.js/reveal.css';
 import 'reveal.js/theme/black.css';
 
 export function Presentation() {
-	return (
-		<Deck>
-			<Slide>
-				<h1>Hello</h1>
-				<p>My first Reveal deck in React.</p>
-			</Slide>
+  return (
+    <Deck>
+      <Slide>
+        <h1>Hello</h1>
+        <p>My first Reveal deck in React.</p>
+      </Slide>
 
-			<Slide background="#111827">
-				<h2>Second slide</h2>
-			</Slide>
-		</Deck>
-	);
+      <Slide background="#111827">
+        <h2>Second slide</h2>
+      </Slide>
+    </Deck>
+  );
 }
 ```
 
-For vertical slides, wrap `Slide` components in `Stack`:
+## Components
+
+Alongside `Deck` and `Slide`, the package ships a few components for common slide patterns. `Fragment` reveals content one step at a time, `Code` renders a syntax-highlighted block via the highlight plugin, and `Stack` groups slides into a vertical column:
 
 ```tsx
-import { Deck, Slide, Stack } from '@revealjs/react';
+import { Deck, Slide, Stack, Fragment, Code } from '@revealjs/react';
+import RevealHighlight from 'reveal.js/plugin/highlight';
+import 'reveal.js/plugin/highlight/monokai.css';
 
 export function Presentation() {
-	return (
-		<Deck>
-			<Slide>Intro</Slide>
+  return (
+    <Deck plugins={[RevealHighlight]}>
+      <Slide>
+        <h2>Step by step</h2>
+        <Fragment animation="fade-up" as="p">First point</Fragment>
+        <Fragment animation="fade-up" asChild>
+          <div>Second point</div>
+        </Fragment>
+        <Code language="javascript" lineNumbers>
+          {`console.log('Hello, world!');`}
+        </Code>
+      </Slide>
 
-			<Stack>
-				<Slide>Vertical 1</Slide>
-				<Slide>Vertical 2</Slide>
-			</Stack>
-		</Deck>
-	);
-}
-```
-
-## Use fragments
-
-Use `Fragment` to apply Reveal fragment classes, or `asChild` when you want the child element itself to become the fragment node:
-
-```tsx
-import { Fragment, Slide } from '@revealjs/react';
-
-export function Presentation() {
-	return (
-		<Slide>
-			<Fragment animation="fade-up">Wrapped fragment</Fragment>
-
-			<Fragment asChild animation="highlight-red">
-				<li>Child element is the fragment node</li>
-			</Fragment>
-		</Slide>
-	);
+      <Stack>
+        <Slide>Vertical 1</Slide>
+        <Slide>Vertical 2</Slide>
+      </Stack>
+    </Deck>
+  );
 }
 ```
 
@@ -96,21 +89,21 @@ import 'reveal.js/plugin/highlight/monokai.css';
 import RevealHighlight from 'reveal.js/plugin/highlight';
 
 export function Presentation() {
-	return (
-		<Deck
-			config={{
-				width: 1280,
-				height: 720,
-				hash: true,
-				controls: true,
-				progress: true,
-				transition: 'slide',
-			}}
-			plugins={[RevealHighlight]}
-		>
-			<Slide>Configured deck</Slide>
-		</Deck>
-	);
+  return (
+    <Deck
+      config={{
+        width: 1280,
+        height: 720,
+        hash: true,
+        controls: true,
+        progress: true,
+        transition: 'slide',
+      }}
+      plugins={[RevealHighlight]}
+    >
+      <Slide>Configured deck</Slide>
+    </Deck>
+  );
 }
 ```
 
@@ -124,41 +117,27 @@ Use event props on `Deck` to respond to Reveal lifecycle and navigation events:
 import { Deck, Slide } from '@revealjs/react';
 
 export function Presentation() {
-	return (
-		<Deck
-			onReady={(deck) => {
-				console.log('Reveal ready', deck);
-			}}
-			onSync={() => {
-				console.log('Deck synced');
-			}}
-			onSlideChange={(event) => {
-				console.log('Slide changed', event.indexh, event.indexv);
-			}}
-			onFragmentShown={(event) => {
-				console.log('Fragment shown', event.fragment);
-			}}
-		>
-			<Slide>Intro</Slide>
-			<Slide>Next</Slide>
-		</Deck>
-	);
+  return (
+    <Deck
+      onReady={(deck) => {
+        console.log('Reveal ready', deck);
+      }}
+      onSync={() => {
+        console.log('Deck synced');
+      }}
+      onSlideChange={(event) => {
+        console.log('Slide changed', event.indexh, event.indexv);
+      }}
+      onFragmentShown={(event) => {
+        console.log('Fragment shown', event.fragment);
+      }}
+    >
+      <Slide>Intro</Slide>
+      <Slide>Next</Slide>
+    </Deck>
+  );
 }
 ```
-
-Available event props:
-
-- `onReady`
-- `onSync`
-- `onSlideSync`
-- `onSlideChange`
-- `onSlideTransitionEnd`
-- `onFragmentShown`
-- `onFragmentHidden`
-- `onOverviewShown`
-- `onOverviewHidden`
-- `onPaused`
-- `onResumed`
 
 ## Access the Reveal API
 
@@ -168,20 +147,20 @@ Use `useReveal()` inside the deck tree to call the Reveal API from your own comp
 import { Deck, Slide, useReveal } from '@revealjs/react';
 
 function NextButton() {
-	const deck = useReveal();
+  const deck = useReveal();
 
-	return <button onClick={() => deck?.next()}>Next slide</button>;
+  return <button onClick={() => deck?.next()}>Next slide</button>;
 }
 
 export function Presentation() {
-	return (
-		<Deck>
-			<Slide>
-				<h2>Controlled from React</h2>
-				<NextButton />
-			</Slide>
-		</Deck>
-	);
+  return (
+    <Deck>
+      <Slide>
+        <h2>Controlled from React</h2>
+        <NextButton />
+      </Slide>
+    </Deck>
+  );
 }
 ```
 
@@ -193,13 +172,13 @@ import { Deck, Slide } from '@revealjs/react';
 import type { RevealApi } from 'reveal.js';
 
 export function Presentation() {
-	const deckRef = useRef<RevealApi>(null);
+  const deckRef = useRef<RevealApi | null>(null);
 
-	return (
-		<Deck deckRef={deckRef}>
-			<Slide>Hello</Slide>
-		</Deck>
-	);
+  return (
+    <Deck deckRef={deckRef}>
+      <Slide>Hello</Slide>
+    </Deck>
+  );
 }
 ```
 
