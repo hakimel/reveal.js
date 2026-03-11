@@ -3,6 +3,16 @@
 	"version": "0.1.0",
 	"description": "React wrapper for reveal.js",
 	"license": "MIT",
+	"homepage": "https://revealjs.com",
+	"author": {
+		"name": "Hakim El Hattab",
+		"email": "hakim.elhattab@gmail.com",
+		"web": "https://hakim.se"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/hakimel/reveal.js.git"
+	},
 	"type": "module",
 	"module": "dist/index.mjs",
 	"types": "dist/index.d.ts",
