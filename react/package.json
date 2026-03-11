@@ -3,7 +3,7 @@
 	"version": "0.1.1",
 	"description": "React wrapper for reveal.js",
 	"license": "MIT",
-	"homepage": "https://revealjs.com",
+	"homepage": "https://revealjs.com/react",
 	"author": {
 		"name": "Hakim El Hattab",
 		"email": "hakim.elhattab@gmail.com",
