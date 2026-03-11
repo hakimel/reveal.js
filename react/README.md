@@ -64,6 +64,26 @@ export function Presentation() {
 }
 ```
 
+## Use fragments
+
+Use `Fragment` to apply Reveal fragment classes, or `asChild` when you want the child element itself to become the fragment node:
+
+```tsx
+import { Fragment, Slide } from '@revealjs/react';
+
+export function Presentation() {
+	return (
+		<Slide>
+			<Fragment animation="fade-up">Wrapped fragment</Fragment>
+
+			<Fragment asChild animation="highlight-red">
+				<li>Child element is the fragment node</li>
+			</Fragment>
+		</Slide>
+	);
+}
+```
+
 ## Configure Reveal
 
 Pass any Reveal configuration through the `config` prop on `Deck`. Plugins are registered separately via `plugins` and are applied once at initialization time, matching Reveal's plugin lifecycle.

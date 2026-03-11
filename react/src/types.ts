@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode, ElementType, Ref } from 'react';
+import type { CSSProperties, ReactNode, ElementType, Ref, ReactElement } from 'react';
 import type {
 	FragmentAnimation,
 	RevealApi,
@@ -92,14 +92,26 @@ export type StackProps = {
 	children?: ReactNode;
 };
 
-export type FragmentProps = {
+type FragmentBaseProps = {
 	animation?: FragmentAnimation;
-	index?: number;
-	as?: ElementType;
 	className?: string;
 	style?: CSSProperties;
+	index?: number;
+};
+
+type FragmentElementProps = FragmentBaseProps & {
+	asChild?: false;
+	as?: ElementType;
 	children?: ReactNode;
 };
+
+type FragmentAsChildProps = FragmentBaseProps & {
+	asChild: true;
+	as?: never;
+	children: ReactElement;
+};
+
+export type FragmentProps = FragmentElementProps | FragmentAsChildProps;
 
 export type CodeProps = Omit<React.HTMLAttributes<HTMLPreElement>, 'children'> & {
 	children?: string;

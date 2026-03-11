@@ -132,7 +132,7 @@ function Demo() {
 						<Fragment animation="fade-up">
 							<p>Then this</p>
 						</Fragment>
-						<Fragment animation="highlight-red">
+						<Fragment animation="highlight-red" asChild>
 							<p>And this gets highlighted</p>
 						</Fragment>
 					</div>

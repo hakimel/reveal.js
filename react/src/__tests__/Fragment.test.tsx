@@ -60,4 +60,63 @@ describe('Fragment', () => {
 		const el = container.querySelector('.fragment');
 		expect(el).toHaveStyle({ opacity: '0.5' });
 	});
+
+	it('renders the child element directly when asChild is provided', () => {
+		const { container } = render(
+			<Fragment asChild animation="fade-up">
+				<li>Item</li>
+			</Fragment>
+		);
+
+		expect(container.firstElementChild?.tagName).toBe('LI');
+		expect(container.firstElementChild).toHaveClass('fragment', 'fade-up');
+		expect(container.firstElementChild).toHaveTextContent('Item');
+	});
+
+	it('merges child className and style when asChild is provided', () => {
+		const { container } = render(
+			<Fragment asChild animation="grow" className="outer" style={{ opacity: 0.5 }}>
+				<div className="inner" style={{ color: 'red' }}>
+					Merged
+				</div>
+			</Fragment>
+		);
+
+		const el = container.firstElementChild;
+		expect(el).toHaveClass('inner', 'fragment', 'grow', 'outer');
+		expect(el).toHaveStyle({ color: 'rgb(255, 0, 0)', opacity: '0.5' });
+	});
+
+	it('sets data-fragment-index on the child when asChild is provided', () => {
+		const { container } = render(
+			<Fragment asChild index={2}>
+				<div data-fragment-index={1}>Indexed</div>
+			</Fragment>
+		);
+
+		expect(container.firstElementChild).toHaveAttribute('data-fragment-index', '2');
+	});
+
+	it('throws when asChild receives multiple children', () => {
+		expect(() =>
+			render(
+				<Fragment asChild>
+					<span>One</span>
+					<span>Two</span>
+				</Fragment>
+			)
+		).toThrow('Fragment with asChild expects exactly one React element child.');
+	});
+
+	it('throws when asChild receives a React.Fragment child', () => {
+		expect(() =>
+			render(
+				<Fragment asChild>
+					<>
+						<span>One</span>
+					</>
+				</Fragment>
+			)
+		).toThrow('Fragment with asChild expects exactly one non-Fragment React element child.');
+	});
 });
