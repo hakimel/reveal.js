@@ -1,11 +1,12 @@
 import { Children, useEffect, useState } from 'react';
+import type { SlideSyncEvent } from 'reveal.js';
 import { Deck, Slide, Stack, Fragment, Code, useReveal } from '@revealjs/react';
 import 'reveal.js/reveal.css';
 import 'reveal.js/theme/black.css';
 import 'reveal.js/plugin/highlight/monokai.css';
 
-// @ts-ignore
 import RevealHighlight from 'reveal.js/plugin/highlight';
+import RevealMarkdown from 'reveal.js/plugin/markdown';
 
 const buttonStyle: React.CSSProperties = {
 	padding: '0.55em 0.95em',
@@ -108,11 +109,11 @@ function Demo() {
 				hash: true,
 				controls,
 			}}
-			plugins={[RevealHighlight]}
+			plugins={[RevealHighlight, RevealMarkdown]}
 			onReady={(deck) => console.log('Deck ready!', deck)}
 			onSync={() => console.log('Deck synced')}
 			onSlideSync={(e) => {
-				const slide = (e as Reveal.SlideSyncEvent).slide;
+				const slide = (e as SlideSyncEvent).slide;
 				console.log('Slide synced', slide);
 			}}
 			onSlideChange={(e) => console.log('Slide changed')}
@@ -198,6 +199,27 @@ function Demo() {
 						</Code>
 					</div>
 				</Columns>
+			</Slide>
+
+			<Slide data-markdown>
+				<script type="text/template">
+					{`
+						## Markdown Support
+
+						Write content using inline or external Markdown.
+						More info in the [docs](https://revealjs.com/markdown/).
+
+						\`\`\`html []
+						<Slide data-markdown>
+						  <script type="text/template">
+						    ## Markdown Support
+
+						    This content is written in **Markdown**.
+						  </script>
+						</Slide>
+						\`\`\`
+					`}
+				</script>
 			</Slide>
 
 			<SlideSyncPlayground />
