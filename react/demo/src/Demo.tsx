@@ -6,7 +6,6 @@ import 'reveal.js/theme/black.css';
 import 'reveal.js/plugin/highlight/monokai.css';
 
 import RevealHighlight from 'reveal.js/plugin/highlight';
-import RevealMarkdown from 'reveal.js/plugin/markdown';
 
 const buttonStyle: React.CSSProperties = {
 	padding: '0.55em 0.95em',
@@ -109,7 +108,7 @@ function Demo() {
 				hash: true,
 				controls,
 			}}
-			plugins={[RevealHighlight, RevealMarkdown]}
+			plugins={[RevealHighlight]}
 			onReady={(deck) => console.log('Deck ready!', deck)}
 			onSync={() => console.log('Deck synced')}
 			onSlideSync={(e) => {
@@ -199,27 +198,6 @@ function Demo() {
 						</Code>
 					</div>
 				</Columns>
-			</Slide>
-
-			<Slide data-markdown>
-				<script type="text/template">
-					{`
-						## Markdown Support
-
-						Write content using inline or external Markdown.
-						More info in the [docs](https://revealjs.com/markdown/).
-
-						\`\`\`html []
-						<Slide data-markdown>
-						  <script type="text/template">
-						    ## Markdown Support
-
-						    This content is written in **Markdown**.
-						  </script>
-						</Slide>
-						\`\`\`
-					`}
-				</script>
 			</Slide>
 
 			<SlideSyncPlayground />
