@@ -74,10 +74,7 @@ describe('Code', () => {
 			},
 		});
 
-		// flush: 'post' watcher needs render + post-flush cycle
-		await nextTick(); // trigger watcher
-		await nextTick(); // flush post
-		await new Promise(r => setTimeout(r, 0)); // allow microtask queue to drain
+		await nextTick();
 
 		const code = container.querySelector('pre > code');
 		expect(deck.getPlugin).toHaveBeenCalledWith('highlight');
@@ -109,16 +106,12 @@ describe('Code', () => {
         });
 
 		await nextTick();
-		await nextTick();
-		await nextTick();
 		expect(container.querySelectorAll('pre > code.fragment')).toHaveLength(1);
 
 		await rerender({
             lineNumbers: '|1|2',
             code: `console.log('two')`
         });
-		await nextTick();
-		await nextTick();
 		await nextTick();
 
 		expect(highlightBlock).toHaveBeenCalledTimes(2);
@@ -155,16 +148,12 @@ describe('Code', () => {
             }
         });
 		await nextTick();
-		await nextTick();
-		await nextTick();
 
 		await rerender({
             language: 'ts',
             lineNumbers: '1|3',
             code: `console.log('one')`
         });
-		await nextTick();
-		await nextTick();
 		await nextTick();
 
 		expect(seenLineNumbers).toEqual(['1|3', '1|3']);
