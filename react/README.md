@@ -79,21 +79,21 @@ export function Presentation() {
         options={{ smartypants: true, animateLists: true }}
       >
         {`
-## Markdown 1.1
-- First item <!-- .element: class="fragment" -->
-- Second item <!-- .element: class="fragment" -->
+          ## Markdown 1.1
+          - First item <!-- .element: class="fragment" -->
+          - Second item <!-- .element: class="fragment" -->
 
---
+          --
 
-## Markdown 1.2
+          ## Markdown 1.2
 
-Notes:
-These become speaker notes.
+          Notes:
+          These become speaker notes.
 
----
+          ---
 
-<!-- .slide: data-background="#111827" -->
-## Markdown 2
+          <!-- .slide: data-background="#111827" -->
+          ## Markdown 2
         `}
       </Markdown>
     </Deck>

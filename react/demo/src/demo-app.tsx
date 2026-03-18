@@ -6,6 +6,7 @@ import 'reveal.js/theme/black.css';
 import 'reveal.js/plugin/highlight/monokai.css';
 
 import RevealHighlight from 'reveal.js/plugin/highlight';
+import RevealNotes from 'reveal.js/plugin/notes';
 
 const buttonStyle: React.CSSProperties = {
 	padding: '0.55em 0.95em',
@@ -108,7 +109,7 @@ function Demo() {
 				hash: true,
 				controls,
 			}}
-			plugins={[RevealHighlight]}
+			plugins={[RevealHighlight, RevealNotes]}
 			onReady={(deck) => console.log('Deck ready!', deck)}
 			onSync={() => console.log('Deck synced')}
 			onSlideSync={(e) => {
@@ -223,27 +224,27 @@ function Demo() {
 				options={{ smartypants: true, animateLists: true }}
 			>
 				{`
-## Markdown 1.1
+					## Markdown 1.1
 
-- First point <!-- .element: class="fragment" -->
-- Second point <!-- .element: class="fragment" -->
+					- First point <!-- .element: class="fragment" -->
+					- Second point <!-- .element: class="fragment" -->
 
---
+					--
 
-## Markdown 1.2
+					## Markdown 1.2
 
-Notes:
-These are speaker notes parsed from markdown.
+					Notes:
+					These are speaker notes parsed from markdown.
 
----
+					---
 
-<!-- .slide: data-background="#0f172a" -->
-## Markdown 2
+					<!-- .slide: data-background="#0f172a" -->
+					## Markdown 2
 
-\`\`\`js [1|2]
-const a = 1;
-const b = 2;
-\`\`\`
+					\`\`\`js [1|2]
+					const a = 1;
+					const b = 2;
+					\`\`\`
 				`}
 			</Markdown>
 
