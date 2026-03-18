@@ -196,6 +196,22 @@ const deckRef = ref();
 - `plugins` are initialization-only, matching Reveal's plugin lifecycle.
 - Event listeners are wired with `deck.on()` after initialization and cleaned up with `deck.off()`.
 
+## Implementation Details
+
+This package follows Vue 3.5+ best practices:
+
+- **Composition API with `<script setup>`** - All components use the modern `<script setup>` syntax with TypeScript for type safety and better DX.
+- **`useTemplateRef()`** - Template refs use Vue 3.5's `useTemplateRef()` for type-safe DOM element access instead of `ref()`.
+- **Reactive destructuring** - Props are accessed directly without `.value` thanks to Vue 3.5's reactivity transform in `<script setup>`.
+- **Modern `defineEmits` syntax** - Events use the object syntax `{ eventName: [args] }` for better type inference.
+- **`shallowRef` for external instances** - The Reveal API instance is stored in a `shallowRef` to avoid deep reactivity overhead on the external library object.
+- **Declarative attribute mapping** - `Slide` uses a `SLIDE_DATA_ATTRIBUTES` map (matching the React wrapper pattern) for maintainable prop-to-attribute conversion.
+- **Type-safe provide/inject** - Context uses `InjectionKey<ShallowRef<RevealApi | null>>` for full type safety across the component tree.
+- **Computed properties for derived state** - All derived values (classes, attributes, signatures) use `computed()` for automatic dependency tracking.
+- **Lifecycle hooks** - `onMounted` and `onUnmounted` handle initialization, event wiring, and cleanup.
+- **Watch with `flush: 'post'`** - Watchers that need DOM access use `flush: 'post'` to run after Vue's DOM updates.
+- **Fallback refs for inject** - Components provide `?? shallowRef(null)` fallbacks when `inject()` returns `undefined`, ensuring refs are always reactive.
+
 ---
 
 <div align="center">
