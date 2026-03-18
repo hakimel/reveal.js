@@ -129,6 +129,7 @@ function runHighlight() {
 
 watch(
 	[
+		codeRef,
 		deckRef,
 		normalizedCode,
 		() => props.language,
