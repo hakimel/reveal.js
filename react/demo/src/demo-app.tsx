@@ -1,6 +1,6 @@
 import { Children, useEffect, useState } from 'react';
 import type { SlideSyncEvent } from 'reveal.js';
-import { Deck, Slide, Stack, Fragment, Code, useReveal } from '@revealjs/react';
+import { Deck, Slide, Stack, Markdown, Fragment, Code, useReveal } from '@revealjs/react';
 import 'reveal.js/reveal.css';
 import 'reveal.js/theme/black.css';
 import 'reveal.js/plugin/highlight/monokai.css';
@@ -216,6 +216,38 @@ function Demo() {
 					<p>Dynamically added via React state</p>
 				</Slide>
 			)}
+
+			<Markdown
+				separator="^\n---\n$"
+				verticalSeparator="^\n--\n$"
+				options={{ smartypants: true, animateLists: true }}
+			>
+				{`
+## Markdown 1.1
+
+- First point <!-- .element: class="fragment" -->
+- Second point <!-- .element: class="fragment" -->
+
+--
+
+## Markdown 1.2
+
+Notes:
+These are speaker notes parsed from markdown.
+
+---
+
+<!-- .slide: data-background="#0f172a" -->
+## Markdown 2
+
+\`\`\`js [1|2]
+const a = 1;
+const b = 2;
+\`\`\`
+				`}
+			</Markdown>
+
+			<Markdown src="markdown.md" verticalSeparator="@@@" />
 
 			<Slide>
 				<h2>The End</h2>

@@ -47,10 +47,10 @@ export function Presentation() {
 
 ## Components
 
-Alongside `Deck` and `Slide`, the package ships a few components for common slide patterns. `Fragment` reveals content one step at a time, `Code` renders a syntax-highlighted block via the highlight plugin, and `Stack` groups slides into a vertical column:
+Alongside `Deck` and `Slide`, the package ships a few components for common slide patterns. `Fragment` reveals content one step at a time, `Code` renders a syntax-highlighted block via the highlight plugin, `Stack` groups slides into a vertical column, and `Markdown` renders Reveal-compatible markdown slides without registering the Reveal markdown plugin:
 
 ```tsx
-import { Deck, Slide, Stack, Fragment, Code } from '@revealjs/react';
+import { Deck, Slide, Stack, Markdown, Fragment, Code } from '@revealjs/react';
 import RevealHighlight from 'reveal.js/plugin/highlight';
 import 'reveal.js/plugin/highlight/monokai.css';
 
@@ -72,10 +72,36 @@ export function Presentation() {
         <Slide>Vertical 1</Slide>
         <Slide>Vertical 2</Slide>
       </Stack>
+
+      <Markdown
+        separator="^\n---\n$"
+        verticalSeparator="^\n--\n$"
+        options={{ smartypants: true, animateLists: true }}
+      >
+        {`
+## Markdown 1.1
+- First item <!-- .element: class="fragment" -->
+- Second item <!-- .element: class="fragment" -->
+
+--
+
+## Markdown 1.2
+
+Notes:
+These become speaker notes.
+
+---
+
+<!-- .slide: data-background="#111827" -->
+## Markdown 2
+        `}
+      </Markdown>
     </Deck>
   );
 }
 ```
+
+`Markdown` accepts string children, a `markdown` prop, or `src` for external markdown. Use the first-class `separator`, `verticalSeparator`, `notesSeparator`, `elementAttributesSeparator`, and `slideAttributesSeparator` props to mirror Reveal's markdown options, and pass any other markdown/Marked settings through `options`.
 
 ## Configure Reveal
 
@@ -107,7 +133,7 @@ export function Presentation() {
 }
 ```
 
-`config` maps directly to [Reveal's configuration object](https://revealjs.com/config/). `Slide` supports convenient Reveal slide props such as `background`, `backgroundImage`, `backgroundColor`, `visibility`, `autoAnimate`, `transition`, `transitionSpeed`, `autoSlide`, `notes`, `backgroundInteractive`, and `preload`, while still passing through raw `data-*` attributes to the rendered `<section>` element.
+`config` maps directly to [Reveal's configuration object](https://revealjs.com/config/). `Slide` and `Markdown` both support convenient Reveal slide props such as `background`, `backgroundImage`, `backgroundColor`, `visibility`, `autoAnimate`, `transition`, `transitionSpeed`, `autoSlide`, `notes`, `backgroundInteractive`, and `preload`, while still passing through raw `data-*` attributes to the rendered `<section>` element.
 
 ## Subscribe to events
 
@@ -187,6 +213,7 @@ export function Presentation() {
 - `Deck` creates one Reveal instance on mount and destroys it on unmount. Initialization is asynchronous — `onReady` fires once `reveal.initialize()` resolves, after which the instance is also accessible via `useReveal()` and `deckRef`.
 - `Deck` calls `reveal.sync()` when the rendered slide structure changes, such as slides being added, removed, reordered, or regrouped into stacks.
 - `Slide` handles slide-level `data-*` attribute updates locally with `reveal.syncSlide()`, so ordinary React content updates inside a slide do not trigger a full deck sync.
+- `Markdown` uses `marked` plus the same separator and comment-attribute conventions as Reveal's core markdown plugin, including `.slide:` and `.element:` comment syntax.
 - `config` is shallow-compared on each render so that `reveal.configure()` is only called when a value actually changes.
 - `plugins` are initialization-only, matching Reveal's plugin lifecycle. The prop is captured once on first mount and ignored on subsequent renders.
 - Event props are wired with `deck.on()` after initialization and cleaned up with `deck.off()`. Changing a callback between renders swaps the listener automatically.

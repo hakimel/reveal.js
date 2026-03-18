@@ -1,6 +1,6 @@
 import { useContext, useLayoutEffect, useMemo, useRef } from 'react';
-import { RevealContext } from './context';
-import type { CodeProps } from './types';
+import { RevealContext } from '../reveal-context';
+import type { CodeProps } from '../types';
 
 type HighlightPlugin = {
 	highlightBlock?: (block: HTMLElement) => void;

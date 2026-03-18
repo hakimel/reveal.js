@@ -6,7 +6,7 @@ import {
 	type CSSProperties,
 	type ReactElement,
 } from 'react';
-import type { FragmentProps } from './types';
+import type { FragmentProps } from '../types';
 
 type FragmentChildProps = {
 	className?: string;

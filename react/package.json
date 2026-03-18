@@ -1,6 +1,6 @@
 {
 	"name": "@revealjs/react",
-	"version": "0.1.2",
+	"version": "0.2.0",
 	"description": "React wrapper for reveal.js",
 	"license": "MIT",
 	"homepage": "https://revealjs.com/react",

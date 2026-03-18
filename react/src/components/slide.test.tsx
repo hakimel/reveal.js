@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { Slide } from '../Slide';
-import { RevealContext } from '../context';
+import { Slide } from './slide';
+import { RevealContext } from '../reveal-context';
 
 describe('Slide', () => {
 	it('renders as a <section> element', () => {

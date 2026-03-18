@@ -20,7 +20,7 @@ const RevealConstructor = vi.hoisted(() =>
 
 vi.mock('reveal.js', () => ({ default: RevealConstructor }));
 
-import { Deck, Slide, useReveal } from '../index';
+import { Deck, Slide, Markdown, useReveal } from '../index';
 
 beforeEach(() => {
 	vi.clearAllMocks();
@@ -122,6 +122,52 @@ describe('Deck', () => {
 		});
 
 		expect(mockApi.sync).not.toHaveBeenCalled();
+	});
+
+	it('calls sync() when Markdown content changes', async () => {
+		let rerender: ReturnType<typeof render>['rerender'];
+		await act(async () => {
+			({ rerender } = render(
+				<Deck>
+					<Markdown markdown="## Tick 1" />
+				</Deck>
+			));
+		});
+
+		mockApi.sync.mockClear();
+
+		await act(async () => {
+			rerender(
+				<Deck>
+					<Markdown markdown="## Tick 2" />
+				</Deck>
+			);
+		});
+
+		expect(mockApi.sync).toHaveBeenCalledTimes(1);
+	});
+
+	it('calls sync() when Markdown slide attributes change', async () => {
+		let rerender: ReturnType<typeof render>['rerender'];
+		await act(async () => {
+			({ rerender } = render(
+				<Deck>
+					<Markdown markdown="## Tick" backgroundColor="#111111" />
+				</Deck>
+			));
+		});
+
+		mockApi.sync.mockClear();
+
+		await act(async () => {
+			rerender(
+				<Deck>
+					<Markdown markdown="## Tick" backgroundColor="#222222" />
+				</Deck>
+			);
+		});
+
+		expect(mockApi.sync).toHaveBeenCalledTimes(1);
 	});
 
 	it('does not call sync() twice when configure() already syncs', async () => {

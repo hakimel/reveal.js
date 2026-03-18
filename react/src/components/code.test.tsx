@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { Code } from '../Code';
-import { RevealContext } from '../context';
+import { Code } from './code';
+import { RevealContext } from '../reveal-context';
 
 describe('Code', () => {
 	it('renders pre/code and trims multiline template literals by default', () => {
@@ -98,7 +98,9 @@ describe('Code', () => {
 
 		expect(highlightBlock).toHaveBeenCalledTimes(2);
 		expect(container.querySelectorAll('pre > code.fragment')).toHaveLength(1);
-		expect(container.querySelector('pre > code:not(.fragment)')).toHaveTextContent("console.log('two')");
+		expect(container.querySelector('pre > code:not(.fragment)')).toHaveTextContent(
+			"console.log('two')"
+		);
 	});
 
 	it('restores full line-number steps before rehighlighting after plugin mutation', () => {
