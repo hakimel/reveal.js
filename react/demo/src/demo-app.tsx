@@ -1,11 +1,12 @@
 import { Children, useEffect, useState } from 'react';
 import type { SlideSyncEvent } from 'reveal.js';
-import { Deck, Slide, Stack, Fragment, Code, useReveal } from '@revealjs/react';
+import { Deck, Slide, Stack, Markdown, Fragment, Code, useReveal } from '@revealjs/react';
 import 'reveal.js/reveal.css';
 import 'reveal.js/theme/black.css';
 import 'reveal.js/plugin/highlight/monokai.css';
 
 import RevealHighlight from 'reveal.js/plugin/highlight';
+import RevealNotes from 'reveal.js/plugin/notes';
 
 const buttonStyle: React.CSSProperties = {
 	padding: '0.55em 0.95em',
@@ -108,7 +109,7 @@ function Demo() {
 				hash: true,
 				controls,
 			}}
-			plugins={[RevealHighlight]}
+			plugins={[RevealHighlight, RevealNotes]}
 			onReady={(deck) => console.log('Deck ready!', deck)}
 			onSync={() => console.log('Deck synced')}
 			onSlideSync={(e) => {
@@ -120,38 +121,6 @@ function Demo() {
 			<Slide>
 				<h1>@revealjs/react</h1>
 				<p>React wrapper for reveal.js</p>
-			</Slide>
-
-			<Slide data-background="#000">
-				<h2>Fragments</h2>
-				<Columns>
-					<div>
-						<Fragment animation="fade-up">
-							<p>This appears first</p>
-						</Fragment>
-						<Fragment animation="fade-up">
-							<p>Then this</p>
-						</Fragment>
-						<Fragment animation="highlight-red" asChild>
-							<p>And this gets highlighted</p>
-						</Fragment>
-					</div>
-					<div>
-						<Code language="html" codeStyle={{ padding: '0.5em' }}>
-							{`
-							<Fragment animation="fade-up">
-								<p>This appears first</p>
-							</Fragment>
-							<Fragment animation="fade-up">
-								<p>Then this</p>
-							</Fragment>
-							<Fragment animation="highlight-red">
-								<p>And this gets highlighted</p>
-							</Fragment>
-						`}
-						</Code>
-					</div>
-				</Columns>
 			</Slide>
 
 			<Stack>
@@ -216,6 +185,89 @@ function Demo() {
 					<p>Dynamically added via React state</p>
 				</Slide>
 			)}
+
+			<Slide data-background="#000">
+				<h2>Fragments</h2>
+				<Columns>
+					<div>
+						<Fragment animation="fade-up">
+							<p>This appears first</p>
+						</Fragment>
+						<Fragment animation="fade-up">
+							<p>Then this</p>
+						</Fragment>
+						<Fragment animation="highlight-red" asChild>
+							<p>And this gets highlighted</p>
+						</Fragment>
+					</div>
+					<div>
+						<Code language="html" codeStyle={{ padding: '0.5em' }}>
+							{`
+							<Fragment animation="fade-up">
+								<p>This appears first</p>
+							</Fragment>
+							<Fragment animation="fade-up">
+								<p>Then this</p>
+							</Fragment>
+							<Fragment animation="highlight-red">
+								<p>And this gets highlighted</p>
+							</Fragment>
+						`}
+						</Code>
+					</div>
+				</Columns>
+			</Slide>
+
+			<Slide autoAnimate>
+				<h1>Auto-animate</h1>
+				<p>This slide is animated automatically</p>
+			</Slide>
+
+			<Slide autoAnimate>
+				<h1 style={{ opacity: 0.4 }}>Auto-animate</h1>
+				<Code
+					language="html"
+					code={`
+					<Slide autoAnimate>
+						<h1>Auto-animate</h1>
+						<p>This slide is animated automatically</p>
+					</Slide>
+					`}
+				/>
+				<p style={{ opacity: 0.4 }}>This slide is animated automatically</p>
+			</Slide>
+
+			<Markdown
+				separator="^\n---\n$"
+				verticalSeparator="^\n--\n$"
+				options={{ smartypants: true, animateLists: true }}
+			>
+				{`
+					## Markdown 1.1
+
+					- First point <!-- .element: class="fragment" -->
+					- Second point <!-- .element: class="fragment" -->
+
+					--
+
+					## Markdown 1.2
+
+					Notes:
+					These are speaker notes parsed from markdown.
+
+					---
+
+					<!-- .slide: data-background="#0f172a" -->
+					## Markdown 2
+
+					\`\`\`js [1|2]
+					const a = 1;
+					const b = 2;
+					\`\`\`
+				`}
+			</Markdown>
+
+			<Markdown src="markdown.md" verticalSeparator="@@@" />
 
 			<Slide>
 				<h2>The End</h2>

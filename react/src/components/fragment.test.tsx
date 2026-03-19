@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { Fragment } from '../Fragment';
+import { Fragment } from './fragment';
 
 describe('Fragment', () => {
 	it('renders with the "fragment" class', () => {
@@ -100,6 +100,7 @@ describe('Fragment', () => {
 	it('throws when asChild receives multiple children', () => {
 		expect(() =>
 			render(
+				// @ts-expect-error - This is a test
 				<Fragment asChild>
 					<span>One</span>
 					<span>Two</span>

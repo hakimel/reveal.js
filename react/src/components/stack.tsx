@@ -1,4 +1,4 @@
-import type { StackProps } from './types';
+import type { StackProps } from '../types';
 
 export function Stack({ className, style, children }: StackProps) {
 	return (

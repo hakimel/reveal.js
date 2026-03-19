@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { Stack } from '../Stack';
-import { Slide } from '../Slide';
+import { Stack } from './stack';
+import { Slide } from './slide';
 
 describe('Stack', () => {
 	it('renders as a <section> element', () => {

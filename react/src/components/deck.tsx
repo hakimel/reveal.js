@@ -1,8 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState, type Ref, type RefObject } from 'react';
 import Reveal from 'reveal.js';
 import type { RevealApi } from 'reveal.js';
-import { RevealContext } from './context';
-import type { DeckProps } from './types';
+import { RevealContext } from '../reveal-context';
+import type { DeckProps } from '../types';
 
 const DEFAULT_PLUGINS: NonNullable<DeckProps['plugins']> = [];
 type DeckEventHandler = NonNullable<DeckProps['onSync']>;

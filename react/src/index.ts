@@ -1,14 +1,23 @@
 import { useContext } from 'react';
-import { RevealContext } from './context';
+import { RevealContext } from './reveal-context';
 
-export { Deck } from './Deck';
-export { Slide } from './Slide';
-export { Stack } from './Stack';
-export { Fragment } from './Fragment';
-export { Code } from './Code';
-export { RevealContext } from './context';
+export { Deck } from './components/deck';
+export { Slide } from './components/slide';
+export { Stack } from './components/stack';
+export { Markdown } from './components/markdown';
+export { Fragment } from './components/fragment';
+export { Code } from './components/code';
+export { RevealContext } from './reveal-context';
 
-export type { DeckProps, SlideProps, StackProps, FragmentProps, CodeProps } from './types';
+export type {
+	DeckProps,
+	SlideProps,
+	StackProps,
+	MarkdownProps,
+	MarkdownOptions,
+	FragmentProps,
+	CodeProps,
+} from './types';
 
 export function useReveal() {
 	return useContext(RevealContext);

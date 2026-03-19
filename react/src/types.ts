@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactNode, ElementType, Ref, ReactElement } from 'react';
 import type {
 	FragmentAnimation,
+	MarkdownConfig,
 	RevealApi,
 	RevealConfig,
 	RevealPlugin,
@@ -84,6 +85,26 @@ export type SlideProps = React.HTMLAttributes<HTMLElement> &
 	SlideAutoAnimateProps &
 	SlideRevealProps & {
 	children?: ReactNode;
+};
+
+export type MarkdownOptions = Omit<
+	MarkdownConfig,
+	'async' | 'separator' | 'verticalSeparator' | 'notesSeparator' | 'attributes'
+> & {
+	animateLists?: boolean;
+};
+
+export type MarkdownProps = Omit<SlideProps, 'children'> & {
+	children?: string;
+	markdown?: string;
+	src?: string;
+	charset?: string;
+	separator?: string;
+	verticalSeparator?: string | null;
+	notesSeparator?: string;
+	elementAttributesSeparator?: string;
+	slideAttributesSeparator?: string;
+	options?: MarkdownOptions;
 };
 
 export type StackProps = {
