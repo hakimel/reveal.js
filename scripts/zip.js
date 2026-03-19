@@ -88,38 +88,40 @@ function switchToStaticStyles(htmlContent) {
 }
 
 async function main() {
+	const zip = new JSZip();
+
 	// Parse command line arguments for HTML file target
 	const args = process.argv.slice(2);
-	const htmlTarget = args.length > 0 ? args[0] : 'index.html';
-
-	// Ensure relative paths are read from cwd while keeping absolute paths intact
-	const targetFile = path.isAbsolute(htmlTarget)
-		? htmlTarget
-		: htmlTarget.startsWith('./')
+	const htmlTargets = args.length > 0 ? args : ['index.html'];
+	for (const htmlTarget of htmlTargets) {
+		// Ensure relative paths are read from cwd while keeping absolute paths intact
+		const targetFile = path.isAbsolute(htmlTarget)
 			? htmlTarget
-			: `./${htmlTarget}`;
+			: htmlTarget.startsWith('./')
+				? htmlTarget
+				: `./${htmlTarget}`;
 
-	console.log(`Packaging presentation with target file: ${targetFile}`);
+		console.log(`Packaging presentation with target file: ${targetFile}`);
 
-	// Read the HTML file
-	let htmlContent = fs.readFileSync(targetFile, 'utf8');
+		// Read the HTML file
+		let htmlContent = fs.readFileSync(targetFile, 'utf8');
 
-	// Switch from Vite's dynamic imports to static ones so that
-	// this presentation can run anywhere (including offline via
-	// file:// protocol)
-	htmlContent = switchToStaticScripts(htmlContent);
-	htmlContent = switchToStaticStyles(htmlContent);
+		// Switch from Vite's dynamic imports to static ones so that
+		// this presentation can run anywhere (including offline via
+		// file:// protocol)
+		htmlContent = switchToStaticScripts(htmlContent);
+		htmlContent = switchToStaticStyles(htmlContent);
 
-	const zip = new JSZip();
+		// Add the modified HTML file first
+		const htmlFileName = htmlTarget.replace(/\.\//, '');
+		zip.file(htmlFileName, htmlContent);
+	}
+
 	const filesToInclude = ['./dist/**', './*/*.md'];
 
 	if (fs.existsSync('./lib')) filesToInclude.push('./lib/**');
 	if (fs.existsSync('./images')) filesToInclude.push('./images/**');
 	if (fs.existsSync('./slides')) filesToInclude.push('./slides/**');
-
-	// Add the modified HTML file first
-	const htmlFileName = htmlTarget.replace(/\.\//, '');
-	zip.file(htmlFileName, htmlContent);
 
 	for (const pattern of filesToInclude) {
 		const files = globSync(pattern, {
