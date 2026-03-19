@@ -123,38 +123,6 @@ function Demo() {
 				<p>React wrapper for reveal.js</p>
 			</Slide>
 
-			<Slide data-background="#000">
-				<h2>Fragments</h2>
-				<Columns>
-					<div>
-						<Fragment animation="fade-up">
-							<p>This appears first</p>
-						</Fragment>
-						<Fragment animation="fade-up">
-							<p>Then this</p>
-						</Fragment>
-						<Fragment animation="highlight-red" asChild>
-							<p>And this gets highlighted</p>
-						</Fragment>
-					</div>
-					<div>
-						<Code language="html" codeStyle={{ padding: '0.5em' }}>
-							{`
-							<Fragment animation="fade-up">
-								<p>This appears first</p>
-							</Fragment>
-							<Fragment animation="fade-up">
-								<p>Then this</p>
-							</Fragment>
-							<Fragment animation="highlight-red">
-								<p>And this gets highlighted</p>
-							</Fragment>
-						`}
-						</Code>
-					</div>
-				</Columns>
-			</Slide>
-
 			<Stack>
 				<Slide background="indigo">
 					<h2>Vertical Stack</h2>
@@ -217,6 +185,57 @@ function Demo() {
 					<p>Dynamically added via React state</p>
 				</Slide>
 			)}
+
+			<Slide data-background="#000">
+				<h2>Fragments</h2>
+				<Columns>
+					<div>
+						<Fragment animation="fade-up">
+							<p>This appears first</p>
+						</Fragment>
+						<Fragment animation="fade-up">
+							<p>Then this</p>
+						</Fragment>
+						<Fragment animation="highlight-red" asChild>
+							<p>And this gets highlighted</p>
+						</Fragment>
+					</div>
+					<div>
+						<Code language="html" codeStyle={{ padding: '0.5em' }}>
+							{`
+							<Fragment animation="fade-up">
+								<p>This appears first</p>
+							</Fragment>
+							<Fragment animation="fade-up">
+								<p>Then this</p>
+							</Fragment>
+							<Fragment animation="highlight-red">
+								<p>And this gets highlighted</p>
+							</Fragment>
+						`}
+						</Code>
+					</div>
+				</Columns>
+			</Slide>
+
+			<Slide autoAnimate>
+				<h1>Auto-animate</h1>
+				<p>This slide is animated automatically</p>
+			</Slide>
+
+			<Slide autoAnimate>
+				<h1 style={{ opacity: 0.4 }}>Auto-animate</h1>
+				<Code
+					language="html"
+					code={`
+					<Slide autoAnimate>
+						<h1>Auto-animate</h1>
+						<p>This slide is animated automatically</p>
+					</Slide>
+					`}
+				/>
+				<p style={{ opacity: 0.4 }}>This slide is animated automatically</p>
+			</Slide>
 
 			<Markdown
 				separator="^\n---\n$"
