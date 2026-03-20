@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, shallowRef, useTemplateRef, watch, useSlots } from 'vue';
+import { computed, inject, ref, shallowRef, useTemplateRef, watch } from 'vue';
 import type { RevealApi } from 'reveal.js';
 import type { CodeProps } from '../types';
 import { RevealContextKey } from '../reveal-context';
@@ -8,10 +8,20 @@ const props = withDefaults(defineProps<CodeProps>(), {
 	trim: true,
 });
 
-const slots = useSlots();
 const deck = inject(RevealContextKey, shallowRef<RevealApi | null>(null));
 const codeRef = useTemplateRef<HTMLElement>('codeEl');
+const slotSourceRef = useTemplateRef<HTMLElement>('slotSource');
+const slotText = ref('');
 let lastHighlightSignature = '';
+
+watch(
+	slotSourceRef,
+	(el) => {
+		if (!el) return;
+		slotText.value = el.textContent ?? '';
+	},
+	{ flush: 'post' }
+);
 
 function normalizeCode(code: string) {
 	const lines = code.replace(/\r\n/g, '\n').split('\n');
@@ -44,14 +54,7 @@ function cleanupGeneratedFragments(block: HTMLElement) {
 
 const rawCode = computed(() => {
 	if (props.code !== undefined) return props.code;
-	const defaultSlot = slots.default?.();
-	if (!defaultSlot) return '';
-	return defaultSlot
-		.map((vnode: any) => {
-			if (typeof vnode.children === 'string') return vnode.children;
-			return '';
-		})
-		.join('\n');
+	return slotText.value;
 });
 
 const normalizedCode = computed(() => (props.trim ? normalizeCode(rawCode.value) : rawCode.value));
@@ -125,6 +128,9 @@ watch(
 </script>
 
 <template>
+	<span v-if="props.code === undefined" ref="slotSource" :style="{ display: 'none' }"
+		><slot
+	/></span>
 	<pre class="code-wrapper" v-bind="$attrs">
 		<code
 			ref="codeEl"

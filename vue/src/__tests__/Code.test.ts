@@ -32,7 +32,7 @@ describe('Code', () => {
 		expect(code?.textContent).toBe('function add(a, b) {\n\treturn a + b;\n}');
 	});
 
-    it('renders code from default slot when code prop is missing', () => {
+    it('renders code from default slot when code prop is missing', async () => {
         const { container } = render(Code, {
             props: { language: 'python' },
             slots: {
@@ -42,6 +42,8 @@ describe('Code', () => {
                 `
             }
         });
+
+        await nextTick();
 
         const code = container.querySelector('code');
         expect(code?.textContent).toBe('def hello():\n    print("world")');
