@@ -1,23 +1,24 @@
 import { inject, shallowRef } from 'vue';
-import { RevealContextKey } from './context';
-import type { RevealApi } from 'reveal.js';
-import type { ShallowRef } from 'vue';
+import { RevealContextKey } from './reveal-context';
 
-export { default as Deck } from './Deck.vue';
-export { default as Slide } from './Slide.vue';
-export { default as Fragment } from './Fragment.vue';
-export { default as Code } from './Code.vue';
-export { default as Stack } from './Stack.vue';
+export { default as Deck } from './components/Deck.vue';
+export { default as Slide } from './components/Slide.vue';
+export { default as Stack } from './components/Stack.vue';
+export { default as Markdown } from './components/Markdown.vue';
+export { default as Fragment } from './components/Fragment.vue';
+export { default as Code } from './components/Code.vue';
+export { RevealContextKey } from './reveal-context';
 
-export { RevealContextKey as RevealContext } from './context';
+export type {
+	DeckProps,
+	SlideProps,
+	StackProps,
+	MarkdownProps,
+	MarkdownOptions,
+	FragmentProps,
+	CodeProps,
+} from './types';
 
-export type { DeckProps, DeckEmits, SlideProps, StackProps, FragmentProps, CodeProps } from './types';
-
-export function useReveal(): ShallowRef<RevealApi | null> {
-	const deck = inject(RevealContextKey);
-	if (!deck) {
-		console.warn('useReveal must be used within a Deck component');
-		return shallowRef<RevealApi | null>(null);
-	}
-	return deck;
+export function useReveal() {
+	return inject(RevealContextKey, shallowRef(null));
 }

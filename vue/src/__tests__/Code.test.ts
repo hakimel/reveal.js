@@ -1,10 +1,16 @@
-import { render } from '@testing-library/vue';
-import { describe, it, expect, vi } from 'vitest';
-import Code from '../Code.vue';
-import { RevealContextKey } from '../context';
+import { render, cleanup } from '@testing-library/vue';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import Code from '../components/Code.vue';
+import { RevealContextKey } from '../reveal-context';
 import { shallowRef, defineComponent, nextTick } from 'vue';
 
+const tick = () => new Promise((r) => setTimeout(r, 0));
+
 describe('Code', () => {
+    afterEach(() => {
+        cleanup();
+    });
+
 	it('renders pre/code and trims multiline template literals by default', () => {
 		const { container } = render(Code, {
             props: {
@@ -25,6 +31,21 @@ describe('Code', () => {
 		expect(code).toHaveClass('javascript');
 		expect(code?.textContent).toBe('function add(a, b) {\n\treturn a + b;\n}');
 	});
+
+    it('renders code from default slot when code prop is missing', () => {
+        const { container } = render(Code, {
+            props: { language: 'python' },
+            slots: {
+                default: () => `
+                    def hello():
+                        print("world")
+                `
+            }
+        });
+
+        const code = container.querySelector('code');
+        expect(code?.textContent).toBe('def hello():\n    print("world")');
+    });
 
 	it('can disable trimming', () => {
 		const source = '\n\tconst value = 1;\n';
@@ -58,14 +79,15 @@ describe('Code', () => {
 		const deck = {
 			getPlugin: vi.fn().mockReturnValue({ highlightBlock }),
 			syncFragments: vi.fn(),
+            isReady: vi.fn().mockReturnValue(true)
 		} as any;
 
 		const Wrapper = defineComponent({
 			components: { Code },
-			template: `<section><Code language="javascript" :code="code" /></section>`,
 			setup() {
 				return { code: `console.log('hello')` };
 			},
+            template: `<section><Code language="javascript" :code="code" /></section>`
 		});
 
 		const { container } = render(Wrapper, {
@@ -74,6 +96,7 @@ describe('Code', () => {
 			},
 		});
 
+		await tick();
 		await nextTick();
 
 		const code = container.querySelector('pre > code');
@@ -93,6 +116,7 @@ describe('Code', () => {
 		const deck = {
 			getPlugin: vi.fn().mockReturnValue({ highlightBlock }),
 			syncFragments: vi.fn(),
+            isReady: vi.fn().mockReturnValue(true)
 		} as any;
 
 		const { container, rerender } = render(Code, {
@@ -112,6 +136,7 @@ describe('Code', () => {
             lineNumbers: '|1|2',
             code: `console.log('two')`
         });
+		await tick();
 		await nextTick();
 
 		expect(highlightBlock).toHaveBeenCalledTimes(2);
@@ -135,6 +160,7 @@ describe('Code', () => {
 		const deck = {
 			getPlugin: vi.fn().mockReturnValue({ highlightBlock }),
 			syncFragments: vi.fn(),
+            isReady: vi.fn().mockReturnValue(true)
 		} as any;
 
 		const { rerender } = render(Code, {

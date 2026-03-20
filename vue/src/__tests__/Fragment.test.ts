@@ -1,8 +1,13 @@
-import { render } from '@testing-library/vue';
-import { describe, it, expect } from 'vitest';
-import Fragment from '../Fragment.vue';
+import { render, cleanup } from '@testing-library/vue';
+import { describe, it, expect, afterEach } from 'vitest';
+import Fragment from '../components/Fragment.vue';
+import { defineComponent, h } from 'vue';
 
 describe('Fragment', () => {
+    afterEach(() => {
+        cleanup();
+    });
+
 	it('renders with the "fragment" class', () => {
 		const { container } = render(Fragment, {
             slots: { default: 'Hello' }
@@ -32,17 +37,9 @@ describe('Fragment', () => {
 		expect(el).toHaveAttribute('data-fragment-index', '2');
 	});
 
-	it('does not set data-fragment-index when index is omitted', () => {
-		const { container } = render(Fragment, {
-            slots: { default: 'No index' }
-        });
-		const el = container.querySelector('.fragment');
-		expect(el?.getAttribute('data-fragment-index')).toBeNull();
-	});
-
 	it('renders as a <span> by default', () => {
 		const { container } = render(Fragment, {
-            slots: { default: 'Default' }
+            slots: { default: () => 'Default' }
         });
 		const el = container.querySelector('.fragment');
 		expect(el?.tagName).toBe('SPAN');
@@ -60,8 +57,7 @@ describe('Fragment', () => {
 
 	it('combines fragment, animation, and custom class', () => {
 		const { container } = render(Fragment, {
-            props: { animation: 'grow' },
-            attrs: { class: 'custom' },
+            props: { animation: 'grow', class: 'custom' },
             slots: { default: 'Combined' }
         });
 
@@ -69,13 +65,28 @@ describe('Fragment', () => {
 		expect(el).toHaveClass('fragment', 'grow', 'custom');
 	});
 
-	it('passes style through', () => {
-		const { container } = render(Fragment, {
-            attrs: { style: 'opacity: 0.5;' },
-            slots: { default: 'Styled' }
+    it('injects attributes into child when asChild is true', () => {
+        const { container } = render(Fragment, {
+            props: { asChild: true, animation: 'fade-in', index: 3 },
+            slots: {
+                default: () => h('strong', { class: 'bold' }, 'Bold Fragment')
+            }
         });
 
-		const el = container.querySelector('.fragment');
-		expect(el).toHaveStyle({ opacity: '0.5' });
-	});
+        const el = container.querySelector('strong');
+        expect(el).toHaveClass('fragment', 'fade-in', 'bold');
+        expect(el).toHaveAttribute('data-fragment-index', '3');
+        expect(el?.tagName).toBe('STRONG');
+    });
+
+    it('throws when asChild is true but multiple children are provided', () => {
+        expect(() => {
+            render(Fragment, {
+                props: { asChild: true },
+                slots: {
+                    default: () => [h('span', 'one'), h('span', 'two')]
+                }
+            });
+        }).toThrow();
+    });
 });

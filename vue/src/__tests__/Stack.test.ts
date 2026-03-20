@@ -1,13 +1,17 @@
-import { render } from '@testing-library/vue';
-import { describe, it, expect } from 'vitest';
-import Stack from '../Stack.vue';
-import Slide from '../Slide.vue';
+import { render, cleanup } from '@testing-library/vue';
+import { describe, it, expect, afterEach } from 'vitest';
+import Stack from '../components/Stack.vue';
+import Slide from '../components/Slide.vue';
 
 describe('Stack', () => {
+    afterEach(() => {
+        cleanup();
+    });
+
 	it('renders as a <section> element', () => {
 		const { container } = render(Stack, {
             slots: {
-                default: [Slide, Slide] // Pass two Slides as default slot loosely
+                default: [Slide, Slide]
             }
         });
 
@@ -31,11 +35,11 @@ describe('Stack', () => {
 		expect(inner?.[1]).toHaveTextContent('Second');
 	});
 
-	it('applies className and style to the outer section', () => {
+	it('applies class and style to the outer section', () => {
 		const { container } = render(Stack, {
             attrs: {
                 class: 'my-stack',
-                style: 'padding: 10px;'
+                style: 'padding: 10px'
             },
             slots: {
                 default: 'Content'

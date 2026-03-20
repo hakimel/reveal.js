@@ -1,6 +1,7 @@
-import type { CSSProperties } from 'vue';
+import type { StyleValue, Component, VNode, Ref } from 'vue';
 import type {
 	FragmentAnimation,
+	MarkdownConfig,
 	RevealApi,
 	RevealConfig,
 	RevealPlugin,
@@ -9,30 +10,35 @@ import type {
 	TransitionStyle,
 } from 'reveal.js';
 
-type DeckConfig = RevealConfig;
-type DeckPlugin = RevealPlugin | RevealPluginFactory;
+export type DeckConfig = RevealConfig;
+export type DeckPlugin = RevealPlugin | RevealPluginFactory;
+export type RevealEventHandler = Parameters<RevealApi['on']>[1];
 
 export interface DeckProps {
 	config?: Omit<DeckConfig, 'plugins'>;
 	/** Registered during deck initialization only. Subsequent prop updates are ignored. */
 	plugins?: DeckPlugin[];
-}
-
-export interface DeckEmits {
-	ready: [deck: RevealApi];
-	sync: [event: any];
-	slideSync: [event: any];
-	slideChanged: [event: any];
-	slideTransitionEnd: [event: any];
-	fragmentShown: [event: any];
-	fragmentHidden: [event: any];
-	overviewShown: [event: any];
-	overviewHidden: [event: any];
-	paused: [event: any];
-	resumed: [event: any];
+	onReady?: (deck: RevealApi) => void;
+	onSync?: RevealEventHandler;
+	onSlideSync?: RevealEventHandler;
+	onSlideChange?: RevealEventHandler;
+	onSlideTransitionEnd?: RevealEventHandler;
+	onFragmentShown?: RevealEventHandler;
+	onFragmentHidden?: RevealEventHandler;
+	onOverviewShown?: RevealEventHandler;
+	onOverviewHidden?: RevealEventHandler;
+	onPaused?: RevealEventHandler;
+	onResumed?: RevealEventHandler;
+	deckRef?: Ref<RevealApi | null>;
+	class?: any;
+	style?: StyleValue;
 }
 
 export type SlideDataAttributeValue = string | number | boolean | undefined;
+
+export type SlideDataAttributes = {
+	[key: `data-${string}`]: SlideDataAttributeValue;
+};
 
 export interface SlideBackgroundProps {
 	background?: string;
@@ -57,7 +63,7 @@ export interface SlideAutoAnimateProps {
 	autoAnimate?: boolean;
 	autoAnimateId?: string;
 	autoAnimateRestart?: boolean;
-	autoAnimateUnmatched?: boolean | string;
+	autoAnimateUnmatched?: boolean;
 	autoAnimateEasing?: string;
 	autoAnimateDuration?: number | string;
 	autoAnimateDelay?: number | string;
@@ -72,23 +78,64 @@ export interface SlideRevealProps {
 	preload?: boolean;
 }
 
-export interface SlideProps extends SlideBackgroundProps, SlideAutoAnimateProps, SlideRevealProps {}
-
-export interface StackProps {}
-
-export interface FragmentProps {
-	animation?: FragmentAnimation;
-	as?: string;
-	index?: number | string;
+export interface SlideProps extends
+	SlideBackgroundProps,
+	SlideAutoAnimateProps,
+	SlideRevealProps {
+	// SlideDataAttributes is handled by Vue fallthrough $attrs
 }
+
+export type MarkdownOptions = Omit<
+	MarkdownConfig,
+	'async' | 'separator' | 'verticalSeparator' | 'notesSeparator' | 'attributes'
+> & {
+	animateLists?: boolean;
+};
+
+export interface MarkdownProps extends SlideProps {
+	markdown?: string;
+	src?: string;
+	charset?: string;
+	separator?: string;
+	verticalSeparator?: string | null;
+	notesSeparator?: string;
+	elementAttributesSeparator?: string;
+	slideAttributesSeparator?: string;
+	options?: MarkdownOptions;
+}
+
+export interface StackProps {
+	class?: any;
+	style?: StyleValue;
+}
+
+export interface FragmentBaseProps {
+	animation?: FragmentAnimation;
+	class?: any;
+	style?: StyleValue;
+	index?: number;
+}
+
+export interface FragmentElementProps extends FragmentBaseProps {
+	asChild?: false;
+	as?: string | Component;
+}
+
+export interface FragmentAsChildProps extends FragmentBaseProps {
+	asChild: true;
+	as?: never;
+}
+
+export type FragmentProps = FragmentElementProps | FragmentAsChildProps;
 
 export interface CodeProps {
 	code?: string;
 	language?: string;
 	trim?: boolean;
 	lineNumbers?: boolean | string;
-	startFrom?: number | string;
+	startFrom?: number;
 	noEscape?: boolean;
-	codeClass?: string;
-	codeStyle?: CSSProperties;
+	codeClassName?: string;
+	codeStyle?: StyleValue;
+	codeProps?: any;
 }

@@ -1,17 +1,21 @@
 {
-	"private": true,
-	"name": "revealjs-vue-demo",
-	"scripts": {
-		"dev": "vite",
-		"build": "vite build"
-	},
-	"dependencies": {
-		"reveal.js": "file:../../"
-	},
-	"devDependencies": {
-		"@vitejs/plugin-vue": "^5.0.0",
-		"typescript": "^5.4.0",
-		"vite": "^5.2.0",
-		"vue": "^3.4.0"
-	}
+  "private": true,
+  "name": "revealjs-vue-demo",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "reveal.js": "file:../../",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@revealjs/vue": "file:..",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "typescript": "5.7.2",
+    "vite": "^6.0.0",
+    "vue-tsc": "^2.1.10"
+  }
 }

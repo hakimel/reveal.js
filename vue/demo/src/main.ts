@@ -1,4 +1,8 @@
 import { createApp } from 'vue';
-import Demo from './Demo.vue';
+import App from './App.vue';
 
-createApp(Demo).mount('#root');
+import 'reveal.js/reveal.css';
+import 'reveal.js/theme/black.css';
+import 'reveal.js/plugin/highlight/monokai.css';
+
+createApp(App).mount('#app');

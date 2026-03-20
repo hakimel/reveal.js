@@ -1,10 +1,14 @@
-import { render } from '@testing-library/vue';
-import { describe, it, expect, vi } from 'vitest';
-import Slide from '../Slide.vue';
-import { RevealContextKey } from '../context';
+import { render, cleanup } from '@testing-library/vue';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import Slide from '../components/Slide.vue';
+import { RevealContextKey } from '../reveal-context';
 import { shallowRef, ref, defineComponent, provide, nextTick } from 'vue';
 
 describe('Slide', () => {
+    afterEach(() => {
+        cleanup();
+    });
+
 	it('renders as a <section> element', () => {
 		const { container } = render(Slide, { slots: { default: 'Hello' }});
 		const section = container.querySelector('section');

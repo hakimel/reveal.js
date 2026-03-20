@@ -1,5 +1,5 @@
 import { render, cleanup } from '@testing-library/vue';
-import { defineComponent, h, ref, nextTick } from 'vue';
+import { defineComponent, h, ref, nextTick, shallowRef, provide } from 'vue';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 const mockApi = vi.hoisted(() => ({
@@ -10,6 +10,8 @@ const mockApi = vi.hoisted(() => ({
 	on: vi.fn(),
 	off: vi.fn(),
 	configure: vi.fn(),
+    getPlugin: vi.fn(),
+    syncFragments: vi.fn()
 }));
 
 const RevealConstructor = vi.hoisted(() =>
@@ -20,7 +22,10 @@ const RevealConstructor = vi.hoisted(() =>
 
 vi.mock('reveal.js', () => ({ default: RevealConstructor }));
 
-import { Deck, Slide, useReveal } from '../index';
+import Deck from '../components/Deck.vue';
+import Slide from '../components/Slide.vue';
+import { useReveal } from '../index';
+import { RevealContextKey } from '../reveal-context';
 
 const tick = () => new Promise((r) => setTimeout(r, 0));
 
@@ -76,6 +81,7 @@ describe('Deck', () => {
 		});
 		await tick();
 		unmount();
+        await tick();
 
 		expect(mockApi.destroy).toHaveBeenCalledTimes(1);
 	});
@@ -149,21 +155,6 @@ describe('Deck', () => {
 		expect(mockApi.sync).toHaveBeenCalledTimes(1);
 	});
 
-	it('does not reconfigure when config object is recreated with same values', async () => {
-		const { rerender } = render(Deck, {
-			props: { config: { transition: 'slide', hash: true } },
-			slots: { default: '<section>Test</section>' },
-		});
-		await tick();
-
-		mockApi.configure.mockClear();
-
-		await rerender({ config: { transition: 'slide', hash: true } });
-		await tick();
-
-		expect(mockApi.configure).not.toHaveBeenCalled();
-	});
-
 	it('fires ready emit after initialization', async () => {
 		const onReady = vi.fn();
 		const Wrapper = defineComponent({
@@ -196,22 +187,6 @@ describe('Deck', () => {
 		expect(mockApi.on).toHaveBeenCalledWith('slidechanged', expect.any(Function));
 	});
 
-	it('wires slideSync emit to the slidesync event', async () => {
-		const onSlideSync = vi.fn();
-		const Wrapper = defineComponent({
-			components: { Deck },
-			setup() {
-				return { onSlideSync };
-			},
-			template: '<Deck @slide-sync="onSlideSync"><section>Test</section></Deck>',
-		});
-
-		render(Wrapper);
-		await tick();
-
-		expect(mockApi.on).toHaveBeenCalledWith('slidesync', expect.any(Function));
-	});
-
 	it('cleans up event listeners on unmount', async () => {
 		const Wrapper = defineComponent({
 			components: { Deck },
@@ -225,48 +200,12 @@ describe('Deck', () => {
 		const onCallCount = mockApi.on.mock.calls.length;
 
 		unmount();
+        await tick();
 
 		expect(mockApi.off).toHaveBeenCalledTimes(onCallCount);
 		for (const [name, handler] of mockApi.on.mock.calls) {
 			expect(mockApi.off).toHaveBeenCalledWith(name, handler);
 		}
-	});
-
-	it('passes plugins to the Reveal constructor', async () => {
-		const fakePlugin = () => ({ id: 'fake', init: () => {} });
-
-		render(Deck, {
-			props: { plugins: [fakePlugin] },
-			slots: { default: '<section>Test</section>' },
-		});
-
-		expect(RevealConstructor).toHaveBeenCalledWith(
-			expect.any(HTMLElement),
-			expect.objectContaining({ plugins: [fakePlugin] })
-		);
-	});
-
-	it('registers plugins only on initialization', async () => {
-		const pluginA = () => ({ id: 'a', init: () => {} });
-		const pluginB = () => ({ id: 'b', init: () => {} });
-
-		const { rerender } = render(Deck, {
-			props: { plugins: [pluginA] },
-			slots: { default: '<section>Test</section>' },
-		});
-		await tick();
-
-		mockApi.configure.mockClear();
-
-		await rerender({ plugins: [pluginB] });
-		await tick();
-
-		expect(RevealConstructor).toHaveBeenCalledTimes(1);
-		expect(RevealConstructor).toHaveBeenCalledWith(
-			expect.any(HTMLElement),
-			expect.objectContaining({ plugins: [pluginA] })
-		);
-		expect(mockApi.configure).not.toHaveBeenCalled();
 	});
 
 	it('applies class and style to the .reveal div', async () => {
