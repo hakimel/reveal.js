@@ -14,3 +14,5 @@ presentation.zip
 dist/reveal.es5.js
 react/dist
 react/demo/dist
+vue/dist
+vue/demo/dist

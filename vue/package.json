@@ -1,0 +1,56 @@
+{
+	"name": "@revealjs/vue",
+	"version": "0.1.0",
+	"description": "Vue wrapper for reveal.js",
+	"license": "MIT",
+	"homepage": "https://revealjs.com/vue",
+	"author": {
+		"name": "Cesar Gomez",
+		"email": "cesargomezh90@gmail.com",
+		"web": "https://mrcego.github.io/me/"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/hakimel/reveal.js.git"
+	},
+	"type": "module",
+	"module": "dist/index.mjs",
+	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.mjs"
+		}
+	},
+	"scripts": {
+		"prepack": "npm run build",
+		"build": "vite build",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"demo": "npm run --prefix demo dev"
+	},
+	"peerDependencies": {
+		"vue": "^3.0.0",
+		"reveal.js": ">=5"
+	},
+	"devDependencies": {
+		"@testing-library/jest-dom": "^6.9.1",
+		"@testing-library/vue": "^8.1.0",
+		"@vitejs/plugin-vue": "^5.2.1",
+		"jsdom": "^28.1.0",
+		"marked": "^17.0.4",
+		"marked-smartypants": "^1.1.11",
+		"reveal.js": "file:..",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.1",
+		"vite-plugin-dts": "^4.5.4",
+		"vitest": "^4.0.18",
+		"vue": "^3.5.13"
+	},
+	"overrides": {
+		"minimatch": ">=10.2.4"
+	},
+	"files": [
+		"dist"
+	]
+}
