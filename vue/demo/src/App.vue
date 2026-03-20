@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, defineComponent, h } from 'vue';
-import {
-	Deck,
-	Slide,
-	Stack,
-	Markdown,
-	Fragment,
-	Code,
-	useReveal,
-} from '@revealjs/vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { Deck, Slide, Stack, Markdown, Fragment, Code } from '@revealjs/vue';
 
 import RevealHighlight from 'reveal.js/plugin/highlight';
 import RevealNotes from 'reveal.js/plugin/notes';
+
+import Columns from './components/Columns.vue';
+import NavigationControls from './components/NavigationControls.vue';
+import SlideSyncPlayground from './components/SlideSyncPlayground.vue';
 
 const buttonStyle = {
 	padding: '0.55em 0.95em',
@@ -25,84 +21,23 @@ const buttonStyle = {
 	cursor: 'pointer',
 };
 
-// Components used in the demo
-const NavigationControls = defineComponent({
-	setup() {
-		const deck = useReveal();
-		return () => h('div', { style: { marginTop: '1em' } }, [
-			h('button', { style: buttonStyle, onClick: () => deck.value?.prev() }, 'Previous'),
-			' ',
-			h('button', { style: buttonStyle, onClick: () => deck.value?.next() }, 'Next'),
-		]);
-	}
-});
-
-const Columns = defineComponent({
-    setup(_, { slots }) {
-        return () => {
-            const children = slots.default ? slots.default() : [];
-            return h('div', { style: { display: 'flex', flexDirection: 'row' } }, 
-                children.map((child, index) => h('div', { key: index, style: { flex: 1 } }, [child]))
-            );
-        };
-    }
-});
-
-const SlideSyncPlayground = defineComponent({
-    setup() {
-        const count = ref(0);
-        const slideColor = ref('#1b1f2a');
-
-        const randomColor = () => {
-            const value = Math.floor(Math.random() * 0xffffff)
-                .toString(16)
-                .padStart(6, '0');
-            return `#${value}`;
-        };
-
-        return () => h(Slide, { background: slideColor.value }, {
-            default: () => [
-                h('h2', 'Slide-local HTML updates'),
-                h('p', [
-                    'This slide updates only its own Vue-rendered HTML, without manually calling ',
-                    h('code', 'sync'),
-                    ' or ',
-                    h('code', 'syncSlide'),
-                    '.',
-                ]),
-                h('div', [
-                    h('div', { style: { marginBottom: '0.75em' } }, [
-                        h('button', { style: buttonStyle, onClick: () => count.value++ }, 'Increase count'),
-                        ' ',
-                        h('button', { style: buttonStyle, onClick: () => slideColor.value = randomColor() }, 'Randomize background'),
-                    ]),
-                    h('p', [h('strong', 'Current count: '), count.value]),
-                    h('p', [h('strong', 'Slide color: '), slideColor.value]),
-                ])
-            ]
-        });
-    }
-});
-
-// Demo state
 const showBonus = ref(false);
 const controls = ref(true);
 
 onMounted(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'c' && !e.ctrlKey && !e.metaKey && !e.altKey) {
-            controls.value = !controls.value;
-        }
-    };
-    window.addEventListener('keydown', onKeyDown);
-    onUnmounted(() => window.removeEventListener('keydown', onKeyDown));
+	const onKeyDown = (e: KeyboardEvent) => {
+		if (e.key === 'c' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+			controls.value = !controls.value;
+		}
+	};
+	window.addEventListener('keydown', onKeyDown);
+	onUnmounted(() => window.removeEventListener('keydown', onKeyDown));
 });
 
 const onReady = (deck: any) => console.log('Deck ready!', deck);
 const onSync = () => console.log('Deck synced');
 const onSlideSync = (e: any) => console.log('Slide synced', e.slide);
 const onSlideChange = () => console.log('Slide changed');
-
 </script>
 
 <template>
@@ -159,13 +94,15 @@ const onSlideChange = () => console.log('Slide changed');
 				</div>
 				<div>
 					<Code language="javascript" line-numbers="1|4">
-						{{ `
+						{{
+							`
 						const deck = useReveal();
 
 						function nextSlide() {
 							deck.value?.next();
 						}
-						` }}
+						`
+						}}
 					</Code>
 				</div>
 			</Columns>
@@ -212,7 +149,7 @@ const onSlideChange = () => console.log('Slide changed');
 						<Fragment animation="highlight-red">
 							<p>And this gets highlighted</p>
 						</Fragment>
-					` }}
+						` }}
 					</Code>
 				</div>
 			</Columns>
@@ -241,29 +178,15 @@ const onSlideChange = () => console.log('Slide changed');
 			vertical-separator="^\n--\n$"
 			:options="{ smartypants: true, animateLists: true }"
 		>
-			{{ `
-				## Markdown 1.1
+			{{ ` ## Markdown 1.1 - First point
+			<!-- .element: class="fragment" -->
+			- Second point
+			<!-- .element: class="fragment" -->
 
-				- First point <!-- .element: class="fragment" -->
-				- Second point <!-- .element: class="fragment" -->
+			-- ## Markdown 1.2 Notes: These are speaker notes parsed from markdown. ---
 
-				--
-
-				## Markdown 1.2
-
-				Notes:
-				These are speaker notes parsed from markdown.
-
-				---
-
-				<!-- .slide: data-background="#0f172a" -->
-				## Markdown 2
-
-				\`\`\`js [1|2]
-				const a = 1;
-				const b = 2;
-				\`\`\`
-			` }}
+			<!-- .slide: data-background="#0f172a" -->
+			## Markdown 2 \`\`\`js [1|2] const a = 1; const b = 2; \`\`\` ` }}
 		</Markdown>
 
 		<Markdown src="markdown.md" vertical-separator="@@@" />
@@ -284,6 +207,6 @@ const onSlideChange = () => console.log('Slide changed');
 	margin: 0;
 }
 body {
-    margin: 0;
+	margin: 0;
 }
 </style>
