@@ -33,7 +33,17 @@
 
 			.reveal .slides {
 				width: 100%;
-				height: 100%;
+				height: auto !important;
+				aspect-ratio: 16 / 9;
+			}
+
+			.reveal .backgrounds {
+				position: absolute;
+				width: 100%;
+				top: 0;
+				left: 0;
+				perspective: 600px;
+				aspect-ratio: 16 / 9;
 			}
 
 			.reveal .slides section {
@@ -48,6 +58,15 @@
 				padding-bottom: 0;
 				pointer-events: none;
 				height: auto;
+			}
+
+			.reveal.overview .slides > section.stack {
+				padding: 0;
+				top: 0 !important;
+				background: none;
+				outline: none;
+				overflow: visible;
+				aspect-ratio: 16 / 9;
 			}
 
 			.reveal img,
@@ -130,12 +149,53 @@
 			.reveal .controls .navigate-down {
 				transform: none;
 			}
+
+			.helper-tip {
+				position: fixed;
+				left: 50%;
+				bottom: 28px;
+				z-index: 30;
+				transform: translateX(-50%);
+				padding: 10px 16px;
+				border-radius: 999px;
+				background: rgba(0, 0, 0, 0.72);
+				color: rgba(255, 255, 255, 0.8);
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: 18px;
+				font-stretch: normal;
+				line-height: 1;
+				letter-spacing: 0.01em;
+				text-align: center;
+				white-space: nowrap;
+				pointer-events: none;
+				user-select: none;
+				opacity: 0.95;
+			}
+
+			.helper-tip[hidden] {
+				display: none !important;
+			}
+
+			.helper-tip__icon {
+				display: inline-block;
+				width: 1.15em;
+				height: 1.15em;
+				vertical-align: -0.18em;
+				margin: 0 0.22em 0 0;
+			}
+
+			.helper-tip__icon svg {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides" id="slides"></div>
 		</div>
+		<div class="helper-tip" id="helper-tip" aria-live="polite" hidden></div>
 
 		<script src="../dist/reveal.js"></script>
 		<script src="../dist/plugin/notes.js"></script>
@@ -144,9 +204,33 @@
 		<script>
 			const slidesRoot = document.getElementById('slides');
 			const slideCount = 62;
-			const groupStarts = [1, 2, 8, 14, 19, 24, 29, 39, 44, 49, 54, 58];
+			const groupStarts = [1, 2, 8, 14, 19, 24, 29, 34, 39, 44, 49, 54, 58];
 			const assetPath = (index) => encodeURI(`source pngs/${index}.png`);
 			const controlsRoot = () => document.querySelector('.reveal .controls');
+			const helperTip = document.getElementById('helper-tip');
+			const helperIconColor = 'rgba(255, 255, 255, 0.8)';
+			const downTipIcon = `
+				<span class="helper-tip__icon" aria-hidden="true">
+					<svg width="200" height="208" viewBox="0 0 200 208" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<mask id="path-1-outside-1_79_17" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="208" fill="black">
+							<rect fill="white" width="200" height="208"/>
+							<path d="M10 38C10 22.536 22.536 10 38 10H162C177.464 10 190 22.536 190 38V152C190 167.464 177.464 180 162 180H38C22.536 180 10 167.464 10 152V38Z"/>
+						</mask>
+						<path d="M0 38C0 17.0132 17.0132 0 38 0H162C182.987 0 200 17.0132 200 38H180C180 28.0589 171.941 20 162 20H38C28.0589 20 20 28.0589 20 38H0ZM200 170C200 190.987 182.987 208 162 208H38C17.0132 208 0 190.987 0 170L20 152C20 152 28.0589 152 38 152H162C171.941 152 180 152 180 152L200 170ZM38 208C17.0132 208 0 190.987 0 170V38C0 17.0132 17.0132 0 38 0V20C28.0589 20 20 28.0589 20 38V152C20 152 28.0589 152 38 152V208ZM162 0C182.987 0 200 17.0132 200 38V170C200 190.987 182.987 208 162 208V152C171.941 152 180 152 180 152V38C180 28.0589 171.941 20 162 20V0Z" fill="${helperIconColor}" mask="url(#path-1-outside-1_79_17)"/>
+						<path d="M100.389 129.774C100.017 130.497 98.9834 130.497 98.6111 129.774L74.7511 83.4579C74.4083 82.7924 74.8914 81.9999 75.6401 81.9999L123.36 81.9999C124.109 81.9999 124.592 82.7924 124.249 83.4579L100.389 129.774Z" fill="${helperIconColor}"/>
+					</svg>
+				</span>`;
+			const escTipIcon = `
+				<span class="helper-tip__icon" aria-hidden="true">
+					<svg width="200" height="208" viewBox="0 0 200 208" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<mask id="path-1-outside-1_79_71" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="208" fill="black">
+							<rect fill="white" width="200" height="208"/>
+							<path d="M10 38C10 22.536 22.536 10 38 10H162C177.464 10 190 22.536 190 38V152C190 167.464 177.464 180 162 180H38C22.536 180 10 167.464 10 152V38Z"/>
+						</mask>
+						<path d="M0 36C0 16.1177 16.1177 0 36 0H160C179.882 0 196 16.1177 196 36H180C180 24.9543 171.046 16 160 16H36C24.9543 16 16 24.9543 16 36H0ZM196 166C196 185.882 179.882 202 160 202H36C16.1177 202 0 185.882 0 166L16 150C16 152.209 24.9543 154 36 154H160C171.046 154 180 152.209 180 150L196 166ZM36 202C16.1177 202 0 185.882 0 166V36C0 16.1177 16.1177 0 36 0V16C24.9543 16 16 24.9543 16 36V150C16 152.209 24.9543 154 36 154V202ZM160 0C179.882 0 196 16.1177 196 36V166C196 185.882 179.882 202 160 202V154C171.046 154 180 152.209 180 150V36C180 24.9543 171.046 16 160 16V0Z" fill="${helperIconColor}" mask="url(#path-1-outside-1_79_17)"/>
+						<path d="M50.6194 119.938C45.6819 119.938 41.4319 118.938 37.8694 116.938C34.3277 114.917 31.5985 112.062 29.6819 108.375C27.7652 104.667 26.8069 100.281 26.8069 95.2187C26.8069 90.2812 27.7652 85.9479 29.6819 82.2188C31.5985 78.4896 34.2965 75.5833 37.7756 73.5C41.2756 71.4167 45.3798 70.375 50.0881 70.375C53.2548 70.375 56.2027 70.8854 58.9319 71.9062C61.6819 72.9062 64.0777 74.4167 66.1194 76.4375C68.1819 78.4583 69.786 81 70.9319 84.0625C72.0777 87.1042 72.6506 90.6667 72.6506 94.75V98.4062H32.1194V90.1562H60.1194C60.1194 88.2396 59.7027 86.5417 58.8694 85.0625C58.036 83.5833 56.8798 82.4271 55.4006 81.5937C53.9423 80.7396 52.2444 80.3125 50.3069 80.3125C48.286 80.3125 46.4944 80.7812 44.9319 81.7187C43.3902 82.6354 42.1819 83.875 41.3069 85.4375C40.4319 86.9792 39.984 88.6979 39.9631 90.5937V98.4375C39.9631 100.812 40.4006 102.865 41.2756 104.594C42.1715 106.323 43.4319 107.656 45.0569 108.594C46.6819 109.531 48.609 110 50.8381 110C52.3173 110 53.6715 109.792 54.9006 109.375C56.1298 108.958 57.1819 108.333 58.0569 107.5C58.9319 106.667 59.5985 105.646 60.0569 104.438L72.3694 105.25C71.7444 108.208 70.4631 110.792 68.5256 113C66.609 115.187 64.1298 116.896 61.0881 118.125C58.0673 119.333 54.5777 119.938 50.6194 119.938ZM119.516 84.6875L107.328 85.4375C107.12 84.3958 106.672 83.4583 105.984 82.625C105.297 81.7708 104.391 81.0937 103.266 80.5937C102.161 80.0729 100.839 79.8125 99.2969 79.8125C97.2344 79.8125 95.4948 80.25 94.0781 81.125C92.6615 81.9792 91.9531 83.125 91.9531 84.5625C91.9531 85.7083 92.4115 86.6771 93.3281 87.4688C94.2448 88.2604 95.8177 88.8958 98.0469 89.375L106.734 91.125C111.401 92.0833 114.88 93.625 117.172 95.75C119.464 97.875 120.609 100.667 120.609 104.125C120.609 107.271 119.682 110.031 117.828 112.406C115.995 114.781 113.474 116.635 110.266 117.969C107.078 119.281 103.401 119.938 99.2344 119.938C92.8802 119.938 87.8177 118.615 84.0469 115.969C80.2969 113.302 78.099 109.677 77.4531 105.094L90.5469 104.406C90.9427 106.344 91.901 107.823 93.4219 108.844C94.9427 109.844 96.8906 110.344 99.2656 110.344C101.599 110.344 103.474 109.896 104.891 109C106.328 108.083 107.057 106.906 107.078 105.469C107.057 104.26 106.547 103.271 105.547 102.5C104.547 101.708 103.005 101.104 100.922 100.687L92.6094 99.0312C87.9219 98.0937 84.4323 96.4687 82.1406 94.1562C79.8698 91.8437 78.7344 88.8958 78.7344 85.3125C78.7344 82.2292 79.5677 79.5729 81.2344 77.3437C82.9219 75.1146 85.2865 73.3958 88.3281 72.1875C91.3906 70.9792 94.974 70.375 99.0781 70.375C105.141 70.375 109.911 71.6562 113.391 74.2187C116.891 76.7812 118.932 80.2708 119.516 84.6875ZM148.92 119.938C144.003 119.938 139.774 118.896 136.232 116.812C132.711 114.708 130.003 111.792 128.107 108.062C126.232 104.333 125.295 100.042 125.295 95.1875C125.295 90.2708 126.243 85.9583 128.138 82.25C130.055 78.5208 132.774 75.6146 136.295 73.5312C139.816 71.4271 144.003 70.375 148.857 70.375C153.045 70.375 156.711 71.1354 159.857 72.6562C163.003 74.1771 165.493 76.3125 167.326 79.0625C169.159 81.8125 170.17 85.0417 170.357 88.75H157.795C157.441 86.3542 156.503 84.4271 154.982 82.9687C153.482 81.4896 151.513 80.75 149.076 80.75C147.013 80.75 145.211 81.3125 143.67 82.4375C142.149 83.5417 140.961 85.1562 140.107 87.2812C139.253 89.4062 138.826 91.9792 138.826 95C138.826 98.0625 139.243 100.667 140.076 102.812C140.93 104.958 142.128 106.594 143.67 107.719C145.211 108.844 147.013 109.406 149.076 109.406C150.597 109.406 151.961 109.094 153.17 108.469C154.399 107.844 155.409 106.937 156.201 105.75C157.013 104.542 157.545 103.094 157.795 101.406H170.357C170.149 105.073 169.149 108.302 167.357 111.094C165.586 113.865 163.138 116.031 160.013 117.594C156.888 119.156 153.191 119.938 148.92 119.938Z" fill="${helperIconColor}"/>
+					</svg>
+				</span>`;
 
 			function createSlide(index) {
 				const section = document.createElement('section');
@@ -171,6 +255,30 @@
 				control.classList.remove('bump');
 				void control.offsetWidth;
 				control.classList.add('bump');
+			}
+
+			function updateHelperTip() {
+				if (!helperTip) {
+					return;
+				}
+
+				const indices = Reveal.getIndices();
+				const isOverviewMode = Reveal.getRevealElement().classList.contains('overview');
+				const isTopLevelSlide = indices.v === 0;
+				const isFirstSlide = indices.h === 0 && indices.v === 0;
+
+				if (!isOverviewMode && isFirstSlide) {
+					helperTip.hidden = true;
+					helperTip.innerHTML = '';
+					return;
+				}
+
+				helperTip.hidden = false;
+				helperTip.innerHTML = isOverviewMode
+					? `Press ${escTipIcon} to exit overview mode.`
+					: isTopLevelSlide
+						? `Press ${downTipIcon} to see project design samples.`
+						: `Press ${escTipIcon} to enter overview mode.`;
 			}
 
 			function getNavigationDirection(previousSlide, currentSlide) {
@@ -210,18 +318,25 @@
 				hash: true,
 				controls: true,
 				progress: true,
-				center: true,
+				center: false,
 				transition: 'fade',
 				transitionSpeed: 'fast',
 				plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
 			});
 
+			Reveal.on('ready', updateHelperTip);
+			Reveal.on('overviewshown', updateHelperTip);
+			Reveal.on('overviewhidden', updateHelperTip);
 			Reveal.on('slidechanged', (event) => {
 				const direction = getNavigationDirection(event.previousSlide, event.currentSlide);
 				if (direction) {
 					bumpControl(direction);
 				}
+
+				updateHelperTip();
 			});
+
+			updateHelperTip();
 		</script>
 	</body>
 </html>

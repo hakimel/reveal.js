@@ -1696,7 +1696,7 @@ class Wi {
         s.classList.contains("stack") || s.addEventListener("click", this.onSlideClicked, !0);
       });
       const e = 70, i = this.Reveal.getComputedSlideSize();
-      this.overviewSlideWidth = i.width + e, this.overviewSlideHeight = i.height + e, this.Reveal.getConfig().rtl && (this.overviewSlideWidth = -this.overviewSlideWidth), this.Reveal.updateSlidesVisibility(), this.layout(), this.update(), this.Reveal.layout();
+      this.overviewSlideWidth = i.width + e * 2, this.overviewSlideHeight = i.height, console.log("[reveal overview] activate", { slideSize: i, margin: e, horizontalMargin: e * 2, verticalGap: 0, verticalStep: i.height, overviewSlideWidth: this.overviewSlideWidth, overviewSlideHeight: this.overviewSlideHeight }), this.Reveal.getConfig().rtl && (this.overviewSlideWidth = -this.overviewSlideWidth), this.Reveal.updateSlidesVisibility(), this.layout(), this.update(), this.Reveal.layout();
       const t = this.Reveal.getIndices();
       this.Reveal.dispatchEvent({
         type: "overviewshown",
@@ -1714,8 +1714,8 @@ class Wi {
    */
   layout() {
     this.Reveal.getHorizontalSlides().forEach((e, i) => {
-      e.setAttribute("data-index-h", i), ae(e, "translate3d(" + i * this.overviewSlideWidth + "px, 0, 0)"), e.classList.contains("stack") && E(e, "section").forEach((t, s) => {
-        t.setAttribute("data-index-h", i), t.setAttribute("data-index-v", s), ae(t, "translate3d(0, " + s * this.overviewSlideHeight + "px, 0)");
+      e.setAttribute("data-index-h", i), console.log("[reveal overview] horizontal slide layout", { h: i, overviewSlideWidth: this.overviewSlideWidth, transform: "translate3d(" + i * this.overviewSlideWidth + "px, 0, 0)" }), ae(e, "translate3d(" + i * this.overviewSlideWidth + "px, 0, 0)"), e.classList.contains("stack") && E(e, "section").forEach((t, s) => {
+        t.setAttribute("data-index-h", i), t.setAttribute("data-index-v", s), console.log("[reveal overview] vertical slide layout", { h: i, v: s, overviewSlideHeight: this.overviewSlideHeight, transform: "translate3d(0, " + s * this.overviewSlideHeight + "px, 0)" }), ae(t, "translate3d(0, " + s * this.overviewSlideHeight + "px, 0)");
       });
     }), Array.from(this.Reveal.getBackgroundsElement().childNodes).forEach((e, i) => {
       ae(e, "translate3d(" + i * this.overviewSlideWidth + "px, 0, 0)"), E(e, ".slide-background").forEach((t, s) => {
@@ -2711,7 +2711,7 @@ class es {
 const ts = {
   width: 960,
   height: 700,
-  margin: 0.04,
+  margin: 0,
   minScale: 0.2,
   maxScale: 2,
   controls: !0,

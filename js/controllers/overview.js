@@ -47,8 +47,21 @@ export default class Overview {
 			// Calculate slide sizes
 			const margin = 70;
 			const slideSize = this.Reveal.getComputedSlideSize();
-			this.overviewSlideWidth = slideSize.width + margin;
-			this.overviewSlideHeight = slideSize.height + margin;
+			const horizontalMargin = margin * 2;
+			const verticalGap = 0;
+			const verticalStep = slideSize.height + verticalGap;
+			this.overviewSlideWidth = slideSize.width + horizontalMargin;
+			this.overviewSlideHeight = verticalStep;
+
+			console.log( '[reveal overview] activate', {
+				slideSize,
+				margin,
+				horizontalMargin,
+				verticalGap,
+				verticalStep,
+				overviewSlideWidth: this.overviewSlideWidth,
+				overviewSlideHeight: this.overviewSlideHeight
+			} );
 
 			// Reverse in RTL mode
 			if( this.Reveal.getConfig().rtl ) {
@@ -87,6 +100,11 @@ export default class Overview {
 		// Layout slides
 		this.Reveal.getHorizontalSlides().forEach( ( hslide, h ) => {
 			hslide.setAttribute( 'data-index-h', h );
+			console.log( '[reveal overview] horizontal slide layout', {
+				h,
+				overviewSlideWidth: this.overviewSlideWidth,
+				transform: 'translate3d(' + ( h * this.overviewSlideWidth ) + 'px, 0, 0)'
+			} );
 			transformElement( hslide, 'translate3d(' + ( h * this.overviewSlideWidth ) + 'px, 0, 0)' );
 
 			if( hslide.classList.contains( 'stack' ) ) {
@@ -94,6 +112,13 @@ export default class Overview {
 				queryAll( hslide, 'section' ).forEach( ( vslide, v ) => {
 					vslide.setAttribute( 'data-index-h', h );
 					vslide.setAttribute( 'data-index-v', v );
+
+					console.log( '[reveal overview] vertical slide layout', {
+						h,
+						v,
+						overviewSlideHeight: this.overviewSlideHeight,
+						transform: 'translate3d(0, ' + ( v * this.overviewSlideHeight ) + 'px, 0)'
+					} );
 
 					transformElement( vslide, 'translate3d(0, ' + ( v * this.overviewSlideHeight ) + 'px, 0)' );
 				} );
@@ -121,6 +146,21 @@ export default class Overview {
 		const vmin = Math.min( window.innerWidth, window.innerHeight );
 		const scale = Math.max( vmin / 5, 150 ) / vmin;
 		const indices = this.Reveal.getIndices();
+
+		console.log( '[reveal overview] update', {
+			windowInnerWidth: window.innerWidth,
+			windowInnerHeight: window.innerHeight,
+			vmin,
+			scale,
+			indices,
+			overviewSlideWidth: this.overviewSlideWidth,
+			overviewSlideHeight: this.overviewSlideHeight,
+			overviewTransform: [
+				'scale(' + scale + ')',
+				'translateX(' + ( -indices.h * this.overviewSlideWidth ) + 'px)',
+				'translateY(' + ( -indices.v * this.overviewSlideHeight ) + 'px)'
+			].join( ' ' )
+		} );
 
 		this.Reveal.transformSlides( {
 			overview: [
