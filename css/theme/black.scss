@@ -8,7 +8,7 @@
 @use 'sass:color';
 @use 'template/mixins' as mixins;
 
-$active-color: #42affa;
+$active-color: #ffffff;
 
 // Inject theme variables (with some overrides)
 @use 'template/settings' with (

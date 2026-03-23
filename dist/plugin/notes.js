@@ -158,7 +158,7 @@
 				}
 
 				.speaker-controls-time .pacing.ahead {
-					color: blue;
+					color: #0024f6;
 				}
 
 				.speaker-controls-time .pacing.on-track {

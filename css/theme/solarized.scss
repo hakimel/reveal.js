@@ -21,11 +21,11 @@ $orange: #cb4b16;
 $red: #dc322f;
 $magenta: #d33682;
 $violet: #6c71c4;
-$blue: #268bd2;
+$accent-color: #0024f6;
 $cyan: #2aa198;
 $green: #859900;
 
-$active-color: $blue;
+$active-color: $accent-color;
 
 // Inject theme variables (with some overrides)
 @use 'template/settings' with (
@@ -35,7 +35,8 @@ $active-color: $blue;
 	$heading-color: $base01,
 
 	$link-color: $active-color,
-	$link-color-hover: color.scale($active-color, $lightness: 20%),
+	$link-color-dark: $active-color,
+	$link-color-hover: $active-color,
 	$selection-color: #fff,
 	$selection-background-color: $magenta,
 
