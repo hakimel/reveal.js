@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
+
+		<title>Slide Deck</title>
+
+		<link rel="stylesheet" href="../dist/reset.css" />
+		<link rel="stylesheet" href="../dist/reveal.css" />
+		<link rel="stylesheet" href="../dist/theme/black.css" />
+
+		<style>
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				background: #000;
+			}
+
+			.reveal {
+				width: 100%;
+				height: 100%;
+			}
+
+			.reveal .slides {
+				height: 100%;
+			}
+
+			.reveal .slides section {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: #000;
+			}
+
+			.slide-image {
+				display: block;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				border: 0;
+				box-shadow: none;
+				object-fit: contain;
+				background: #000;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides" id="slides"></div>
+		</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../dist/plugin/notes.js"></script>
+		<script src="../dist/plugin/markdown.js"></script>
+		<script src="../dist/plugin/highlight.js"></script>
+		<script>
+			const slidesRoot = document.getElementById('slides');
+			const slideCount = 62;
+			const assetPath = (index) => encodeURI(`source pngs/${index}.png`);
+
+			for (let index = 1; index <= slideCount; index += 1) {
+				const section = document.createElement('section');
+				const image = document.createElement('img');
+
+				image.className = 'slide-image';
+				image.loading = 'lazy';
+				image.decoding = 'async';
+				image.src = assetPath(index);
+				image.alt = `Slide ${index}`;
+
+				section.appendChild(image);
+				slidesRoot.appendChild(section);
+			}
+
+			Reveal.initialize({
+				hash: true,
+				controls: true,
+				progress: true,
+				center: true,
+				transition: 'fade',
+				transitionSpeed: 'fast',
+				plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+			});
+		</script>
+	</body>
+</html>
