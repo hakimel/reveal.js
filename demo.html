@@ -16,12 +16,12 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<link rel="stylesheet" href="css/reset.css" />
-		<link rel="stylesheet" href="css/reveal.scss" />
-		<link rel="stylesheet" href="css/theme/black.scss" id="theme" />
+		<link rel="stylesheet" href="dist/reset.css" />
+		<link rel="stylesheet" href="dist/reveal.css" />
+		<link rel="stylesheet" href="dist/theme/black.css" id="theme" />
 
 		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css" />
+		<link rel="stylesheet" href="dist/plugin/highlight/monokai.css" />
 	</head>
 
 	<body>
@@ -671,26 +671,21 @@ Reveal.on( 'customevent', function() {
 			</div>
 		</div>
 
-		<!-- Use the built assets if you want to run reveal.js without a web server -->
-		<!--
 		<script src="dist/reveal.js"></script>
 		<script src="dist/plugin/zoom.js"></script>
 		<script src="dist/plugin/notes.js"></script>
 		<script src="dist/plugin/search.js"></script>
 		<script src="dist/plugin/markdown.js"></script>
 		<script src="dist/plugin/highlight.js"></script>
-		-->
+		<script>
+			// Also available as an ES module, see: https://revealjs.com/initialization/
+			// import Reveal from 'reveal.js';
+			// import RevealZoom from 'reveal.js/plugin/zoom';
+			// import RevealNotes from 'reveal.js/plugin/notes';
+			// import RevealSearch from 'reveal.js/plugin/search';
+			// import RevealMarkdown from 'reveal.js/plugin/markdown';
+			// import RevealHighlight from 'reveal.js/plugin/highlight';
 
-		<script type="module">
-			import Reveal from 'reveal.js';
-			import RevealZoom from 'reveal.js/plugin/zoom';
-			import RevealNotes from 'reveal.js/plugin/notes';
-			import RevealSearch from 'reveal.js/plugin/search';
-			import RevealMarkdown from 'reveal.js/plugin/markdown';
-			import RevealHighlight from 'reveal.js/plugin/highlight';
-
-			// Also available as an ES module, see:
-			// https://revealjs.com/initialization/
 			Reveal.initialize({
 				controls: true,
 				progress: true,
