@@ -24,15 +24,15 @@ const buttonStyle = {
 const showBonus = ref(false);
 const controls = ref(true);
 
-onMounted(() => {
-	const onKeyDown = (e: KeyboardEvent) => {
-		if (e.key === 'c' && !e.ctrlKey && !e.metaKey && !e.altKey) {
-			controls.value = !controls.value;
-		}
-	};
-	window.addEventListener('keydown', onKeyDown);
-	onUnmounted(() => window.removeEventListener('keydown', onKeyDown));
-});
+const onKeyDown = (e: KeyboardEvent) => {
+	if (e.key === 'c' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+		controls.value = !controls.value;
+	}
+};
+
+onMounted(() => window.addEventListener('keydown', onKeyDown));
+
+onUnmounted(() => window.removeEventListener('keydown', onKeyDown));
 
 const onReady = (deck: any) => console.log('Deck ready!', deck);
 const onSync = () => console.log('Deck synced');
@@ -178,15 +178,29 @@ const onSlideChange = () => console.log('Slide changed');
 			vertical-separator="^\n--\n$"
 			:options="{ smartypants: true, animateLists: true }"
 		>
-			{{ ` ## Markdown 1.1 - First point
-			<!-- .element: class="fragment" -->
-			- Second point
-			<!-- .element: class="fragment" -->
+			{{ `
+					## Markdown 1.1
 
-			-- ## Markdown 1.2 Notes: These are speaker notes parsed from markdown. ---
+					- First point <!-- .element: class="fragment" -->
+					- Second point <!-- .element: class="fragment" -->
 
-			<!-- .slide: data-background="#0f172a" -->
-			## Markdown 2 \`\`\`js [1|2] const a = 1; const b = 2; \`\`\` ` }}
+					--
+
+					## Markdown 1.2
+
+					Notes:
+					These are speaker notes parsed from markdown.
+
+					---
+
+					<!-- .slide: data-background="#0f172a" -->
+					## Markdown 2
+
+					\`\`\`js [1|2]
+					const a = 1;
+					const b = 2;
+					\`\`\`
+				` }}
 		</Markdown>
 
 		<Markdown src="markdown.md" vertical-separator="@@@" />

@@ -41,7 +41,7 @@ const props = withDefaults(defineProps<MarkdownProps>(), {
 	slideAttributesSeparator: DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR,
 });
 
-const slots = useSlots();
+const slots = useSlots() as any;
 const deck = inject(RevealContextKey, shallowRef<RevealApi | null>(null));
 
 const loadedMarkdown = ref<string | null>(null);

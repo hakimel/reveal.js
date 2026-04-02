@@ -13,9 +13,9 @@
   },
   "devDependencies": {
     "@revealjs/vue": "file:..",
-    "@vitejs/plugin-vue": "^5.2.1",
-    "typescript": "5.7.2",
-    "vite": "^6.0.0",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.3",
     "vue-tsc": "^2.1.10"
   }
 }

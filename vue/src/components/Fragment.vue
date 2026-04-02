@@ -3,7 +3,7 @@ import { computed, useSlots, h, cloneVNode } from 'vue';
 import type { FragmentProps } from '../types';
 
 const props = defineProps<FragmentProps>();
-const slots = useSlots();
+const slots = useSlots() as any;
 
 const classes = computed(() => {
 	const base = ['fragment', props.animation];
