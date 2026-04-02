@@ -1,6 +1,6 @@
 {
 	"name": "@revealjs/react",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"description": "React wrapper for reveal.js",
 	"license": "MIT",
 	"homepage": "https://revealjs.com/react",
@@ -39,15 +39,15 @@
 		"@testing-library/react": "^16.3.2",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
-		"@vitejs/plugin-react": "^5.1.4",
-		"jsdom": "^28.1.0",
+		"@vitejs/plugin-react": "^6.0.1",
+		"jsdom": "^29.0.1",
 		"react": "^19.2.4",
 		"react-dom": "^19.2.4",
 		"reveal.js": "file:..",
-		"typescript": "^5.9.3",
-		"vite": "^7.3.1",
+		"typescript": "^6.0.2",
+		"vite": "^8.0.3",
 		"vite-plugin-dts": "^4.5.4",
-		"vitest": "^4.0.18"
+		"vitest": "^4.1.2"
 	},
 	"overrides": {
 		"minimatch": ">=10.2.3"

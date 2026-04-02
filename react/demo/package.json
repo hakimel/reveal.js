@@ -9,8 +9,8 @@
 		"reveal.js": "file:../../"
 	},
 	"devDependencies": {
-		"@vitejs/plugin-react": "^4.4.0",
-		"typescript": "^5.2.2",
-		"vite": "^6.0.0"
+		"@vitejs/plugin-react": "^6.0.1",
+		"typescript": "^6.0.2",
+		"vite": "^8.0.3"
 	}
 }
