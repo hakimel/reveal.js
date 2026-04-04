@@ -1,0 +1,14 @@
+{
+  "name": "hakimel/revealjs",
+  "description": "A framework for easily creating beautiful presentations using HTML.",
+  "homepage": "https://revealjs.com",
+  "authors": [
+    {
+      "name": "Hakim El Hattab"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/hakimel/reveal.js/issues"
+  },
+  "license": "MIT"
+}
