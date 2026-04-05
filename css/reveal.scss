@@ -177,6 +177,13 @@ html.reveal-full-page {
 	}
 }
 
+// When used with rstack, make the first fragment visible initially
+// to avoid blank slides at the start
+.reveal .fragment.fade-in-then-out.fade-first-visible[data-fragment-index="0"]:not(.visible) {
+	opacity: 1;
+	visibility: inherit;
+}
+
 .reveal .fragment.fade-in-then-semi-out {
 	opacity: 0;
 	visibility: hidden;
