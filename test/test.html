@@ -391,6 +391,64 @@
 					Reveal.syncSlide( slide );
 				});
 
+				QUnit.test( 'Reveal.syncSlide with data URI background video', function( assert ) {
+					var slide = Reveal.getSlide( 3 );
+					var videoURI = 'data:video/mp4;base64,AAAB';
+
+					slide.setAttribute( 'data-background-video', videoURI );
+					Reveal.syncSlide( slide );
+
+					var backgroundContent = Reveal.getSlideBackground( slide )
+						.querySelector( '.slide-background-content' );
+					var sourceElement = backgroundContent.querySelector( 'video source' );
+
+					assert.ok( sourceElement, 'video source element is created' );
+					assert.strictEqual( sourceElement.getAttribute( 'src' ), videoURI, 'source src is the full data URI' );
+					assert.strictEqual( sourceElement.getAttribute( 'type' ), 'video/mp4', 'MIME type is extracted from data URI' );
+
+					slide.removeAttribute( 'data-background-video' );
+					Reveal.syncSlide( slide );
+				});
+
+				QUnit.test( 'Reveal.syncSlide with comma-separated background videos', function( assert ) {
+					var slide = Reveal.getSlide( 3 );
+
+					slide.setAttribute( 'data-background-video', 'a.mp4,b.webm' );
+					Reveal.syncSlide( slide );
+
+					var backgroundContent = Reveal.getSlideBackground( slide )
+						.querySelector( '.slide-background-content' );
+					var sourceElements = backgroundContent.querySelectorAll( 'video source' );
+
+					assert.strictEqual( sourceElements.length, 2, 'comma-separated list produces two source elements' );
+					assert.strictEqual( sourceElements[0].getAttribute( 'src' ), 'a.mp4', 'first source src is correct' );
+					assert.strictEqual( sourceElements[1].getAttribute( 'src' ), 'b.webm', 'second source src is correct' );
+
+					slide.removeAttribute( 'data-background-video' );
+					Reveal.syncSlide( slide );
+				});
+
+				QUnit.test( 'Reveal.previewVideo with data URI', function( assert ) {
+					var videoURI = 'data:video/mp4;base64,AAAB';
+
+					Reveal.hidePreview();
+					Reveal.previewVideo( videoURI );
+
+					assert.ok( Reveal.isOverlayOpen(), 'overlay is open' );
+
+					var overlay = document.querySelector( '.reveal .r-overlay.r-overlay-preview' );
+					var video = overlay.querySelector( 'video' );
+					assert.ok( video, 'video element exists in overlay' );
+
+					var source = video.querySelector( 'source' );
+					assert.ok( source, 'source element is used instead of video.src' );
+					assert.strictEqual( source.src, videoURI, 'source src is the full data URI' );
+					assert.strictEqual( source.type, 'video/mp4', 'MIME type is extracted from data URI' );
+					assert.notOk( video.getAttribute( 'src' ), 'video.src is not set directly' );
+
+					Reveal.hidePreview();
+				});
+
 				QUnit.test( 'Reveal.syncFragments', function( assert ) {
 					var slide = Reveal.getSlide( 0 );
 					var fragmentA = document.createElement( 'span' );
