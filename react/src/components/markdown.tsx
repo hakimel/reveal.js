@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 import {
 	useContext,
 	useEffect,
@@ -74,7 +75,7 @@ function MarkdownLeafSection({
 		}
 	});
 
-	return <section ref={sectionRef} {...sectionProps} dangerouslySetInnerHTML={{ __html: html }} />;
+	return <section ref={sectionRef} {...sectionProps} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(html) }} />;
 }
 
 export function Markdown({
@@ -133,7 +134,11 @@ export function Markdown({
 
 		void (async () => {
 			try {
-				const response = await fetch(src, { signal: abortController.signal });
+				const parsedUrl = new URL(src, window.location.href);
+				if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+					throw new Error(`Disallowed URL scheme: ${parsedUrl.protocol}`);
+				}
+				const response = await fetch(parsedUrl.href, { signal: abortController.signal });
 				if (!response.ok) {
 					throw new Error(`HTTP status ${response.status}`);
 				}
