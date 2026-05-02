@@ -3,7 +3,7 @@
  *
  * @see {@link https://revealjs.com/transitions/}
  */
-type TransitionStyle = 'none' | 'fade' | 'slide' | 'convex' | 'concave' | 'zoom';
+type TransitionStyle = 'none' | 'fade' | 'slide' | 'convex' | 'concave' | 'zoom' | (string & {});
 /**
  * Slide transition speeds.
  *
