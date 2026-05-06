@@ -185,7 +185,7 @@ var _ = /android/gi.test(h), v = function(e) {
 	}
 }(typeof window > "u" ? null : window);
 //#endregion
-//#region \0@oxc-project+runtime@0.124.0/helpers/typeof.js
+//#region \0@oxc-project+runtime@0.127.0/helpers/typeof.js
 function y(e) {
 	"@babel/helpers - typeof";
 	return y = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? function(e) {
@@ -195,7 +195,7 @@ function y(e) {
 	}, y(e);
 }
 //#endregion
-//#region \0@oxc-project+runtime@0.124.0/helpers/toPrimitive.js
+//#region \0@oxc-project+runtime@0.127.0/helpers/toPrimitive.js
 function b(e, t) {
 	if (y(e) != "object" || !e) return e;
 	var n = e[Symbol.toPrimitive];
@@ -207,13 +207,13 @@ function b(e, t) {
 	return (t === "string" ? String : Number)(e);
 }
 //#endregion
-//#region \0@oxc-project+runtime@0.124.0/helpers/toPropertyKey.js
+//#region \0@oxc-project+runtime@0.127.0/helpers/toPropertyKey.js
 function x(e) {
 	var t = b(e, "string");
 	return y(t) == "symbol" ? t : t + "";
 }
 //#endregion
-//#region \0@oxc-project+runtime@0.124.0/helpers/defineProperty.js
+//#region \0@oxc-project+runtime@0.127.0/helpers/defineProperty.js
 function S(e, t, n) {
 	return (t = x(t)) in e ? Object.defineProperty(e, t, {
 		value: n,
@@ -706,10 +706,19 @@ var ee = class {
 		let a = this.getAutoAnimateOptions(t, r);
 		n.delay !== void 0 && (a.delay = n.delay), n.duration !== void 0 && (a.duration = n.duration), n.easing !== void 0 && (a.easing = n.easing);
 		let o = this.getAutoAnimatableProperties("from", e, n), s = this.getAutoAnimatableProperties("to", t, n);
-		if (t.classList.contains("fragment") && delete s.styles.opacity, n.translate !== !1 || n.scale !== !1) {
-			let e = this.Reveal.getScale(), t = {
-				x: (o.x - s.x) / e,
-				y: (o.y - s.y) / e,
+		if (t.classList.contains("fragment") && delete s.styles.opacity, e.tagName == "path") n.d !== !1 && o.d !== s.d && (o.styles.d = `path("${o.d}")`, s.styles.d = `path("${s.d}")`);
+		else if (n.translate !== !1 || n.scale !== !1) {
+			var c = 1, l = 1;
+			if (typeof e.getScreenCTM == "function") {
+				let t = e.getScreenCTM();
+				c = t.a, l = t.d;
+			} else {
+				let e = this.Reveal.getScale();
+				c = e, l = e;
+			}
+			let t = {
+				x: (o.x - s.x) / c,
+				y: (o.y - s.y) / l,
 				scaleX: o.width / s.width,
 				scaleY: o.height / s.height
 			};
@@ -717,20 +726,20 @@ var ee = class {
 			let r = n.translate !== !1 && (t.x !== 0 || t.y !== 0), i = n.scale !== !1 && (t.scaleX !== 0 || t.scaleY !== 0);
 			if (r || i) {
 				let e = [];
-				r && e.push(`translate(${t.x}px, ${t.y}px)`), i && e.push(`scale(${t.scaleX}, ${t.scaleY})`), o.styles.transform = e.join(" "), o.styles["transform-origin"] = "top left", s.styles.transform = "none";
+				r && e.push(`translate(${t.x}px, ${t.y}px)`), i && e.push(`scale(${t.scaleX}, ${t.scaleY})`), o.styles.transform = e.join(" "), o.styles["transform-box"] = "fill-box", o.styles["transform-origin"] = "0 0", s.styles.transform = "none";
 			}
 		}
 		for (let e in s.styles) {
 			let t = s.styles[e], n = o.styles[e];
-			t === n ? delete s.styles[e] : (t.explicitValue === !0 && (s.styles[e] = t.value), n.explicitValue === !0 && (o.styles[e] = n.value));
+			t === n ? (delete s.styles[e], delete o.styles[e]) : (t.explicitValue === !0 && (s.styles[e] = t.value), n.explicitValue === !0 && (o.styles[e] = n.value));
 		}
-		let c = "", l = Object.keys(s.styles);
-		if (l.length > 0) {
-			o.styles.transition = "none", s.styles.transition = `all ${a.duration}s ${a.easing} ${a.delay}s`, s.styles["transition-property"] = l.join(", "), s.styles["will-change"] = l.join(", ");
+		let u = "", d = Object.keys(s.styles);
+		if (d.length > 0) {
+			o.styles.transition = "none", s.styles.transition = `all ${a.duration}s ${a.easing} ${a.delay}s`, s.styles["transition-property"] = d.join(", "), s.styles["will-change"] = d.join(", ");
 			let e = Object.keys(o.styles).map((e) => e + ": " + o.styles[e] + " !important;").join(""), t = Object.keys(s.styles).map((e) => e + ": " + s.styles[e] + " !important;").join("");
-			c = "[data-auto-animate-target=\"" + i + "\"] {" + e + "}[data-auto-animate=\"running\"] [data-auto-animate-target=\"" + i + "\"] {" + t + "}";
+			u = "[data-auto-animate-target=\"" + i + "\"] {" + e + "}[data-auto-animate=\"running\"] [data-auto-animate-target=\"" + i + "\"] {" + t + "}";
 		}
-		return c;
+		return u;
 	}
 	getAutoAnimateOptions(t, n) {
 		let r = {
@@ -746,7 +755,7 @@ var ee = class {
 	}
 	getAutoAnimatableProperties(e, t, n) {
 		let r = this.Reveal.getConfig(), i = { styles: [] };
-		if (n.translate !== !1 || n.scale !== !1) {
+		if (t.tagName === "path" && (i.d = t.attributes.d.value), n.translate !== !1 || n.scale !== !1) {
 			let e;
 			if (typeof n.measure == "function") e = n.measure(t);
 			else if (r.center) e = t.getBoundingClientRect();
@@ -781,7 +790,26 @@ var ee = class {
 	}
 	getAutoAnimatePairs(e, t) {
 		let n = [], r = "h1, h2, h3, h4, h5, h6, p, li";
-		return this.findAutoAnimateMatches(n, e, t, "[data-id]", (e) => e.nodeName + ":::" + e.getAttribute("data-id")), this.findAutoAnimateMatches(n, e, t, r, (e) => e.nodeName + ":::" + e.textContent.trim()), this.findAutoAnimateMatches(n, e, t, "img, video, iframe", (e) => e.nodeName + ":::" + (e.getAttribute("src") || e.getAttribute("data-src"))), this.findAutoAnimateMatches(n, e, t, "pre", (e) => e.nodeName + ":::" + e.textContent.trim()), n.forEach((e) => {
+		return e.querySelectorAll("svg [data-id]").forEach((e) => {
+			let r = t.querySelector(`svg [data-id="${e.getAttribute("data-id")}"]`);
+			r && n.push({
+				from: e,
+				to: r,
+				options: {
+					translate: !0,
+					scale: !0,
+					measure: function(e) {
+						let t = e.closest("section").getBoundingClientRect(), n = e.getBoundingClientRect();
+						return {
+							x: n.left - t.left,
+							y: n.top - t.top,
+							width: n.width,
+							height: n.height
+						};
+					}
+				}
+			});
+		}), this.findAutoAnimateMatches(n, e, t, "[data-id]", (e) => e.nodeName + ":::" + e.getAttribute("data-id")), this.findAutoAnimateMatches(n, e, t, r, (e) => e.nodeName + ":::" + e.textContent.trim()), this.findAutoAnimateMatches(n, e, t, "img, video, iframe", (e) => e.nodeName + ":::" + (e.getAttribute("src") || e.getAttribute("data-src"))), this.findAutoAnimateMatches(n, e, t, "pre", (e) => e.nodeName + ":::" + e.textContent.trim()), n.forEach((e) => {
 			a(e.from, r) ? e.options = { scale: !1 } : a(e.from, "pre") && (e.options = {
 				scale: !1,
 				styles: ["width", "height"]
@@ -894,7 +922,9 @@ var ee = class {
 	}
 	syncPages() {
 		let e = this.Reveal.getConfig(), t = this.Reveal.getComputedSlideSize(window.innerWidth, window.innerHeight), n = this.Reveal.getScale(), r = e.scrollLayout === "compact", i = this.viewportElement.offsetHeight, a = t.height * n, o = r ? a : i;
-		this.scrollTriggerHeight = r ? a : i, this.viewportElement.style.setProperty("--page-height", o + "px"), this.viewportElement.style.scrollSnapType = typeof e.scrollSnap == "string" ? `y ${e.scrollSnap}` : "", this.slideTriggers = [], this.pages = Array.from(this.Reveal.getRevealElement().querySelectorAll(".scroll-page")).map((n) => {
+		this.scrollTriggerHeight = r ? a : i, this.viewportElement.style.setProperty("--page-height", o + "px"), this.viewportElement.style.scrollSnapType = typeof e.scrollSnap == "string" ? `y ${e.scrollSnap}` : "", this.slideTriggers = [];
+		let s = Array.from(this.Reveal.getRevealElement().querySelectorAll(".scroll-page"));
+		this.pages = s.map((n) => {
 			let a = this.createPage({
 				pageElement: n,
 				slideElement: n.querySelector("section"),
@@ -1059,7 +1089,7 @@ var ee = class {
 	}
 };
 //#endregion
-//#region \0@oxc-project+runtime@0.124.0/helpers/asyncToGenerator.js
+//#region \0@oxc-project+runtime@0.127.0/helpers/asyncToGenerator.js
 function M(e, t, n, r, i, a, o) {
 	try {
 		var s = e[a](o), c = s.value;
@@ -1441,7 +1471,7 @@ var le = class {
 	}
 };
 //#endregion
-//#region \0@oxc-project+runtime@0.124.0/helpers/objectSpread2.js
+//#region \0@oxc-project+runtime@0.127.0/helpers/objectSpread2.js
 function P(e, t) {
 	var n = Object.keys(e);
 	if (Object.getOwnPropertySymbols) {
@@ -1906,7 +1936,7 @@ var pe = class {
 	destroy() {
 		this.close();
 	}
-}, I = 40, be = class {
+}, I = 40, L = 1.03, be = class {
 	constructor(e) {
 		this.Reveal = e, this.touchStartX = 0, this.touchStartY = 0, this.touchStartCount = 0, this.touchCaptured = !1, this.activePointers = /* @__PURE__ */ new Map(), this.onPointerDown = this.onPointerDown.bind(this), this.onPointerMove = this.onPointerMove.bind(this), this.onPointerUp = this.onPointerUp.bind(this), this.onPointerCancel = this.onPointerCancel.bind(this), this.onTouchStart = this.onTouchStart.bind(this), this.onTouchMove = this.onTouchMove.bind(this), this.onTouchEnd = this.onTouchEnd.bind(this);
 	}
@@ -1926,12 +1956,17 @@ var pe = class {
 		}
 		return !1;
 	}
+	isViewportZoomed() {
+		if (!window.visualViewport || typeof window.visualViewport.scale != "number") return !1;
+		let e = window.visualViewport.scale;
+		return this.visualViewportBaseScale === void 0 ? this.visualViewportBaseScale = e : this.visualViewportBaseScale = Math.min(this.visualViewportBaseScale, e), e / this.visualViewportBaseScale > L;
+	}
 	onTouchStart(e) {
-		if (this.touchCaptured = !1, this.isSwipePrevented(e.target)) return !0;
+		if (this.touchCaptured = !1, this.isViewportZoomed() || this.isSwipePrevented(e.target)) return !0;
 		this.touchStartX = e.touches[0].clientX, this.touchStartY = e.touches[0].clientY, this.touchStartCount = e.touches.length;
 	}
 	onTouchMove(e) {
-		if (this.isSwipePrevented(e.target)) return !0;
+		if (this.isViewportZoomed() || this.isSwipePrevented(e.target)) return !0;
 		let t = this.Reveal.getConfig();
 		if (this.touchCaptured) _ && e.preventDefault();
 		else {
@@ -1964,7 +1999,7 @@ var pe = class {
 	onPointerCancel(e) {
 		e.pointerType === "touch" && (this.activePointers.delete(e.pointerId), e.touches = this.getActiveTouches(), this.onTouchEnd(e));
 	}
-}, L = "focus", R = "blur", xe = class {
+}, R = "focus", z = "blur", xe = class {
 	constructor(e) {
 		this.Reveal = e, this.onRevealPointerDown = this.onRevealPointerDown.bind(this), this.onDocumentPointerDown = this.onDocumentPointerDown.bind(this);
 	}
@@ -1978,13 +2013,13 @@ var pe = class {
 		this.Reveal.getRevealElement().removeEventListener("pointerdown", this.onRevealPointerDown, !1), document.removeEventListener("pointerdown", this.onDocumentPointerDown, !1);
 	}
 	focus() {
-		this.state !== L && (this.Reveal.getRevealElement().classList.add("focused"), document.addEventListener("pointerdown", this.onDocumentPointerDown, !1)), this.state = L;
+		this.state !== R && (this.Reveal.getRevealElement().classList.add("focused"), document.addEventListener("pointerdown", this.onDocumentPointerDown, !1)), this.state = R;
 	}
 	blur() {
-		this.state !== R && (this.Reveal.getRevealElement().classList.remove("focused"), document.removeEventListener("pointerdown", this.onDocumentPointerDown, !1)), this.state = R;
+		this.state !== z && (this.Reveal.getRevealElement().classList.remove("focused"), document.removeEventListener("pointerdown", this.onDocumentPointerDown, !1)), this.state = z;
 	}
 	isFocused() {
-		return this.state === L;
+		return this.state === R;
 	}
 	destroy() {
 		this.Reveal.getRevealElement().classList.remove("focused");
@@ -2146,7 +2181,7 @@ var pe = class {
 }, Te = "6.0.1";
 //#endregion
 //#region js/reveal.js
-function z(a, s) {
+function B(a, s) {
 	arguments.length < 2 && (s = arguments[0], a = document.querySelector(".reveal"));
 	let l = {}, f = {}, p = !1, m = !1, h, _, v, y, b = {
 		hasNavigatedHorizontally: !1,
@@ -2299,7 +2334,7 @@ function z(a, s) {
 			if (!f.disableLayout) {
 				g && !f.embedded && document.documentElement.style.setProperty("--vh", window.innerHeight * .01 + "px");
 				let n = L.isActive() ? Qe(e, t) : Qe(), r = S;
-				Xe(f.width, f.height), D.slides.style.width = n.width + "px", D.slides.style.height = n.height + "px", S = Math.min(n.presentationWidth / n.width, n.presentationHeight / n.height), S = Math.max(S, f.minScale), S = Math.min(S, f.maxScale), S === 1 || L.isActive() ? (D.slides.style.zoom = "", D.slides.style.left = "", D.slides.style.top = "", D.slides.style.bottom = "", D.slides.style.right = "", qe({ layout: "" })) : (D.slides.style.zoom = "", D.slides.style.left = "50%", D.slides.style.top = "50%", D.slides.style.bottom = "auto", D.slides.style.right = "auto", qe({ layout: "translate(-50%, -50%) scale(" + S + ")" }));
+				Xe(f.width, f.height), D.slides.style.width = n.width + "px", D.slides.style.height = n.height + "px", S = Math.min(n.presentationWidth / n.width, n.presentationHeight / n.height), S = Math.max(S, f.minScale), S = Math.min(S, f.maxScale), S = Math.round(S * 100) / 100, S === 1 || L.isActive() ? (D.slides.style.zoom = "", D.slides.style.left = "", D.slides.style.top = "", D.slides.style.bottom = "", D.slides.style.right = "", qe({ layout: "" })) : (D.slides.style.zoom = "", D.slides.style.left = "50%", D.slides.style.top = "50%", D.slides.style.bottom = "auto", D.slides.style.right = "auto", qe({ layout: "translate(-50%, -50%) scale(" + S + ")" }));
 				let i = Array.from(D.wrapper.querySelectorAll(C)).filter((e) => e.style.display !== "none"), a = Array(i.length);
 				for (let e = 0, t = i.length; e < t; e++) {
 					let t = i[e];
@@ -2867,11 +2902,11 @@ function z(a, s) {
 }
 //#endregion
 //#region js/index.ts
-var B = z, V = [];
-B.initialize = (e) => {
+var V = B, H = [];
+V.initialize = (e) => {
 	let t = document.querySelector(".reveal");
 	if (!(t instanceof HTMLElement)) throw Error("Unable to find presentation root (<div class=\"reveal\">).");
-	return Object.assign(B, new z(t, e)), V.map((e) => e(B)), B.initialize();
+	return Object.assign(V, new B(t, e)), H.map((e) => e(V)), V.initialize();
 }, [
 	"configure",
 	"on",
@@ -2880,9 +2915,9 @@ B.initialize = (e) => {
 	"removeEventListener",
 	"registerPlugin"
 ].forEach((e) => {
-	B[e] = (...t) => {
-		V.push((n) => n[e].call(null, ...t));
+	V[e] = (...t) => {
+		H.push((n) => n[e].call(null, ...t));
 	};
-}), B.isReady = () => !1, B.VERSION = Te;
+}), V.isReady = () => !1, V.VERSION = Te;
 //#endregion
-export { B as default };
+export { V as default };

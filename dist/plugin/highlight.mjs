@@ -1,5 +1,5 @@
 //#region \0rolldown/runtime.js
-var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescriptor, r = Object.getOwnPropertyNames, i = Object.getPrototypeOf, a = Object.prototype.hasOwnProperty, o = (e, t) => () => (t || e((t = { exports: {} }).exports, t), t.exports), s = (e, i, o, s) => {
+var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescriptor, r = Object.getOwnPropertyNames, i = Object.getPrototypeOf, a = Object.prototype.hasOwnProperty, o = (e, t) => () => (t || (e((t = { exports: {} }).exports, t), e = null), t.exports), s = (e, i, o, s) => {
 	if (i && typeof i == "object" || typeof i == "function") for (var c = r(i), l = 0, u = c.length, d; l < u; l++) d = c[l], !a.call(e, d) && d !== o && t(e, d, {
 		get: ((e) => i[e]).bind(null, d),
 		enumerable: !(s = n(i, d)) || s.enumerable
@@ -392,7 +392,9 @@ var e = Object.create, t = Object.defineProperty, n = Object.getOwnPropertyDescr
 				t.position = this.position++, this.matchIndexes[this.matchAt] = t, this.regexes.push([t, e]), this.matchAt += b(e) + 1;
 			}
 			compile() {
-				this.regexes.length === 0 && (this.exec = () => null), this.matcherRe = t(C(this.regexes.map((e) => e[1]), { joinWith: "|" }), !0), this.lastIndex = 0;
+				this.regexes.length === 0 && (this.exec = () => null);
+				let e = this.regexes.map((e) => e[1]);
+				this.matcherRe = t(C(e, { joinWith: "|" }), !0), this.lastIndex = 0;
 			}
 			exec(e) {
 				this.matcherRe.lastIndex = this.lastIndex;
