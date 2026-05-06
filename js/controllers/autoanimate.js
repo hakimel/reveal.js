@@ -185,39 +185,64 @@ export default class AutoAnimate {
 
 		}
 
-		// If translation and/or scaling are enabled, css transform
-		// the 'to' element so that it matches the position and size
-		// of the 'from' element
-		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
+        // Path 'd' attribute requires some special handling.
+        if(from.tagName == "path") {
+            let ok = elementOptions.d !== false && (fromProps.d !== toProps.d);
+            if(ok) {
+                fromProps.styles['d'] = `path("${fromProps.d}")`
+				toProps.styles['d'] = `path("${toProps.d}")`;
+            }
+        }
+		else if(elementOptions.translate !== false || elementOptions.scale !== false) {
 
-			let presentationScale = this.Reveal.getScale();
-
+            // Convert to *screen coordinates*
+            // This fixes scaling bugs and jumpy transitions in e.g. SVGs
+            var screenScaleX = 1.0;
+            var screenScaleY = 1.0;
+            if (typeof from.getScreenCTM === "function") {
+                // This works if `from` is in an svg.
+                // This makes animations work
+                // for svg's with a viewBox attribute
+                const ctm = from.getScreenCTM();
+                screenScaleX = ctm.a;
+                screenScaleY = ctm.d;
+            } else {
+                // If there is no viewBox, or `getScreenCTM` is not present
+                // we use presentationScale.
+                const presentationScale = this.Reveal.getScale(); 
+                screenScaleX = presentationScale;
+                screenScaleY = presentationScale;
+            }
+            
 			let delta = {
-				x: ( fromProps.x - toProps.x ) / presentationScale,
-				y: ( fromProps.y - toProps.y ) / presentationScale,
+				x: (fromProps.x - toProps.x) / screenScaleX,
+				y: (fromProps.y - toProps.y) / screenScaleY,
 				scaleX: fromProps.width / toProps.width,
 				scaleY: fromProps.height / toProps.height
 			};
 
+
 			// Limit decimal points to avoid 0.0001px blur and stutter
 			delta.x = Math.round( delta.x * 1000 ) / 1000;
 			delta.y = Math.round( delta.y * 1000 ) / 1000;
-			delta.scaleX = Math.round( delta.scaleX * 1000 ) / 1000;
+
+            delta.scaleX = Math.round( delta.scaleX * 1000 ) / 1000;
 			delta.scaleX = Math.round( delta.scaleX * 1000 ) / 1000;
 
-			let translate = elementOptions.translate !== false && ( delta.x !== 0 || delta.y !== 0 ),
+			let translate = elementOptions.translate !== false && (delta.x !== 0 || delta.y !== 0),
 				scale = elementOptions.scale !== false && ( delta.scaleX !== 0 || delta.scaleY !== 0 );
 
 			// No need to transform if nothing's changed
 			if( translate || scale ) {
-
 				let transform = [];
 
 				if( translate ) transform.push( `translate(${delta.x}px, ${delta.y}px)` );
 				if( scale ) transform.push( `scale(${delta.scaleX}, ${delta.scaleY})` );
 
 				fromProps.styles['transform'] = transform.join( ' ' );
-				fromProps.styles['transform-origin'] = 'top left';
+                fromProps.styles['transform-box'] = 'fill-box';
+                fromProps.styles['transform-origin'] = '0 0';
+				//fromProps.styles['transform-origin'] = 'top left';
 
 				toProps.styles['transform'] = 'none';
 
@@ -230,17 +255,18 @@ export default class AutoAnimate {
 			const toValue = toProps.styles[propertyName];
 			const fromValue = fromProps.styles[propertyName];
 
-			if( toValue === fromValue ) {
+			if( toValue === fromValue) {
 				delete toProps.styles[propertyName];
+                delete fromProps.styles[propertyName];
 			}
-			else {
+            else {
 				// If these property values were set via a custom matcher providing
 				// an explicit 'from' and/or 'to' value, we always inject those values.
 				if( toValue.explicitValue === true ) {
 					toProps.styles[propertyName] = toValue.value;
 				}
 
-				if( fromValue.explicitValue === true ) {
+                if( fromValue.explicitValue === true ) {
 					fromProps.styles[propertyName] = fromValue.value;
 				}
 			}
@@ -262,6 +288,7 @@ export default class AutoAnimate {
 			toProps.styles['transition-property'] = toStyleProperties.join( ', ' );
 			toProps.styles['will-change'] = toStyleProperties.join( ', ' );
 
+			
 			// Build up our custom CSS. We need to override inline styles
 			// so we need to make our styles vErY IMPORTANT!1!!
 			let fromCSS = Object.keys( fromProps.styles ).map( propertyName => {
@@ -336,6 +363,14 @@ export default class AutoAnimate {
 
 		let properties = { styles: [] };
 
+        // if(["circle"].includes(element.tagName)) {
+        //     properties.cx = element.attributes.cx.value;
+        //     properties.cy = element.attributes.cy.value;
+        // }
+        if(element.tagName === "path") {
+            // We can auto-animate paths using their "d" attribute
+            properties.d = element.attributes.d.value;
+        }
 		// Position and size
 		if( elementOptions.translate !== false || elementOptions.scale !== false ) {
 			let bounds;
@@ -447,6 +482,32 @@ export default class AutoAnimate {
 		const textNodes = 'h1, h2, h3, h4, h5, h6, p, li';
 		const mediaNodes = 'img, video, iframe';
 
+        // Special handling of SVG matching.
+        fromSlide.querySelectorAll('svg [data-id]').forEach(fromEl => {
+            const toEl = toSlide.querySelector(`svg [data-id="${fromEl.getAttribute('data-id')}"]`);
+            if(toEl) {
+                pairs.push({
+                    from: fromEl,
+                    to: toEl,
+                    options: {
+                        translate: true,
+                        scale: true,
+                        measure: function (element) {
+                            const slideRect = element.closest('section').getBoundingClientRect();
+                            const elementRect = element.getBoundingClientRect();
+                            return {
+                                x: elementRect.left - slideRect.left,
+                                y: elementRect.top - slideRect.top,
+                                width: elementRect.width,
+                                height: elementRect.height
+                            };
+                        },  
+                    }
+                })
+            }
+        });
+
+        
 		// Explicit matches via data-id
 		this.findAutoAnimateMatches( pairs, fromSlide, toSlide, '[data-id]', node => {
 			return node.nodeName + ':::' + node.getAttribute( 'data-id' );
