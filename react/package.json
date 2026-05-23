@@ -34,7 +34,11 @@
 		"react-dom": ">=18",
 		"reveal.js": ">=5"
 	},
+	"dependencies": {
+		"dompurify": "^3.2.6"
+	},
 	"devDependencies": {
+		"@types/dompurify": "^3.0.5",
 		"@testing-library/jest-dom": "^6.9.1",
 		"@testing-library/react": "^16.3.2",
 		"@types/react": "^19.2.14",
