@@ -2049,8 +2049,12 @@ export default function( revealElement, options ) {
 				// that is made up by its fragments (0-1)
 				let fragmentWeight = 0.9;
 
-				// Add fragment progress to the past slide count
-				pastCount += ( visibleFragments.length / allFragments.length ) * fragmentWeight;
+				// Only add fragment progress when not on the last slide.
+				// On the last slide, fragments should not increase pastCount
+				// beyond totalCount-1, as that would make progress > 1.
+				if( pastCount < totalCount - 1 ) {
+					pastCount += ( visibleFragments.length / allFragments.length ) * fragmentWeight;
+				}
 			}
 
 		}
