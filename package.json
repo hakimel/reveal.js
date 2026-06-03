@@ -90,7 +90,7 @@
 		"url": "git://github.com/hakimel/reveal.js.git"
 	},
 	"devEngines": {
-		"runtime": {
+	"runtime": {
 			"name": "node",
 			"version": ">=20.19.0",
 			"onFail": "error"
@@ -110,6 +110,7 @@
 		"marked": "^17.0.5",
 		"marked-smartypants": "^1.1.11",
 		"node-qunit-puppeteer": "^2.2.1",
+		"picocolors": "^1.1.1",
 		"qunit": "^2.25.0",
 		"sass": "^1.98.0",
 		"typescript": "^6.0.2",
