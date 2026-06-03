@@ -3,6 +3,7 @@ import { dirname, resolve } from 'path';
 import { glob } from 'glob';
 import { runQunitPuppeteer, printFailedTests } from 'node-qunit-puppeteer';
 import { createServer } from 'vite';
+import { red, green } from 'picocolors';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -51,16 +52,16 @@ const runTests = async (baseUrl) => {
 
 				if (result.stats.failed > 0) {
 					console.log(
-						`${'!'} ${file} [${result.stats.passed}/${result.stats.total}] in ${
+						red(`${'!'} ${file} [${result.stats.passed}/${result.stats.total}] in ${
 							result.stats.runtime
-						}ms`.red
+						}ms`)
 					);
 					printFailedTests(result, console);
 				} else {
 					console.log(
-						`${'✔'} ${file} [${result.stats.passed}/${result.stats.total}] in ${
+						green(`${'✔'} ${file} [${result.stats.passed}/${result.stats.total}] in ${
 							result.stats.runtime
-						}ms`.green
+						}ms`)
 					);
 				}
 			} catch (error) {
