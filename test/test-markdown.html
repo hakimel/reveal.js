@@ -237,6 +237,14 @@
 					More Test
 				  </script>
 				</section>
+
+				<section data-markdown class="formatted-element-attributes">
+				  <script type="text/template">
+					**Formatted paragraph**<!-- .element: class="fragment text-fragment" data-test-target="paragraph" -->
+
+					- **Formatted list item**<!-- .element: class="fragment list-fragment" data-test-target="list-item" -->
+				  </script>
+				</section>
 			</div>
 		</div>
 
@@ -453,6 +461,26 @@
 
 				QUnit.test( 'Attributes on elements in single slides with default element attribute separator', function( assert ) {
 					assert.strictEqual( deck5.getRevealElement().querySelectorAll( '.reveal .slides section p.fragment.highlight-blue' ).length, 3, 'found three elements with fragment highlight-blue in single slide with default element attribute separator' );
+				});
+
+				QUnit.test( 'Attributes on formatted paragraphs target the paragraph', function( assert ) {
+					const formattedParagraph = deck5.getRevealElement().querySelector( '.formatted-element-attributes p' );
+					const formattedText = formattedParagraph.querySelector( 'strong' );
+
+					assert.strictEqual( formattedParagraph.classList.contains( 'fragment' ), true, 'found fragment class on paragraph' );
+					assert.strictEqual( formattedParagraph.classList.contains( 'text-fragment' ), true, 'found custom class on paragraph' );
+					assert.strictEqual( formattedParagraph.getAttribute( 'data-test-target' ), 'paragraph', 'found custom data attribute on paragraph' );
+					assert.strictEqual( formattedText.classList.contains( 'fragment' ), false, 'formatted child does not receive fragment class' );
+				});
+
+				QUnit.test( 'Attributes on formatted list items target the list item', function( assert ) {
+					const formattedListItem = deck5.getRevealElement().querySelector( '.formatted-element-attributes li' );
+					const formattedText = formattedListItem.querySelector( 'strong' );
+
+					assert.strictEqual( formattedListItem.classList.contains( 'fragment' ), true, 'found fragment class on list item' );
+					assert.strictEqual( formattedListItem.classList.contains( 'list-fragment' ), true, 'found custom class on list item' );
+					assert.strictEqual( formattedListItem.getAttribute( 'data-test-target' ), 'list-item', 'found custom data attribute on list item' );
+					assert.strictEqual( formattedText.classList.contains( 'fragment' ), false, 'formatted child does not receive fragment class' );
 				});
 
 			} );

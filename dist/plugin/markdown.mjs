@@ -1488,13 +1488,26 @@ function Ge({ config: e = 2 } = {}) {
 }
 //#endregion
 //#region plugin/markdown/plugin.js
-var Ke = "\r?\n---\r?\n", qe = null, Je = "^s*notes?:", Ye = "\\.element\\s*?(.+?)$", Xe = "\\.slide:\\s*?(\\S.+?)$", Q = "__SCRIPT_END__", $ = /\[\s*((\d*):)?\s*([\s\d,|-]*)\]/, Ze = {
+var Ke = "\r?\n---\r?\n", qe = null, Je = "^s*notes?:", Ye = "\\.element\\s*?(.+?)$", Xe = "\\.slide:\\s*?(\\S.+?)$", Ze = [
+	"A",
+	"B",
+	"CODE",
+	"DEL",
+	"EM",
+	"I",
+	"S",
+	"SPAN",
+	"STRONG",
+	"SUB",
+	"SUP",
+	"U"
+], Q = "__SCRIPT_END__", $ = /\[\s*((\d*):)?\s*([\s\d,|-]*)\]/, Qe = {
 	"&": "&amp;",
 	"<": "&lt;",
 	">": "&gt;",
 	"\"": "&quot;",
 	"'": "&#39;"
-}, Qe = () => {
+}, $e = () => {
 	let e, t = null;
 	function n(e) {
 		let t = (e.querySelector("[data-template]") || e.querySelector("script") || e).textContent;
@@ -1578,7 +1591,15 @@ var Ke = "\r?\n---\r?\n", qe = null, Je = "^s*notes?:", Ye = "\\.element\\s*?(.+
 		}
 		return !1;
 	}
-	function u(e, t, n, r, i) {
+	function u(e) {
+		for (; e && e.tagName !== "LI";) e = e.parentElement;
+		return e;
+	}
+	function d(e, t) {
+		let n = t, r = e.parentElement, i = u(r);
+		return i && n && i.contains(n) ? n = i : r && n && r.contains(n) && Ze.indexOf(n.tagName) !== -1 && (n = r), n && (n.tagName === "UL" || n.tagName === "OL") && (n = n.lastElementChild || n), n;
+	}
+	function f(e, t, n, r, i) {
 		if (t !== null && t.childNodes !== void 0 && t.childNodes.length > 0) {
 			let n = t;
 			for (let a = 0; a < t.childNodes.length; a++) {
@@ -1595,24 +1616,21 @@ var Ke = "\r?\n---\r?\n", qe = null, Je = "^s*notes?:", Ye = "\\.element\\s*?(.+
 					}
 				}
 				let s = e;
-				o.nodeName === "section" && (s = o, n = o), (typeof o.setAttribute == "function" || o.nodeType === Node.COMMENT_NODE) && u(s, o, n, r, i);
+				o.nodeName === "section" && (s = o, n = o), (typeof o.setAttribute == "function" || o.nodeType === Node.COMMENT_NODE) && f(s, o, n, r, i);
 			}
 		}
-		if (t.nodeType === Node.COMMENT_NODE) {
-			let a = n;
-			a && (a.tagName === "UL" || a.tagName === "OL") && (a = a.lastElementChild || a), l(t, a, r) === !1 && l(t, e, i);
-		}
+		t.nodeType === Node.COMMENT_NODE && l(t, d(t, n), r) === !1 && l(t, e, i);
 	}
-	function d() {
+	function p() {
 		let r = e.getRevealElement().querySelectorAll("[data-markdown]:not([data-markdown-parsed])");
 		return [].slice.call(r).forEach(function(e) {
 			e.setAttribute("data-markdown-parsed", !0);
 			let r = e.querySelector("aside.notes"), i = n(e);
-			e.innerHTML = t ? t.parse(i) : i, u(e, e, null, e.getAttribute("data-element-attributes") || e.parentNode.getAttribute("data-element-attributes") || Ye, e.getAttribute("data-attributes") || e.parentNode.getAttribute("data-attributes") || Xe), r && e.appendChild(r);
+			e.innerHTML = t ? t.parse(i) : i, f(e, e, null, e.getAttribute("data-element-attributes") || e.parentNode.getAttribute("data-element-attributes") || Ye, e.getAttribute("data-attributes") || e.parentNode.getAttribute("data-attributes") || Xe), r && e.appendChild(r);
 		}), Promise.resolve();
 	}
-	function f(e) {
-		return e.replace(/([&<>'"])/g, (e) => Ze[e]);
+	function m(e) {
+		return e.replace(/([&<>'"])/g, (e) => Qe[e]);
 	}
 	return {
 		id: "markdown",
@@ -1624,17 +1642,17 @@ var Ke = "\r?\n---\r?\n", qe = null, Je = "^s*notes?:", Ye = "\\.element\\s*?(.+
 					let e = n.match($)[2];
 					e && (r = `data-ln-start-from="${e.trim()}"`), i = n.match($)[3].trim(), i = `data-line-numbers="${i}"`, n = n.replace($, "").trim();
 				}
-				return e = f(e), `<pre><code ${i} ${r} class="${n}">${e}</code></pre>`;
+				return e = m(e), `<pre><code ${i} ${r} class="${n}">${e}</code></pre>`;
 			} };
 			return i === !0 && !r && (c.listitem = function(e) {
 				return `<li class="fragment">${e.tokens ? this.parser.parseInline(e.tokens) : e.text || ""}</li>`;
 			}), t = new Y(), t.use({
 				renderer: c,
 				...o
-			}), a && t.use(Ge()), s(e.getRevealElement()).then(d);
+			}), a && t.use(Ge()), s(e.getRevealElement()).then(p);
 		},
 		processSlides: s,
-		convertSlides: d,
+		convertSlides: p,
 		slidify: o,
 		get marked() {
 			return t;
@@ -1645,4 +1663,4 @@ var Ke = "\r?\n---\r?\n", qe = null, Je = "^s*notes?:", Ye = "\\.element\\s*?(.+
 	};
 };
 //#endregion
-export { Qe as default };
+export { $e as default };
