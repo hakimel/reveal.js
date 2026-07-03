@@ -102,7 +102,7 @@
 		"presentation"
 	],
 	"devDependencies": {
-		"esbuild": "^0.28.0",
+		"esbuild": "^0.28.1",
 		"fitty": "^2.4.2",
 		"glob": "^13.0.6",
 		"highlight.js": "^11.11.1",
@@ -113,7 +113,7 @@
 		"qunit": "^2.25.0",
 		"sass": "^1.98.0",
 		"typescript": "^6.0.2",
-		"vite": "^8.0.3",
+		"vite": "^8.0.16",
 		"vite-plugin-dts": "^4.5.4"
 	},
 	"overrides": {
