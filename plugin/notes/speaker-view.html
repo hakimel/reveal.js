@@ -510,7 +510,29 @@
 					// Update the note slides
 					currentSlide.contentWindow.postMessage( JSON.stringify({ method: 'setState', args: [ data.state ] }), '*' );
 					upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'setState', args: [ upcomingState ] }), '*' );
-					upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'next' }), '*' );
+
+					// The upcoming preview is a separate reveal.js instance and tracks
+					// its own vertical position per stack, which can differ from the
+					// main presentation. Compute the next destination from the main
+					// state and navigate with explicit indices instead of calling
+					// next() in the preview.
+					callRevealApi( 'availableFragments', [], function( fragments ) {
+						if( fragments && fragments.next ) {
+							upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'next' }), '*' );
+							return;
+						}
+						callRevealApi( 'availableRoutes', [], function( routes ) {
+							if( routes.down ) {
+								upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'slide', args: [ data.state.indexh, data.state.indexv + 1 ] }), '*' );
+							}
+							else {
+								callRevealApi( 'getConfig', [], function( config ) {
+									var upcomingIndexv = config.navigationMode === 'grid' ? data.state.indexv : 0;
+									upcomingSlide.contentWindow.postMessage( JSON.stringify({ method: 'slide', args: [ data.state.indexh + 1, upcomingIndexv ] }), '*' );
+								} );
+							}
+						} );
+					} );
 
 				}
 
