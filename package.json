@@ -92,7 +92,7 @@
 	"devEngines": {
 		"runtime": {
 			"name": "node",
-			"version": ">=20.19.0",
+			"version": ">=22.12.0",
 			"onFail": "error"
 		}
 	},
@@ -110,6 +110,7 @@
 		"marked": "^17.0.5",
 		"marked-smartypants": "^1.1.11",
 		"node-qunit-puppeteer": "^2.2.1",
+		"puppeteer": "^25.8.0",
 		"qunit": "^2.25.0",
 		"sass": "^1.98.0",
 		"typescript": "^6.0.2",
@@ -119,6 +120,9 @@
 	"overrides": {
 		"@microsoft/api-extractor": {
 			"minimatch": "10.2.4"
+		},
+		"node-qunit-puppeteer": {
+			"puppeteer": "$puppeteer"
 		}
 	}
 }
