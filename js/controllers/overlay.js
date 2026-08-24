@@ -169,7 +169,20 @@ export default class Overlay {
 			video.loop = this.dom.dataset.previewLoop === 'true' ? true : false;
 			video.muted = this.dom.dataset.previewMuted === 'true' ? true : false;
 			video.playsInline = true;
-			video.src = url;
+
+			// Setting video.src with a data URI fails in some browsers
+			// because they can't infer the codec without a MIME type hint.
+			// A <source> element lets us provide an explicit type attribute.
+			if( /^data:([^;,]+)/.test( url.trim() ) ) {
+				const source = document.createElement( 'source' );
+				source.src = url;
+				source.type = RegExp.$1;
+				video.appendChild( source );
+			}
+			else {
+				video.src = url;
+			}
+
 			contentElement.appendChild( video );
 
 			video.addEventListener( 'loadeddata', () => {
