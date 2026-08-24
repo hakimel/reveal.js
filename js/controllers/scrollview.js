@@ -108,6 +108,7 @@ export default class ScrollView {
 			contentContainer.appendChild( slide );
 
 			slide.classList.remove( 'past', 'future' );
+			slide.removeAttribute( 'inert' );
 			slide.setAttribute( 'data-index-h', h );
 			slide.setAttribute( 'data-index-v', v );
 

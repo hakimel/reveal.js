@@ -122,6 +122,24 @@
 					assert.ok( document.querySelectorAll( '.reveal .slides section.stack' )[0].querySelectorAll( '.future' ).length > 0, 'vertical slides are given .future' );
 				});
 
+				QUnit.test( 'Only the current slide and its stack are interactive', function( assert ) {
+					function assertInteractiveSlides( message ) {
+						var currentSlide = Reveal.getCurrentSlide();
+
+						document.querySelectorAll( '.reveal .slides section' ).forEach( function( slide ) {
+							var shouldBeInteractive = slide === currentSlide || slide.contains( currentSlide );
+							assert.strictEqual( slide.hasAttribute( 'inert' ), !shouldBeInteractive, message );
+						} );
+					}
+
+					assertInteractiveSlides( 'correct inert state on a horizontal slide' );
+
+					Reveal.slide( 1, 1 );
+					assertInteractiveSlides( 'correct inert state on a vertical slide' );
+
+					Reveal.slide( 0, 0 );
+				});
+
 				// ---------------------------------------------------------------
 				// API TESTS
 
@@ -140,9 +158,11 @@
 
 					Reveal.toggleOverview();
 					assert.strictEqual( Reveal.isOverview(), true, 'true after toggling on' );
+					assert.strictEqual( document.querySelectorAll( '.reveal .slides section[inert]' ).length, 0, 'all slides are interactive in overview' );
 
 					Reveal.toggleOverview();
 					assert.strictEqual( Reveal.isOverview(), false, 'false after toggling off' );
+					assert.ok( document.querySelectorAll( '.reveal .slides section[inert]' ).length > 0, 'offscreen slides are inert after leaving overview' );
 				});
 
 				QUnit.test( 'Reveal.isPaused', function( assert ) {

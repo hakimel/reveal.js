@@ -65,13 +65,16 @@
 
 				QUnit.test( 'Activates', assert => {
 					assert.ok( getScrollHeight() > getViewportHeight(), 'Is overflowing' );
+					assert.strictEqual( document.querySelectorAll( '.reveal .slides section[inert]' ).length, 0, 'All slides are interactive' );
 				});
 
 				QUnit.test( 'Can be toggled via API', assert => {
 					Reveal.toggleScrollView( false );
 					assert.ok( getScrollHeight() <= getViewportHeight(), 'Is not overflowing' );
+					assert.ok( document.querySelectorAll( '.reveal .slides section[inert]' ).length > 0, 'Offscreen slides are inert' );
 					Reveal.toggleScrollView( true );
 					assert.ok( getScrollHeight() > getViewportHeight(), 'Is overflowing' );
+					assert.strictEqual( document.querySelectorAll( '.reveal .slides section[inert]' ).length, 0, 'All slides are interactive' );
 				});
 
 				QUnit.test( 'Changes present slide when scrolling', assert => {

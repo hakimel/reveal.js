@@ -692,6 +692,7 @@ export default function( revealElement, options ) {
 			slide.style.removeProperty( 'top' );
 			slide.removeAttribute( 'hidden' );
 			slide.removeAttribute( 'aria-hidden' );
+			slide.removeAttribute( 'inert' );
 		} );
 
 	}
@@ -1911,6 +1912,14 @@ export default function( revealElement, options ) {
 			}
 
 		}
+
+		// Prevent offscreen slides from receiving keyboard focus. Unlike the
+		// hidden attribute, inert is not overridden when nearby slides are made
+		// display: block for transitions.
+		const allowAllSlides = overview.isActive() || scrollView.isActive() || printView.isActive();
+		Util.queryAll( dom.wrapper, SLIDES_SELECTOR ).forEach( slide => {
+			slide.toggleAttribute( 'inert', !allowAllSlides && slide !== currentSlide && !slide.contains( currentSlide ) );
+		} );
 
 	}
 
