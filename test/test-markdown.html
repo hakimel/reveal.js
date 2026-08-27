@@ -310,6 +310,18 @@
 			</div>
 		</div>
 
+		<div class="reveal deck7" style="display: none;">
+			<div class="slides">
+				<section data-markdown="simple.md" data-separator="^---$"></section>
+			</div>
+		</div>
+
+		<div class="reveal deck8" style="display: none;">
+			<div class="slides">
+				<section data-markdown="simple.md"></section>
+			</div>
+		</div>
+
 		<script type="module">
 			import 'reveal.css';
 			import 'qunit/qunit/qunit.css';
@@ -503,12 +515,53 @@
 
 			} );
 
+			let deck7 = new Reveal( document.querySelector( '.deck7' ), {
+				markdown: {
+					loader: function( ref, section ) {
+						return '## Custom A\n---\n## Custom B\n---\n## Custom C';
+					}
+				},
+				plugins: [ Markdown ]
+			})
+			deck7.addEventListener( 'ready', function() {
+
+				QUnit.module( 'Custom Loader' );
+
+				QUnit.test( 'Loader overrides default external fetch', function( assert ) {
+					assert.strictEqual( deck7.getRevealElement().querySelectorAll( '.reveal .slides>section' ).length, 3, 'found three slides from custom loader content' );
+				});
+
+			} );
+
+			let deck8 = new Reveal( document.querySelector( '.deck8' ), {
+				markdown: {
+					loader: function( ref, section ) {
+						throw new Error( 'boom' );
+					}
+				},
+				plugins: [ Markdown ]
+			})
+			deck8.addEventListener( 'ready', function() {
+
+				QUnit.module( 'Custom Loader Errors' );
+
+				QUnit.test( 'Loader synchronous throw is rendered as alert section', function( assert ) {
+					const alerts = deck8.getRevealElement().querySelectorAll( '.reveal .slides>section[data-state="alert"]' );
+					assert.strictEqual( alerts.length, 1, 'found one alert section' );
+					assert.ok( alerts[0].textContent.indexOf( 'boom' ) !== -1, 'alert section mentions error message' );
+					assert.ok( alerts[0].textContent.indexOf( 'simple.md' ) !== -1, 'alert section mentions ref' );
+				});
+
+			} );
+
 			deck1.initialize();
 			deck2.initialize();
 			deck3.initialize();
 			deck4.initialize();
 			deck5.initialize();
 			deck6.initialize();
+			deck7.initialize();
+			deck8.initialize();
 		</script>
 
 	</body>
