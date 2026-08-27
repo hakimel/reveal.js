@@ -143,6 +143,13 @@
 	margin-left: 40px;
 }
 
+.reveal ul + ul,
+.reveal ul + ol,
+.reveal ol + ul,
+.reveal ol + ol {
+	display: block;
+}
+
 .reveal dt {
 	font-weight: bold;
 }
