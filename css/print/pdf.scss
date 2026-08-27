@@ -76,7 +76,7 @@ html.reveal-print {
 
 	.reveal .slides section {
 		visibility: visible !important;
-		display: block !important;
+		display: block;
 		position: absolute !important;
 
 		margin: 0 !important;
@@ -108,7 +108,7 @@ html.reveal-print {
 		display: none;
 	}
 	.reveal .slide-background {
-		display: block !important;
+		display: block;
 		position: absolute;
 		top: 0;
 		left: 0;
