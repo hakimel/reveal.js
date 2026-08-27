@@ -167,7 +167,7 @@ export default class Overlay {
 			video.autoplay = this.dom.dataset.previewAutoplay === 'false' ? false : true;
 			video.controls = this.dom.dataset.previewControls === 'false' ? false : true;
 			video.loop = this.dom.dataset.previewLoop === 'true' ? true : false;
-			video.muted = this.dom.dataset.previewMuted === 'true' ? true : false;
+			video.muted = this.Reveal.isSpeakerNotes() || this.dom.dataset.previewMuted === 'true';
 			video.playsInline = true;
 			video.src = url;
 			contentElement.appendChild( video );
