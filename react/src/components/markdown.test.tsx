@@ -110,6 +110,40 @@ Remember this detail
 		expect(items[1]).not.toHaveClass('fragment');
 	});
 
+	it('applies .element attributes to formatted paragraphs', () => {
+		const { container } = render(
+			<Markdown>
+				{`
+**Formatted paragraph**<!-- .element: class="fragment text-fragment" data-test-target="paragraph" -->
+				`}
+			</Markdown>
+		);
+
+		const paragraph = container.querySelector('p');
+		const formattedText = paragraph?.querySelector('strong');
+
+		expect(paragraph).toHaveClass('fragment', 'text-fragment');
+		expect(paragraph).toHaveAttribute('data-test-target', 'paragraph');
+		expect(formattedText).not.toHaveClass('fragment');
+	});
+
+	it('applies .element attributes to formatted list items', () => {
+		const { container } = render(
+			<Markdown>
+				{`
+- **Formatted list item**<!-- .element: class="fragment list-fragment" data-test-target="list-item" -->
+				`}
+			</Markdown>
+		);
+
+		const item = container.querySelector('li');
+		const formattedText = item?.querySelector('strong');
+
+		expect(item).toHaveClass('fragment', 'list-fragment');
+		expect(item).toHaveAttribute('data-test-target', 'list-item');
+		expect(formattedText).not.toHaveClass('fragment');
+	});
+
 	it('supports custom slide and element attribute separators', () => {
 		const { container } = render(
 			<Markdown

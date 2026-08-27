@@ -9,6 +9,21 @@ export const DEFAULT_NOTES_SEPARATOR = '^\\s*notes?:';
 export const DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '\\.element\\s*?(.+?)$';
 export const DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '\\.slide:\\s*?(\\S.+?)$';
 
+const TEXT_LEVEL_ELEMENTS = new Set([
+	'A',
+	'B',
+	'CODE',
+	'DEL',
+	'EM',
+	'I',
+	'S',
+	'SPAN',
+	'STRONG',
+	'SUB',
+	'SUP',
+	'U',
+]);
+
 const CODE_LINE_NUMBER_REGEX = /\[\s*((\d*):)?\s*([\s\d,|-]*)\]/;
 
 const HTML_ESCAPE_MAP: Record<string, string> = {
@@ -227,6 +242,37 @@ function addAttributeInElement(node: ChildNode, elementTarget: Element | null, s
 	return true;
 }
 
+function findParentListItem(element: Element | null) {
+	while (element && element.tagName !== 'LI') {
+		element = element.parentElement;
+	}
+
+	return element;
+}
+
+function getAttributeTarget(element: ChildNode, previousElement: Element | null) {
+	let targetElement = previousElement;
+	const parentElement = element.parentElement;
+	const parentListItem = findParentListItem(parentElement);
+
+	if (parentListItem && targetElement && parentListItem.contains(targetElement)) {
+		targetElement = parentListItem;
+	} else if (
+		parentElement &&
+		targetElement &&
+		parentElement.contains(targetElement) &&
+		TEXT_LEVEL_ELEMENTS.has(targetElement.tagName)
+	) {
+		targetElement = parentElement;
+	}
+
+	if (targetElement && (targetElement.tagName === 'UL' || targetElement.tagName === 'OL')) {
+		targetElement = targetElement.lastElementChild || targetElement;
+	}
+
+	return targetElement;
+}
+
 export function addAttributes(
 	section: HTMLElement,
 	element: ChildNode | HTMLElement,
@@ -279,10 +325,7 @@ export function addAttributes(
 
 	if (element.nodeType !== Node.COMMENT_NODE) return;
 
-	let targetElement = previousElement;
-	if (targetElement && (targetElement.tagName === 'UL' || targetElement.tagName === 'OL')) {
-		targetElement = targetElement.lastElementChild || targetElement;
-	}
+	const targetElement = getAttributeTarget(element, previousElement);
 
 	if (addAttributeInElement(element, targetElement, separatorElementAttributes) === false) {
 		addAttributeInElement(element, section, separatorSectionAttributes);

@@ -11,7 +11,11 @@ const DEFAULT_SLIDE_SEPARATOR = '\r?\n---\r?\n',
 	  DEFAULT_VERTICAL_SEPARATOR = null,
 	  DEFAULT_NOTES_SEPARATOR = '^\s*notes?:',
 	  DEFAULT_ELEMENT_ATTRIBUTES_SEPARATOR = '\\\.element\\\s*?(.+?)$',
-	  DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '\\\.slide:\\\s*?(\\\S.+?)$';
+	  DEFAULT_SLIDE_ATTRIBUTES_SEPARATOR = '\\\.slide:\\\s*?(\\\S.+?)$',
+	  TEXT_LEVEL_ELEMENTS = [
+		'A', 'B', 'CODE', 'DEL', 'EM', 'I',
+		'S', 'SPAN', 'STRONG', 'SUB', 'SUP', 'U'
+	  ];
 
 const SCRIPT_END_PLACEHOLDER = '__SCRIPT_END__';
 
@@ -337,6 +341,37 @@ const Plugin = () => {
 		return false;
 	}
 
+	function findParentListItem( element ) {
+
+		while( element && element.tagName !== 'LI' ) {
+			element = element.parentElement;
+		}
+
+		return element;
+
+	}
+
+	function getAttributeTarget( element, previousElement ) {
+
+		let targetElement = previousElement;
+		const parentElement = element.parentElement;
+		const parentListItem = findParentListItem( parentElement );
+
+		if( parentListItem && targetElement && parentListItem.contains( targetElement ) ) {
+			targetElement = parentListItem;
+		}
+		else if( parentElement && targetElement && parentElement.contains( targetElement ) && TEXT_LEVEL_ELEMENTS.indexOf( targetElement.tagName ) !== -1 ) {
+			targetElement = parentElement;
+		}
+
+		if( targetElement && ( targetElement.tagName === 'UL' || targetElement.tagName === 'OL' ) ) {
+			targetElement = targetElement.lastElementChild || targetElement;
+		}
+
+		return targetElement;
+
+	}
+
 	/**
 	 * Add attributes to the parent element of a text node,
 	 * or the element of an attribute node.
@@ -370,12 +405,9 @@ const Plugin = () => {
 		}
 
 		if ( element.nodeType === Node.COMMENT_NODE ) {
-		let targetElement = previousElement;
-		if( targetElement && ( targetElement.tagName === 'UL' || targetElement.tagName === 'OL' ) ) {
-			targetElement = targetElement.lastElementChild || targetElement;
-		}
+			let targetElement = getAttributeTarget( element, previousElement );
 
-		if ( addAttributeInElement( element, targetElement, separatorElementAttributes ) === false ) {
+			if ( addAttributeInElement( element, targetElement, separatorElementAttributes ) === false ) {
 				addAttributeInElement( element, section, separatorSectionAttributes );
 			}
 		}
