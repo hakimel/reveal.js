@@ -68,6 +68,29 @@ export default class PrintView {
 		const pageContainer = slides[0].parentNode;
 		let slideNumber = 1;
 
+		// Clone direct non-section children of stack sections into
+		// every child section so they appear on each sub-slide page
+		slides.forEach( function( slide ) {
+			if( slide.classList.contains( 'stack' ) ) {
+				const childSections = slide.querySelectorAll( ':scope > section' );
+				if( childSections.length === 0 ) return;
+
+				const nonSectionChildren = Array.from( slide.childNodes ).filter( child => {
+					if( child.nodeType === Node.ELEMENT_NODE && child.nodeName === 'SECTION' ) return false;
+					if( child.nodeType === Node.TEXT_NODE && !child.textContent.trim() ) return false;
+					return true;
+				} );
+
+				childSections.forEach( function( section ) {
+					for( let i = nonSectionChildren.length - 1; i >= 0; i-- ) {
+						section.insertBefore( nonSectionChildren[i].cloneNode( true ), section.firstChild );
+					}
+				} );
+
+				nonSectionChildren.forEach( child => child.remove() );
+			}
+		} );
+
 		// Slide and slide background layout
 		slides.forEach( function( slide, index ) {
 
