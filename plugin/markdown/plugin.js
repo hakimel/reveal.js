@@ -370,12 +370,8 @@ const Plugin = () => {
 		}
 
 		if ( element.nodeType === Node.COMMENT_NODE ) {
-		let targetElement = previousElement;
-		if( targetElement && ( targetElement.tagName === 'UL' || targetElement.tagName === 'OL' ) ) {
-			targetElement = targetElement.lastElementChild || targetElement;
-		}
 
-		if ( addAttributeInElement( element, targetElement, separatorElementAttributes ) === false ) {
+		if ( addAttributeInElement( element, previousElement, separatorElementAttributes ) === false ) {
 				addAttributeInElement( element, section, separatorSectionAttributes );
 			}
 		}
