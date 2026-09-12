@@ -33,6 +33,19 @@
 					</section>
 				</section>
 
+				<section id="stack-with-header">
+					<h4>Stack Header</h4>
+					<section>
+						<p>Sub-slide 1</p>
+					</section>
+					<section>
+						<p>Sub-slide 2</p>
+					</section>
+					<section>
+						<p>Sub-slide 3</p>
+					</section>
+				</section>
+
 				<section id="fragment-slides">
 					<section>
 						<h1>3.1</h1>
@@ -78,15 +91,33 @@
 			QUnit.config.testTimeout = 30000;
 			QUnit.config.autostart = false;
 
-			Reveal.initialize({ pdf: true }).then( function() {
+			Reveal.initialize({ view: 'print' }).then( function() {
+
+				return new Promise( function( resolve ) {
+					Reveal.on( 'pdf-ready', resolve );
+				});
+			}).then( function() {
 
 				QUnit.start();
 
-				// Only one test for now, we're mainly ensuring that there
-				// are no execution errors when running PDF mode
-
 				QUnit.test( 'Reveal.isReady', function( assert ) {
 					assert.strictEqual( Reveal.isReady(), true, 'returns true' );
+				});
+
+				QUnit.test( 'Stack header is cloned into each sub-slide page', function( assert ) {
+					var pages = document.querySelectorAll( '.pdf-page' );
+					var stackPages = Array.from( pages ).filter( function( page ) {
+						return page.querySelector( 'p' ) &&
+							/Sub-slide \d/.test( page.querySelector( 'p' ).textContent );
+					});
+
+					assert.strictEqual( stackPages.length, 3, 'three pages created for stack sub-slides' );
+
+					stackPages.forEach( function( page, i ) {
+						var header = page.querySelector( 'h4' );
+						assert.ok( header, 'page ' + (i + 1) + ' contains the stack header' );
+						assert.strictEqual( header.textContent, 'Stack Header', 'page ' + (i + 1) + ' header text matches' );
+					});
 				});
 
 			} );
