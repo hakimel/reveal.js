@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+	<meta charset="utf-8" />
+
+	<title>Todo Sistema Tem um Workflow Escondido</title>
+
+	<meta name="description" content="Encontre o workflow escondido no seu sistema e declare-o com Quarkus Flow" />
+	<meta name="author" content="Matheus Cruz" />
+
+	<meta name="mobile-web-app-capable" content="yes" />
+	<meta name="mobile-web-app-status-bar-style" content="black-translucent" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<link rel="stylesheet" href="dist/reset.css" />
+	<link rel="stylesheet" href="dist/reveal.css" />
+	<link rel="stylesheet" href="dist/theme/white.css" id="theme" />
+
+	<style>
+		/* Light syntax highlighting (GitHub style) to match the white theme.
+		   reveal.js only ships dark highlight themes (monokai/zenburn). */
+		.hljs {
+			color: #24292e;
+			background: #f6f8fa;
+		}
+
+		.hljs-doctag,
+		.hljs-keyword,
+		.hljs-meta .hljs-keyword,
+		.hljs-template-tag,
+		.hljs-template-variable,
+		.hljs-type,
+		.hljs-variable.language_ {
+			color: #d73a49;
+		}
+
+		.hljs-title,
+		.hljs-title.class_,
+		.hljs-title.class_.inherited__,
+		.hljs-title.function_ {
+			color: #6f42c1;
+		}
+
+		.hljs-attr,
+		.hljs-attribute,
+		.hljs-literal,
+		.hljs-meta,
+		.hljs-number,
+		.hljs-operator,
+		.hljs-selector-attr,
+		.hljs-selector-class,
+		.hljs-selector-id,
+		.hljs-variable {
+			color: #005cc5;
+		}
+
+		.hljs-meta .hljs-string,
+		.hljs-regexp,
+		.hljs-string {
+			color: #032f62;
+		}
+
+		.hljs-built_in,
+		.hljs-symbol {
+			color: #e36209;
+		}
+
+		.hljs-code,
+		.hljs-comment,
+		.hljs-formula {
+			color: #6a737d;
+		}
+
+		.hljs-name,
+		.hljs-quote,
+		.hljs-selector-pseudo,
+		.hljs-selector-tag {
+			color: #22863a;
+		}
+
+		.hljs-subst {
+			color: #24292e;
+		}
+
+		.hljs-section {
+			color: #005cc5;
+			font-weight: bold;
+		}
+
+		.hljs-bullet {
+			color: #735c0f;
+		}
+
+		.hljs-emphasis {
+			color: #24292e;
+			font-style: italic;
+		}
+
+		.hljs-strong {
+			color: #24292e;
+			font-weight: bold;
+		}
+
+		.hljs-addition {
+			color: #22863a;
+			background-color: #f0fff4;
+		}
+
+		.hljs-deletion {
+			color: #b31d28;
+			background-color: #ffeef0;
+		}
+
+		/* Light code block container */
+		.reveal pre {
+			box-shadow: 0 2px 12px rgba(13, 28, 44, 0.12);
+			border-radius: 8px;
+		}
+
+		.reveal pre code {
+			background: #f6f8fa;
+			border: 1px solid rgba(13, 28, 44, 0.12);
+			border-radius: 8px;
+		}
+	</style>
+
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;900&family=Red+Hat+Text:wght@400;500;700&display=swap');
+
+		:root {
+			--quarkus-blue: #4695eb;
+			--quarkus-red: #ff004a;
+			--quarkus-dark: #0d1c2c;
+		}
+
+		.reveal {
+			font-family: 'Red Hat Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		}
+
+		.reveal h1,
+		.reveal h2,
+		.reveal h3,
+		.reveal h4,
+		.reveal h5,
+		.reveal h6 {
+			font-family: 'Red Hat Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			font-weight: 700;
+			text-transform: none;
+			letter-spacing: -0.02em;
+		}
+
+		.reveal h1,
+		.reveal h2,
+		.reveal h3 {
+			color: var(--quarkus-dark);
+		}
+
+		.reveal h1 {
+			font-weight: 900;
+			font-size: 2.5em;
+		}
+
+		.reveal h2 {
+			font-weight: 700;
+			font-size: 1.8em;
+		}
+
+		/* Quarkus blue→red accent bar under slide titles */
+		.reveal h2::after {
+			content: '';
+			display: block;
+			width: 90px;
+			height: 6px;
+			margin: 0.35em auto 0;
+			border-radius: 3px;
+			background: linear-gradient(90deg, var(--quarkus-blue), var(--quarkus-red));
+		}
+
+		.reveal strong {
+			font-weight: 700;
+			color: var(--quarkus-blue);
+		}
+
+		.reveal code {
+			font-family: 'Red Hat Mono', 'Courier New', monospace;
+		}
+
+		.two-columns {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 2rem;
+			align-items: start;
+		}
+
+		.two-columns>div {
+			height: 100%;
+		}
+
+		.architecture-diagram {
+			background: rgba(0, 0, 0, 0.05);
+			padding: 2rem;
+			border-radius: 10px;
+		}
+
+		.flow-diagram {
+			background: rgba(0, 0, 0, 0.05);
+			padding: 1.5rem;
+			border-radius: 8px;
+			margin: 1rem 0;
+		}
+
+		.reveal .slide-number {
+			right: 16px;
+			bottom: 16px;
+		}
+
+		/* Logo + GitHub handle shown on every slide, bottom-left corner */
+		.corner-badges {
+			position: absolute;
+			bottom: 16px;
+			left: 16px;
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			z-index: 30;
+		}
+
+		.github-badge {
+			display: flex;
+			align-items: center;
+			gap: 0.45em;
+			font-family: 'Red Hat Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			font-size: 17px;
+			font-weight: 500;
+			color: var(--quarkus-dark);
+		}
+
+		.github-badge svg {
+			width: 22px;
+			height: 22px;
+			fill: var(--quarkus-dark);
+		}
+
+		.quarkus-logo-badge {
+			display: block;
+			width: 48px;
+			height: 48px;
+			border-radius: 8px;
+		}
+
+		/* --- Flow-diagram building blocks used throughout this deck --- */
+		.flow-row {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 0.6rem;
+			flex-wrap: wrap;
+		}
+
+		.flow-col {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 0.5rem;
+		}
+
+		.flow-arrow {
+			font-size: 1.3em;
+			color: rgba(13, 28, 44, 0.45);
+		}
+
+		.node {
+			display: inline-block;
+			background: rgba(70, 149, 235, 0.15);
+			border: 2px solid var(--quarkus-blue);
+			padding: 0.4rem 0.9rem;
+			border-radius: 6px;
+			font-weight: 500;
+		}
+
+		.node.orange {
+			background: rgba(255, 152, 0, 0.2);
+			border-color: #ff9800;
+		}
+
+		.node.green {
+			background: rgba(76, 175, 80, 0.25);
+			border-color: #4caf50;
+		}
+
+		.node.red {
+			background: rgba(255, 0, 74, 0.08);
+			border-color: var(--quarkus-red);
+			color: var(--quarkus-red);
+		}
+
+		.node.purple {
+			background: rgba(156, 39, 176, 0.18);
+			border-color: #9c27b0;
+		}
+
+		.node.big {
+			padding: 0.9rem 1.6rem;
+			font-size: 1.15em;
+		}
+
+		.card {
+			background: #ffffff;
+			border: 1px solid rgba(13, 28, 44, 0.12);
+			border-radius: 10px;
+			padding: 1rem 1.1rem;
+			text-align: left;
+			box-shadow: 0 2px 10px rgba(13, 28, 44, 0.06);
+		}
+
+		.card h4 {
+			margin: 0 0 0.4rem;
+			font-size: 1.05em;
+			color: var(--quarkus-dark);
+		}
+
+		.card p {
+			margin: 0;
+			color: rgba(13, 28, 44, 0.75);
+		}
+
+		.aws-badge {
+			display: inline-flex;
+			align-items: center;
+			opacity: 0.65;
+		}
+
+		/* --- "Detalhe" slides: small recap diagram + explanation cards --- */
+		.detail-row {
+			display: flex;
+			gap: 1.6rem;
+			align-items: flex-start;
+			margin-top: 1rem;
+			text-align: left;
+		}
+
+		.detail-cards {
+			flex: 1;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 0.9rem;
+			font-size: 0.85em;
+		}
+
+		.detail-cards .card {
+			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 3.4em;
+		}
+
+		.detail-cards .card h4 {
+			font-size: 1.05em;
+			color: var(--quarkus-red);
+			margin: 0;
+		}
+
+		.detail-diagram {
+			flex: 0 0 auto;
+			zoom: 0.42;
+		}
+
+		.detail-diagram .flow-diagram {
+			padding: 0.6rem;
+			background: transparent;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<!-- Slide 1: Title -->
+			<section data-background-gradient="linear-gradient(to bottom, #ffffff, #dbe9f8)">
+				<h1 style="font-size: 0.78em">Todo sistema tem um<br />Workflow escondido</h1>
+				<h3>Encontre o seu e declare-o com Quarkus Flow</h3>
+				<p style="margin-top: 3rem">
+					<strong>Matheus Cruz</strong><br />
+				</p>
+				<aside class="notes">
+					Quem aqui já teve que esperar uma aprovação de outra pessoa dentro de um fluxo automatizado —
+					e essa aprovação podia levar 2 segundos ou 2 dias? Hoje eu quero mostrar como essa espera,
+					sozinha, empurra a gente para construir um workflow engine sem perceber.
+				</aside>
+			</section>
+
+			<!-- Slide 2: O problema -->
+			<section>
+				<h2 style="font-size: 1.5em">Provisionar acesso a um ambiente</h2>
+				<div class="flow-diagram" style="font-size: 0.62em; padding: 1.2rem 1.5rem">
+					<div class="flow-col" style="gap: 0.4rem; align-items: center">
+						<span class="node">Funcionário solicita acesso</span>
+						<span class="flow-arrow">↓</span>
+						<span class="node orange">Aguarda aprovação do gestor</span>
+					</div>
+					<div class="flow-row" style="gap: 3.5rem; align-items: flex-start; margin-top: 0.7rem">
+						<div class="flow-col" style="gap: 0.4rem; align-items: center">
+							<span class="flow-arrow" style="font-size: 0.85em">↓ não aprova</span>
+							<span class="node red">Solicitação negada</span>
+						</div>
+						<div class="flow-col" style="gap: 0.4rem; align-items: center">
+							<span class="flow-arrow" style="font-size: 0.85em">↓ aprova</span>
+							<span class="node green">Provisiona o acesso</span>
+							<span class="flow-arrow" style="opacity: 0.35; font-size: 0.8em">↓</span>
+							<span class="aws-badge" title="AWS" aria-label="AWS">
+								<!-- Font Awesome Free brand icon "aws" (CC BY 4.0) - fontawesome.com/license/free -->
+								<svg viewBox="0 0 640 512" width="60" height="48" xmlns="http://www.w3.org/2000/svg">
+									<path fill="#232f3e"
+										d="M180.4 203c-.7 22.6 10.6 32.7 10.9 39-.1 1.3-.6 2.5-1.3 3.6s-1.7 2-2.8 2.6l-12.8 9c-1.7 1.2-3.6 1.8-5.6 1.9-.4 0-8.2 1.8-20.5-25.6-7.5 9.4-17 16.9-27.9 22s-22.7 7.7-34.7 7.5c-16.3 .9-60.4-9.2-58.1-56.2-1.6-38.3 34.1-62.1 70.9-60 7.1 0 21.6 .4 47 6.3l0-15.6c2.7-26.5-14.7-47-44.8-43.9-2.4 0-19.4-.5-45.8 10.1-7.4 3.4-8.3 2.8-10.8 2.8-7.4 0-4.4-21.5-2.9-24.2 5.2-6.4 35.9-18.4 65.9-18.2 20.1-1.8 40.1 4.4 55.7 17.3 6.3 7.1 11.2 15.4 14.2 24.4s4.2 18.5 3.5 28l0 69.3zM94 235.4c32.4-.5 46.2-20 49.3-30.5 2.5-10.1 2.1-16.4 2.1-27.4-9.7-2.3-23.6-4.9-39.6-4.9-15.2-1.1-42.8 5.6-41.7 32.3-1.2 16.8 11.1 31.4 30 30.5zm170.9 23.1c-7.9 .7-11.5-4.9-12.7-10.4L202.4 83.4c-1-2.8-1.6-5.6-1.9-8.6-.2-1.2 .1-2.4 .8-3.4s1.8-1.6 3-1.8c.2 0-2.1 0 22.2 0 8.8-.9 11.6 6 12.6 10.4L274.9 220.8 308.1 80c.5-3.2 2.9-11.1 12.8-10.2l17.2 0c2.2-.2 11.1-.5 12.7 10.4L384.1 222.7 421 80.1c.5-2.2 2.7-11.4 12.7-10.4l19.7 0c.9-.1 6.2-.8 5.3 8.6-.4 1.8 3.4-10.7-52.8 169.9-1.1 5.5-4.8 11.1-12.7 10.4l-18.7 0c-10.9 1.2-12.5-9.7-12.7-10.7l-33.2-137.1-32.8 137c-.2 1.1-1.7 11.9-12.7 10.7l-18.3 0 0 0zm273.5 5.6c-5.9 0-33.9-.3-57.4-12.3-2.3-1-4.3-2.6-5.7-4.8s-2.1-4.6-2.1-7.1l0-10.7c0-8.5 6.2-6.9 8.8-5.9 10 4.1 16.5 7.1 28.8 9.6 36.7 7.5 52.8-2.3 56.7-4.5 13.2-7.8 14.2-25.7 5.3-34.9-10.5-8.8-15.5-9.1-53.1-21-4.6-1.3-43.7-13.6-43.8-52.4-.6-28.2 25-56.2 69.5-56 12.7 0 46.4 4.1 55.6 15.6 1.4 2.1 2 4.6 1.9 7l0 10.1c0 4.4-1.6 6.7-4.9 6.7-7.7-.9-21.4-11.2-49.2-10.8-6.9-.4-39.9 .9-38.4 25-.4 19 26.6 26.1 29.7 26.9 36.5 11 48.6 12.8 63.1 29.6 17.1 22.2 7.9 48.3 4.3 55.4-19.1 37.5-68.4 34.4-69.3 34.4zm40.2 104.9c-70 51.7-171.7 79.2-258.5 79.2-117.1 .8-230.3-42.3-317.3-120.7-6.5-5.9-.8-14 7.2-9.5 96.5 55.2 205.7 84.2 316.9 84.1 83-.4 165.1-17.3 241.6-49.5 11.8-5 21.8 7.8 10.1 16.4zm29.2-33.3c-9-11.5-59.3-5.4-81.8-2.7-6.8 .8-7.9-5.1-1.8-9.5 40.1-28.2 105.9-20.1 113.4-10.6 7.5 9.5-2.1 75.4-39.6 106.9-5.8 4.9-11.3 2.3-8.7-4.1 8.4-21.3 27.4-68.5 18.4-80z" />
+								</svg>
+							</span>
+						</div>
+					</div>
+				</div>
+				<p class="fragment" style="margin-top: 0.7rem; font-size: 0.65em">
+					Quanto tempo demora essa aprovação?
+				</p>
+				<aside class="notes">
+					O código que recebe a solicitação não sabe, e não pode saber, quando a aprovação vai chegar.
+					Esse é o gatilho de tudo: incerteza temporal. O provisionamento em si já dispara uma chamada
+					para a nuvem (AWS) — isso fica implícito no diagrama de propósito, o foco aqui ainda é a espera.
+				</aside>
+			</section>
+
+			<!-- Slide 3: As saídas óbvias (menu) -->
+			<section>
+				<h2>Os três caminhos mais comuns</h2>
+				<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-top: 1.5rem; font-size: 0.6em">
+					<div class="fragment card">
+						<h4>1. Webhook de callback</h4>
+					</div>
+					<div class="fragment card">
+						<h4>2. Coreografia por eventos</h4>
+					</div>
+					<div class="fragment card" style="border-color: var(--quarkus-red)">
+						<h4>3. Polling no banco</h4>
+					</div>
+				</div>
+				<p class="fragment" style="margin-top: 1.2rem; font-size: 0.7em">
+					Vamos olhar pra cada um de perto.
+				</p>
+				<aside class="notes">
+					Os três resolvem o problema. Os três também introduzem uma complexidade de infraestrutura que
+					ninguém queria escrever quando começou a modelar a regra de negócio. Este slide é só o sumário —
+					os três próximos detalham cada caminho e seus problemas.
+				</aside>
+			</section>
+
+			<!-- Slide 4: Webhook de callback -->
+			<section>
+				<h2 style="font-size: 1.5em">1. Webhook de callback</h2>
+				<div class="flow-diagram" style="font-size: 0.55em; padding: 0.8rem">
+					<div class="flow-col" style="gap: 0.3rem">
+						<span class="node">Serviço expõe um endpoint HTTP</span>
+						<span class="flow-arrow">↓</span>
+						<span class="node">Aguarda um POST de callback</span>
+						<span class="flow-arrow">↓</span>
+						<span class="node orange">Correlaciona pelo token salvo em banco</span>
+						<span class="flow-arrow">↓</span>
+						<span class="node green">Continua o processo</span>
+					</div>
+				</div>
+				<p style="margin-top: 1rem; font-size: 0.5em; opacity: 0.7">Pontos fortes</p>
+				<div class="flow-row" style="font-size: 0.5em; margin-top: 0.3rem">
+					<span class="fragment node green">Resposta imediata</span>
+					<span class="fragment node green">Padrão HTTP conhecido</span>
+					<span class="fragment node green">Não sobrecarrega o banco</span>
+					<span class="fragment node green">Simples de implementar</span>
+				</div>
+				<aside class="notes">
+					Parece direto: eu exponho um endpoint, o sistema de aprovação me chama de volta quando o gestor
+					decidir. Só que agora eu tenho um endpoint pra proteger, um token pra correlacionar a resposta
+					certa com o pedido certo, e nenhuma garantia de que esse callback vai chegar. É um trade-off:
+					resposta imediata e HTTP conhecido, contra os problemas do próximo slide.
+				</aside>
+			</section>
+
+			<!-- Slide 5: Webhook de callback — por que cada problema pesa -->
+			<section>
+				<h2 style="font-size: 1.3em">Por que cada problema aqui pesa</h2>
+				<div class="detail-row">
+					<div class="detail-cards">
+						<div class="fragment card">
+							<h4>Endpoint exposto</h4>
+						</div>
+						<div class="fragment card">
+							<h4>Token de correlação</h4>
+						</div>
+						<div class="fragment card">
+							<h4>Timeout manual</h4>
+						</div>
+						<div class="fragment card">
+							<h4>Reentrega duplicada</h4>
+						</div>
+					</div>
+					<div class="detail-diagram">
+						<div class="flow-diagram" style="font-size: 0.55em">
+							<div class="flow-col" style="gap: 0.3rem">
+								<span class="node">Serviço expõe um endpoint HTTP</span>
+								<span class="flow-arrow">↓</span>
+								<span class="node">Aguarda um POST de callback</span>
+								<span class="flow-arrow">↓</span>
+								<span class="node orange">Correlaciona pelo token salvo em banco</span>
+								<span class="flow-arrow">↓</span>
+								<span class="node green">Continua o processo</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<aside class="notes">
+					Só os nomes dos problemas, sem ler nada. Aponte rápido: endpoint pra proteger, token pra
+					correlacionar, timeout que ninguém escreve, reentrega que exige idempotência. Passe adiante.
+				</aside>
+			</section>
+
+			<!-- Slide 6: Coreografia orientada a eventos -->
+			<section>
+				<h2 style="font-size: 1.5em">2. Coreografia orientada a eventos</h2>
+				<div class="flow-diagram" style="font-size: 0.58em; padding: 0.8rem">
+					<div class="flow-col" style="gap: 0.3rem">
+						<span class="node orange">Aprovação → evento no Kafka/RabbitMQ</span>
+						<span class="flow-arrow">↓</span>
+						<span class="node">Listener no serviço de acesso</span>
+						<span class="flow-arrow">↓</span>
+						<span class="node green">Decide o próximo passo</span>
+					</div>
+				</div>
+				<p style="margin-top: 1rem; font-size: 0.5em; opacity: 0.7">Pontos fortes</p>
+				<div class="flow-row" style="font-size: 0.5em; margin-top: 0.3rem">
+					<span class="fragment node green">Desacoplamento entre serviços</span>
+					<span class="fragment node green">Escala bem horizontalmente</span>
+					<span class="fragment node green">Reação em tempo real</span>
+					<span class="fragment node green">Serviços evoluem independentes</span>
+				</div>
+				<aside class="notes">
+					Migrar pra eventos resolve o acoplamento direto do webhook. Mas troca um problema por outro:
+					agora a lógica do processo está espalhada em vários listeners, e nenhum serviço sozinho sabe
+					como o processo inteiro se parece. É um trade-off: desacoplamento e escala, contra os problemas
+					do próximo slide.
+				</aside>
+			</section>
+
+			<!-- Slide 7: Coreografia orientada a eventos — por que cada problema pesa -->
+			<section>
+				<h2 style="font-size: 1.3em">Por que cada problema aqui pesa</h2>
+				<div class="detail-row">
+					<div class="detail-cards">
+						<div class="fragment card">
+							<h4>Listener espalhado</h4>
+						</div>
+						<div class="fragment card">
+							<h4>Dead-letter queue</h4>
+						</div>
+						<div class="fragment card">
+							<h4>Idempotência</h4>
+						</div>
+						<div class="fragment card">
+							<h4>Ninguém vê o processo inteiro</h4>
+						</div>
+					</div>
+					<div class="detail-diagram">
+						<div class="flow-diagram" style="font-size: 0.58em">
+							<div class="flow-col" style="gap: 0.3rem">
+								<span class="node orange">Aprovação → evento no Kafka/RabbitMQ</span>
+								<span class="flow-arrow">↓</span>
+								<span class="node">Listener no serviço de acesso</span>
+								<span class="flow-arrow">↓</span>
+								<span class="node green">Decide o próximo passo</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<aside class="notes">
+					Só os nomes: listener espalhado, dead-letter queue sem dono, idempotência e ninguém vendo o
+					processo inteiro. Aponte rápido e passe adiante.
+				</aside>
+			</section>
+
+			<!-- Slide 8: Polling no banco de dados -->
+			<section>
+				<h2 style="font-size: 1.5em">3. Polling no banco de dados</h2>
+				<div class="flow-diagram" style="font-size: 0.55em; padding: 0.8rem">
+					<div class="flow-col" style="gap: 0.3rem">
+						<span class="node orange">A cada 5 minutos</span>
+						<span class="flow-arrow">↓</span>
+						<span class="node">Busca solicitações pendentes</span>
+						<span class="flow-arrow">↓</span>
+						<span class="node">Tenta provisionar</span>
+						<span class="flow-arrow">↓</span>
+						<span class="node green">Atualiza o status no banco</span>
+					</div>
+				</div>
+				<p style="margin-top: 1rem; font-size: 0.5em; opacity: 0.7">Pontos fortes</p>
+				<div class="flow-row" style="font-size: 0.5em; margin-top: 0.3rem">
+					<span class="fragment node green">Implementação trivial</span>
+					<span class="fragment node green">Nenhuma infra nova</span>
+					<span class="fragment node green">Fácil de debugar</span>
+					<span class="fragment node green">Resiliente a falha de rede</span>
+				</div>
+				<aside class="notes">
+					É o caminho de menor resistência — um @Scheduled resolve. Mas repare: a gente trocou "esperar o
+					evento certo" por "perguntar de novo, sempre, sem saber se vale a pena". Na prática, é essa
+					opção que a maioria dos times escolhe. É um trade-off: nenhuma infra nova e fácil de debugar,
+					contra os problemas do próximo slide, e depois a gente vê como ela fica no código.
+				</aside>
+			</section>
+
+			<!-- Slide 9: Polling no banco de dados — por que cada problema pesa -->
+			<section>
+				<h2 style="font-size: 1.3em">Por que cada problema aqui pesa</h2>
+				<div class="detail-row">
+					<div class="detail-cards">
+						<div class="fragment card">
+							<h4>Query desperdiçada</h4>
+						</div>
+						<div class="fragment card">
+							<h4>Latência do scheduler</h4>
+						</div>
+						<div class="fragment card">
+							<h4>Escala mal</h4>
+						</div>
+						<div class="fragment card">
+							<h4>State machine manual</h4>
+						</div>
+					</div>
+					<div class="detail-diagram">
+						<div class="flow-diagram" style="font-size: 0.55em">
+							<div class="flow-col" style="gap: 0.3rem">
+								<span class="node orange">A cada 5 minutos</span>
+								<span class="flow-arrow">↓</span>
+								<span class="node">Busca solicitações pendentes</span>
+								<span class="flow-arrow">↓</span>
+								<span class="node">Tenta provisionar</span>
+								<span class="flow-arrow">↓</span>
+								<span class="node green">Atualiza o status no banco</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<aside class="notes">
+					Só os nomes: query desperdiçada, latência do scheduler, escala mal, state machine manual. Aponte
+					rápido — o gancho pro próximo slide é que essa é a opção que mais parece inofensiva.
+				</aside>
+			</section>
+
+			<!-- Slide 10: O código -->
+			<section data-auto-animate>
+				<h2 data-id="code-title">O código</h2>
+				<pre data-id="code-block" style="width: 120%; margin-left: -10%; font-size: 0.42em"><code
+						style="max-height: 460px" class="java" data-trim data-line-numbers="|1-6|7|9|10-11|12-19">
+@ApplicationScoped
+public class AccessProvisioningService {
+
+    @Inject DatabaseRepository db;
+    @Inject CloudProvisioner provisioner;
+
+    @Scheduled(every = "5m")
+    public void pollForApprovedRequests() {
+        var pendingRequests = db.findPendingApprovals();
+
+        for (var request : pendingRequests) {
+            try {
+                provisioner.grantAccess(request.getUserId());
+                request.setStatus("COMPLETED");
+                db.save(request);
+            } catch (Exception e) {
+                request.setStatus("FAILED");
+                db.save(request);
+            }
+        }
+    }
+}
+				</code></pre>
+				<aside class="notes">
+					Isso compila. Isso funciona. E isso já é um workflow engine — só que um ruim.
+				</aside>
+			</section>
+
+			<!-- Slide 11: O que esse código realmente é -->
+			<section data-auto-animate>
+				<h2 data-id="code-title">O que esse código realmente é</h2>
+				<div class="flow-diagram" style="font-size: 0.65em">
+					<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem">
+						<div class="fragment node">Transições de estado escritas à mão</div>
+						<div class="fragment node orange">Queries desperdiçadas a cada 5 min</div>
+						<div class="fragment node red">Infraestrutura acoplada à regra de negócio</div>
+					</div>
+				</div>
+				<p class="fragment" style="margin-top: 1.5rem; font-size: 0.75em">
+					<strong>Nós não decidimos construir um workflow engine. Ele apareceu enquanto resolvíamos
+						outro problema.</strong>
+				</p>
+				<aside class="notes">
+					Esse é o mesmo padrão que aparece em toda base de código que cresce: state machine implícita,
+					espalhada, sem dono.
+				</aside>
+			</section>
+
+			<!-- Slide 12: O que é um workflow, afinal? -->
+			<section>
+				<h2>O que é um workflow, afinal?</h2>
+				<blockquote style="font-size: 0.72em">
+					"A automação de um processo de negócio, [...] onde documentos, informação ou tarefas são
+					passados de um participante para outro, para uma ação, de acordo com um conjunto de regras
+					procedurais."
+					<footer>— Workflow Management Coalition</footer>
+				</blockquote>
+				<aside class="notes">
+					Definição da Workflow Management Coalition, traduzida para o que realmente importa.
+				</aside>
+			</section>
+
+			<!-- Slide 13: De acidental pra intencional -->
+			<section>
+				<h2 style="font-size: 1.4em">De acidental pra intencional</h2>
+				<div class="flow-row" style="gap: 2rem; align-items: center; margin-top: 1.8rem; font-size: 0.65em">
+					<div class="flow-col" style="gap: 0.5rem">
+						<span class="node red">Implícito</span>
+						<span class="node red">Espalhado</span>
+						<span class="node red">Escrito à mão, de novo</span>
+					</div>
+					<span class="flow-arrow" style="font-size: 2em">→</span>
+					<div class="flow-col" style="gap: 0.5rem">
+						<span class="node green">Intencional</span>
+						<span class="node green">Centralizada</span>
+						<span class="node green">Declarativa</span>
+					</div>
+				</div>
+				<p class="fragment" style="margin-top: 1.8rem; font-size: 0.85em">
+					<strong>Por que continuar declarando workflow sem querer, quando dá pra declarar de
+						propósito?</strong>
+				</p>
+				<aside class="notes">
+					Todo exemplo que vimos até aqui — webhook, eventos, polling — declara um workflow sem admitir
+					isso: implícito, espalhado, escrito à mão de novo a cada vez. A pergunta que fica no ar antes de
+					mostrar o Quarkus Flow é essa: por que não declarar isso de propósito, de um jeito centralizado
+					e declarativo, em vez de deixar acontecer escondido?
+				</aside>
+			</section>
+
+			<!-- Slide 14: Quarkus Flow Features -->
+			<section>
+				<h2>Quarkus Flow</h2>
+				<p style="font-size: 0.85em">Quarkus Flow é Workflow Engine para Quarkus:</p>
+				<ul style="font-size: 0.8em">
+					<li class="fragment">
+						Gerenciamento de estado, controle de fluxo, chamadas remotas, mensageria, resiliência,
+						observabilidade, etc.
+					</li>
+					<li class="fragment">
+						Permite Human-in-the-Loop (HITL) e Agentic patterns
+					</li>
+					<li class="fragment">
+						Permite a criação de workflows duráveis (Durable Workflows)
+					</li>
+					<li class="fragment">
+						Deixa sua lógica de negócio limpa e orquestra a complexidade para você
+					</li>
+				</ul>
+				<aside class="notes">
+					Quarkus Flow oferece gerenciamento completo de workflows com estado, resiliência, observabilidade e
+					suporte a padrões modernos como HITL e agentes.
+				</aside>
+			</section>
+
+			<!-- Slide 15: Open Workflow Specification -->
+			<section>
+				<h2>Open Workflow Specification</h2>
+				<ul style="font-size: 0.85em">
+					<li class="fragment">Projeto CNCF Sandbox (candidatando-se à incubação este ano)</li>
+					<li class="fragment">Ecossistema neutro em relação a fornecedores (vendor-neutral)</li>
+					<li class="fragment">Integração fluida com arquiteturas modernas</li>
+					<li class="fragment">
+						Padrões suportados: CloudEvents, AsyncAPI, gRPC, OpenAPI, A2A, MCP e outros
+					</li>
+				</ul>
+				<aside class="notes">
+					Baseado na especificação Open Workflow da CNCF, que é vendor-neutral e suporta diversos
+					padrões modernos.
+				</aside>
+			</section>
+
+			<!-- Slide 16: Code Example - YAML Definition -->
+			<section>
+				<h2>YAML Definition</h2>
+				<pre>
+							<code class="yaml" data-trim data-line-numbers="|1-5|6|7|8-19">
+document:
+  dsl: '1.0.3'
+  namespace: test
+  name: emit
+  version: '0.1.0'
+  do:
+    - emitEvent:
+        emit:
+          event:
+            with:
+              source: https://petstore.com
+              type: com.petstore.order.placed.v1
+              data:
+                client:
+                  firstName: Cruella
+                  lastName: de Vil
+                items:
+                  - breed: dalmatian
+                    quantity: 101
+						</code>
+					</pre>
+			</section>
+
+			<!-- Slide 16b: Code Example - Java DSL -->
+			<section>
+				<h2 data-id="code-title">Java DSL</h2>
+
+				<pre><code class="java" data-trim data-line-numbers="|1-2|3-11">
+@ApplicationScoped
+public class EmitFlow extends Flow {
+  @Override
+  public Workflow descriptor() {
+    return workflow("emit", "test")
+      .tasks(
+        emit("com.petstore.order.placed.v1")
+          .source("https://petstore.com")
+          .jsonData(Order.class))
+      .build();
+  }
+}
+						</code></pre>
+				<aside class="notes">
+					Exemplo de definição de workflow usando Java DSL. Esta é uma forma programática de definir workflows
+					seguindo a especificação Open Workflow.
+				</aside>
+			</section>
+
+			<!-- Slide 16c: Reescrevendo com Quarkus Flow -->
+			<section data-auto-animate>
+				<h2 data-id="rewrite-title" style="font-size: 1.5em">Reescrevendo com Quarkus Flow</h2>
+				<pre data-id="rewrite-code" style="width: 125%; margin-left: -12.5%; font-size: 0.31em"><code
+						style="max-height: 430px" class="java" data-trim data-line-numbers="|1-3|8|9|10-12|14-17|18-21|22-25">
+@ApplicationScoped
+public class AccessProvisioningWorkflow extends Flow {
+
+    @Inject CloudProvisioner provisioner;
+
+    @Override
+    public Workflow descriptor() {
+        return workflow("access-provisioning")
+                .schedule(on(one("org.acme.access.approved")))
+                .tasks(
+                    function("provisionAccess", (AccessRequest request) ->
+                        provisioner.grantAccess(request.getUserId())),
+
+                    switchWhenOrElse("checkProvisioning",
+                        (ProvisionResult result) -> result.isSuccessful(),
+                        "notifySuccess", "notifyFailure"),
+
+                    consume("notifySuccess", (ProvisionResult result) -> {
+                        System.out.println("Access granted: " + result.getUserId());
+                    }).then(FlowDirectiveEnum.END),
+
+                    consume("notifyFailure", (ProvisionResult result) -> {
+                        System.err.println("Provisioning failed: " + result.getError());
+                    }).then(FlowDirectiveEnum.END)
+                )
+                .build();
+    }
+}
+				</code></pre>
+				<aside class="notes">
+					Agora que a audiência já viu a sintaxe do DSL, voltamos ao exemplo de provisionamento de acesso
+					do início da palestra e mostramos como ele fica reescrito. Repare no .schedule(on(one(...))): o
+					workflow acorda quando o evento de aprovação chega. Nenhuma thread ficou girando a cada 5 minutos
+					perguntando "já? já? já?".
+				</aside>
+			</section>
+
+			<!-- Slide 17: Architecture -->
+			<section>
+				<h2>Arquitetura e Ecossistema</h2>
+				<div class="architecture-diagram" style="font-size: 0.7em">
+
+					<div id="benefits"
+						style="text-align: left; max-width: 800px; margin-left: auto; margin-right: auto;">
+						<p><strong>Integração nativa com a infraestrutura Quarkus</strong></p>
+						<p><strong>Arquitetura plugável</strong></p>
+					</div>
+					<div
+						style="margin-top: 1rem; text-align: left; max-width: 800px; margin-left: auto; margin-right: auto">
+						<div
+							style="text-align: center; background: rgba(13, 28, 44, 0.10); padding: 0.5rem; margin: 0.3rem; border-radius: 5px">
+							<strong>Quarkus Flow</strong>
+						</div>
+						<div
+							style="text-align: center; background: rgba(13, 28, 44, 0.07); padding: 0.5rem; margin: 0.3rem; border-radius: 5px">
+							<strong>Java SDK / DSL</strong> (Engine)
+						</div>
+						<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin: 0.3rem">
+							<div style="background: rgba(13, 28, 44, 0.07); padding: 0.5rem; border-radius: 5px">
+								<strong>Persistence</strong><br />Redis/JPA
+							</div>
+							<div style="background: rgba(13, 28, 44, 0.07); padding: 0.5rem; border-radius: 5px">
+								<strong>Messaging</strong><br />Any
+							</div>
+							<div style="background: rgba(13, 28, 44, 0.07); padding: 0.5rem; border-radius: 5px">
+								<strong>Smallrye Fault Tolerance</strong><br />
+							</div>
+						</div>
+						<div
+							style="background: rgba(13, 28, 44, 0.14); padding: 0.5rem; margin: 0.3rem; border-radius: 5px">
+							<strong>Quarkus Infrastructure</strong> (Arc, HTTP, etc.)
+						</div>
+					</div>
+				</div>
+				<aside class="notes">
+					Arquitetura plugável que se integra nativamente com Quarkus. Você escolhe apenas os componentes que
+					precisa: persistência, mensageria, tolerância a falhas, etc.
+				</aside>
+			</section>
+
+						<section>
+				<h2>Demo: Agentic Workflows com LangChain4j</h2>
+				<div class="flow-diagram">
+					<ul style="font-size: 0.85em; text-align: left">
+						<li>Gerador de newsletter (LangChain4j)</li>
+						<li>Workflow engine orquestrando chamadas para LLM</li>
+						<li>Human-in-the-loop (HITL)</li>
+						<li>Durable workflows</li>
+						<li>Observabilidade</li>
+					</ul>
+					<div style="margin-top: 2rem; font-size: 0.8em">
+						<div
+							style="display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap">
+							<span
+								style="background: rgba(156, 39, 176, 0.3); padding: 0.5rem 1rem; border-radius: 5px">Trigger</span>
+							<span>→</span>
+							<span
+								style="background: rgba(156, 39, 176, 0.3); padding: 0.5rem 1rem; border-radius: 5px">LLM
+								Drafts</span>
+							<span>→</span>
+							<span
+								style="background: rgba(255, 152, 0, 0.3); padding: 0.5rem 1rem; border-radius: 5px">Wait
+								for Human</span>
+							<span>→</span>
+							<span
+								style="background: rgba(76, 175, 80, 0.3); padding: 0.5rem 1rem; border-radius: 5px">Approve</span>
+							<span>→</span>
+							<span
+								style="background: rgba(76, 175, 80, 0.3); padding: 0.5rem 1rem; border-radius: 5px">Send</span>
+						</div>
+					</div>
+				</div>
+				<aside class="notes">
+					Demo 3: Workflow agentic com LangChain4j, incluindo geração de newsletter com LLM, aprovação humana
+					e observabilidade completa.
+				</aside>
+			</section>
+
+			<!-- Slide 21: Call to Action -->
+			<section>
+				<h2>Experimente!</h2>
+				<ul style="font-size: 0.85em">
+					<li><a target="_blank" href="https://zanini.biz/2026/05/15/what-are-workflows-and-why-do-i-need-them/">Artigo
+							original — Ricardo Zanini</a></li>
+					<li><a target="_blank" href="https://docs.quarkiverse.io/quarkus-flow/dev/index.html">Quarkus Flow
+							Documentation</a></li>
+					<li><a target="_blank" href="https://github.com/quarkiverse/quarkus-flow">Quarkus Flow GitHub</a>
+					</li>
+					<li><a target="_blank" href="https://docs.quarkiverse.io/quarkus-flow/dev/wk-index.html">Quarkus
+							Flow Workshop</a></li>
+					<li><a target="_blank" href="https://open-workflow-specification.org">Open Workflow Specification</a>
+					</li>
+				</ul>
+				<aside class="notes">
+					Links para recursos: artigo original, GitHub, documentação, workshop e especificação
+					Open Workflow.
+				</aside>
+			</section>
+
+			<!-- Slide 22: Speaker Bio -->
+			<section>
+				<h2>Matheus Cruz</h2>
+				<ul style="font-size: 0.9em">
+					<li>Software Engineer na IBM</li>
+					<li>Quarkus Flow contributor</li>
+					<li>CNCF Open Workflow Specification (SDK Java) contributor</li>
+					<li>Quarkus Club Coordinator</li>
+				</ul>
+				<aside class="notes">
+					Informações sobre o palestrante: Matheus Cruz, engenheiro de software na IBM e contribuidor do
+					Quarkus Flow e da especificação Serverless Workflow.
+				</aside>
+			</section>
+
+			<!-- Slide 23: Raffle -->
+			<section data-auto-animate data-auto-animate-id="sorteio"
+				data-background-gradient="linear-gradient(to bottom, #ffffff, #dbe9f8)">
+				<h1 style="font-size: 3em">🎉</h1>
+				<h2>Sorteio</h2>
+				<p data-id="sorteio-texto" style="font-size: 1.2em; margin-top: 1rem">
+					Deixe um star para participar do sorteio
+				</p>
+				<aside class="notes">
+					Encerramento com sorteio. Incentive a audiência a dar star no repositório do GitHub para participar.
+				</aside>
+			</section>
+
+			<section data-auto-animate data-auto-animate-id="sorteio"
+				data-background-gradient="linear-gradient(to bottom, #ffffff, #dbe9f8)">
+				<p data-id="sorteio-texto" style="font-size: 1.2em">
+					Deixe um star para participar do sorteio
+				</p>
+				<img src="images/quarkiverse-quarkus-flow.png" alt="QR Code do repositório quarkiverse/quarkus-flow"
+					style="width: 420px; margin-top: 1rem; border-radius: 10px; background: #ffffff; padding: 0.5rem" />
+				<aside class="notes">
+					O emoji e o título saem e o QR Code ganha destaque. Dê um tempo para a audiência escanear e dar
+					star no repositório.
+				</aside>
+			</section>
+		</div>
+
+		<div class="corner-badges">
+			<img class="quarkus-logo-badge" src="images/quarkus-logo.png" alt="Quarkus" />
+			<div class="github-badge">
+				<svg viewBox="0 0 16 16" aria-hidden="true">
+					<path
+						d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+				</svg>
+				<span>mcruzdev</span>
+			</div>
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="dist/plugin/zoom.js"></script>
+	<script src="dist/plugin/notes.js"></script>
+	<script src="dist/plugin/search.js"></script>
+	<script src="dist/plugin/markdown.js"></script>
+	<script src="dist/plugin/highlight.js"></script>
+	<script>
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			center: true,
+			hash: true,
+			slideNumber: 'c/t',
+			showSlideNumber: 'all',
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight],
+		});
+	</script>
+</body>
+
+</html>
