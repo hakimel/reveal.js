@@ -148,6 +148,7 @@ interface MarkdownConfig {
 	verticalSeparator?: string;
 	notesSeparator?: string;
 	attributes?: string;
+	loader?: ( ref: string, section: HTMLElement ) => string | Promise<string>;
 }
 
 /**

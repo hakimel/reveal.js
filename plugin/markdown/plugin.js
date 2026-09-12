@@ -220,8 +220,8 @@ const Plugin = () => {
 					externalPromises.push( loadExternalMarkdown( section ).then(
 
 						// Finished loading external file
-						function( xhr, url ) {
-							section.outerHTML = slidify( xhr.responseText, {
+						function( markdown ) {
+							section.outerHTML = slidify( markdown, {
 								separator: section.getAttribute( 'data-separator' ),
 								verticalSeparator: section.getAttribute( 'data-separator-vertical' ),
 								notesSeparator: section.getAttribute( 'data-separator-notes' ),
@@ -230,9 +230,10 @@ const Plugin = () => {
 						},
 
 						// Failed to load markdown
-						function( xhr, url ) {
+						function( error ) {
+							const ref = section.getAttribute( 'data-markdown' );
 							section.outerHTML = '<section data-state="alert">' +
-								'ERROR: The attempt to fetch ' + url + ' failed with HTTP status ' + xhr.status + '.' +
+								'ERROR: The attempt to fetch ' + ref + ' failed with ' + ( error?.message || String( error ) ) + '.' +
 								'Check your browser\'s JavaScript console for more details.' +
 								'<p>Remember that you need to serve the presentation HTML from a HTTP server.</p>' +
 								'</section>';
@@ -260,13 +261,15 @@ const Plugin = () => {
 
 	}
 
-	function loadExternalMarkdown( section ) {
+	/**
+	 * Default XHR-based markdown loader. Resolves with the file
+	 * contents as a string, rejects with an Error on failure.
+	 */
+	function defaultMarkdownLoader( ref, section ) {
 
 		return new Promise( function( resolve, reject ) {
 
-			const xhr = new XMLHttpRequest(),
-				url = section.getAttribute( 'data-markdown' );
-
+			const xhr = new XMLHttpRequest();
 			const datacharset = section.getAttribute( 'data-charset' );
 
 			// see https://developer.mozilla.org/en-US/docs/Web/API/element.getAttribute#Notes
@@ -274,32 +277,47 @@ const Plugin = () => {
 				xhr.overrideMimeType( 'text/html; charset=' + datacharset );
 			}
 
-			xhr.onreadystatechange = function( section, xhr ) {
+			xhr.onreadystatechange = function() {
 				if( xhr.readyState === 4 ) {
 					// file protocol yields status code 0 (useful for local debug, mobile applications etc.)
 					if ( ( xhr.status >= 200 && xhr.status < 300 ) || xhr.status === 0 ) {
 
-						resolve( xhr, url );
+						resolve( xhr.responseText );
 
 					}
 					else {
 
-						reject( xhr, url );
+						reject( new Error( 'HTTP status ' + xhr.status ) );
 
 					}
 				}
-			}.bind( this, section, xhr );
+			};
 
-			xhr.open( 'GET', url, true );
+			xhr.open( 'GET', ref, true );
 
 			try {
 				xhr.send();
 			}
 			catch ( e ) {
-				console.warn( 'Failed to get the Markdown file ' + url + '. Make sure that the presentation and the file are served by a HTTP server and the file can be found there. ' + e );
-				resolve( xhr, url );
+				console.warn( 'Failed to get the Markdown file ' + ref + '. Make sure that the presentation and the file are served by a HTTP server and the file can be found there. ' + e );
+				resolve( xhr.responseText );
 			}
 
+		} );
+
+	}
+
+	/**
+	 * Loads markdown for a section, dispatching to the user-configured
+	 * `markdown.loader` if set, otherwise to defaultMarkdownLoader.
+	 */
+	function loadExternalMarkdown( section ) {
+
+		const ref = section.getAttribute( 'data-markdown' );
+		const loader = deck?.getConfig?.().markdown?.loader || defaultMarkdownLoader;
+
+		return new Promise( function( resolve ) {
+			resolve( loader( ref, section ) );
 		} );
 
 	}
