@@ -2167,7 +2167,7 @@ $notesWidthPercent: 25%;
 
 	.scroll-page section {
 		visibility: visible !important;
-		display: block !important;
+		display: block;
 		position: absolute !important;
 		width: var(--slide-width) !important;
 		height: var(--slide-height) !important;
@@ -2180,7 +2180,7 @@ $notesWidthPercent: 25%;
 	}
 
 	.slide-background {
-		display: block !important;
+		display: block;
 		position: absolute;
 		top: 0;
 		left: 0;
