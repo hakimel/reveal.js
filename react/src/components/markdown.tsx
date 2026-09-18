@@ -133,7 +133,12 @@ export function Markdown({
 
 		void (async () => {
 			try {
-				const response = await fetch(src, { signal: abortController.signal });
+				const resolvedUrl = new URL(src, window.location.href);
+				if (resolvedUrl.protocol !== 'http:' && resolvedUrl.protocol !== 'https:') {
+					throw new Error(`Unsupported protocol "${resolvedUrl.protocol}"`);
+				}
+
+				const response = await fetch(resolvedUrl.href, { signal: abortController.signal });
 				if (!response.ok) {
 					throw new Error(`HTTP status ${response.status}`);
 				}
