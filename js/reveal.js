@@ -1918,7 +1918,12 @@ export default function( revealElement, options ) {
 		// display: block for transitions.
 		const allowAllSlides = overview.isActive() || scrollView.isActive() || printView.isActive();
 		Util.queryAll( dom.wrapper, SLIDES_SELECTOR ).forEach( slide => {
-			slide.toggleAttribute( 'inert', !allowAllSlides && slide !== currentSlide && !slide.contains( currentSlide ) );
+			if( !allowAllSlides && slide !== currentSlide && !slide.contains( currentSlide ) ) {
+				slide.setAttribute( 'inert', '' );
+			}
+			else {
+				slide.removeAttribute( 'inert' );
+			}
 		} );
 
 	}
