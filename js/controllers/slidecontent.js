@@ -241,12 +241,19 @@ export default class SlideContent {
 		// size of its container. This needs to happen after the
 		// slide is visible in order to measure the text.
 		Array.from( scopeElement.querySelectorAll( '.r-fit-text' ) ).forEach( element => {
-			fitty( element, {
+			let fitter = fitty( element, {
 				minSize: 24,
 				maxSize: this.Reveal.getConfig().height * 0.8,
 				observeMutations: false,
 				observeWindow: false
 			} );
+
+			// Web fonts may finish loading after this initial fit, which
+			// would leave the text sized against the fallback font. Re-fit
+			// once fonts are ready so the text fills its container.
+			if( document.fonts && document.fonts.status !== 'loaded' ) {
+				document.fonts.ready.then( () => fitter.fit() );
+			}
 		} );
 
 	}
