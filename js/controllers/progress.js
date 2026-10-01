@@ -15,6 +15,11 @@ export default class Progress {
 
 		this.element = document.createElement( 'div' );
 		this.element.className = 'progress';
+		this.element.role = 'progressbar';
+		this.element.setAttribute('aria-valuemin', 1);
+		this.element.setAttribute('aria-valuemax', this.Reveal.getTotalSlides());
+		this.element.setAttribute('aria-valuenow', this.getCurrentProgressValue());
+		this.element.setAttribute('aria-valuetext', `Slide ${this.getCurrentProgressValue()} of ${this.Reveal.getTotalSlides()}`);
 		this.Reveal.getRevealElement().appendChild( this.element );
 
 		this.bar = document.createElement( 'span' );
@@ -47,6 +52,13 @@ export default class Progress {
 
 	}
 
+	getCurrentProgressValue() {
+
+		const value = Math.ceil(this.Reveal.getTotalSlides() * this.Reveal.getProgress());
+		return value === 0 ? 1 : value;
+
+	}
+
 	/**
 	 * Updates the progress bar to reflect the current slide.
 	 */
@@ -63,6 +75,9 @@ export default class Progress {
 			}
 
 			this.bar.style.transform = 'scaleX('+ scale +')';
+			this.element.setAttribute('aria-valuemax', this.Reveal.getTotalSlides());
+			this.element.setAttribute('aria-valuenow', this.getCurrentProgressValue());
+			this.element.setAttribute('aria-valuetext', `Slide ${this.getCurrentProgressValue()} of ${this.Reveal.getTotalSlides()}`);
 
 		}
 
