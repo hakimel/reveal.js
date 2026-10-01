@@ -88,38 +88,43 @@ function switchToStaticStyles(htmlContent) {
 }
 
 async function main() {
-	// Parse command line arguments for HTML file target
+	// Parse command line arguments for HTML file targets
+  // (supports multiple for packaging multiple presentations into one zip)
 	const args = process.argv.slice(2);
-	const htmlTarget = args.length > 0 ? args[0] : 'index.html';
-
-	// Ensure relative paths are read from cwd while keeping absolute paths intact
-	const targetFile = path.isAbsolute(htmlTarget)
-		? htmlTarget
-		: htmlTarget.startsWith('./')
-			? htmlTarget
-			: `./${htmlTarget}`;
-
-	console.log(`Packaging presentation with target file: ${targetFile}`);
-
-	// Read the HTML file
-	let htmlContent = fs.readFileSync(targetFile, 'utf8');
-
-	// Switch from Vite's dynamic imports to static ones so that
-	// this presentation can run anywhere (including offline via
-	// file:// protocol)
-	htmlContent = switchToStaticScripts(htmlContent);
-	htmlContent = switchToStaticStyles(htmlContent);
+	const htmlTargets = args.length > 0 ? args : ['index.html'];
 
 	const zip = new JSZip();
+
+	// Process each HTML target (supports multiple presentations in one package)
+	for (const htmlTarget of htmlTargets) {
+		// Ensure relative paths are read from cwd while keeping absolute paths intact
+		const targetFile = path.isAbsolute(htmlTarget)
+			? htmlTarget
+			: htmlTarget.startsWith('./')
+				? htmlTarget
+				: `./${htmlTarget}`;
+
+		console.log(`Packaging presentation with target file: ${targetFile}`);
+
+		// Read the HTML file
+		let htmlContent = fs.readFileSync(targetFile, 'utf8');
+
+		// Switch from Vite's dynamic imports to static ones so that
+		// this presentation can run anywhere (including offline via
+		// file:// protocol)
+		htmlContent = switchToStaticScripts(htmlContent);
+		htmlContent = switchToStaticStyles(htmlContent);
+
+		// Add the modified HTML file(s) first
+		const htmlFileName = htmlTarget.replace(/\.\//, '');
+		zip.file(htmlFileName, htmlContent);
+	}
+
 	const filesToInclude = ['./dist/**', './*/*.md'];
 
 	if (fs.existsSync('./lib')) filesToInclude.push('./lib/**');
 	if (fs.existsSync('./images')) filesToInclude.push('./images/**');
 	if (fs.existsSync('./slides')) filesToInclude.push('./slides/**');
-
-	// Add the modified HTML file first
-	const htmlFileName = htmlTarget.replace(/\.\//, '');
-	zip.file(htmlFileName, htmlContent);
 
 	for (const pattern of filesToInclude) {
 		const files = globSync(pattern, {
@@ -138,10 +143,10 @@ async function main() {
 	const content = await zip.generateAsync({ type: 'nodebuffer' });
 	const zipFileName = `presentation.zip`;
 	fs.writeFileSync(zipFileName, content);
-	console.log(`Presentation packaged successfully: ${zipFileName}`);
+	console.log(`Presentation(s) packaged successfully: ${zipFileName}`);
 }
 
 main().catch((error) => {
-	console.error('Error packaging presentation:', error);
+	console.error('Error packaging presentation(s):', error);
 	process.exit(1);
 });
