@@ -78,7 +78,10 @@
 		"test": "node scripts/test.js",
 		"react:build": "npm run --prefix react build",
 		"react:demo": "npm run --prefix react demo",
-		"react:test": "npm run --prefix react test"
+		"react:test": "npm run --prefix react test",
+		"vue:build": "npm run --prefix vue build",
+		"vue:demo": "npm run --prefix vue demo",
+		"vue:test": "npm run --prefix vue test"
 	},
 	"author": {
 		"name": "Hakim El Hattab",
