@@ -1,4 +1,3 @@
-import { SLIDES_SELECTOR } from '../utils/constants'
 import { queryAll, createStyleSheet } from '../utils/util'
 
 /**
@@ -19,7 +18,6 @@ export default class PrintView {
 	async activate() {
 
 		const config = this.Reveal.getConfig();
-		const slides = queryAll( this.Reveal.getRevealElement(), SLIDES_SELECTOR )
 
 		// Compute slide numbers now, before we start duplicating slides
 		const injectPageNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
@@ -59,159 +57,183 @@ export default class PrintView {
 		await new Promise( requestAnimationFrame );
 		this.Reveal.layoutSlideContents( slideWidth, slideHeight );
 
+		// Build the list of slides to print. Vertical stacks are expanded
+		// into their individual slides so that each vertical slide is
+		// printed on its own page, in presentation order
+		const printableSlides = [];
+		this.Reveal.getHorizontalSlides().forEach( horizontalSlide => {
+			if( horizontalSlide.classList.contains( 'stack' ) ) {
+				Array.from( horizontalSlide.children ).filter( child => /SECTION/i.test( child.nodeName ) ).forEach( verticalSlide => printableSlides.push( verticalSlide ) );
+			}
+			else {
+				printableSlides.push( horizontalSlide );
+			}
+		} );
+
 		// Batch scrollHeight access to prevent layout thrashing
 		await new Promise( requestAnimationFrame );
 
-		const slideScrollHeights = slides.map( slide => slide.scrollHeight );
+		// Compute slide numbers now, before we start moving slides
+		// into their pages, since the numbering depends on the slides
+		// being in their original (stack) positions
+		const slideNumbers = new Map();
+		if( injectPageNumbers ) {
+			printableSlides.forEach( slide => slideNumbers.set( slide, this.Reveal.slideNumber.getSlideNumber( slide ) ) );
+		}
+
+		const slideScrollHeights = printableSlides.map( slide => slide.scrollHeight );
 
 		const pages = [];
-		const pageContainer = slides[0].parentNode;
-		let slideNumber = 1;
+		const pageContainer = this.Reveal.getSlidesElement();
 
 		// Slide and slide background layout
-		slides.forEach( function( slide, index ) {
+		printableSlides.forEach( function( slide, index ) {
 
-			// Vertical stacks are not centred since their section
-			// children will be
-			if( slide.classList.contains( 'stack' ) === false ) {
-				// Center the slide inside of the page, giving the slide some margin
-				let left = ( pageWidth - slideWidth ) / 2;
-				let top = ( pageHeight - slideHeight ) / 2;
+			// Center the slide inside of the page, giving the slide some margin
+			let left = ( pageWidth - slideWidth ) / 2;
+			let top = ( pageHeight - slideHeight ) / 2;
 
-				const contentHeight = slideScrollHeights[ index ];
-				let numberOfPages = Math.max( Math.ceil( contentHeight / pageHeight ), 1 );
+			const contentHeight = slideScrollHeights[ index ];
+			let numberOfPages = Math.max( Math.ceil( contentHeight / pageHeight ), 1 );
 
-				// Adhere to configured pages per slide limit
-				numberOfPages = Math.min( numberOfPages, config.pdfMaxPagesPerSlide );
+			// Adhere to configured pages per slide limit
+			numberOfPages = Math.min( numberOfPages, config.pdfMaxPagesPerSlide );
 
-				// Center slides vertically
-				if( numberOfPages === 1 && config.center || slide.classList.contains( 'center' ) ) {
-					top = Math.max( ( pageHeight - contentHeight ) / 2, 0 );
-				}
+			// Center slides vertically
+			if( numberOfPages === 1 && config.center || slide.classList.contains( 'center' ) ) {
+				top = Math.max( ( pageHeight - contentHeight ) / 2, 0 );
+			}
 
-				// Wrap the slide in a page element and hide its overflow
-				// so that no page ever flows onto another
-				const page = document.createElement( 'div' );
-				pages.push( page );
+			// Wrap the slide in a page element and hide its overflow
+			// so that no page ever flows onto another
+			const page = document.createElement( 'div' );
+			pages.push( page );
 
-				page.className = 'pdf-page';
-				page.style.height = ( ( pageHeight + config.pdfPageHeightOffset ) * numberOfPages ) + 'px';
+			page.className = 'pdf-page';
+			page.style.height = ( ( pageHeight + config.pdfPageHeightOffset ) * numberOfPages ) + 'px';
 
-				// Copy the presentation-wide background to each individual
-				// page when printing
-				if( presentationBackground ) {
-					page.style.background = presentationBackground;
-				}
+			// Copy the presentation-wide background to each individual
+			// page when printing
+			if( presentationBackground ) {
+				page.style.background = presentationBackground;
+			}
 
-				page.appendChild( slide );
+			page.appendChild( slide );
 
-				// Position the slide inside of the page
-				slide.style.left = left + 'px';
-				slide.style.top = top + 'px';
-				slide.style.width = slideWidth + 'px';
+			// Position the slide inside of the page
+			slide.style.left = left + 'px';
+			slide.style.top = top + 'px';
+			slide.style.width = slideWidth + 'px';
 
-				this.Reveal.slideContent.layout( slide );
+			this.Reveal.slideContent.layout( slide );
 
-				if( slide.slideBackgroundElement ) {
-					page.insertBefore( slide.slideBackgroundElement, slide );
-				}
+			if( slide.slideBackgroundElement ) {
+				page.insertBefore( slide.slideBackgroundElement, slide );
+			}
 
-				// Inject notes if `showNotes` is enabled
-				if( config.showNotes ) {
+			// Inject notes if `showNotes` is enabled
+			if( config.showNotes ) {
 
-					// Are there notes for this slide?
-					const notes = this.Reveal.getSlideNotes( slide );
-					if( notes ) {
+				// Are there notes for this slide?
+				const notes = this.Reveal.getSlideNotes( slide );
+				if( notes ) {
 
-						const notesSpacing = 8;
-						const notesLayout = typeof config.showNotes === 'string' ? config.showNotes : 'inline';
-						const notesElement = document.createElement( 'div' );
-						notesElement.classList.add( 'speaker-notes' );
-						notesElement.classList.add( 'speaker-notes-pdf' );
-						notesElement.setAttribute( 'data-layout', notesLayout );
-						notesElement.innerHTML = notes;
+					const notesSpacing = 8;
+					const notesLayout = typeof config.showNotes === 'string' ? config.showNotes : 'inline';
+					const notesElement = document.createElement( 'div' );
+					notesElement.classList.add( 'speaker-notes' );
+					notesElement.classList.add( 'speaker-notes-pdf' );
+					notesElement.setAttribute( 'data-layout', notesLayout );
+					notesElement.innerHTML = notes;
 
-						if( notesLayout === 'separate-page' ) {
-							pages.push( notesElement );
-						}
-						else {
-							notesElement.style.left = notesSpacing + 'px';
-							notesElement.style.bottom = notesSpacing + 'px';
-							notesElement.style.width = ( pageWidth - notesSpacing*2 ) + 'px';
-							page.appendChild( notesElement );
-						}
-
+					if( notesLayout === 'separate-page' ) {
+						pages.push( notesElement );
+					}
+					else {
+						notesElement.style.left = notesSpacing + 'px';
+						notesElement.style.bottom = notesSpacing + 'px';
+						notesElement.style.width = ( pageWidth - notesSpacing*2 ) + 'px';
+						page.appendChild( notesElement );
 					}
 
 				}
 
-				// Inject page numbers if `slideNumbers` are enabled
-				if( injectPageNumbers ) {
-					const numberElement = document.createElement( 'div' );
-					numberElement.classList.add( 'slide-number' );
-					numberElement.classList.add( 'slide-number-pdf' );
-					numberElement.innerHTML = slideNumber++;
-					page.appendChild( numberElement );
-				}
+			}
 
-				// Copy page and show fragments one after another
-				if( config.pdfSeparateFragments ) {
+			// Inject page numbers, computed above with the existing slide
+			// number formatting so they stay consistent with the rest of
+			// reveal.js
+			if( injectPageNumbers ) {
+				const numberElement = document.createElement( 'div' );
+				numberElement.classList.add( 'slide-number' );
+				numberElement.classList.add( 'slide-number-pdf' );
+				numberElement.innerHTML = slideNumbers.get( slide );
+				page.appendChild( numberElement );
+			}
 
-					// Each fragment 'group' is an array containing one or more
-					// fragments. Multiple fragments that appear at the same time
-					// are part of the same group.
-					const fragmentGroups = this.Reveal.fragments.sort( page.querySelectorAll( '.fragment' ), true );
+			// Copy page and show fragments one after another
+			if( config.pdfSeparateFragments ) {
 
-					let previousFragmentStep;
+				// Each fragment 'group' is an array containing one or more
+				// fragments. Multiple fragments that appear at the same time
+				// are part of the same group.
+				const fragmentGroups = this.Reveal.fragments.sort( page.querySelectorAll( '.fragment' ), true );
 
-					fragmentGroups.forEach( function( fragments, index ) {
+				let previousFragmentStep;
 
-						// Remove 'current-fragment' from the previous group
-						if( previousFragmentStep ) {
-							previousFragmentStep.forEach( function( fragment ) {
-								fragment.classList.remove( 'current-fragment' );
-							} );
-						}
+				fragmentGroups.forEach( function( fragments, index ) {
 
-						// Show the fragments for the current index
-						fragments.forEach( function( fragment ) {
-							fragment.classList.add( 'visible', 'current-fragment' );
-						}, this );
+					// Remove 'current-fragment' from the previous group
+					if( previousFragmentStep ) {
+						previousFragmentStep.forEach( function( fragment ) {
+							fragment.classList.remove( 'current-fragment' );
+						} );
+					}
 
-						// Create a separate page for the current fragment state
-						const clonedPage = page.cloneNode( true );
-
-						// Inject unique page numbers for fragments
-						if( injectPageNumbers ) {
-							const numberElement = clonedPage.querySelector( '.slide-number-pdf' );
-							const fragmentNumber = index + 1;
-							numberElement.innerHTML += '.' + fragmentNumber;
-						}
-
-						pages.push( clonedPage );
-
-						previousFragmentStep = fragments;
-
+					// Show the fragments for the current index
+					fragments.forEach( function( fragment ) {
+						fragment.classList.add( 'visible', 'current-fragment' );
 					}, this );
 
-					// Reset the first/original page so that all fragments are hidden
-					fragmentGroups.forEach( function( fragments ) {
-						fragments.forEach( function( fragment ) {
-							fragment.classList.remove( 'visible', 'current-fragment' );
-						} );
-					} );
+					// Create a separate page for the current fragment state
+					const clonedPage = page.cloneNode( true );
 
-				}
-				// Show all fragments
-				else {
-					queryAll( page, '.fragment:not(.fade-out)' ).forEach( function( fragment ) {
-						fragment.classList.add( 'visible' );
-					} );
-				}
+					// Append the fragment index to the existing page number
+					if( injectPageNumbers ) {
+						const numberElement = clonedPage.querySelector( '.slide-number-pdf' );
+						numberElement.innerHTML += '.' + ( index + 1 );
+					}
 
+					pages.push( clonedPage );
+
+					previousFragmentStep = fragments;
+
+				}, this );
+
+				// Reset the first/original page so that all fragments are hidden
+				fragmentGroups.forEach( function( fragments ) {
+					fragments.forEach( function( fragment ) {
+						fragment.classList.remove( 'visible', 'current-fragment' );
+					} );
+				} );
+
+			}
+			// Show all fragments
+			else {
+				queryAll( page, '.fragment:not(.fade-out)' ).forEach( function( fragment ) {
+					fragment.classList.add( 'visible' );
+				} );
 			}
 
 		}, this );
+
+		// The vertical stacks were replaced by their individual slides
+		// above, so remove the now empty wrappers
+		this.Reveal.getHorizontalSlides().forEach( horizontalSlide => {
+			if( horizontalSlide.classList.contains( 'stack' ) ) {
+				horizontalSlide.remove();
+			}
+		} );
 
 		await new Promise( requestAnimationFrame );
 
