@@ -122,9 +122,36 @@ export default class ScrollView {
 		}
 
 		// Slide and slide background layout
+		const emptiedStacks = [];
+
 		horizontalSlides.forEach( ( horizontalSlide, h ) => {
 
 			if( this.Reveal.isVerticalStack( horizontalSlide ) ) {
+				// A real stack has <section> children directly inside it.
+				// A <section> nested inside other markup is not one: there is
+				// no child slide to copy onto, and removing the other nodes
+				// would discard the slide. Scroll view can also activate from
+				// layout() before the stack class exists, so this must not
+				// depend on that class.
+				const childSections = horizontalSlide.querySelectorAll( ':scope > section' );
+
+				if( childSections.length > 0 ) {
+					const nonSectionChildren = Array.from( horizontalSlide.childNodes ).filter( child => {
+						if( child.nodeType === Node.ELEMENT_NODE && child.nodeName === 'SECTION' ) return false;
+						if( child.nodeType === Node.TEXT_NODE && !child.textContent.trim() ) return false;
+						return true;
+					} );
+
+					childSections.forEach( section => {
+						for( let i = nonSectionChildren.length - 1; i >= 0; i-- ) {
+							section.insertBefore( nonSectionChildren[i].cloneNode( true ), section.firstChild );
+						}
+					} );
+
+					nonSectionChildren.forEach( child => child.remove() );
+					emptiedStacks.push( horizontalSlide );
+				}
+
 				horizontalSlide.querySelectorAll( 'section' ).forEach( ( verticalSlide, v ) => {
 					createPageElement( verticalSlide, h, v, true );
 				});
@@ -137,8 +164,11 @@ export default class ScrollView {
 
 		this.createProgressBar();
 
-		// Remove leftover stacks
+		// Remove leftover stacks. Parents processed above may not have the
+		// stack class yet; drop those explicitly so their shell cannot sit
+		// on top of the scroll pages.
 		queryAll( this.Reveal.getRevealElement(), '.stack' ).forEach( stack => stack.remove() );
+		emptiedStacks.forEach( stack => stack.remove() );
 
 		// Add our newly created pages to the DOM
 		pageElements.forEach( page => pageContainer.appendChild( page ) );

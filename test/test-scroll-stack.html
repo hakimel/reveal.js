@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Test Scroll View Stack Content</title>
+	</head>
+
+	<body>
+
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<div class="reveal">
+
+			<div class="slides">
+
+				<section>
+					<h1>Title</h1>
+				</section>
+
+				<section>
+					<h4>Stack Header</h4>
+					<section>
+						<p>Sub-slide 1</p>
+					</section>
+					<section>
+						<p>Sub-slide 2</p>
+					</section>
+				</section>
+
+				<section>
+					<p class="keep-outside">Keep me</p>
+					<div>
+						<section>
+							<p>Nested only</p>
+						</section>
+					</div>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script type="module">
+			import 'reveal.css';
+			import 'qunit/qunit/qunit.css';
+			import QUnit from 'qunit';
+			import Reveal from 'reveal.js';
+
+			QUnit.config.testTimeout = 30000;
+			QUnit.config.autostart = false;
+
+			// Wider than the viewport so scroll view turns on inside the first
+			// layout(), before vertical stacks are given the stack class.
+			Reveal.initialize({ scrollActivationWidth: 10000 }).then( () => {
+
+				QUnit.start();
+
+				QUnit.test( 'Stack header is copied onto each vertical slide', assert => {
+					assert.ok( document.querySelector( '.reveal-viewport' ).classList.contains( 'reveal-scroll' ), 'scroll view is active' );
+
+					const pages = Array.from( document.querySelectorAll( '.scroll-page' ) ).filter( page => {
+						return /Sub-slide \d/.test( page.textContent );
+					} );
+
+					assert.strictEqual( pages.length, 2, 'one page per vertical slide' );
+
+					pages.forEach( ( page, i ) => {
+						const headers = page.querySelectorAll( 'h4' );
+						assert.strictEqual( headers.length, 1, 'page ' + ( i + 1 ) + ' has the stack header once' );
+						assert.strictEqual( headers[0].textContent, 'Stack Header', 'page ' + ( i + 1 ) + ' header text matches' );
+					} );
+
+					const strayHeader = Array.from( document.querySelectorAll( '.slides > section' ) ).filter( section => {
+						return section.querySelector( 'h4' ) && section.querySelector( 'h4' ).textContent === 'Stack Header';
+					} );
+					assert.strictEqual( strayHeader.length, 0, 'stack shell is not left outside the scroll pages' );
+
+					const title = document.querySelector( '.scroll-page' );
+					assert.ok( title && /Title/.test( title.textContent ), 'first page is the title slide' );
+					assert.notOk( title.querySelector( 'h4' ), 'title slide does not show the stack header' );
+				});
+
+				QUnit.test( 'Content around a nested section is kept', assert => {
+					const kept = document.querySelectorAll( '.keep-outside' );
+					assert.strictEqual( kept.length, 1, 'surrounding content is not deleted' );
+					assert.strictEqual( kept[0].textContent, 'Keep me', 'surrounding text is unchanged' );
+
+					const nestedPages = Array.from( document.querySelectorAll( '.scroll-page' ) ).filter( page => {
+						return /Nested only/.test( page.textContent );
+					} );
+					assert.strictEqual( nestedPages.length, 1, 'nested section still becomes a scroll page' );
+					assert.notOk( nestedPages[0].querySelector( '.keep-outside' ), 'surrounding content is not copied onto it' );
+				});
+
+			} );
+		</script>
+
+	</body>
+</html>
