@@ -78,7 +78,17 @@
 			QUnit.config.testTimeout = 30000;
 			QUnit.config.autostart = false;
 
-			Reveal.initialize({ pdf: true }).then( function() {
+			const pdfReady = new Promise( resolve => Reveal.on( 'pdf-ready', resolve ) );
+
+			Promise.all( [
+				Reveal.initialize({
+					view: 'print',
+					slideNumber: 'c/t',
+					showSlideNumber: 'print',
+					pdfSeparateFragments: false
+				}),
+				pdfReady
+			] ).then( function() {
 
 				QUnit.start();
 
@@ -87,6 +97,12 @@
 
 				QUnit.test( 'Reveal.isReady', function( assert ) {
 					assert.strictEqual( Reveal.isReady(), true, 'returns true' );
+				});
+
+				QUnit.test( 'configured slide number format', function( assert ) {
+					const slideNumbers = Array.from( document.querySelectorAll( '.slide-number-pdf' ) );
+					assert.strictEqual( slideNumbers.length, 8, 'creates a number for each slide' );
+					assert.strictEqual( slideNumbers[4].textContent.replace( /\s/g, '' ), '5/8', 'uses the configured c/t format' );
 				});
 
 			} );

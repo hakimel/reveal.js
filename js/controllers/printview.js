@@ -23,6 +23,7 @@ export default class PrintView {
 
 		// Compute slide numbers now, before we start duplicating slides
 		const injectPageNumbers = config.slideNumber && /all|print/i.test( config.showSlideNumber );
+		const slideNumbers = injectPageNumbers ? slides.map( slide => this.Reveal.slideNumber.getSlideNumber( slide ) ) : [];
 
 		const slideSize = this.Reveal.getComputedSlideSize( window.innerWidth, window.innerHeight );
 
@@ -66,7 +67,6 @@ export default class PrintView {
 
 		const pages = [];
 		const pageContainer = slides[0].parentNode;
-		let slideNumber = 1;
 
 		// Slide and slide background layout
 		slides.forEach( function( slide, index ) {
@@ -150,7 +150,7 @@ export default class PrintView {
 					const numberElement = document.createElement( 'div' );
 					numberElement.classList.add( 'slide-number' );
 					numberElement.classList.add( 'slide-number-pdf' );
-					numberElement.innerHTML = slideNumber++;
+					numberElement.innerHTML = slideNumbers[ index ];
 					page.appendChild( numberElement );
 				}
 
