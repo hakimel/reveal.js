@@ -179,12 +179,20 @@ export default class SlideContent {
 						video.setAttribute( 'playsinline', '' );
 					}
 
-					// Support comma separated lists of video sources
-					backgroundVideo.split( ',' ).forEach( source => {
-						const sourceElement = document.createElement( 'source' );
-						sourceElement.setAttribute( 'src', source );
+					// Support comma separated lists of video sources, but
+					// treat data URIs as a single source since they contain commas
+					const videoSources = /^data:/.test( backgroundVideo.trim() )
+						? [backgroundVideo.trim()]
+						: backgroundVideo.split( ',' );
 
-						let type = getMimeTypeFromFile( source );
+					videoSources.forEach( source => {
+						const sourceElement = document.createElement( 'source' );
+						sourceElement.setAttribute( 'src', source.trim() );
+
+						// Extract MIME type from data URI, or fall back to file extension
+						let type = /^data:([^;,]+)/.test( source.trim() )
+							? RegExp.$1
+							: getMimeTypeFromFile( source );
 						if( type ) {
 							sourceElement.setAttribute( 'type', type );
 						}
