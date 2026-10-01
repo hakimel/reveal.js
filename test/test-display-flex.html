@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Display Flex Test - Reveal.js</title>
+	<link rel="stylesheet" href="../dist/reveal.css">
+	<link rel="stylesheet" href="../dist/theme/black.css">
+	<style>
+		/* Custom styles to test flex display */
+		.flex-container {
+			display: inherit;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 20px;
+		}
+		
+		.flex-item {
+			padding: 10px;
+			background-color: rgba(255, 255, 255, 0.1);
+			border-radius: 5px;
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		/* Test class to verify flex is applied */
+		.test-indicator {
+			position: fixed;
+			top: 10px;
+			right: 10px;
+			padding: 10px;
+			background-color: rgba(0, 0, 0, 0.8);
+			color: white;
+			border-radius: 5px;
+			font-size: 12px;
+			z-index: 1000;
+		}
+
+		.test-indicator.flex-detected {
+			background-color: rgba(0, 255, 0, 0.8);
+		}
+
+		.test-indicator.block-detected {
+			background-color: rgba(255, 0, 0, 0.8);
+		}
+	</style>
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<!-- Slide 1: Basic flex with content -->
+			<section>
+				<h2>Display Flex Configuration Test</h2>
+				<p>This presentation tests the flex display configuration in print-pdf mode.</p>
+				<p style="font-size: 0.7em;">Add <code>?print-pdf</code> to the URL to test print mode</p>
+			</section>
+
+			<!-- Slide 2: Flex layout with multiple items -->
+			<section>
+				<h2>Flex Layout Slide</h2>
+				<div class="flex-container">
+					<div class="flex-item">Item 1</div>
+					<div class="flex-item">Item 2</div>
+					<div class="flex-item">Item 3</div>
+				</div>
+			</section>
+
+			<!-- Slide 3: Nested slides with vertical stack -->
+			<section>
+				<section>
+					<h2>Vertical Stack - Top</h2>
+					<p>This is the top slide of a vertical stack.</p>
+				</section>
+				<section>
+					<h2>Vertical Stack - Middle</h2>
+					<p>This slide is in the middle of a vertical stack.</p>
+					<p>Press down arrow or spacebar to navigate.</p>
+				</section>
+				<section>
+					<h2>Vertical Stack - Bottom</h2>
+					<p>This is the bottom slide of a vertical stack.</p>
+				</section>
+			</section>
+
+			<!-- Slide 4: Flex with fragments -->
+			<section>
+				<h2>Flex with Fragments</h2>
+				<div class="flex-container">
+					<div class="flex-item fragment">Fragment 1</div>
+					<div class="flex-item fragment">Fragment 2</div>
+					<div class="flex-item fragment">Fragment 3</div>
+				</div>
+			</section>
+
+			<!-- Slide 5: Content test -->
+			<section>
+				<h2>Content Layout</h2>
+				<ul>
+					<li>First item</li>
+					<li>Second item</li>
+					<li>Third item</li>
+				</ul>
+			</section>
+		</div>
+	</div>
+
+	<div class="test-indicator" id="displayIndicator"></div>
+
+	<script src="../dist/reveal.js"></script>
+	<script src="../plugin/highlight/plugin.js"></script>
+	<script>
+		// Initialize reveal with display: 'flex' configuration
+		Reveal.initialize({
+			hash: true,
+			display: 'flex',
+			plugins: [RevealHighlight],
+			// Standard plugins can be added here
+		}).then(() => {
+			console.log('Reveal initialized with display: "flex" configuration');
+			checkDisplayMode();
+		});
+
+		// Function to check the computed display mode of sections
+		function checkDisplayMode() {
+			const slides = document.querySelectorAll('.reveal .slides > section, .reveal .slides > section > section');
+			let displayModes = new Set();
+
+			slides.forEach((slide, index) => {
+				const computedStyle = window.getComputedStyle(slide);
+				const display = computedStyle.display;
+				displayModes.add(display);
+				console.log(`Slide ${index}: computed display = "${display}"`);
+			});
+
+			// Update indicator
+			const indicator = document.getElementById('displayIndicator');
+			if (displayModes.has('flex')) {
+				indicator.classList.add('flex-detected');
+				indicator.textContent = `✓ Flex Detected (${displayModes.size} mode(s))`;
+				console.log('✓ PASS: Display flex is properly applied');
+			} else if (displayModes.has('block')) {
+				indicator.classList.add('block-detected');
+				indicator.textContent = `✗ Block Detected (${displayModes.size} mode(s))`;
+				console.warn('✗ FAIL: Display is block, flex not applied');
+			} else {
+				indicator.textContent = `? Unknown mode(s): ${Array.from(displayModes).join(', ')}`;
+			}
+		}
+
+		// Monitor for state changes and re-check
+		Reveal.on('slidechanged', () => {
+			setTimeout(checkDisplayMode, 100);
+		});
+
+		// Check when entering/exiting overview
+		Reveal.on('overviewshown', () => {
+			setTimeout(checkDisplayMode, 100);
+		});
+
+		Reveal.on('overviewhidden', () => {
+			setTimeout(checkDisplayMode, 100);
+		});
+
+		// Handle print mode detection
+		if (/print-pdf/gi.test(window.location.search)) {
+			console.log('Print-PDF mode detected');
+			// Give extra time for print mode to fully activate
+			setTimeout(checkDisplayMode, 500);
+			setTimeout(checkDisplayMode, 1000);
+		}
+
+		// Additional test utilities
+		window.revealTests = {
+			getDisplayMode: function() {
+				const slide = document.querySelector('.reveal .slides > section.present');
+				if (slide) {
+					return window.getComputedStyle(slide).display;
+				}
+				return 'no slide found';
+			},
+			getInlineStyle: function() {
+				const slide = document.querySelector('.reveal .slides > section.present');
+				if (slide) {
+					return slide.style.display;
+				}
+				return 'no slide found';
+			},
+			getAllDisplayModes: function() {
+				const slides = document.querySelectorAll('.reveal .slides > section, .reveal .slides > section > section');
+				const modes = {};
+				slides.forEach((slide, index) => {
+					modes[`slide_${index}`] = window.getComputedStyle(slide).display;
+				});
+				return modes;
+			},
+			testPrintMode: function() {
+				console.log('=== Display Mode Test Report ===');
+				console.log('Current display mode:', this.getDisplayMode());
+				console.log('Inline style:', this.getInlineStyle());
+				console.log('All display modes:', this.getAllDisplayModes());
+				return {
+					computed: this.getDisplayMode(),
+					inline: this.getInlineStyle(),
+					all: this.getAllDisplayModes()
+				};
+			}
+		};
+
+		// Log configuration
+		console.log('Reveal Config:', Reveal.getConfig());
+	</script>
+</body>
+</html>
