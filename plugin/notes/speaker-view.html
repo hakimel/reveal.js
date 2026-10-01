@@ -753,7 +753,7 @@
 
 						diff = now.getTime() - start.getTime();
 
-						clockEl.innerHTML = now.toLocaleTimeString( 'en-US', { hour12: true, hour: '2-digit', minute:'2-digit' } );
+						clockEl.innerHTML = now.toLocaleTimeString( navigator.language, { hour: '2-digit', minute:'2-digit' } );
 						_displayTime( hoursEl, minutesEl, secondsEl, diff );
 						if (timings !== null) {
 							_updatePacing(diff);
