@@ -239,7 +239,9 @@ const Plugin = () => {
 					// is reloaded.
 					window.addEventListener( 'message', event => {
 
-						if( !speakerWindow && typeof event.data === 'string' ) {
+						// Only allow same-origin messages (consistent with
+						// onPostMessage's check further up in this file)
+						if( !speakerWindow && typeof event.data === 'string' && isSameOriginEvent( event ) ) {
 							let data;
 
 							try {
