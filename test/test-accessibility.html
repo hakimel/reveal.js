@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>reveal.js - Accessibility Tests</title>
+	</head>
+
+	<body>
+
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<div class="reveal">
+			<div class="slides">
+				<section id="intro"><h1>Intro</h1></section>
+				<section id="status-fragments">
+					<h1>Slide heading</h1>
+					<p class="fragment" data-fragment-index="0">Outer hidden <span class="fragment" data-fragment-index="1">Nested hidden</span></p>
+					<p class="fragment grow" data-fragment-index="2">Grow</p>
+					<p class="fragment shrink" data-fragment-index="3">Shrink</p>
+					<p class="fragment strike" data-fragment-index="4">Strike</p>
+					<p class="fragment semi-fade-out" data-fragment-index="5">Semi fade out</p>
+					<p class="fragment highlight-current-blue" data-fragment-index="6">Highlight</p>
+					<p class="fragment highlight-unknown" data-fragment-index="7">Unknown highlight</p>
+					<p class="fragment custom" data-fragment-index="8">Custom</p>
+					<p class="fragment current-visible" data-fragment-index="9">Current visible</p>
+					<p class="fragment fade-in-then-out" data-fragment-index="10">Fade in then out</p>
+					<p class="fragment fade-in-then-semi-out" data-fragment-index="11">Fade in then semi out</p>
+					<p class="fragment fade-out" data-fragment-index="12">Fade out</p>
+				</section>
+				<section>
+					<section id="vertical-slide"><h1>Vertical slide</h1></section>
+				</section>
+			</div>
+		</div>
+
+		<script type="module">
+			import 'reveal.css';
+			import 'qunit/qunit/qunit.css';
+			import QUnit from 'qunit';
+			import Reveal from 'reveal.js';
+			import Location from '../js/controllers/location.js';
+
+			QUnit.config.testTimeout = 30000;
+			QUnit.config.autostart = false;
+
+			const nextFrame = () => new Promise( resolve => requestAnimationFrame( () => requestAnimationFrame( resolve ) ) );
+			const deck = new Reveal( document.querySelector( '.reveal' ) );
+
+			deck.initialize({
+				controls: false,
+				hash: false,
+				history: false,
+				transition: 'none'
+			}).then( function() {
+
+				QUnit.module( 'Screen reader status' );
+
+				QUnit.test( 'Hidden fragments are excluded according to their fragment style', async function( assert ) {
+					deck.slide( 1, 0, -1 );
+					await nextFrame();
+
+					assert.strictEqual(
+						document.querySelector( '.aria-status' ).textContent,
+						'Slide heading. Grow. Shrink. Strike. Semi fade out. Highlight. Custom. Fade out. ',
+						'only fragments displayed in their initial state are announced with the slide'
+					);
+					assert.notOk(
+						document.querySelector( '.aria-status' ).textContent.includes( 'Unknown highlight.' ),
+						'unknown highlight classes keep the default hidden fragment behavior'
+					);
+
+					deck.next();
+					assert.strictEqual(
+						document.querySelector( '.aria-status' ).textContent,
+						'Outer hidden. ',
+						'the fragment being revealed is announced, but its nested hidden fragment is not'
+					);
+
+					const slide = document.getElementById( 'status-fragments' );
+					const currentVisibleIndex = Number( slide.querySelector( '.current-visible' ).dataset.fragmentIndex );
+					deck.slide( 1, 0, currentVisibleIndex );
+					await nextFrame();
+					assert.ok( document.querySelector( '.aria-status' ).textContent.includes( 'Current visible.' ), 'current-visible is announced while current' );
+
+					const fadeOutIndex = Number( slide.querySelector( '.fade-out' ).dataset.fragmentIndex );
+					deck.slide( 1, 0, fadeOutIndex );
+					assert.strictEqual(
+						document.querySelector( '.aria-status' ).textContent,
+						'Fade out. ',
+						'the newly activated fade-out fragment is announced even though it is now hidden'
+					);
+
+					await nextFrame();
+					const statusText = document.querySelector( '.aria-status' ).textContent;
+					assert.notOk( statusText.includes( 'Fade out.' ), 'a visible fade-out fragment is excluded from the whole slide announcement' );
+					assert.notOk( statusText.includes( 'Current visible.' ), 'a past current-visible fragment is excluded' );
+					assert.notOk( statusText.includes( 'Fade in then out.' ), 'a past fade-in-then-out fragment is excluded' );
+					assert.ok( statusText.includes( 'Fade in then semi out.' ), 'a past fade-in-then-semi-out fragment remains announced' );
+				});
+
+				QUnit.module( 'Location' );
+
+				QUnit.test( 'readURL ignores history echoes and preserves real navigation', function( assert ) {
+					let currentIndices = { h: 1, v: 0, f: -1 };
+					let newIndices = { h: 1, v: undefined, f: undefined };
+					let fragmentInURL = true;
+					const navigations = [];
+					const location = new Location({
+						getConfig: () => ({ fragmentInURL }),
+						getIndices: slide => slide ? deck.getIndices( slide ) : currentIndices,
+						slide: ( ...indices ) => navigations.push( indices )
+					});
+					const getIndicesFromHash = location.getIndicesFromHash.bind( location );
+
+					location.getIndicesFromHash = () => newIndices;
+
+					location.readURL();
+					assert.strictEqual( navigations.length, 0, 'named horizontal slide does not repeat because undefined v equals zero' );
+
+					navigations.length = 0;
+					currentIndices = { h: 1, v: 0, f: 0 };
+					newIndices = { h: 1, v: undefined, f: 0 };
+					location.readURL();
+					assert.strictEqual( navigations.length, 0, 'an equal fragment index does not repeat navigation' );
+
+					navigations.length = 0;
+					newIndices = { h: 1, v: undefined, f: 1 };
+					location.readURL();
+					assert.deepEqual( navigations.pop(), [ 1, undefined, 1 ], 'a different fragment index still navigates' );
+
+					navigations.length = 0;
+					newIndices = { h: 1, v: undefined, f: undefined };
+					location.readURL();
+					assert.deepEqual( navigations.pop(), [ 1, undefined, -1 ], 'a fragment-less history entry returns to the initial fragment state' );
+
+					navigations.length = 0;
+					currentIndices = { h: 1, v: 0, f: undefined };
+					newIndices = { h: 2, v: 0, f: undefined };
+					location.readURL();
+					assert.deepEqual( navigations.pop(), [ 2, 0, -1 ], 'a different slide still navigates' );
+
+					navigations.length = 0;
+					currentIndices = { h: 2, v: 0, f: undefined };
+					newIndices = { h: 2, v: 1, f: undefined };
+					location.readURL();
+					assert.deepEqual( navigations.pop(), [ 2, 1, -1 ], 'a different vertical slide still navigates' );
+
+					navigations.length = 0;
+					fragmentInURL = false;
+					currentIndices = { h: 1, v: 0, f: 0 };
+					newIndices = { h: 1, v: undefined, f: undefined };
+					location.readURL();
+					assert.strictEqual( navigations.length, 0, 'implicit fragment state is ignored when fragmentInURL is disabled' );
+
+					navigations.length = 0;
+					newIndices = { h: 1, v: undefined, f: 1 };
+					location.readURL();
+					assert.deepEqual( navigations.pop(), [ 1, undefined, 1 ], 'an explicit named fragment still navigates when fragmentInURL is disabled' );
+
+					assert.deepEqual( getIndicesFromHash( '#/status-fragments' ), { h: 1, v: undefined, f: undefined }, 'named horizontal hashes retain an undefined vertical index' );
+
+					const verticalIndices = getIndicesFromHash( '#/vertical-slide' );
+					assert.strictEqual( verticalIndices.h, 2, 'named vertical hashes resolve to the horizontal stack' );
+					assert.strictEqual( verticalIndices.v, 0, 'named vertical hashes resolve to the vertical slide' );
+					assert.strictEqual( verticalIndices.f, undefined, 'named vertical hashes have no implicit fragment' );
+				});
+
+				QUnit.start();
+
+			});
+		</script>
+
+	</body>
+</html>

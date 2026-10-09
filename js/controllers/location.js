@@ -107,8 +107,15 @@ export default class Location {
 		const newIndices = this.getIndicesFromHash();
 
 		if( newIndices ) {
-			if( ( newIndices.h !== currentIndices.h || newIndices.v !== currentIndices.v || newIndices.f !== undefined ) ) {
-					this.Reveal.slide( newIndices.h, newIndices.v, newIndices.f );
+			const fragmentInURL = this.Reveal.getConfig().fragmentInURL;
+			const newFragmentIndex = newIndices.f === undefined && fragmentInURL ? -1 : newIndices.f;
+			const fragmentChanged = newFragmentIndex !== undefined &&
+				newFragmentIndex !== ( currentIndices.f ?? -1 );
+
+			if( newIndices.h !== currentIndices.h ||
+				( newIndices.v ?? 0 ) !== ( currentIndices.v ?? 0 ) ||
+				fragmentChanged ) {
+				this.Reveal.slide( newIndices.h, newIndices.v, newFragmentIndex );
 			}
 		}
 		// If no new indices are available, we're trying to navigate to
