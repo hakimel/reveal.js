@@ -394,6 +394,23 @@
 					Reveal.sync();
 				});
 
+				QUnit.test( 'Reveal.syncSlide detects relative image extensions in data-background', function( assert ) {
+					var slide = Reveal.getCurrentSlide();
+					var originalBackground = slide.getAttribute( 'data-background' );
+
+					[ 'webp', 'avif' ].forEach( function( ext ) {
+						slide.setAttribute( 'data-background', 'image.' + ext );
+						Reveal.syncSlide( slide );
+
+						var content = Reveal.getSlideBackground( slide ).querySelector( '.slide-background-content' );
+						assert.ok( content.style.backgroundImage.indexOf( 'image.' + ext ) !== -1, '.' + ext + ' is treated as an image' );
+					} );
+
+					if( originalBackground === null ) slide.removeAttribute( 'data-background' );
+					else slide.setAttribute( 'data-background', originalBackground );
+					Reveal.syncSlide( slide );
+				});
+
 				QUnit.test( 'Reveal.syncSlide', function( assert ) {
 					var slide = Reveal.getCurrentSlide();
 					var originalBackgroundImage = slide.getAttribute( 'data-background-image' );
