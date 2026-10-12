@@ -398,21 +398,32 @@ export default function( revealElement, options ) {
 		// Element node
 		else if( node.nodeType === 1 ) {
 
+			// SVG style and script elements are not necessarily display: none.
+			if( node.localName === 'style' || node.localName === 'script' ) {
+				return '';
+			}
+
 			let isAriaHidden = node.getAttribute( 'aria-hidden' );
 			let isDisplayHidden = window.getComputedStyle( node )['display'] === 'none';
 			if( isAriaHidden !== 'true' && !isDisplayHidden ) {
 
-				// Capture alt text from img and video elements
-				if( node.tagName === 'IMG' || node.tagName === 'VIDEO' ) {
-					let altText = node.getAttribute( 'alt' );
-					if( altText ) {
-						text += ensurePunctuation( altText );
-					}
+				// An image's contents are presentational; announce its name instead.
+				if( node.getAttribute( 'role' )?.trim().split( /\s+/ )[0] === 'img' ) {
+					text += ensurePunctuation( getImageName( node ) );
 				}
+				else {
+					// Capture alt text from img and video elements
+					if( node.tagName === 'IMG' || node.tagName === 'VIDEO' ) {
+						let altText = node.getAttribute( 'alt' );
+						if( altText ) {
+							text += ensurePunctuation( altText );
+						}
+					}
 
-				Array.from( node.childNodes ).forEach( child => {
-					text += getStatusText( child );
-				} );
+					Array.from( node.childNodes ).forEach( child => {
+						text += getStatusText( child );
+					} );
+				}
 
 				// Add period after block-level text elements to improve
 				// screen reader experience
@@ -428,6 +439,39 @@ export default function( revealElement, options ) {
 		text = text.trim();
 
 		return text === '' ? '' : text + ' ';
+
+	}
+
+	/**
+	 * Finds the text used to name an element with role="img".
+	 */
+	function getImageName( node ) {
+
+		let labelledBy = node.getAttribute( 'aria-labelledby' );
+		if( labelledBy ) {
+			let labels = labelledBy.trim().split( /\s+/ )
+				.map( id => node.ownerDocument.getElementById( id ) )
+				.filter( label => label );
+			if( labels.length ) {
+				return labels.map( label => label.textContent.trim() ).join( ' ' );
+			}
+		}
+
+		let label = node.getAttribute( 'aria-label' );
+		if( label && label.trim() ) {
+			return label;
+		}
+
+		if( node.localName === 'svg' ) {
+			let title = Array.from( node.children ).find( child => child.localName === 'title' );
+			return title ? title.textContent : '';
+		}
+
+		if( node.tagName === 'IMG' || node.tagName === 'VIDEO' ) {
+			return node.getAttribute( 'alt' ) || '';
+		}
+
+		return '';
 
 	}
 

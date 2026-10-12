@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>reveal.js - Test Accessibility</title>
+	</head>
+
+	<body style="overflow: auto;">
+
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<script type="module">
+			import 'reveal.css';
+			import 'qunit/qunit/qunit.css';
+			import QUnit from 'qunit';
+			import Reveal from 'reveal.js';
+
+			QUnit.module( 'Screen reader announcements', hooks => {
+
+				let deck, element;
+
+				hooks.beforeEach( async () => {
+					element = document.createElement( 'div' );
+					element.className = 'reveal';
+					element.innerHTML = '<div class="slides"><section>Start</section><section></section></div>';
+					document.querySelector( '#qunit-fixture' ).appendChild( element );
+					deck = new Reveal( element, { embedded: true, transition: 'none' } );
+					await deck.initialize();
+				} );
+
+				hooks.afterEach( () => deck.destroy() );
+
+				async function announce( markup ) {
+					deck.getSlides()[1].innerHTML = markup;
+					deck.slide( 1 );
+					await new Promise( resolve => requestAnimationFrame( resolve ) );
+					return element.querySelector( '.aria-status' ).textContent;
+				}
+
+				QUnit.test( 'role="img" announces its label instead of its contents', async assert => {
+					assert.strictEqual( await announce( '<h2>Rating</h2><div role="img" aria-label="Rated 4 out of 5 stars">★★★★☆</div>' ),
+						'Rating. Rated 4 out of 5 stars. ' );
+				} );
+
+				QUnit.test( 'SVG image labels replace axis labels and titles', async assert => {
+					assert.strictEqual( await announce( '<svg role="img" aria-label="Sales grew every year"><title>Other title</title><text>2021</text><text>2024</text></svg>' ),
+						'Sales grew every year. ' );
+				} );
+
+				QUnit.test( 'aria-labelledby takes precedence and resolves hidden labels in ID order', async assert => {
+					assert.strictEqual( await announce( '<span id="chart-period" hidden>in 2024</span><span id="chart-name" hidden>Sales increased</span><svg role="img" aria-labelledby="chart-name\tmissing-id\nchart-period" aria-label="Other label"><title>Other title</title><text>Axis label</text></svg>' ),
+						'Sales increased in 2024. ' );
+				} );
+
+				QUnit.test( 'missing label references fall back to aria-label', async assert => {
+					assert.strictEqual( await announce( '<div role=" img presentation " aria-labelledby="missing-id" aria-label="A named image">Inner text</div>' ),
+						'A named image. ' );
+				} );
+
+				QUnit.test( 'an empty aria-labelledby falls back to aria-label', async assert => {
+					assert.strictEqual( await announce( '<div role="img" aria-labelledby="" aria-label="A named image">Inner text</div>' ),
+						'A named image. ' );
+				} );
+
+				QUnit.test( 'an empty referenced label does not expose image contents', async assert => {
+					assert.strictEqual( await announce( '<span id="empty-label" hidden></span><div role="img" aria-labelledby="empty-label" aria-label="Unused fallback">Inner text</div>' ), '' );
+				} );
+
+				QUnit.test( 'an SVG image falls back to its direct title', async assert => {
+					assert.strictEqual( await announce( '<svg role="img" aria-label=" "><title>Sales increased!</title><g><title>Node title</title><text>Axis label</text></g></svg>' ),
+						'Sales increased! ' );
+				} );
+
+				QUnit.test( 'unnamed images do not expose presentational descendants', async assert => {
+					assert.strictEqual( await announce( '<div role="img">Inner text</div><svg role="img"><g><title>Nested title</title><text>Axis label</text></g></svg>' ), '' );
+				} );
+
+				QUnit.test( 'native image and video alt text is preserved', async assert => {
+					assert.strictEqual( await announce( '<img alt="A red square"><img role="img" alt="A blue square"><img role="img" aria-label="A green square" alt="Unused alt"><video alt="A video"></video><img alt="">' ),
+						'A red square. A blue square. A green square. A video. ' );
+				} );
+
+				QUnit.test( 'SVG and HTML styles and scripts are excluded regardless of display', async assert => {
+					assert.strictEqual( await announce( '<svg><style style="display: inline">.node { fill: red; }</style><script type="application/json" style="display: inline">{"svg": true}<\/script><text>Start</text><text>End</text></svg><style style="display: block">.unused { color: red; }</style><script type="application/json" style="display: block">{"html": true}<\/script>' ),
+						'Start End ' );
+				} );
+
+				QUnit.test( 'titles in SVGs without role="img" are still announced', async assert => {
+					assert.strictEqual( await announce( '<svg><title>Graph</title><g><title>Node title</title><text>Node label</text></g></svg>' ),
+						'Graph Node title Node label ' );
+				} );
+
+				QUnit.test( 'hidden images and ordinary text retain existing behavior', async assert => {
+					assert.strictEqual( await announce( '<div role="img" aria-hidden="true" aria-label="Hidden">Inner text</div><svg role="img" style="display: none" aria-label="Also hidden"></svg><p>Visible text</p>' ),
+						'Visible text. ' );
+				} );
+
+			} );
+		</script>
+
+	</body>
+</html>
