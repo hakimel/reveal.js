@@ -188,6 +188,7 @@ export default class Fragments {
 			if( fragments.length ) {
 
 				let maxIndex = 0;
+				let fragmentsToAnnounce = [];
 
 				if( typeof index !== 'number' ) {
 					let currentFragment = this.sort( slide.querySelectorAll( '.fragment.visible' ) ).pop();
@@ -211,8 +212,7 @@ export default class Fragments {
 						el.classList.remove( 'current-fragment' );
 
 						if( i === index ) {
-							// Announce the fragments one by one to the Screen Reader
-							this.Reveal.announceStatus( this.Reveal.getStatusText( el ) );
+							fragmentsToAnnounce.push( el );
 
 							el.classList.add( 'current-fragment' );
 							this.Reveal.slideContent.startEmbeddedContent( el );
@@ -244,6 +244,12 @@ export default class Fragments {
 						}
 					}
 
+				} );
+
+				// Read and announce each current fragment only after all fragment
+				// classes are updated, so nested fragments have their final state.
+				fragmentsToAnnounce.forEach( el => {
+					this.Reveal.announceStatus( this.Reveal.getStatusText( el ) );
 				} );
 
 				// Write the current fragment index to the slide <section>.

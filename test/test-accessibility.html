@@ -32,6 +32,17 @@
 				<section>
 					<section id="vertical-slide"><h1>Vertical slide</h1></section>
 				</section>
+				<section id="nested-fade-out">
+					<div class="fragment">Parent one <span class="fragment fade-out">Child fades</span></div>
+				</section>
+				<section id="nested-normal">
+					<div class="fragment">Parent two <span class="fragment">Child appears</span></div>
+				</section>
+				<section id="grouped-fragments">
+					<div class="fragment" data-fragment-index="0">Grouped parent <span class="fragment current-visible" data-fragment-index="0">Child current</span></div>
+					<div class="fragment fade-out" data-fragment-index="0">Grouped fade out</div>
+					<div class="fragment" data-fragment-index="1">Next group</div>
+				</section>
 			</div>
 		</div>
 
@@ -98,6 +109,62 @@
 					assert.notOk( statusText.includes( 'Current visible.' ), 'a past current-visible fragment is excluded' );
 					assert.notOk( statusText.includes( 'Fade in then out.' ), 'a past fade-in-then-out fragment is excluded' );
 					assert.ok( statusText.includes( 'Fade in then semi out.' ), 'a past fade-in-then-semi-out fragment remains announced' );
+				});
+
+				QUnit.test( 'Backward navigation includes a nested fade-out fragment that becomes visible again', async function( assert ) {
+					deck.slide( 3, 0, -1 );
+					await nextFrame();
+
+					deck.next();
+					deck.next();
+					deck.prev();
+
+					assert.strictEqual(
+						document.querySelector( '.aria-status' ).textContent,
+						'Parent one Child fades. ',
+						'the parent announcement includes the child after its fade-out state is reset'
+					);
+				});
+
+				QUnit.test( 'Backward navigation excludes a nested fragment that becomes hidden', async function( assert ) {
+					deck.slide( 4, 0, -1 );
+					await nextFrame();
+
+					deck.next();
+					deck.next();
+					deck.prev();
+
+					assert.strictEqual(
+						document.querySelector( '.aria-status' ).textContent,
+						'Parent two. ',
+						'the parent announcement excludes the child after it is hidden'
+					);
+				});
+
+				QUnit.test( 'Same-index fragments are announced in order after the whole group is updated', async function( assert ) {
+					deck.slide( 5, 0, -1 );
+					await nextFrame();
+
+					const status = document.querySelector( '.aria-status' );
+					const observer = new MutationObserver( () => {} );
+					observer.observe( status, { childList: true } );
+					const announcements = () => observer.takeRecords().map( record =>
+						Array.from( record.addedNodes ).map( node => node.textContent ).join( '' )
+					);
+					const expected = [ 'Grouped parent Child current. ', 'Child current ', 'Grouped fade out. ' ];
+
+					try {
+						deck.next();
+						assert.deepEqual( announcements(), expected, 'every grouped fragment is announced, including the fade-out root' );
+
+						deck.next();
+						announcements();
+						deck.prev();
+						assert.deepEqual( announcements(), expected, 'the nested current-visible child is current again before the parent is announced' );
+					}
+					finally {
+						observer.disconnect();
+					}
 				});
 
 				QUnit.module( 'Location' );
