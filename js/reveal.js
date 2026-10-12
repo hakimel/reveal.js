@@ -387,7 +387,7 @@ export default function( revealElement, options ) {
 	 * that can be announced to a screen reader. Hidden
 	 * elements are excluded.
 	 */
-	function getStatusText( node ) {
+	function getStatusText( node, rootNode = node ) {
 
 		let text = '';
 
@@ -400,7 +400,35 @@ export default function( revealElement, options ) {
 
 			let isAriaHidden = node.getAttribute( 'aria-hidden' );
 			let isDisplayHidden = window.getComputedStyle( node )['display'] === 'none';
-			if( isAriaHidden !== 'true' && !isDisplayHidden ) {
+			let isFragmentHidden = false;
+
+			// Fragment visibility is class-based since computed styles may still
+			// reflect an in-progress transition when an announcement is made.
+			// The root is exempt so a fragment can announce itself as it changes.
+			if( node !== rootNode &&
+				node.classList.contains( 'fragment' ) &&
+				!node.classList.contains( 'custom' ) ) {
+				const isVisible = node.classList.contains( 'visible' );
+				const isCurrent = node.classList.contains( 'current-fragment' );
+				const isCurrentOnly = node.classList.contains( 'current-visible' ) ||
+					node.classList.contains( 'fade-in-then-out' );
+				const isInitiallyVisible = ['grow', 'shrink', 'strike', 'semi-fade-out']
+					.some( style => node.classList.contains( style ) ) ||
+					Array.from( node.classList )
+						.some( style => /^highlight-(current-)?(red|green|blue)$/.test( style ) );
+
+				if( isCurrentOnly ) {
+					isFragmentHidden = !isCurrent;
+				}
+				else if( node.classList.contains( 'fade-out' ) ) {
+					isFragmentHidden = isVisible;
+				}
+				else {
+					isFragmentHidden = !isVisible && !isInitiallyVisible;
+				}
+			}
+
+			if( isAriaHidden !== 'true' && !isDisplayHidden && !isFragmentHidden ) {
 
 				// Capture alt text from img and video elements
 				if( node.tagName === 'IMG' || node.tagName === 'VIDEO' ) {
@@ -411,7 +439,7 @@ export default function( revealElement, options ) {
 				}
 
 				Array.from( node.childNodes ).forEach( child => {
-					text += getStatusText( child );
+					text += getStatusText( child, rootNode );
 				} );
 
 				// Add period after block-level text elements to improve
