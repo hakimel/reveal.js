@@ -232,7 +232,9 @@ export default class ScrollView {
 			let progress = ( event.clientY - this.progressBarInner.getBoundingClientRect().top ) / this.progressBarHeight;
 			progress = Math.max( Math.min( progress, 1 ), 0 );
 
-			this.viewportElement.scrollTop = progress * ( this.viewportElement.scrollHeight - this.viewportElement.offsetHeight );
+			// Map the drag position onto the same scale the trigger
+			// ranges use: a fraction of the total scroll height.
+			this.viewportElement.scrollTop = progress * this.viewportElement.scrollHeight;
 
 		};
 
@@ -773,8 +775,11 @@ export default class ScrollView {
 			const trigger = this.getScrollTriggerBySlide( slideElement );
 
 			if( trigger ) {
-				// Use the trigger's range to calculate the scroll position
-				this.viewportElement.scrollTop = trigger.range[0] * ( this.viewportElement.scrollHeight - this.viewportElement.offsetHeight );
+				// Trigger ranges are fractions of the total scroll height,
+				// matching the scrollProgress calculation in onScroll, not
+				// of the scrollable distance. Using the latter lands
+				// increasingly early the further into the deck we go.
+				this.viewportElement.scrollTop = trigger.range[0] * this.viewportElement.scrollHeight;
 			}
 		}
 

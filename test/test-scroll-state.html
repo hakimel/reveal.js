@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>reveal.js - Test Scroll View State</title>
+	</head>
+
+	<body>
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<div class="reveal" style="width: 380px; height: 214px;">
+			<div class="slides"></div>
+		</div>
+
+		<script type="module">
+			import 'reveal.css';
+			import 'qunit/qunit/qunit.css';
+			import QUnit from 'qunit';
+			import Reveal from 'reveal.js';
+
+			QUnit.config.testTimeout = 30000;
+			QUnit.config.autostart = false;
+
+			const slidesElement = document.querySelector( '.reveal .slides' );
+			for( let i = 0; i < 47; i++ ) {
+				const slide = document.createElement( 'section' );
+				slide.textContent = `Slide ${i + 1}`;
+				slidesElement.appendChild( slide );
+			}
+
+			Reveal.initialize({ embedded: true }).then( () => {
+				QUnit.start();
+
+				QUnit.module( 'Scroll View State' );
+
+				QUnit.test( 'setState shows every slide in a narrow embedded deck', async assert => {
+					const viewport = Reveal.getViewportElement();
+					assert.ok( viewport.classList.contains( 'reveal-scroll' ), 'Responsive scroll view is active' );
+
+					for( let i = 0; i < 47; i++ ) {
+						Reveal.setState({ indexh: i, indexv: 0 });
+						await new Promise( resolve => requestAnimationFrame( () => requestAnimationFrame( resolve ) ) );
+
+						assert.strictEqual( Reveal.getCurrentSlide()?.textContent, `Slide ${i + 1}`, `State ${i} shows the requested slide` );
+					}
+				} );
+
+				QUnit.test( 'Disabling responsive scroll view takes effect while active', assert => {
+					const viewport = Reveal.getViewportElement();
+					assert.ok( viewport.classList.contains( 'reveal-scroll' ), 'Scroll view starts active' );
+
+					Reveal.configure({ scrollActivationWidth: 0 });
+
+					assert.notOk( viewport.classList.contains( 'reveal-scroll' ), 'Scroll view deactivates immediately' );
+					assert.strictEqual( getComputedStyle( viewport ).overflowY, 'hidden', 'Native vertical scrolling is disabled' );
+					Reveal.setState({ indexh: 46, indexv: 0 });
+					assert.strictEqual( Reveal.getCurrentSlide()?.textContent, 'Slide 47', 'State still selects the requested slide' );
+				} );
+			} );
+		</script>
+	</body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>reveal.js - Test Scroll View Progress Bar</title>
+	</head>
+
+	<body>
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<div class="reveal" style="width: 380px; height: 400px;">
+			<div class="slides"></div>
+		</div>
+
+		<script type="module">
+			import 'reveal.css';
+			import 'qunit/qunit/qunit.css';
+			import QUnit from 'qunit';
+			import Reveal from 'reveal.js';
+
+			QUnit.config.testTimeout = 30000;
+			QUnit.config.autostart = false;
+
+			const SLIDE_COUNT = 8;
+
+			const slidesElement = document.querySelector( '.reveal .slides' );
+			for( let i = 0; i < SLIDE_COUNT; i++ ) {
+				const slide = document.createElement( 'section' );
+				slide.textContent = `Slide ${i + 1}`;
+				slidesElement.appendChild( slide );
+			}
+
+			// Clicking the progress bar starts a drag, so the position is
+			// applied through the same handler that a drag uses.
+			const clickProgressBarAt = clientY => {
+				const inner = document.querySelector( '.scrollbar-inner' );
+				const clientX = inner.getBoundingClientRect().left + 1;
+
+				inner.dispatchEvent( new MouseEvent( 'mousedown', { clientX, clientY, bubbles: true } ) );
+				document.dispatchEvent( new MouseEvent( 'mouseup', { clientX, clientY, bubbles: true } ) );
+			};
+
+			const waitForSlide = async ( text, timeout = 1000 ) => {
+				const start = Date.now();
+
+				while( Date.now() - start < timeout ) {
+					if( Reveal.getCurrentSlide()?.textContent === text ) return;
+					await new Promise( resolve => requestAnimationFrame( resolve ) );
+				}
+			};
+
+			Reveal.initialize({ embedded: true }).then( () => {
+				QUnit.start();
+
+				QUnit.module( 'Scroll View Progress Bar' );
+
+				QUnit.test( 'Each segment scrolls to the slide it represents', async assert => {
+					assert.ok( Reveal.isScrollView(), 'Responsive scroll view is active' );
+
+					const markers = document.querySelectorAll( '.scrollbar-slide' );
+					assert.strictEqual( markers.length, SLIDE_COUNT, 'A segment is drawn for every slide' );
+
+					for( let i = 0; i < SLIDE_COUNT; i++ ) {
+						clickProgressBarAt( markers[i].getBoundingClientRect().top + 1 );
+						await waitForSlide( `Slide ${i + 1}` );
+
+						assert.strictEqual( Reveal.getCurrentSlide()?.textContent, `Slide ${i + 1}`, `Segment ${i} scrolls to its own slide` );
+					}
+				} );
+			} );
+		</script>
+	</body>
+</html>
