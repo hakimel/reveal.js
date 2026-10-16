@@ -880,7 +880,7 @@ var ee = class {
 		this.progressBar = document.createElement("div"), this.progressBar.className = "scrollbar", this.progressBarInner = document.createElement("div"), this.progressBarInner.className = "scrollbar-inner", this.progressBar.appendChild(this.progressBarInner), this.progressBarPlayhead = document.createElement("div"), this.progressBarPlayhead.className = "scrollbar-playhead", this.progressBarInner.appendChild(this.progressBarPlayhead), this.viewportElement.insertBefore(this.progressBar, this.viewportElement.firstChild);
 		let e = (e) => {
 			let t = (e.clientY - this.progressBarInner.getBoundingClientRect().top) / this.progressBarHeight;
-			t = Math.max(Math.min(t, 1), 0), this.viewportElement.scrollTop = t * (this.viewportElement.scrollHeight - this.viewportElement.offsetHeight);
+			t = Math.max(Math.min(t, 1), 0), this.viewportElement.scrollTop = t * this.viewportElement.scrollHeight;
 		}, t = (n) => {
 			this.draggingProgressBar = !1, this.showProgressBar(), document.removeEventListener("mousemove", e), document.removeEventListener("mouseup", t);
 		};
@@ -1013,7 +1013,7 @@ var ee = class {
 		if (!this.active) this.activatedCallbacks.push(() => this.scrollToSlide(e));
 		else {
 			let t = this.getScrollTriggerBySlide(e);
-			t && (this.viewportElement.scrollTop = t.range[0] * (this.viewportElement.scrollHeight - this.viewportElement.offsetHeight));
+			t && (this.viewportElement.scrollTop = t.range[0] * this.viewportElement.scrollHeight);
 		}
 	}
 	storeScrollPosition() {
