@@ -52,6 +52,14 @@
 				<section>
 					<h1>TDD</h1>
 				</section>
+				<section data-ak-question="choice" data-ak-choices="3" data-ak-id="tdd-etape-1">
+					<h4>En TDD, par quoi commence-t-on ?</h4>
+					<ul style="list-style: none;">
+						<li><strong>A.</strong> Écrire le code de la fonctionnalité</li>
+						<li><strong>B.</strong> Écrire un test qui échoue</li>
+						<li><strong>C.</strong> Refactorer le code existant</li>
+					</ul>
+				</section>
 				<section> 
 					<h2>C'est quoi TDD</h2>
 					<img src="assets/tdd.webp" alt="Image représentant le développement dirigé par les tests">
@@ -126,6 +134,40 @@ public void testAdd() {
     Mockito.verify(additionService).add(2, 3);
 }</code></pre>
 				</section>
+				<section data-ak-question="code" data-ak-language="java" data-ak-id="test-mockito">
+					<h4>À vous : testez <code>product(4, 5)</code></h4>
+					<p>Simulez <code>multiply</code>, vérifiez le résultat et l'appel au service.</p>
+					<script type="text/x-java" data-ak-context>
+interface MultiplicationService {
+    int multiply(int a, int b);
+}
+
+class Calculator {
+    private MultiplicationService multiplicationService;
+
+    int product(int a, int b) {
+        return multiplicationService.multiply(a, b);
+    }
+}
+					</script>
+					<script type="text/x-java" data-ak-template>
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.mockito.Mockito;
+
+class CalculatorTest {
+    @InjectMocks
+    private Calculator calculator;
+    @Mock
+    private MultiplicationService multiplicationService;
+
+    @Test
+    public void testProduct() {
+        @@
+    }
+}
+					</script>
+				</section>
 				<section>
 					<iframe src="https://giphy.com/embed/f6z5TkrTIBZILYOd1t" width="480" height="480" frameBorder="0"
 						class="giphy-embed" allowFullScreen></iframe>
@@ -188,6 +230,14 @@ public void testAdd() {
 						<li>Test de repository -> Test de la base</li>
 						<li>Test de Service -> Test du framework + base/transaction</li>
 						<li>Test de contrôleur -> Test auth + Mapping (JSON -> DTO -> Domain) + PATH </li>
+					</ul>
+				</section>
+				<section data-ak-question="choice" data-ak-choices="3" data-ak-id="niveau-de-test">
+					<h4>Un test qui démarre l'application avec une base H2 et appelle <code>GET /clients</code> en JSON, c'est un test…</h4>
+					<ul style="list-style: none;">
+						<li><strong>A.</strong> unitaire</li>
+						<li><strong>B.</strong> d'intégration (contrôleur)</li>
+						<li><strong>C.</strong> end-to-end</li>
 					</ul>
 				</section>
 				<section>

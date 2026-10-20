@@ -64,6 +64,16 @@
 						</tr>
 					</table>
 				</section>
+				<section data-ak-question="choice" data-ak-choices="5" data-ak-id="solid-classe">
+					<h4>Une classe <code>ClientService</code> gère les clients, envoie les mails et génère les factures PDF. Quel principe viole-t-elle surtout ?</h4>
+					<ul style="list-style: none;">
+						<li><strong>A.</strong> S : Single responsibility</li>
+						<li><strong>B.</strong> O : Open/closed</li>
+						<li><strong>C.</strong> L : Liskov substitution</li>
+						<li><strong>D.</strong> I : Interface segregation</li>
+						<li><strong>E.</strong> D : Dependency inversion</li>
+					</ul>
+				</section>
 				<section>
 					<h2>Eviter les objets fourre tout/trop gros (S) </h2>
 					<ul class="r-stack">
@@ -209,6 +219,9 @@
 				<section>
 					<h1>Bonne pratique : Designer son API REST</h1>
 				</section>
+				<section data-ak-question="yesno" data-ak-id="entite-controller">
+					<h4>Retourner directement l'entité JPA <code>Client</code> (avec son mot de passe) depuis un <code>@RestController</code>, bonne idée ?</h4>
+				</section>
 				<section>
 					<h2>Ne pas retourner les entité dans les controllers</h2>
 					<ul>
@@ -318,6 +331,15 @@
 								<li>delete : le verbe http existe</li>
 							</ul>
 						</li>
+					</ul>
+				</section>
+				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="supprimer-fusee">
+					<h4>Quel appel pour supprimer la fusée 12 ?</h4>
+					<ul style="list-style: none;">
+						<li><strong>A.</strong> <code>POST /fusees/12/delete</code></li>
+						<li><strong>B.</strong> <code>DELETE /fusees/12</code></li>
+						<li><strong>C.</strong> <code>GET /fusees/delete?id=12</code></li>
+						<li><strong>D.</strong> <code>POST /fusees/delete/12</code></li>
 					</ul>
 				</section>
 			</section>

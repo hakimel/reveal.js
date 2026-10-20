@@ -98,6 +98,13 @@
 						<li>Les LB c'est pour répondre aux préoccupations des OPS (Monter en charge/Downtime)</li>
 					</ul>
 				</section>
+				<section data-ak-question="choice" data-ak-choices="2" data-ak-id="lb-ou-rp">
+					<h4>Ajouter une 2ᵉ instance de l'application pour encaisser le pic du Black Friday : c'est d'abord le rôle…</h4>
+					<ul style="list-style: none;">
+						<li><strong>A.</strong> du reverse proxy (préoccupation DEV)</li>
+						<li><strong>B.</strong> du load balancer (préoccupation OPS)</li>
+					</ul>
+				</section>
 				<section>
 					<h2>Les autres Features</h2>
 					<ul>
@@ -288,6 +295,15 @@
 						<li>...</li>
 					</ul>
 				</section>
+				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="bdd-capteur">
+					<h4>La température d'un capteur, relevée toutes les 10 secondes pendant un an : quel type de BDD ?</h4>
+					<ul style="list-style: none;">
+						<li><strong>A.</strong> Relationnel</li>
+						<li><strong>B.</strong> Document</li>
+						<li><strong>C.</strong> Timeseries</li>
+						<li><strong>D.</strong> Clé valeur</li>
+					</ul>
+				</section>
 
 				<section>
 					<h2>L'object Storage</h2>
@@ -452,6 +468,37 @@
 
 						</code>
 					</pre>
+				</section>
+				<section data-ak-question="code" data-ak-language="java" data-ak-id="listener-commandes">
+					<h4>À vous : consommez la file <code>commandes</code></h4>
+					<p>Chaque message reçu (une chaîne) doit être passé à <code>commandeService.traiter(...)</code>.</p>
+					<script type="text/x-java" data-ak-context>
+interface CommandeService {
+    void traiter(String commande);
+}
+					</script>
+					<script type="text/x-java" data-ak-template>
+@Service
+public class CommandeListener {
+
+    private final CommandeService commandeService;
+
+    public CommandeListener(CommandeService commandeService) {
+        this.commandeService = commandeService;
+    }
+
+    @@
+}
+					</script>
+				</section>
+				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="message-en-erreur">
+					<h4>Par défaut, que devient un message dont le traitement lève une exception dans le listener ?</h4>
+					<ul style="list-style: none;">
+						<li><strong>A.</strong> Il est perdu</li>
+						<li><strong>B.</strong> Il est rejoué à l'infini</li>
+						<li><strong>C.</strong> Il part dans une dead letter queue</li>
+						<li><strong>D.</strong> Il est renvoyé au producer</li>
+					</ul>
 				</section>
 				<section>
 					<h2>Gestion des erreurs</h2>
