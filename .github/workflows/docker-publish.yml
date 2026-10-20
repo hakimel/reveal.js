@@ -45,6 +45,14 @@ jobs:
         with:
           cosign-release: 'v2.2.4'
 
+      # Le runner est amd64 : QEMU permet à buildx d'émettre aussi arm64.
+      # audience-keeper monte cette image comme volume de diaporamas, et un nœud
+      # arm64 ne sait pas tirer une image publiée pour amd64 seulement.
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+
       # Set up BuildKit Docker container builder to be able to build
       # multi-platform images and export cache
       # https://github.com/docker/setup-buildx-action
@@ -76,6 +84,7 @@ jobs:
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           context: .
+          platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

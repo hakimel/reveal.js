@@ -18,13 +18,9 @@
 <body>
 	<div class="reveal">
 		<div class="slides">
-			<section>
-				<ol>
-					<li>Ctrl + q :  Ouvrir/fermer le panel de question</li>
-				</ol>
-				<input type="password" id="password">
-				<button id="host">Start</button>
-				<button id="qa">Question</button>
+			<section data-ak-join>
+				<h2>Rejoignez la séance</h2>
+				<p>Scannez le QR code ou entrez le code sur votre téléphone.</p>
 			</section>
 			<section>
 				<section>Gestion du traffic HTTP
@@ -310,33 +306,16 @@
 						<li>...</li>
 					</ul>
 				</section>
-				<section>
-					<h4>Question : Pour une application avec peu de traffic, beaucoup de règles métier et qui aura besoin
-						d'une recherche assez souple quelle est le meilleur type de SGBD ?</h4>
-					<div style="display: flex; flex-direction: column;" class="poll" data-poll="best-sgbd">
-						<button data-value="relationnel">
-							Relationnel
-						</button>
-						<button data-value="document">
-							Document
-						</button>
-						<button data-value="colonne">
-							Colonne
-						</button>
-						<button data-value="valeur">
-							Clé Valeur
-						</button>
-					</div>
-					<p style="font-size:24px;color:gray;">Responses: <span class="voters" data-poll="best-sgbd">0</span>
-					</p>
-				</section>
-				<section>
-					<div style="position: relative;height:480px!important;">
-						<canvas data-chart="bar" data-poll="best-sgbd">
-							, relationnel, document, colonne, valeur
-							, 0, 0, 0, 0
-						</canvas>
-					</div>
+				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="best-sgbd">
+					<h4>Pour une application avec peu de traffic, beaucoup de règles métier et qui aura besoin d'une recherche assez souple quelle est le meilleur type de SGBD ?</h4>
+					<!-- Lettres écrites en clair : le thème impose une numérotation 1, 2, 3
+					     alors que les étudiants répondent avec des boutons A, B, C, D. -->
+					<ul style="list-style: none;">
+						<li><strong>A.</strong> Relationnel</li>
+						<li><strong>B.</strong> Document</li>
+						<li><strong>C.</strong> Colonne</li>
+						<li><strong>D.</strong> Clé Valeur</li>
+					</ul>
 				</section>
 				<section>
 					<div class="mermaid">
@@ -500,78 +479,28 @@
 	<script src="plugin/notes/notes.js"></script>
 	<script src="plugin/markdown/markdown.js"></script>
 	<script src="plugin/highlight/highlight.js"></script>
-	<script src="/node_modules/reveal.js-mermaid-plugin/plugin/mermaid/mermaid.js"></script>
-	<script src="/node_modules/reveal.js-plugins/seminar/plugin.js"></script>
-
-	<script src="/node_modules/reveal.js-plugins/questions/plugin.js"></script>
-	<link rel="stylesheet" src="/node_modules/reveal.js-plugins/questions/style.css" />
-
-	<script src="/node_modules/reveal.js-plugins/chart/plugin.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
-
-	<script src="/node_modules/reveal.js-plugins/poll/plugin.js"></script>
-	<link rel="stylesheet" src="/node_modules/reveal.js-plugins/poll/style.css" />
-
-
-	<!-- Font awesome is used by several plugins -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-	<script src="/node_modules/reveal.js-plugins/customcontrols/plugin.js"></script>
-	<link rel="stylesheet" src="/node_modules/reveal.js-plugins/customcontrols/style.css" />
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
+	<!-- Chemin RELATIF : servi par audience-keeper sous /deck/, un chemin absolu
+	     (/node_modules/…) sortirait du dossier du diaporama. -->
+	<script src="node_modules/reveal.js-mermaid-plugin/plugin/mermaid/mermaid.js"></script>
+	<!-- Audience Keeper : questions en direct et diffusion des slides aux étudiants.
+	     Fourni par le serveur audience-keeper ; ailleurs (nginx seul) il est absent
+	     et le diaporama fonctionne sans. -->
+	<script src="/static/reveal-ak.js"></script>
 	<script>
 		// More info about initialization & config:
 		// - https://revealjs.com/initialization/
 		// - https://revealjs.com/config/
 		Reveal.initialize({
 			hash: true,
-			customcontrols: {
-				controls: [
-					{
-						id: 'toggle-questions',
-						title: 'Toggle Q&A dashboard (Q)',
-						icon: '<span class="fa-stack" style="margin: -24px -12px;padding:0;"><span class="fa-solid fa-comment fa-stack-1x"></span><strong class="fa-stack-1x fa-inverse qna question-counter" style="font-size:0.5em;"></strong></span>',
-						action: 'RevealQnA.toggleQnA();'
-					}
-				]
-			},
 			mermaid: {
 				// flowchart: {
 				//   curve: 'linear',
 				// },
 			},
-			seminar: {
-				server: "https://seminar.ruokki.ovh",
-				room: "Room",
-				hash: "$2a$05$1sk9j57QocHqsOgvUQ3RQ.qhNq.QXNZ5TDHDasniq1QwFDksuDjEu",
-				autoJoin: true
-			},
-			chart: {
-				defaults: {
-					backgroundColor: 'white'
-				},
-				bar: { backgroundColor: ["grey", "red", "grey"] },
-			},
 			// Learn about plugins: https://revealjs.com/plugins/
-			plugins: [RevealMarkdown, RevealHighlight, RevealChart, RevealNotes, RevealMermaid, RevealCustomControls, RevealSeminar, RevealQnA, RevealPoll]
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMermaid]
+				.concat(window.AudienceKeeper ? [AudienceKeeper] : [])
 		});
-		document.querySelector("#host").addEventListener('click', function (e) {
-			console.log("Start seminar")
-			RevealSeminar.open_or_join_room(document.getElementById('password').value);
-		});
-		document.querySelector("#qa").addEventListener('click', function (e) {
-			console.log("Start qa")
-			RevealQnA.toggleQnA();
-		});
-		document.addEventListener('keydown', (event) => {
-			var name = event.key;
-			var code = event.code;
-			if (name === 'q' & event.ctrlKey) {
-				RevealQnA.toggleQnA();;
-			}
-		}, false);
 	</script>
 </body>
 
