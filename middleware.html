@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-	<title>reveal.js</title>
+	<title>Middleware</title>
 
 	<link rel="stylesheet" href="dist/reset.css">
 	<link rel="stylesheet" href="dist/reveal.css">
@@ -22,8 +22,62 @@
 				<h2>Rejoignez la séance</h2>
 				<p>Scannez le QR code ou entrez le code sur votre téléphone.</p>
 			</section>
+
+			<!-- Introduction : le fil rouge -->
 			<section>
-				<section>Gestion du traffic HTTP
+				<section>
+					<h1>Middleware</h1>
+					<p>L'histoire d'une application qui grandit</p>
+					<aside class="notes">Fil rouge du cours : on part d'une application toute simple, et on ajoute un middleware chaque fois qu'un problème concret apparaît. Les étudiants doivent repartir avec le réflexe « quel problème ce composant résout-il ? ».</aside>
+				</section>
+				<section>
+					<h2>C'est quoi un middleware ?</h2>
+					<ul>
+						<li>Un logiciel qui se place <strong>entre</strong> notre application et le reste du monde</li>
+						<li>Ce n'est pas notre code métier, mais notre application ne tourne pas sans</li>
+						<li>Il répond à un problème : trafic, stockage, communication entre services</li>
+					</ul>
+					<aside class="notes">Demander d'abord à la salle s'ils en connaissent un. Exemples attendus : Nginx, PostgreSQL, RabbitMQ, Redis. Une base de données est un middleware : on ne l'écrit pas, mais l'application ne marche pas sans.</aside>
+				</section>
+				<section>
+					<h2>FraisDirect</h2>
+					<p>Une épicerie en ligne qui livre des produits frais</p>
+					<div class="mermaid">
+						<pre>
+							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+							graph LR
+							User[Client] --> App[Application Spring Boot]
+							App --> PG[(PostgreSQL)]
+						</pre>
+					</div>
+					<p class="fragment">Un serveur, une application, une base. Tout va bien… pour l'instant.</p>
+					<aside class="notes">L'application fictive de tout le cours : une épicerie en ligne avec des commandes, un catalogue, des paniers et des chambres froides équipées de capteurs. Au départ, tout tient sur un seul serveur.</aside>
+				</section>
+				<section>
+					<h2>Au programme</h2>
+					<ol>
+						<li>Le site est saturé : <strong>load balancer</strong></li>
+						<li>Plusieurs applications, un seul domaine : <strong>reverse proxy</strong></li>
+						<li>Des données de toutes les formes : <strong>bases de données</strong></li>
+						<li>Des services qui doivent se parler : <strong>messaging</strong></li>
+					</ol>
+					<aside class="notes">Les quatre actes suivent la croissance de FraisDirect. Chaque acte commence par un problème, puis présente le middleware qui le résout.</aside>
+				</section>
+			</section>
+
+			<!-- Acte 1 : load balancer -->
+			<section>
+				<section>
+					<h1>1. Le Black Friday</h1>
+				</section>
+				<section>
+					<h2>Le problème</h2>
+					<ul>
+						<li>Le trafic est multiplié par 10 : le serveur sature</li>
+						<li>Le serveur redémarre pour une mise à jour : le site est coupé</li>
+					</ul>
+					<p class="fragment">Il faut <strong>plusieurs instances</strong> de l'application… et quelqu'un pour répartir les requêtes.</p>
+					<aside class="notes">Deux problèmes différents : la capacité (trop de requêtes) et la disponibilité (le site coupé pendant une mise à jour). La même solution règle les deux : plusieurs instances.</aside>
 				</section>
 				<section data-auto-animate>
 					<h2>Load Balancing</h2>
@@ -31,41 +85,81 @@
 						<pre>
 							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
 							graph LR
-							User -->|Requête 1,2,3| LoadBalancer
+							User -->|Requêtes 1, 2, 3| LoadBalancer
 							LoadBalancer -->|Requête 1| Server1
 							LoadBalancer -->|Requête 2| Server2
-							LoadBalancer -->|Requête 3| Server3						  </pre>
+							LoadBalancer -->|Requête 3| Server3
+						</pre>
 					</div>
+					<aside class="notes">Le load balancer est le seul point d'entrée connu des clients. Il distribue les requêtes entre les instances. Il ne doit pas devenir lui-même un point unique de panne : en production, on en met deux (actif/passif, IP virtuelle avec keepalived par exemple).</aside>
 				</section>
 				<section data-auto-animate>
-					<h2>Load Balancing : Gestion des down</h2>
+					<h2>Load Balancing : gestion des pannes</h2>
 					<div class="mermaid">
 						<pre>
 							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
 							graph LR
-
-							%%classDef
 							classDef classAlert fill:red,color:white,stroke-width:2px,stroke:darkRed;
-							%%flowchart
 
-							User -->|Requête 1,2,3| LoadBalancer
+							User -->|Requêtes 1, 2, 3| LoadBalancer
 							LoadBalancer -->|Requête 1| Server1
-							LoadBalancer -->|Requête 2,3| Server2
-							LoadBalancer -->| | Server3
-							%%Style
+							LoadBalancer -->|Requêtes 2, 3| Server2
+							LoadBalancer -.->|health check KO| Server3
+
 							class Server3 classAlert;
-					</pre>
+						</pre>
 					</div>
+					<p>Le load balancer interroge régulièrement chaque instance (<em>health check</em>) et retire celles qui ne répondent plus.</p>
+					<aside class="notes">Le health check, c'est par exemple un GET /actuator/health toutes les quelques secondes. Après plusieurs échecs, l'instance est retirée ; elle revient quand elle répond de nouveau. C'est aussi ce qui permet de mettre à jour les instances une par une sans coupure (rolling update).</aside>
 				</section>
 				<section>
-					<h2>Liste des Load Balancers</h2>
+					<h2>Répartir les requêtes</h2>
 					<ul>
-						<li>HAProxy - OpenSource</li>
-						<li>Seesaw - OpenSource</li>
-						<li>F5 - Propriétaire</li>
-						<li>Barracuda - Propriétaire</li>
-						<li>...</li>
+						<li><strong>Round robin</strong> : chacun son tour</li>
+						<li><strong>Least connections</strong> : vers l'instance la moins chargée</li>
+						<li><strong>Hash</strong> (IP, cookie…) : toujours la même instance pour un même client</li>
 					</ul>
+					<p class="fragment">Niveau 4 (TCP) : le LB ne voit que des connexions. Niveau 7 (HTTP) : il peut router selon l'URL, les headers…</p>
+					<aside class="notes">Round robin convient quand toutes les requêtes se ressemblent. Least connections est utile quand certaines requêtes sont longues. Le hash sert à garder un client sur la même instance, ce qui amène la question suivante. Niveau 4 : plus rapide mais aveugle. Niveau 7 : il lit le HTTP, donc il peut faire du routage par URL, ce qui ressemble déjà au reverse proxy.</aside>
+				</section>
+				<section data-ak-question="yesno" data-ak-id="panier-en-session">
+					<h4>Le panier est gardé en mémoire dans la session HTTP de l'application. Avec 3 instances derrière un load balancer en round robin, ça marche ?</h4>
+					<aside class="notes">Réponse : non. La requête suivante arrive sur une autre instance, qui ne connaît pas la session : le panier semble vide une fois sur trois.</aside>
+				</section>
+				<section>
+					<h2>Une application derrière un LB est <em>stateless</em></h2>
+					<ul>
+						<li>La requête suivante arrive sur une autre instance : le panier a disparu</li>
+						<li><em>Sticky sessions</em> (hash) : ça dépanne, mais le panier est perdu si l'instance tombe</li>
+						<li>La bonne solution : stocker l'état <strong>hors de l'application</strong> (on y revient avec les bases clé-valeur)</li>
+					</ul>
+					<aside class="notes">Les sticky sessions sont une rustine : la charge est mal répartie, et l'instance qui tombe emporte ses paniers. La vraie solution : session dans Redis (Spring Session) ou jeton côté client. On y revient dans l'acte 3 avec les bases clé-valeur.</aside>
+				</section>
+				<section>
+					<h2>Des load balancers</h2>
+					<ul>
+						<li>HAProxy, Nginx, Envoy : open source</li>
+						<li>F5 : propriétaire, matériel</li>
+						<li>Les LB des clouds (AWS ELB, Google Cloud Load Balancing…)</li>
+						<li>Le <code>Service</code> Kubernetes</li>
+					</ul>
+					<aside class="notes">En pratique, les étudiants utiliseront surtout le LB de leur cloud ou le Service Kubernetes, sans l'installer eux-mêmes. HAProxy et Nginx restent les références quand on gère ses propres serveurs.</aside>
+				</section>
+			</section>
+
+			<!-- Acte 2 : reverse proxy -->
+			<section>
+				<section>
+					<h1>2. Un site, plusieurs applications</h1>
+				</section>
+				<section>
+					<h2>Le problème</h2>
+					<ul>
+						<li>FraisDirect a maintenant un site vitrine, un front et une API</li>
+						<li>Trois applications, mais un seul point d'entrée pour les clients</li>
+						<li>Et un certificat HTTPS à gérer… trois fois ?</li>
+					</ul>
+					<aside class="notes">On ne veut pas exposer trois ports ou trois serveurs aux clients. On veut une seule adresse, un seul certificat, et décider derrière où va chaque requête.</aside>
 				</section>
 				<section>
 					<h2>Reverse Proxy</h2>
@@ -73,30 +167,46 @@
 						<pre>
 							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
 							graph LR
-							User -->|http://h1.com\nhttp://h2.com\nhttp://h2.com/api\ndddd|Reverse[Reverse Proxy]
-							Reverse -->|http://h1.com| SiteVi[Site Vitrine]
-							Reverse -->|http://h2.com| Front
-							Reverse -->|http://h2.com/api| BackEnd
+							User --> Reverse[Reverse Proxy]
+							Reverse -->|www.fraisdirect.fr| Vitrine[Site vitrine]
+							Reverse -->|app.fraisdirect.fr| Front
+							Reverse -->|app.fraisdirect.fr/api| API
 						</pre>
 					</div>
+					<p>Il route chaque requête selon le nom de domaine et le chemin.</p>
+					<aside class="notes">Le client ne sait pas qu'il y a trois applications. Router /api vers le backend sur le même domaine que le front évite aussi les problèmes de CORS.</aside>
 				</section>
 				<section>
-					<h2>Liste des Reverse Proxy</h2>
+					<h2>Les autres fonctionnalités</h2>
+					<ul>
+						<li>Terminaison HTTPS : un seul endroit pour les certificats</li>
+						<li>Authentification</li>
+						<li>Cache et compression</li>
+						<li>Limitation du nombre de requêtes (<em>rate limiting</em>)</li>
+					</ul>
+					<p class="fragment">Un reverse proxy spécialisé pour les API s'appelle une <strong>API gateway</strong>.</p>
+					<aside class="notes">La terminaison HTTPS : le chiffrement s'arrête au reverse proxy, et les applications derrière parlent HTTP sur le réseau interne. Traefik et Caddy obtiennent les certificats Let's Encrypt automatiquement. API gateway : Kong, Spring Cloud Gateway, celles des clouds.</aside>
+				</section>
+				<section>
+					<h2>Des reverse proxys</h2>
 					<ul>
 						<li>Nginx</li>
 						<li>Traefik</li>
+						<li>Caddy</li>
+						<li>HAProxy</li>
 						<li>Apache</li>
-						<li>....</li>
 					</ul>
+					<aside class="notes">Nginx est le plus répandu. Traefik est très utilisé avec Docker et Kubernetes, car il se configure à partir des labels des conteneurs. Caddy est le plus simple à démarrer.</aside>
 				</section>
 				<section>
-					<h2>Load Balancing Vs Reverse Proxy</h2>
-					<p><strong>C'est quoi la différence ? </strong></p>
+					<h2>Load balancer ou reverse proxy ?</h2>
 					<ul>
-						<li>En général les LB font RP et les RP font LB mais les objectifs sont différents</li>
-						<li>Les RP c'est pour répondre aux préoccupations des DEV (Architecture de l'application)</li>
-						<li>Les LB c'est pour répondre aux préoccupations des OPS (Monter en charge/Downtime)</li>
+						<li>En général, les LB savent faire RP et les RP savent faire LB</li>
+						<li>Mais les objectifs sont différents :</li>
+						<li>Le RP répond aux préoccupations des DEV : l'architecture de l'application</li>
+						<li>Le LB répond aux préoccupations des OPS : la montée en charge, les coupures</li>
 					</ul>
+					<aside class="notes">Techniquement, c'est souvent le même logiciel (Nginx fait les deux). La différence est dans l'intention : découper l'application en plusieurs services (DEV), ou tenir la charge et les pannes (OPS).</aside>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="2" data-ak-id="lb-ou-rp">
 					<h4>Ajouter une 2ᵉ instance de l'application pour encaisser le pic du Black Friday : c'est d'abord le rôle…</h4>
@@ -104,196 +214,111 @@
 						<li><strong>A.</strong> du reverse proxy (préoccupation DEV)</li>
 						<li><strong>B.</strong> du load balancer (préoccupation OPS)</li>
 					</ul>
-				</section>
-				<section>
-					<h2>Les autres Features</h2>
-					<ul>
-						<li>Gestion de certificats (Https)</li>
-						<li>Gestion de l'authentification</li>
-					</ul>
+					<aside class="notes">Réponse : B. Ajouter des instances d'une même application pour tenir la charge, c'est le rôle du load balancer.</aside>
 				</section>
 			</section>
+
+			<!-- Acte 3 : bases de données -->
 			<section>
-				<section>Base de données</section>
 				<section>
-					<h2>Les différents types de BDD</h2>
+					<h1>3. Des données de toutes les formes</h1>
+				</section>
+				<section>
+					<h2>Les besoins de FraisDirect</h2>
 					<ul>
-						<li>
-							Relationnel
-						</li>
-						<li>
-							Document
-						</li>
-						<li>
-							Colonne
-						</li>
-						<li>
-							Clé Valeur
-						</li>
-						<li>
-							Timeseries
-						</li>
-						<li>
-							(Object Storage)
-						</li>
+						<li>Les commandes et les factures</li>
+						<li>Un catalogue de produits où l'on cherche facilement</li>
+						<li>Les paniers, partagés entre les instances</li>
+						<li>La température des chambres froides</li>
+						<li>Les photos des produits et les factures PDF</li>
 					</ul>
+					<p class="fragment">Chaque besoin a son type de base.</p>
+					<aside class="notes">Faire deviner aux étudiants, pour chaque besoin, si PostgreSQL convient. Pour les commandes, oui ; pour les autres, la réponse est moins évidente, et c'est le sujet de l'acte.</aside>
 				</section>
 				<section>
-					<h2>BDD Relationnel</h2>
-					<table>
-						<tr>
-							<td>Avantage</td>
-							<td>Inconvenient</td>
-						</tr>
-						<tr>
-							<td colspan="2" style="text-align: center;">Structuré</td>
-						</tr>
-						<tr>
-							<td>Versionnable</td>
-							<td>Recherche limité</td>
-						</tr>
-						<tr>
-							<td>Transactionnel</td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>Support</td>
-						</tr>
-					</table>
-				</section>
-				<section>
-					<h2>Liste de SGBD Relationnel</h2>
-					<ul>
-						<li>Postresql</li>
-						<li>MySql - MariaDB</li>
-						<li>Oracle (Propriétaire)</li>
-						<li>...</li>
-					</ul>
-				</section>
-				<section>
-					<h2>BDD Document</h2>
+					<h2>Commandes et factures : relationnel</h2>
 					<table>
 						<thead>
-							<th>Avantage</th>
-							<th>Inconvenient</th>
+							<tr>
+								<th>Avantages</th>
+								<th>Inconvénients</th>
+							</tr>
 						</thead>
-						<tr>
-							<td>Flexibilité de schéma </td>
-							<td>Peu de Support Acid/Transaction</td>
-						</tr>
-						<tr>
-							<td>Modélisation des données </td>
-							<td>Limitation dans les jointures</td>
-						</tr>
-						<tr>
-							<td>Scalabilité</td>
-							<td>Manque de support</td>
-						</tr>
-						<tr>
-							<td>Recherche avancées</td>
-							<td></td>
-						</tr>
+						<tbody>
+							<tr>
+								<td>Transactions ACID</td>
+								<td>Schéma rigide : chaque changement est une migration</td>
+							</tr>
+							<tr>
+								<td>Jointures et contraintes d'intégrité</td>
+								<td>Difficile à répartir sur plusieurs serveurs</td>
+							</tr>
+							<tr>
+								<td>SQL : un langage standard</td>
+								<td>Recherche textuelle limitée</td>
+							</tr>
+							<tr>
+								<td>Très répandu, très outillé</td>
+								<td></td>
+							</tr>
+						</tbody>
 					</table>
-
+					<p>PostgreSQL, MySQL / MariaDB, Oracle, SQL Server</p>
+					<aside class="notes">C'est le choix par défaut. Une commande, ses lignes, le client et la facture doivent rester cohérents : les transactions et les contraintes d'intégrité sont faites pour ça. Le schéma rigide est aussi une force : la base refuse les données incohérentes.</aside>
 				</section>
 				<section>
-					<h2>Liste de Bdd Document</h2>
-					<ul>
-						<li>MongoDB</li>
-						<li>Elasticsearch</li>
-						<li>CouchDB</li>
-						<li>...</li>
-					</ul>
-				</section>
-				<section>
-					<h2>BDD Colonne</h2>
+					<h2>Le catalogue : document</h2>
 					<table>
 						<thead>
-							<th>Avantage</th>
-							<th>Inconvenient</th>
+							<tr>
+								<th>Avantages</th>
+								<th>Inconvénients</th>
+							</tr>
 						</thead>
-						<tr>
-							<td>Performance</td>
-							<td>Compliqué</td>
-						</tr>
-						<tr>
-							<td>Répartition Spatial </td>
-							<td>Peu support des transactions/ACID</td>
-						</tr>
+						<tbody>
+							<tr>
+								<td>Schéma flexible : chaque produit a ses attributs</td>
+								<td>Jointures limitées : on duplique les données</td>
+							</tr>
+							<tr>
+								<td>Recherche avancée (fautes de frappe, filtres)</td>
+								<td>Transactions plus limitées et plus coûteuses</td>
+							</tr>
+							<tr>
+								<td>Se répartit facilement sur plusieurs serveurs</td>
+								<td></td>
+							</tr>
+						</tbody>
 					</table>
+					<p>MongoDB, CouchDB, Elasticsearch / OpenSearch (moteurs de recherche)</p>
+					<aside class="notes">Un fromage a une durée d'affinage, un fruit une origine et un calibre : en relationnel, ces attributs variables deviennent pénibles. Elasticsearch est d'abord un moteur de recherche : il ne remplace pas la base principale, on l'alimente à partir d'elle. MongoDB gère les transactions multi-documents depuis la version 4.0, mais ce n'est pas son point fort.</aside>
 				</section>
 				<section>
-					<h2>Liste de Bdd Colonne</h2>
-					<ul>
-						<li>BigTable</li>
-						<li>HBase</li>
-						<li>Cassandra</li>
-						<li>...</li>
-					</ul>
-				</section>
-				<section>
-					<h2>BDD Clé valeur</h2>
+					<h2>Les paniers : clé-valeur</h2>
 					<table>
 						<thead>
-							<th>Avantage</th>
-							<th>Inconvenient</th>
+							<tr>
+								<th>Avantages</th>
+								<th>Inconvénients</th>
+							</tr>
 						</thead>
-						<tr>
-							<td>Performance</td>
-							<td>Pas de Recherche</td>
-						</tr>
-						<tr>
-							<td>Simple à utiliser</td>
-							<td>Pas de transactions</td>
-						</tr>
-						<tr>
-							<td>Scalable</td>
-							<td>Pas de jointures</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>Stockage en memoire RAM</td>
-						</tr>
-
+						<tbody>
+							<tr>
+								<td>Très rapide (souvent en mémoire)</td>
+								<td>On ne lit qu'à partir de la clé : pas de recherche</td>
+							</tr>
+							<tr>
+								<td>Simple à utiliser</td>
+								<td>Pas de jointures</td>
+							</tr>
+							<tr>
+								<td>Expiration automatique des clés</td>
+								<td>La persistance sur disque est à configurer</td>
+							</tr>
+						</tbody>
 					</table>
-				</section>
-				<section>
-					<h2>Liste de Bdd Cle valeur</h2>
-					<ul>
-						<li>Etcd</li>
-						<li>Redis</li>
-						<li>...</li>
-					</ul>
-				</section>
-				<section>
-					<h2>BDD Timeseries</h2>
-					<table>
-						<thead>
-							<th>Avantage</th>
-							<th>Inconvenient</th>
-						</thead>
-						<tr>
-							<td>Compression </td>
-							<td>Tres specialisé</td>
-						</tr>
-						<tr>
-							<td>Scalabilité</td>
-							<td>Pas de transactions</td>
-						</tr>
-						<tr>
-							<td>Performance</td>
-						</tr>
-
-					</table>
-				</section>
-				<section>
-					<h2>Liste de Bdd Timeseries</h2>
-					<ul>
-						<li>Influx</li>
-						<li>Prometheus</li>
-						<li>Graphite</li>
-						<li>...</li>
-					</ul>
+					<p>Redis / Valkey, Memcached (cache), etcd (configuration)</p>
+					<aside class="notes">Retour sur l'acte 1 : c'est ici que l'on range les paniers pour que l'application soit stateless. Redis sert aussi de cache.</aside>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="bdd-capteur">
 					<h4>La température d'un capteur, relevée toutes les 10 secondes pendant un an : quel type de BDD ?</h4>
@@ -301,173 +326,399 @@
 						<li><strong>A.</strong> Relationnel</li>
 						<li><strong>B.</strong> Document</li>
 						<li><strong>C.</strong> Timeseries</li>
-						<li><strong>D.</strong> Clé valeur</li>
+						<li><strong>D.</strong> Clé-valeur</li>
 					</ul>
-				</section>
-
-				<section>
-					<h2>L'object Storage</h2>
-					<ul>
-						<li>Stockage de fichier</li>
-						<li>Stockage de blob</li>
-					</ul>
-					<pre>Nommé aussi bucket</pre>
+					<aside class="notes">Réponse : C. Environ 3 millions de mesures par capteur et par an, toujours lues par plage de temps. Une base relationnelle tient le coup au début, mais la timeseries compresse et agrège bien mieux.</aside>
 				</section>
 				<section>
-					<h2>Liste d'object Storage</h2>
-					<ul>
-						<li>S3 (aka bucket S3)</li>
-						<li>Minio (S3 self-hosted)</li>
-						<li>Google Cloud Storage</li>
-						<li>...</li>
-					</ul>
+					<h2>Les chambres froides : timeseries</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Avantages</th>
+								<th>Inconvénients</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Compression des mesures</td>
+								<td>Très spécialisée</td>
+							</tr>
+							<tr>
+								<td>Agrégations dans le temps (moyenne par heure…)</td>
+								<td>Pas faite pour modifier les données</td>
+							</tr>
+							<tr>
+								<td>Rétention : les vieilles données sont résumées puis supprimées</td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>
+					<p>InfluxDB, TimescaleDB, Prometheus, VictoriaMetrics</p>
+					<aside class="notes">Typiquement : alerte si la température dépasse 4 °C pendant plus de 10 minutes, graphique de la semaine. Prometheus est surtout utilisé pour la supervision des applications, avec sa propre base timeseries. TimescaleDB est une extension de PostgreSQL : pratique si PostgreSQL est déjà en place.</aside>
 				</section>
-				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="best-sgbd">
-					<h4>Pour une application avec peu de traffic, beaucoup de règles métier et qui aura besoin d'une recherche assez souple quelle est le meilleur type de SGBD ?</h4>
+				<section>
+					<h2>Photos et PDF : object storage</h2>
+					<ul>
+						<li>Stocke des fichiers (<em>objets</em>) rangés dans des <em>buckets</em></li>
+						<li>Accès en HTTP, quasiment sans limite de taille</li>
+						<li>On remplace un objet, on ne le modifie pas</li>
+					</ul>
+					<p>AWS S3 (et son API, devenue un standard), Google Cloud Storage, Azure Blob<br>
+						Auto-hébergés : Ceph, Garage, SeaweedFS, MinIO</p>
+					<aside class="notes">Les fichiers ne vont ni en base ni sur le disque du serveur : avec plusieurs instances, le disque local n'est pas partagé. Un bucket est un conteneur d'objets, pas un synonyme d'object storage. MinIO a beaucoup réduit son édition communautaire en 2025, d'où les alternatives citées.</aside>
+				</section>
+				<section>
+					<h2>Et pour les gros volumes : colonne</h2>
+					<ul>
+						<li><strong>Wide-column</strong> (Cassandra, ScyllaDB, HBase, Bigtable) : énormément d'écritures, réparties sur de nombreux serveurs</li>
+						<li><strong>Colonne analytique</strong> (ClickHouse, BigQuery) : statistiques sur des milliards de lignes</li>
+						<li>On modélise à partir des requêtes, et c'est complexe à exploiter</li>
+					</ul>
+					<p class="fragment">FraisDirect n'en a pas besoin… pour l'instant.</p>
+					<aside class="notes">Deux familles qui partagent le même nom. Wide-column : on conçoit les tables à partir des requêtes, pas à partir des données. Colonne analytique : on lit quelques colonnes sur énormément de lignes, idéal pour les statistiques. À présenter rapidement : peu d'étudiants en auront besoin tôt.</aside>
+				</section>
+				<section>
+					<h2>Récapitulatif</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Type</th>
+								<th>Usage</th>
+								<th>Exemple</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Relationnel</td>
+								<td>Données métier, transactions</td>
+								<td>PostgreSQL</td>
+							</tr>
+							<tr>
+								<td>Document</td>
+								<td>Schéma flexible, recherche</td>
+								<td>MongoDB, Elasticsearch</td>
+							</tr>
+							<tr>
+								<td>Clé-valeur</td>
+								<td>Cache, sessions</td>
+								<td>Redis</td>
+							</tr>
+							<tr>
+								<td>Timeseries</td>
+								<td>Mesures dans le temps</td>
+								<td>InfluxDB</td>
+							</tr>
+							<tr>
+								<td>Colonne</td>
+								<td>Très gros volumes</td>
+								<td>Cassandra, ClickHouse</td>
+							</tr>
+							<tr>
+								<td>Object storage</td>
+								<td>Fichiers</td>
+								<td>S3</td>
+							</tr>
+						</tbody>
+					</table>
+					<aside class="notes">Pause pour vérifier que chaque besoin de FraisDirect a trouvé sa base.</aside>
+				</section>
+				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="sgbd-petite-appli">
+					<h4>Une application avec peu de trafic, beaucoup de règles métier et une recherche par nom de produit : quel type de SGBD choisir ?</h4>
 					<!-- Lettres écrites en clair : le thème impose une numérotation 1, 2, 3
 					     alors que les étudiants répondent avec des boutons A, B, C, D. -->
 					<ul style="list-style: none;">
 						<li><strong>A.</strong> Relationnel</li>
 						<li><strong>B.</strong> Document</li>
 						<li><strong>C.</strong> Colonne</li>
-						<li><strong>D.</strong> Clé Valeur</li>
+						<li><strong>D.</strong> Clé-valeur</li>
 					</ul>
+					<aside class="notes">Réponse : A. Peu de trafic et beaucoup de règles métier : relationnel. Une recherche par nom se fait très bien en SQL ou avec la recherche plein texte de PostgreSQL. Ceux qui répondent B pensent à la recherche : c'est la transition vers la slide suivante.</aside>
 				</section>
 				<section>
-					<div class="mermaid">
-						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
-							graph LR
-							ServiceCompta --> |sql |Relationnel[(Relationnel)]
-							ServiceCompta --> |event | ServiceRecherche
-							ServiceRecherche --> |document| Document[(Document)] 
-						</pre>
-					</div>
-				</section>
-				<section>
-					<div class="mermaid">
-						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
-							graph LR
-							ServiceCompta --> |sql |RelationnelCompta[(RelationnelCompta)]
-							ServiceClient --> |sql |RelationnelClient[(RelationnelClient)]
-							ServiceCompta --> |event | ServiceRecherche
-							ServiceFacture --> |event | ServiceRecherche
-							ServiceClient --> |event | ServiceRecherche
-							ServiceRecherche --> |document| Document[(Document)] 
-							ServiceFacture --> |sql |RelationnelFacture[(RelationnelFacture)]
-						</pre>
-					</div>
-				</section>
-				<section>
-					<h1>Bonne pratique</h1>
+					<h2>Une base de plus, c'est un coût</h2>
 					<ul>
-						<li>Une base de donnée ne se partage pas (Entre applications différentes)</li>
-						<li>Une base ça se sauvegarde</li>
-						<li>On utilise la bonne base pour le bon usage</li>
+						<li>Il faut l'installer, la sauvegarder, la surveiller, la mettre à jour</li>
+						<li>PostgreSQL sait déjà faire de la recherche plein texte et stocker du JSON</li>
+						<li>On commence simple, on ajoute une base spécialisée quand le besoin est réel</li>
 					</ul>
+					<aside class="notes">Le piège classique : une base par besoin dès le premier jour. Chaque base en plus, c'est une sauvegarde à faire, une version à mettre à jour, des données à garder synchronisées.</aside>
+				</section>
+				<section>
+					<h2>Quand le besoin est réel</h2>
+					<p>Le catalogue grossit : il faut tolérer les fautes de frappe et filtrer par catégorie, prix, origine…</p>
+					<div class="mermaid">
+						<pre>
+							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+							graph LR
+							ServiceCatalogue -->|sql| PG[(PostgreSQL)]
+							ServiceCatalogue -->|événement : produit modifié| ServiceRecherche
+							ServiceRecherche -->|document| ES[(Elasticsearch)]
+						</pre>
+					</div>
+					<p class="fragment">Comment ces événements circulent-ils ? C'est l'acte 4.</p>
+					<aside class="notes">PostgreSQL reste la source de vérité ; Elasticsearch n'est qu'une copie pensée pour la recherche. Il faut donc propager chaque modification : c'est le rôle des événements, et la transition vers le messaging.</aside>
+				</section>
+				<section>
+					<h2>Bonnes pratiques</h2>
+					<ul>
+						<li>Une base ne se partage pas entre applications différentes</li>
+						<li>Une base se sauvegarde… et on teste la restauration</li>
+						<li>Le schéma évolue par migrations versionnées (Flyway, Liquibase)</li>
+						<li>La bonne base pour le bon usage, mais pas une de plus que nécessaire</li>
+					</ul>
+					<aside class="notes">Base partagée entre applications : le schéma devient un contrat que personne ne peut plus modifier. Une sauvegarde dont on n'a jamais testé la restauration ne compte pas. Migrations : le schéma est versionné avec le code et appliqué automatiquement au démarrage.</aside>
 				</section>
 			</section>
+
+			<!-- Acte 4 : messaging -->
 			<section>
 				<section>
-					<h1>Messaging</h1>
-					<div class="mermaid">
-						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
-							graph LR
-							Producer --> |client.facture.1234| Queue 
-							Queue --> |client.*| ClientEventConsumer
-							Queue --> |.*facture.*| FactureEventConsumer
-							Queue --> |.*1234| SseEventConsumer
-						</pre>
-					</div>
-
+					<h1>4. Des services qui doivent se parler</h1>
 				</section>
 				<section>
-					<h1>Messaging</h1>
-					<div class="mermaid">
-						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
-							graph LR
-
-							Producer[Producer] --> |Produit 1-40/sec  |Queue 
-							Queue --> |Consume 10/sec | ClientEventConsumer
-						</pre>
-					</div>
-
-				</section>
-				<section>
-					<h1>Liste de broker</h1>
+					<h2>Le problème</h2>
+					<p>Quand une commande est validée, il faut :</p>
 					<ul>
-						<li>AMQP - (RabbitMQ)</li>
-						<li>MQTT - (Mosquitto)</li>
-						<li>Kafka</li>
+						<li>envoyer un email de confirmation</li>
+						<li>générer la facture</li>
+						<li>prévenir l'entrepôt</li>
 					</ul>
+					<p class="fragment">En appels HTTP directs : le client attend tout, et si le service d'email est en panne… la commande échoue.</p>
+					<aside class="notes">Faire chiffrer le temps : 200 ms pour l'email, 1 s pour le PDF, 300 ms pour l'entrepôt ; le client attend tout ça. Et une panne du service d'email ne devrait pas empêcher de vendre.</aside>
 				</section>
 				<section>
-					<h2>AMQP dans spring</h2>
-					<p>La dependence : </p>
-					<pre>
-						<code data-trim  data-noescape> 
-						 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
-						</code>
-					</pre>
-
+					<h2>Un broker de messages</h2>
+					<div class="mermaid">
+						<pre>
+							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+							graph LR
+							Commande[Service commande] -->|commande créée| Broker{{Broker}}
+							Broker --> Email[Service email]
+							Broker --> Facture[Service facture]
+							Broker --> Entrepot[Service entrepôt]
+						</pre>
+					</div>
+					<ul>
+						<li><strong>Découplage</strong> : le service commande ne connaît pas ses consommateurs</li>
+						<li><strong>Asynchrone</strong> : la commande est validée tout de suite</li>
+						<li><strong>Résilience</strong> : si un service est en panne, ses messages l'attendent</li>
+					</ul>
+					<aside class="notes">Le service commande annonce un fait (« une commande a été créée ») ; il ne donne pas d'ordre. Ajouter un service intéressé, la fidélité par exemple, ne demande aucune modification du service commande.</aside>
 				</section>
 				<section>
-					<H2>Configuration des queues ('Hard-way')</H2>
-					<pre>
-
-						<code data-trim data-line-numbers="|5-8|10-16|19-25" data-noescape>
-								@Configuration
-								public class QueueConfiguration {
-								
-								    public static final String TEMPERATURE_QUEUE = "temperatureQueue";
-									@Bean
-								    TopicExchange appExchange() {
-								        return new TopicExchange("exchange", true, false);
-								    }
-								
-								    @Bean
-								    public Queue temperatureQueue() {
-								        return QueueBuilder
-								                .durable(TEMPERATURE_QUEUE)
-								                .quorum()
-								                .build();
-								    }
-								
-								
-								    @Bean
-								    public Binding temperatureBinding(
-								            Queue temperatureQueue,
-								            TopicExchange appExchange
-								    ) {
-								        return BindingBuilder.bind(temperatureQueue).to(appExchange).with("sensors.temp.#");
-								    }
-								}
-							
-						</code>
-					</pre>
-
+					<h2>Absorber les pics</h2>
+					<div class="mermaid">
+						<pre>
+							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+							graph LR
+							Producer -->|produit 1 à 40 messages/s| Queue
+							Queue -->|consomme 10 messages/s| Consumer
+						</pre>
+					</div>
+					<p>Pendant le pic, la file se remplit. Après, le consumer rattrape son retard. Rien n'est perdu.</p>
+					<aside class="notes">Le broker sert de tampon. Si le consumer est durablement plus lent que le producer, la file grossit sans fin : il faut alors ajouter des consumers. Surveiller la taille des files fait partie de l'exploitation.</aside>
 				</section>
 				<section>
-					<h2>Configuration du listener</h2>
-					<pre>
-						<code>
-							@Service
-							public class TemperatureListener {
-								...
-							
-							    @RabbitListener(queues = TEMPERATURE_QUEUE)
-							    public void temperatureChange(String temperature) {
-							        log.info("temperature {}", temperature);
-							        temperatureService.receive(temperature);
-							    }
-								...
-							}
+					<h2>Le vocabulaire AMQP</h2>
+					<div class="mermaid">
+						<pre>
+							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+							graph LR
+							Producer -->|routing key| Exchange{{Exchange}}
+							Exchange -->|binding| Q1[Queue facturation]
+							Exchange -->|binding| Q2[Queue entrepôt]
+							Q1 --> C1[Consumer facturation]
+							Q2 --> C2[Consumer entrepôt]
+						</pre>
+					</div>
+					<ul>
+						<li>Le producer publie sur un <strong>exchange</strong>, avec une <strong>routing key</strong></li>
+						<li>L'exchange copie le message dans chaque <strong>queue</strong> dont le <strong>binding</strong> correspond</li>
+						<li>Le consumer lit une queue</li>
+					</ul>
+					<aside class="notes">Point important : le producer ne publie jamais directement dans une queue, il publie sur un exchange. Le routage se fait dans l'exchange, grâce aux bindings. Types d'exchange : direct (clé exacte), topic (motifs), fanout (toutes les queues liées).</aside>
+				</section>
+				<section>
+					<h2>Topic exchange</h2>
+					<p>Routing key publiée : <code>commande.creee.fr</code></p>
+					<ul>
+						<li><code>*</code> remplace <strong>exactement un</strong> mot</li>
+						<li><code>#</code> remplace <strong>zéro ou plusieurs</strong> mots</li>
+					</ul>
+					<table>
+						<thead>
+							<tr>
+								<th>Binding</th>
+								<th>Reçoit <code>commande.creee.fr</code> ?</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>commande.#</code></td>
+								<td>Oui</td>
+							</tr>
+							<tr>
+								<td><code>*.creee.*</code></td>
+								<td>Oui</td>
+							</tr>
+							<tr>
+								<td><code>#.fr</code></td>
+								<td>Oui</td>
+							</tr>
+							<tr>
+								<td><code>commande.*</code></td>
+								<td>Non</td>
+							</tr>
+						</tbody>
+					</table>
+					<aside class="notes">Les routing keys sont des mots séparés par des points. Les motifs ne sont pas des expressions régulières. commande.* ne matche pas commande.creee.fr, car * remplace exactement un mot.</aside>
+				</section>
+				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="routing-key-etoile">
+					<h4>Une queue est liée avec le binding <code>commande.*</code>. Quels messages reçoit-elle ?</h4>
+					<ul style="list-style: none;">
+						<li><strong>A.</strong> <code>commande.creee</code> seulement</li>
+						<li><strong>B.</strong> <code>commande.creee.fr</code> seulement</li>
+						<li><strong>C.</strong> Les deux</li>
+						<li><strong>D.</strong> Aucun des deux</li>
+					</ul>
+					<aside class="notes">Réponse : A. * remplace exactement un mot. Pour recevoir les deux, il faudrait commande.#.</aside>
+				</section>
+				<section>
+					<h2>Plusieurs consumers sur une queue</h2>
+					<div class="mermaid">
+						<pre>
+							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+							graph LR
+							Exchange{{Exchange}} --> Q1[Queue facturation]
+							Exchange --> Q2[Queue entrepôt]
+							Q1 -->|message 1| F1[Facturation instance 1]
+							Q1 -->|message 2| F2[Facturation instance 2]
+							Q2 -->|messages 1 et 2| E1[Entrepôt]
+						</pre>
+					</div>
+					<ul>
+						<li>Chaque <strong>queue</strong> reçoit sa copie du message</li>
+						<li>Les consumers d'une <strong>même queue</strong> se partagent les messages : chacun est traité une fois</li>
+					</ul>
+					<aside class="notes">Deux mécanismes à ne pas confondre : plusieurs queues, chaque service reçoit sa copie (diffusion) ; plusieurs consumers sur une même queue, les messages se répartissent entre eux (competing consumers). C'est ce qui permet de mettre le service de facturation derrière plusieurs instances, comme dans l'acte 1.</aside>
+				</section>
+				<section>
+					<h2>Queue ou log ?</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Queue (RabbitMQ)</th>
+								<th>Log (Kafka)</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Le message est supprimé une fois traité</td>
+								<td>Les messages sont conservés et peuvent être relus</td>
+							</tr>
+							<tr>
+								<td>Routage riche (exchanges, bindings)</td>
+								<td>Ordre garanti par partition</td>
+							</tr>
+							<tr>
+								<td>Distribuer du travail</td>
+								<td>Très gros débits, historique d'événements</td>
+							</tr>
+						</tbody>
+					</table>
+					<aside class="notes">Avec Kafka, chaque groupe de consumers garde sa position dans le log : un nouveau service peut relire tout l'historique. Avec RabbitMQ, un message traité disparaît. RabbitMQ propose aussi des streams, qui se rapprochent du log de Kafka.</aside>
+				</section>
+				<section>
+					<h2>Des brokers</h2>
+					<ul>
+						<li>RabbitMQ : protocole AMQP</li>
+						<li>Mosquitto : protocole MQTT, pour l'IoT (les capteurs des chambres froides)</li>
+						<li>Kafka</li>
+						<li>NATS, Pulsar</li>
+					</ul>
+					<aside class="notes">AMQP et MQTT sont des protocoles ; RabbitMQ, Mosquitto et Kafka sont des logiciels. RabbitMQ sait aussi parler MQTT. Dans FraisDirect, les capteurs publieraient en MQTT.</aside>
+				</section>
+				<section>
+					<h2>AMQP dans Spring</h2>
+					<p>La dépendance :</p>
+					<pre><code class="language-groovy" data-trim>
+implementation 'org.springframework.boot:spring-boot-starter-amqp'
+					</code></pre>
+					<p>Des messages en JSON plutôt qu'en texte :</p>
+					<pre><code class="language-java" data-trim>
+@Bean
+MessageConverter jsonMessageConverter() {
+    return new Jackson2JsonMessageConverter();
+}
+					</code></pre>
+					<aside class="notes">Spring Boot branche automatiquement ce bean sur le RabbitTemplate et sur les listeners. Avec Spring Boot 4 (Jackson 3), la classe s'appelle JacksonJsonMessageConverter.</aside>
+				</section>
+				<section>
+					<h2>Déclarer exchange, queue et binding</h2>
+					<pre><code class="language-java" data-trim data-line-numbers="|6-9|11-16|18-23">
+@Configuration
+public class RabbitConfiguration {
 
-						</code>
-					</pre>
+    public static final String FACTURATION_QUEUE = "facturation";
+
+    @Bean
+    TopicExchange fraisDirectExchange() {
+        return new TopicExchange("fraisdirect", true, false);
+    }
+
+    @Bean
+    Queue facturationQueue() {
+        return QueueBuilder.durable(FACTURATION_QUEUE)
+                .quorum()
+                .build();
+    }
+
+    @Bean
+    Binding facturationBinding(Queue facturationQueue, TopicExchange fraisDirectExchange) {
+        return BindingBuilder.bind(facturationQueue)
+                .to(fraisDirectExchange)
+                .with("commande.creee.*");
+    }
+}
+					</code></pre>
+					<aside class="notes">Spring déclare ces objets dans RabbitMQ au démarrage s'ils n'existent pas. durable : la queue survit au redémarrage du broker. quorum : la queue est répliquée sur plusieurs nœuds RabbitMQ ; c'est le type recommandé aujourd'hui. Le binding : la queue facturation reçoit toutes les commandes créées, quel que soit le pays.</aside>
+				</section>
+				<section>
+					<h2>Publier un message</h2>
+					<pre><code class="language-java" data-trim data-line-numbers="9-11">
+@Service
+public class CommandeService {
+
+    private final RabbitTemplate rabbitTemplate;
+    // ...
+
+    public void valider(Commande commande) {
+        commandeRepository.save(commande);
+        rabbitTemplate.convertAndSend("fraisdirect",
+                "commande.creee." + commande.pays(),
+                new CommandeCreee(commande.id(), commande.montant()));
+    }
+}
+					</code></pre>
+					<aside class="notes">convertAndSend : exchange, routing key, objet. Grâce au converter JSON, l'objet CommandeCreee est sérialisé en JSON. On envoie un événement avec les infos utiles, pas l'entité JPA. Garder en tête l'enchaînement save puis publication : on y revient à la fin de l'acte.</aside>
+				</section>
+				<section>
+					<h2>Consommer une queue</h2>
+					<pre><code class="language-java" data-trim data-line-numbers="7-10">
+@Service
+public class FacturationListener {
+
+    private final FactureService factureService;
+    // ...
+
+    @RabbitListener(queues = FACTURATION_QUEUE)
+    public void commandeCreee(CommandeCreee commande) {
+        factureService.generer(commande);
+    }
+}
+					</code></pre>
+					<aside class="notes">Le paramètre est désérialisé automatiquement depuis le JSON. Si la méthode se termine normalement, Spring confirme (ack) le message ; si elle lève une exception, le message est rejeté. C'est le sujet de la question qui suit l'exercice.</aside>
 				</section>
 				<section data-ak-question="code" data-ak-language="java" data-ak-id="listener-commandes">
 					<h4>À vous : consommez la file <code>commandes</code></h4>
@@ -490,20 +741,27 @@ public class CommandeListener {
     @@
 }
 					</script>
+					<aside class="notes">Réponse attendue : @RabbitListener(queues = "commandes") sur une méthode public void recevoir(String commande) { commandeService.traiter(commande); }. Erreurs fréquentes : oublier l'annotation, mettre le nom de l'exchange à la place de celui de la queue, retourner une valeur.</aside>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="message-en-erreur">
-					<h4>Par défaut, que devient un message dont le traitement lève une exception dans le listener ?</h4>
+					<h4>Avec Spring AMQP et une queue classique, que devient par défaut un message dont le traitement lève une exception dans le listener ?</h4>
 					<ul style="list-style: none;">
 						<li><strong>A.</strong> Il est perdu</li>
 						<li><strong>B.</strong> Il est rejoué à l'infini</li>
 						<li><strong>C.</strong> Il part dans une dead letter queue</li>
 						<li><strong>D.</strong> Il est renvoyé au producer</li>
 					</ul>
+					<aside class="notes">Réponse : B. Par défaut, Spring remet le message dans la queue (requeue) : il revient aussitôt, échoue de nouveau, et ainsi de suite. On parle de poison message : il occupe le consumer et remplit les logs.</aside>
 				</section>
 				<section>
 					<h2>Gestion des erreurs</h2>
-					<p>Par defauts, les messages en erreurs sont rejoué à l'infini</p>
-					<p>Il est conseille de mettre en place un deadLetterQueue</p>
+					<ul>
+						<li>Queue classique : le message est remis dans la queue et rejoué à l'infini</li>
+						<li>Quorum queue (RabbitMQ 4 et plus) : rejoué 20 fois, puis supprimé</li>
+						<li>Message illisible (erreur de conversion) : rejeté sans être rejoué</li>
+					</ul>
+					<p class="fragment">Dans tous les cas, on veut <strong>limiter les essais</strong> et <strong>garder les messages en échec</strong> pour les analyser.</p>
+					<aside class="notes">Attention : notre configuration utilise une quorum queue. Depuis RabbitMQ 4.0, ces queues ont une delivery-limit de 20 par défaut : après 20 livraisons, le message est supprimé, ou envoyé en dead letter si c'est configuré. Le « rejoué à l'infini » ne vaut que pour les queues classiques.</aside>
 				</section>
 				<section>
 					<h2>Dead Letter Queue</h2>
@@ -511,12 +769,85 @@ public class CommandeListener {
 						<pre>
 							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
 							graph LR
-
-							Producer[Producer] --> | |Queue 
-							Queue -->  | ERROR | Consumer
-							Queue --> | | DeadLetterQueue
+							Producer --> Exchange{{Exchange}}
+							Exchange --> Queue
+							Queue -->|erreur| Consumer
+							Queue -->|rejeté| DLX{{Dead letter exchange}}
+							DLX --> DLQ[Dead letter queue]
 						</pre>
 					</div>
+					<p>Un message rejeté passe par un <em>dead letter exchange</em> qui le range dans une queue dédiée.</p>
+					<aside class="notes">La DLQ est une queue comme les autres : on peut la surveiller, lire les messages, corriger le bug puis les réinjecter. Une alerte sur la taille de la DLQ est indispensable, sinon personne ne la regarde.</aside>
+				</section>
+				<section>
+					<h2>Dead Letter Queue dans Spring</h2>
+					<pre><code class="language-java" data-trim data-line-numbers="5">
+@Bean
+Queue facturationQueue() {
+    return QueueBuilder.durable(FACTURATION_QUEUE)
+            .quorum()
+            .deadLetterExchange("fraisdirect.dlx")
+            .build();
+}
+					</code></pre>
+					<p>Et quelques essais avant d'abandonner :</p>
+					<pre><code class="language-properties" data-trim>
+spring.rabbitmq.listener.simple.retry.enabled=true
+spring.rabbitmq.listener.simple.retry.max-attempts=3
+					</code></pre>
+					<aside class="notes">Il faut aussi déclarer l'exchange fraisdirect.dlx, la queue facturation.dlq et leur binding, comme sur la slide de configuration. Après les essais, Spring rejette le message sans le remettre en queue : il part dans la DLQ.</aside>
+				</section>
+				<section>
+					<h2>Un message peut arriver deux fois</h2>
+					<ul>
+						<li>Le consumer confirme (<em>ack</em>) le message une fois traité</li>
+						<li>S'il plante entre le traitement et l'ack, le message est rejoué</li>
+						<li>On parle de livraison <strong>at-least-once</strong></li>
+					</ul>
+					<p class="fragment">Le consumer doit être <strong>idempotent</strong> : traiter deux fois la même commande ne doit pas générer deux factures.</p>
+					<aside class="notes">Exactly-once n'existe pas vraiment en pratique ; on vise at-least-once avec des consumers idempotents. Exemple : avant de générer la facture, vérifier qu'il n'en existe pas déjà une pour cet identifiant de commande, avec une contrainte d'unicité en base.</aside>
+				</section>
+				<section>
+					<h2>Et du côté du producer ?</h2>
+					<p>Dans <code>valider</code> : la commande est enregistrée, puis le message est publié.</p>
+					<p class="fragment">Si l'application plante entre les deux, la commande existe mais personne n'est prévenu.</p>
+					<p class="fragment">Le pattern <strong>outbox</strong> : on écrit le message dans une table, dans la même transaction que la commande, et un process le publie ensuite.</p>
+					<aside class="notes">Le problème de la double écriture : la base et le broker ne partagent pas de transaction. Avec l'outbox, l'événement est enregistré dans la même transaction que la commande ; un process (planifié, ou Debezium qui lit les logs de la base) le publie ensuite. Le message peut être publié deux fois : d'où l'idempotence de la slide précédente.</aside>
+				</section>
+			</section>
+
+			<!-- Conclusion -->
+			<section>
+				<section>
+					<h1>FraisDirect aujourd'hui</h1>
+					<div class="mermaid">
+						<pre>
+							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+							graph LR
+							User[Client] --> RP[Reverse proxy et LB]
+							RP --> Vitrine[Site vitrine]
+							RP --> API1[API instance 1]
+							RP --> API2[API instance 2]
+							API1 & API2 --> PG[(PostgreSQL)]
+							API1 & API2 --> Redis[(Redis)]
+							API1 & API2 --> S3[(Object storage)]
+							API1 & API2 --> Broker{{RabbitMQ}}
+							Broker --> Facturation
+							Broker --> Recherche
+							Recherche --> ES[(Elasticsearch)]
+							Capteurs --> Influx[(InfluxDB)]
+						</pre>
+					</div>
+					<aside class="notes">Reprendre le schéma en remontant l'histoire : chaque brique correspond à un problème rencontré pendant le cours. Demander aux étudiants laquelle ils supprimeraient si le trafic redevenait faible.</aside>
+				</section>
+				<section>
+					<h2>À retenir</h2>
+					<ul>
+						<li>Chaque middleware répond à un problème précis</li>
+						<li>On l'ajoute quand le problème se pose, pas avant</li>
+						<li>Chaque brique en plus doit être installée, sauvegardée et surveillée</li>
+					</ul>
+					<aside class="notes">Message principal : un middleware est une réponse à un problème. Avant d'en ajouter un, se demander quel problème il résout et qui va l'exploiter.</aside>
 				</section>
 			</section>
 		</div>
