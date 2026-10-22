@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Speaker view accessibility fixture</title>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h2>First slide</h2>
+					<p class="fragment">A fragment</p>
+					<aside class="notes">First slide notes</aside>
+				</section>
+				<section><h2>Slide without notes</h2></section>
+				<section>
+					<h2>Last slide</h2>
+					<aside class="notes">Last slide notes</aside>
+				</section>
+			</div>
+		</div>
+		<script type="module">
+			import 'reveal.css';
+			import Reveal from 'reveal.js';
+			import Notes from '../../plugin/notes/plugin.js';
+
+			window.Reveal = Reveal;
+			Reveal.initialize({ plugins: [ Notes ], transition: 'none', scrollActivationWidth: false });
+		</script>
+	</body>
+</html>
