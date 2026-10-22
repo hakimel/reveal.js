@@ -1295,8 +1295,9 @@ Binding facturationDlqBinding(
 				svg.setAttribute('data-markers-fixed', '');
 			});
 		}
-		Reveal.on('ready', fixMermaidMarkers);
-		Reveal.on('slidechanged', fixMermaidMarkers);
+		// Les schémas sont insérés de façon asynchrone, y compris en mode impression
+		new MutationObserver(fixMermaidMarkers)
+			.observe(document.querySelector('.reveal .slides'), { childList: true, subtree: true });
 
 		Reveal.initialize({
 			hash: true,
