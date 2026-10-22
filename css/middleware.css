@@ -1,0 +1,291 @@
+/*
+ * Style du cours Middleware, chargé après dist/theme/black.css.
+ * Palette « FraisDirect » : bleu nuit, vert frais, tomate pour les pannes.
+ */
+:root {
+	--fd-bg: #0f1724;
+	--fd-surface: #18233a;
+	--fd-surface-2: #22304d;
+	--fd-text: #e8eef7;
+	--fd-muted: #94a3b8;
+	--fd-accent: #4ade80;
+	--fd-accent-light: #86efac;
+	--fd-sky: #7dd3fc;
+	--fd-tomato: #f87171;
+	--fd-warm: #fde68a;
+
+	--r-background-color: var(--fd-bg);
+	--r-main-color: var(--fd-text);
+	--r-main-font-size: 38px;
+	--r-heading-color: #ffffff;
+	--r-heading-text-transform: none;
+	--r-heading-font-weight: 700;
+	--r-heading-letter-spacing: -0.01em;
+	--r-heading1-size: 2.2em;
+	--r-heading2-size: 1.35em;
+	--r-link-color: var(--fd-sky);
+	--r-code-font: "DejaVu Sans Mono", Menlo, Consolas, monospace;
+	--r-selection-background-color: rgba(74, 222, 128, 0.4);
+}
+
+.reveal-viewport {
+	background: radial-gradient(circle at 85% 0%, #1a2b4a 0%, var(--fd-bg) 55%);
+}
+
+/* Titres */
+.reveal h2 {
+	margin-bottom: 0.7em;
+}
+
+.reveal h2::after {
+	content: "";
+	display: block;
+	width: 2.2em;
+	height: 6px;
+	margin: 0.3em auto 0;
+	border-radius: 3px;
+	background: linear-gradient(90deg, var(--fd-accent), var(--fd-sky));
+}
+
+.reveal strong {
+	color: var(--fd-accent-light);
+}
+
+.reveal small {
+	color: var(--fd-muted);
+}
+
+/* Slides de titre et de chapitre */
+.reveal .chapitre h1 {
+	margin: 0.1em 0 0.3em;
+}
+
+.reveal .chapitre p {
+	color: var(--fd-muted);
+}
+
+.reveal .kicker {
+	display: inline-block;
+	padding: 0.2em 0.8em;
+	border: 2px solid var(--fd-accent);
+	border-radius: 999px;
+	color: var(--fd-accent) !important;
+	font-size: 0.6em;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+}
+
+/* Listes à puces */
+.reveal ul {
+	list-style: none;
+	text-align: left;
+}
+
+.reveal ul > li {
+	position: relative;
+	margin: 0.35em 0;
+	padding-left: 1.1em;
+}
+
+.reveal ul > li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0.5em;
+	width: 0.42em;
+	height: 0.42em;
+	border-radius: 50%;
+	background: var(--fd-accent);
+}
+
+/* Listes numérotées : des étapes */
+.reveal ol {
+	list-style: none;
+	counter-reset: etape;
+	text-align: left;
+}
+
+.reveal ol > li {
+	position: relative;
+	counter-increment: etape;
+	margin: 0.35em 0;
+	padding-left: 1.7em;
+}
+
+.reveal ol > li::before {
+	content: counter(etape);
+	position: absolute;
+	left: 0;
+	top: 0.05em;
+	width: 1.25em;
+	height: 1.25em;
+	border-radius: 50%;
+	background: var(--fd-surface-2);
+	border: 2px solid var(--fd-accent);
+	color: var(--fd-accent);
+	font-size: 0.85em;
+	font-weight: 700;
+	line-height: 1.2em;
+	text-align: center;
+}
+
+/* Avantages et inconvénients */
+.reveal ul > li.pro::before,
+.reveal ul > li.con::before {
+	top: 0.2em;
+	width: 0.8em;
+	height: 0.8em;
+	font-size: 0.85em;
+	font-weight: 700;
+	line-height: 0.8em;
+	text-align: center;
+	color: var(--fd-bg);
+}
+
+.reveal ul > li.pro::before {
+	content: "+";
+	background: var(--fd-accent);
+}
+
+.reveal ul > li.con::before {
+	content: "−";
+	background: var(--fd-tomato);
+}
+
+.reveal ul > li.pro,
+.reveal ul > li.con {
+	padding-left: 1.3em;
+}
+
+/* Tableaux */
+.reveal section > table {
+	margin: 0.6em auto;
+	border-collapse: separate;
+	border-spacing: 0;
+	border-radius: 14px;
+	overflow: hidden;
+	background: var(--fd-surface);
+	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+	font-size: 0.8em;
+}
+
+.reveal section > table th {
+	background: rgba(74, 222, 128, 0.14);
+	color: var(--fd-accent-light);
+	border-bottom: none;
+}
+
+.reveal section > table th,
+.reveal section > table td {
+	padding: 0.3em 0.9em;
+}
+
+.reveal section > table td {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.reveal section > table tbody tr:last-child td {
+	border-bottom: none;
+}
+
+.reveal section > table tbody tr:nth-child(even) td {
+	background: rgba(255, 255, 255, 0.025);
+}
+
+/* Code */
+.reveal pre {
+	width: 92%;
+	border-radius: 14px;
+	box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+	font-size: 0.6em;
+}
+
+.reveal pre code,
+.reveal pre code.hljs {
+	padding: 0.9em 1.2em;
+	border-radius: 14px;
+	border: 1px solid rgba(255, 255, 255, 0.07);
+	background: #0b1220;
+	line-height: 1.45;
+	display: block;
+	max-height: 520px;
+}
+
+.reveal :not(pre) > code {
+	padding: 0.05em 0.35em;
+	border-radius: 6px;
+	background: rgba(125, 211, 252, 0.12);
+	color: var(--fd-sky);
+	font-size: 0.85em;
+}
+
+/* Encadré « À retenir » */
+.reveal .retenir ul {
+	padding: 0.6em 1.2em 0.6em 1em;
+	border-left: 6px solid var(--fd-accent);
+	border-radius: 12px;
+	background: var(--fd-surface);
+}
+
+/* Questions Audience Keeper */
+.reveal section[data-ak-question] h4 {
+	text-transform: none;
+	font-size: 1.05em;
+	line-height: 1.35;
+}
+
+.reveal section[data-ak-question] h4::before {
+	content: "Question";
+	display: block;
+	width: max-content;
+	margin: 0 auto 0.8em;
+	padding: 0.2em 0.8em;
+	border-radius: 999px;
+	background: var(--fd-warm);
+	color: var(--fd-bg);
+	font-size: 0.55em;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+}
+
+.reveal section[data-ak-question] ul {
+	display: block;
+	width: 70%;
+	margin: 0 auto;
+}
+
+.reveal section[data-ak-question] ul > li {
+	margin: 0.35em 0;
+	padding: 0.35em 0.8em;
+	border-radius: 12px;
+	background: var(--fd-surface);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.reveal section[data-ak-question] ul > li::before {
+	content: none;
+}
+
+.reveal section[data-ak-question] ul > li strong {
+	color: var(--fd-warm);
+}
+
+/* Schémas Mermaid */
+.reveal .mermaid .node rect {
+	rx: 10px;
+	ry: 10px;
+}
+
+.reveal .mermaid .edgeLabel {
+	color: var(--fd-sky);
+}
+
+/* Navigation */
+.reveal .progress {
+	color: var(--fd-accent);
+}
+
+.reveal .controls {
+	color: var(--fd-accent);
+}

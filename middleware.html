@@ -13,6 +13,7 @@
 
 	<!-- Theme used for syntax highlighted code -->
 	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	<link rel="stylesheet" href="css/middleware.css">
 </head>
 
 <body>
@@ -25,7 +26,8 @@
 
 			<!-- Introduction : le fil rouge -->
 			<section>
-				<section>
+				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
+					<p class="kicker">Cours</p>
 					<h1>Middleware</h1>
 					<p>L'histoire d'une application qui grandit</p>
 					<aside class="notes">Fil rouge du cours : on part d'une application toute simple, et on ajoute un middleware chaque fois qu'un problème concret apparaît. Chaque mécanisme est déroulé étape par étape : prendre le temps sur chaque étape plutôt que de tout voir.</aside>
@@ -44,7 +46,6 @@
 					<p>Une épicerie en ligne qui livre des produits frais</p>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
 							User[Client] --> App[Application Spring Boot]
 							App --> PG[(PostgreSQL)]
@@ -67,16 +68,17 @@
 
 			<!-- Acte 1 : load balancer -->
 			<section>
-				<section>
-					<h1>1. Le Black Friday</h1>
+				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
+					<p class="kicker">Acte 1</p>
+					<h1>Le Black Friday</h1>
+					<p>Le site est saturé</p>
 				</section>
 				<section>
 					<h2>Le problème</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
-							classDef panne fill:red,color:white,stroke-width:2px,stroke:darkRed;
+							classDef panne fill:#7f1d1d,color:#fff,stroke:#f87171,stroke-width:3px;
 							U1[Client] --> App[Application]
 							U2[Client] --> App
 							U3[Client] --> App
@@ -94,7 +96,6 @@
 					<h2>Étape 1 : lancer plusieurs instances</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
 							User[Client] -.->|?| App1[Instance 1]
 							User -.->|?| App2[Instance 2]
@@ -108,9 +109,8 @@
 					<h2>Étape 2 : un load balancer devant</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
-							classDef actif fill:#1f7a3a,color:#fff,stroke:#7be495,stroke-width:3px;
+							classDef actif fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:3px;
 							User[Client] -->|fraisdirect.fr| LB[Load balancer]
 							LB --> App1[Instance 1]
 							LB --> App2[Instance 2]
@@ -136,9 +136,8 @@
 					<h2>Et si une instance tombe ?</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
-							classDef panne fill:red,color:white,stroke-width:2px,stroke:darkRed;
+							classDef panne fill:#7f1d1d,color:#fff,stroke:#f87171,stroke-width:3px;
 							User[Client] --> LB[Load balancer]
 							LB --> App1[Instance 1]
 							LB --> App2[Instance 2]
@@ -153,9 +152,8 @@
 					<h2>Étape 4 : le health check</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
-							classDef panne fill:red,color:white,stroke-width:2px,stroke:darkRed;
+							classDef panne fill:#7f1d1d,color:#fff,stroke:#f87171,stroke-width:3px;
 							LB[Load balancer] -.->|GET /actuator/health : OK| App1[Instance 1]
 							LB -.->|GET /actuator/health : OK| App2[Instance 2]
 							LB -.->|GET /actuator/health : pas de réponse| App3[Instance 3]
@@ -169,9 +167,8 @@
 					<h2>Étape 5 : retirer l'instance</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
-							classDef panne fill:red,color:white,stroke-width:2px,stroke:darkRed;
+							classDef panne fill:#7f1d1d,color:#fff,stroke:#f87171,stroke-width:3px;
 							User[Client] --> LB[Load balancer]
 							LB -->|requêtes 1, 3| App1[Instance 1]
 							LB -->|requêtes 2, 4| App2[Instance 2]
@@ -199,9 +196,8 @@
 					<h2>Étape 6 : l'état hors de l'application</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
-							classDef actif fill:#1f7a3a,color:#fff,stroke:#7be495,stroke-width:3px;
+							classDef actif fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:3px;
 							LB[Load balancer] --> App1[Instance 1]
 							LB --> App2[Instance 2]
 							App1 --> Store[(Stockage partagé)]
@@ -213,7 +209,7 @@
 					<p class="fragment">Quel stockage ? Réponse à l'acte 3.</p>
 					<aside class="notes">N'importe quelle instance peut traiter n'importe quelle requête. On y revient avec les bases clé-valeur (Redis).</aside>
 				</section>
-				<section>
+				<section class="retenir">
 					<h2>À retenir</h2>
 					<ul>
 						<li>Le load balancer est la seule adresse connue des clients</li>
@@ -228,8 +224,10 @@
 
 			<!-- Acte 2 : reverse proxy -->
 			<section>
-				<section>
-					<h1>2. Un site, plusieurs applications</h1>
+				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
+					<p class="kicker">Acte 2</p>
+					<h1>Un site, plusieurs applications</h1>
+					<p>Une seule adresse pour tout le monde</p>
 				</section>
 				<section>
 					<h2>Le problème</h2>
@@ -243,7 +241,6 @@
 					<h2>Le reverse proxy</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
 							User[Client] --> Reverse[Reverse proxy]
 							Reverse -->|www.fraisdirect.fr| Vitrine[Site vitrine]
@@ -315,8 +312,10 @@ server {
 
 			<!-- Acte 3 : bases de données -->
 			<section>
-				<section>
-					<h1>3. Des données de toutes les formes</h1>
+				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
+					<p class="kicker">Acte 3</p>
+					<h1>Des données de toutes les formes</h1>
+					<p>La bonne base pour le bon besoin</p>
 				</section>
 				<section>
 					<h2>Les besoins de FraisDirect</h2>
@@ -389,9 +388,9 @@ server {
 					<h2>Commandes : base relationnelle</h2>
 					<ul>
 						<li>Des tables liées entre elles, interrogées en SQL</li>
-						<li><strong>+</strong> Transactions : tout est enregistré, ou rien</li>
-						<li><strong>+</strong> La base refuse les données incohérentes</li>
-						<li><strong>−</strong> Changer la structure demande une migration</li>
+						<li class="pro">Transactions : tout est enregistré, ou rien</li>
+						<li class="pro">La base refuse les données incohérentes</li>
+						<li class="con">Changer la structure demande une migration</li>
 					</ul>
 					<p>PostgreSQL, MySQL / MariaDB, Oracle</p>
 					<aside class="notes">Transaction : si on enregistre la commande mais que l'enregistrement des lignes échoue, rien n'est gardé. C'est le choix par défaut pour les données métier.</aside>
@@ -413,9 +412,9 @@ server {
 					<h2>Catalogue : base document</h2>
 					<ul>
 						<li>Chaque donnée est un document JSON</li>
-						<li><strong>+</strong> Chaque document a ses propres champs</li>
-						<li><strong>+</strong> Recherche avancée (fautes de frappe, filtres)</li>
-						<li><strong>−</strong> Pas de jointures : on duplique les données</li>
+						<li class="pro">Chaque document a ses propres champs</li>
+						<li class="pro">Recherche avancée (fautes de frappe, filtres)</li>
+						<li class="con">Pas de jointures : on duplique les données</li>
 					</ul>
 					<p>MongoDB, Elasticsearch</p>
 					<aside class="notes">Elasticsearch est d'abord un moteur de recherche : on l'alimente à partir de la base principale.</aside>
@@ -437,9 +436,9 @@ panier:bob   → { "pain": 1 }
 					<h2>Paniers : base clé-valeur</h2>
 					<ul>
 						<li>Comme une <code>Map</code>, partagée entre les instances</li>
-						<li><strong>+</strong> Très rapide : les données sont en mémoire</li>
-						<li><strong>+</strong> Une clé peut expirer toute seule (panier abandonné)</li>
-						<li><strong>−</strong> On ne lit que par la clé : pas de recherche</li>
+						<li class="pro">Très rapide : les données sont en mémoire</li>
+						<li class="pro">Une clé peut expirer toute seule (panier abandonné)</li>
+						<li class="con">On ne lit que par la clé : pas de recherche</li>
 					</ul>
 					<p>Redis / Valkey, Memcached</p>
 					<aside class="notes">C'est le stockage partagé de l'acte 1 : les instances deviennent stateless. Avec Spring, Spring Session range les sessions HTTP dans Redis sans changer le code. Redis peut aussi écrire ses données sur disque, si on le configure.</aside>
@@ -493,9 +492,9 @@ panier:bob   → { "pain": 1 }
 					<h2>Chambres froides : base timeseries</h2>
 					<ul>
 						<li>Faite pour des mesures rangées dans le temps</li>
-						<li><strong>+</strong> Compresse énormément les mesures</li>
-						<li><strong>+</strong> Calcule vite des moyennes par période</li>
-						<li><strong>−</strong> Ne sait faire que ça</li>
+						<li class="pro">Compresse énormément les mesures</li>
+						<li class="pro">Calcule vite des moyennes par période</li>
+						<li class="con">Ne sait faire que ça</li>
 					</ul>
 					<p>InfluxDB, TimescaleDB, Prometheus</p>
 					<aside class="notes">TimescaleDB est une extension de PostgreSQL : pratique si PostgreSQL est déjà en place. Prometheus sert surtout à surveiller les applications.</aside>
@@ -517,9 +516,9 @@ fraisdirect-photos/comte-18-mois.jpg
 					<h2>Photos : object storage</h2>
 					<ul>
 						<li>Des fichiers (<em>objets</em>) rangés dans des <em>buckets</em></li>
-						<li><strong>+</strong> Accessible en HTTP depuis toutes les instances</li>
-						<li><strong>+</strong> Pratiquement sans limite de taille</li>
-						<li><strong>−</strong> On remplace un fichier, on ne le modifie pas</li>
+						<li class="pro">Accessible en HTTP depuis toutes les instances</li>
+						<li class="pro">Pratiquement sans limite de taille</li>
+						<li class="con">On remplace un fichier, on ne le modifie pas</li>
 					</ul>
 					<p>AWS S3, Google Cloud Storage, Garage, Ceph</p>
 					<aside class="notes">Le bucket est le conteneur : fraisdirect-photos dans l'exemple. L'API de S3 est devenue un standard, que les autres outils imitent.</aside>
@@ -598,8 +597,10 @@ fraisdirect-photos/comte-18-mois.jpg
 
 			<!-- Acte 4 : messaging -->
 			<section>
-				<section>
-					<h1>4. Des services qui doivent se parler</h1>
+				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
+					<p class="kicker">Acte 4</p>
+					<h1>Des services qui doivent se parler</h1>
+					<p>Le messaging</p>
 				</section>
 				<section>
 					<h2>Le problème</h2>
@@ -615,7 +616,6 @@ fraisdirect-photos/comte-18-mois.jpg
 					<h2>Première idée : des appels HTTP</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							sequenceDiagram
 							participant Client
 							participant Commande
@@ -638,7 +638,6 @@ fraisdirect-photos/comte-18-mois.jpg
 					<h2>Et si l'email est en panne ?</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							sequenceDiagram
 							participant Client
 							participant Commande
@@ -655,7 +654,6 @@ fraisdirect-photos/comte-18-mois.jpg
 					<h2>Deuxième idée : un broker de messages</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							sequenceDiagram
 							participant Client
 							participant Commande
@@ -684,7 +682,6 @@ fraisdirect-photos/comte-18-mois.jpg
 					<h2>Bonus : absorber les pics</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
 							Producer[Service commande] -->|jusqu'à 40 messages/s| Queue
 							Queue -->|10 messages/s| Consumer[Service facture]
@@ -697,7 +694,6 @@ fraisdirect-photos/comte-18-mois.jpg
 					<h2>Le vocabulaire</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
 							Producer -->|routing key| Exchange{{Exchange}}
 							Exchange -->|binding| Queue
@@ -716,9 +712,8 @@ fraisdirect-photos/comte-18-mois.jpg
 					<h2>Le trajet d'un message (1/5)</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
-							classDef actif fill:#1f7a3a,color:#fff,stroke:#7be495,stroke-width:3px;
+							classDef actif fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:3px;
 							Producer[Service commande] -->|commande.creee| Exchange{{Exchange}}
 							Exchange --> QF[Queue facturation]
 							Exchange --> QE[Queue email]
@@ -734,9 +729,8 @@ fraisdirect-photos/comte-18-mois.jpg
 					<h2>Le trajet d'un message (2/5)</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
-							classDef actif fill:#1f7a3a,color:#fff,stroke:#7be495,stroke-width:3px;
+							classDef actif fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:3px;
 							Producer[Service commande] -->|commande.creee| Exchange{{Exchange}}
 							Exchange --> QF[Queue facturation]
 							Exchange --> QE[Queue email]
@@ -752,9 +746,8 @@ fraisdirect-photos/comte-18-mois.jpg
 					<h2>Le trajet d'un message (3/5)</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
-							classDef actif fill:#1f7a3a,color:#fff,stroke:#7be495,stroke-width:3px;
+							classDef actif fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:3px;
 							Producer[Service commande] -->|commande.creee| Exchange{{Exchange}}
 							Exchange --> QF[Queue facturation]
 							Exchange --> QE[Queue email]
@@ -770,9 +763,8 @@ fraisdirect-photos/comte-18-mois.jpg
 					<h2>Le trajet d'un message (4/5)</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
-							classDef actif fill:#1f7a3a,color:#fff,stroke:#7be495,stroke-width:3px;
+							classDef actif fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:3px;
 							Producer[Service commande] -->|commande.creee| Exchange{{Exchange}}
 							Exchange --> QF[Queue facturation]
 							Exchange --> QE[Queue email]
@@ -788,9 +780,8 @@ fraisdirect-photos/comte-18-mois.jpg
 					<h2>Le trajet d'un message (5/5)</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
-							classDef actif fill:#1f7a3a,color:#fff,stroke:#7be495,stroke-width:3px;
+							classDef actif fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:3px;
 							Producer[Service commande] -->|commande.creee| Exchange{{Exchange}}
 							Exchange --> QF[Queue facturation]
 							Exchange --> QE[Queue email]
@@ -936,7 +927,6 @@ fraisdirect-photos/comte-18-mois.jpg
 					<h2>Plusieurs queues : chacun sa copie</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
 							Exchange{{Exchange}} -->|message 1| QF[Queue facturation]
 							Exchange -->|message 1| QE[Queue email]
@@ -951,7 +941,6 @@ fraisdirect-photos/comte-18-mois.jpg
 					<h2>Une queue, plusieurs instances : on se partage</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
 							Exchange{{Exchange}} -->|messages 1, 2| QF[Queue facturation]
 							QF -->|message 1| F1[Facture instance 1]
@@ -974,7 +963,8 @@ fraisdirect-photos/comte-18-mois.jpg
 
 			<!-- Acte 4 bis : RabbitMQ dans Spring -->
 			<section>
-				<section>
+				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
+					<p class="kicker">Acte 4 · Pratique</p>
 					<h1>RabbitMQ dans Spring</h1>
 					<p>En 7 étapes</p>
 				</section>
@@ -982,7 +972,6 @@ fraisdirect-photos/comte-18-mois.jpg
 					<h2>Ce qu'on va construire</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
 							Producer[CommandeService] -->|commande.creee.fr| Exchange{{Exchange fraisdirect}}
 							Exchange -->|commande.creee.*| Queue[Queue facturation]
@@ -1075,7 +1064,7 @@ public class CommandeService {
         commandeRepository.save(commande);
         rabbitTemplate.convertAndSend("fraisdirect",
                 "commande.creee." + commande.pays(),
-                new CommandeCreee(commande.id(), commande.montant()));
+                new CommandeCreee(commande.id()));
     }
 }
 					</code></pre>
@@ -1125,8 +1114,10 @@ public class CommandeListener {
 
 			<!-- Acte 4 ter : les erreurs -->
 			<section>
-				<section>
+				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
+					<p class="kicker">Acte 4 · Erreurs</p>
 					<h1>Quand le traitement échoue</h1>
+					<p>Ne pas perdre de message</p>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="message-en-erreur">
 					<h4>Avec Spring AMQP et une queue classique, que devient par défaut un message dont le traitement lève une exception dans le listener ?</h4>
@@ -1142,7 +1133,6 @@ public class CommandeListener {
 					<h2>Ce qui se passe par défaut</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							sequenceDiagram
 							participant Queue
 							participant Listener
@@ -1173,9 +1163,8 @@ spring.rabbitmq.listener.simple.retry.max-attempts=3
 					<h2>Solution, étape 2 : la dead letter queue</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
-							classDef actif fill:#1f7a3a,color:#fff,stroke:#7be495,stroke-width:3px;
+							classDef actif fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:3px;
 							Queue[Queue facturation] -->|3 échecs| Listener
 							Queue -->|message rejeté| DLX{{Exchange fraisdirect.dlx}}
 							DLX --> DLQ[Queue facturation.dlq]
@@ -1245,7 +1234,6 @@ Binding facturationDlqBinding(
 					<h2>FraisDirect aujourd'hui</h2>
 					<div class="mermaid">
 						<pre>
-							%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true, 'fontSize': '22px' }}}%%
 							graph LR
 							User[Client] --> RP[Reverse proxy et load balancer]
 							RP --> Vitrine[Site vitrine]
@@ -1262,7 +1250,7 @@ Binding facturationDlqBinding(
 					</div>
 					<aside class="notes">Reprendre le schéma en remontant l'histoire : chaque brique correspond à un problème rencontré pendant le cours. Demander laquelle on supprimerait si le trafic redevenait faible.</aside>
 				</section>
-				<section>
+				<section class="retenir">
 					<h2>À retenir</h2>
 					<ul>
 						<li>Chaque middleware répond à un problème précis</li>
@@ -1312,10 +1300,39 @@ Binding facturationDlqBinding(
 
 		Reveal.initialize({
 			hash: true,
+			// Couleurs des schémas, accordées à css/middleware.css
 			mermaid: {
-				// flowchart: {
-				//   curve: 'linear',
-				// },
+				theme: 'base',
+				themeVariables: {
+					darkMode: true,
+					fontFamily: 'Source Sans Pro, Helvetica, sans-serif',
+					fontSize: '22px',
+					background: '#0f1724',
+					primaryColor: '#1b2a45',
+					primaryTextColor: '#e8eef7',
+					primaryBorderColor: '#4ade80',
+					secondaryColor: '#22304d',
+					tertiaryColor: '#18233a',
+					lineColor: '#7dd3fc',
+					textColor: '#e8eef7',
+					edgeLabelBackground: '#0f1724',
+					actorBkg: '#1b2a45',
+					actorBorder: '#4ade80',
+					actorTextColor: '#e8eef7',
+					actorLineColor: '#475569',
+					signalColor: '#7dd3fc',
+					signalTextColor: '#e8eef7',
+					noteBkgColor: '#3a2f14',
+					noteTextColor: '#fde68a',
+					noteBorderColor: '#f59e0b',
+					labelBoxBkgColor: '#22304d',
+					labelBoxBorderColor: '#4ade80',
+					labelTextColor: '#e8eef7',
+					loopTextColor: '#e8eef7'
+				},
+				flowchart: { curve: 'basis', padding: 16 },
+				fontSize: 22,
+				sequence: { mirrorActors: false, width: 130, actorMargin: 40 }
 			},
 			// Learn about plugins: https://revealjs.com/plugins/
 			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMermaid]
