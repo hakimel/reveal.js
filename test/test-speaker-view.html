@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>reveal.js - Test Speaker View Accessibility</title>
+	</head>
+	<body>
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+		<script type="module">
+			import 'qunit/qunit/qunit.css';
+			import QUnit from 'qunit';
+
+			QUnit.config.testTimeout = 30000;
+
+			const waitFor = async predicate => {
+				const deadline = Date.now() + 10000;
+				while( !predicate() ) {
+					if( Date.now() > deadline ) throw new Error( 'Speaker view did not reach the expected state' );
+					await new Promise( resolve => setTimeout( resolve, 20 ) );
+				}
+			};
+
+			QUnit.module( 'Speaker view accessibility', hooks => {
+				let fixture, deckWindow, speakerWindow, doc, savedLayout;
+				const panels = [
+					[ '#current-slide', 'Current slide' ],
+					[ '#upcoming-slide', 'Upcoming slide' ],
+					[ '.speaker-controls-time', 'Time' ],
+					[ '.speaker-controls-notes', 'Speaker notes' ]
+				];
+				const selectLayout = value => {
+					const select = doc.querySelector( '.speaker-layout-dropdown' );
+					select.value = value;
+					select.dispatchEvent( new speakerWindow.Event( 'change', { bubbles: true } ) );
+				};
+				const visible = selector => speakerWindow.getComputedStyle( doc.querySelector( selector ) ).display !== 'none';
+
+				hooks.before( async () => {
+					savedLayout = localStorage.getItem( 'reveal-speaker-layout' );
+					localStorage.removeItem( 'reveal-speaker-layout' );
+					fixture = document.createElement( 'iframe' );
+					fixture.src = 'assets/speaker-view.html';
+					document.body.appendChild( fixture );
+					deckWindow = fixture.contentWindow;
+					await waitFor( () => deckWindow.Reveal && deckWindow.Reveal.isReady() );
+					const open = deckWindow.open.bind( deckWindow );
+					deckWindow.open = ( ...args ) => {
+						speakerWindow = open( ...args );
+						return speakerWindow;
+					};
+					deckWindow.Reveal.getPlugin( 'notes' ).open();
+					if( !speakerWindow ) throw new Error( 'Allow popups to run the speaker-view integration tests' );
+					doc = speakerWindow.document;
+					await waitFor( () => doc.querySelector( '.speaker-controls-notes .value' )?.textContent.includes( 'First slide notes' ) );
+					await waitFor( () => doc.querySelector( '#current-slide iframe' )?.contentWindow.Reveal?.isReady() );
+				} );
+
+				hooks.beforeEach( async () => {
+					selectLayout( 'default' );
+					deckWindow.Reveal.slide( 0, 0, -1 );
+					await waitFor( () => visible( '.speaker-controls-notes' ) && doc.querySelector( '.speaker-controls-notes .value' ).textContent.includes( 'First slide notes' ) );
+				} );
+
+				hooks.after( () => {
+					if( speakerWindow ) speakerWindow.close();
+					if( fixture ) fixture.remove();
+					if( savedLayout === null ) localStorage.removeItem( 'reveal-speaker-layout' );
+					else localStorage.setItem( 'reveal-speaker-layout', savedLayout );
+				} );
+
+				QUnit.test( 'Layout has a stable native label and a visible focus indicator', assert => {
+					const select = doc.querySelector( '.speaker-layout-dropdown' );
+					assert.strictEqual( select.labels.length, 1, 'select has one associated label' );
+					assert.strictEqual( select.labels[0].textContent, 'Layout', 'label names the purpose, not the value' );
+					for( const option of select.options ) {
+						selectLayout( option.value );
+						assert.strictEqual( doc.body.dataset.speakerLayout, option.value, 'layout changes to ' + option.value );
+						assert.strictEqual( select.labels[0].textContent, 'Layout', 'name is stable in ' + option.value );
+						assert.strictEqual( doc.querySelector( '.speaker-layout-value' ).textContent, ': ' + option.textContent, 'visual value stays in sync' );
+					}
+					assert.strictEqual( doc.querySelector( '.speaker-layout-value' ).getAttribute( 'aria-hidden' ), 'true', 'visual value does not duplicate the accessible label' );
+					select.focus();
+					assert.strictEqual( speakerWindow.getComputedStyle( doc.querySelector( '#speaker-layout' ) ).outlineStyle, 'solid', 'focus is visible despite the transparent native select' );
+				} );
+
+				QUnit.test( 'Panels are named regions and follow the selected layout', assert => {
+					for( const [ selector, name ] of panels ) {
+						assert.strictEqual( doc.querySelector( selector ).getAttribute( 'role' ), 'region', name + ' is a region' );
+						assert.strictEqual( doc.querySelector( selector ).getAttribute( 'aria-label' ), name, name + ' is named' );
+					}
+					for( const layout of [ 'default', 'wide', 'tall', 'notes-only' ] ) {
+						selectLayout( layout );
+						assert.strictEqual( visible( '#current-slide' ), layout !== 'notes-only', 'current preview visibility in ' + layout );
+						assert.strictEqual( visible( '#upcoming-slide' ), layout !== 'notes-only', 'upcoming preview visibility in ' + layout );
+						assert.ok( visible( '.speaker-controls-time' ), 'time remains visible in ' + layout );
+						assert.ok( visible( '.speaker-controls-notes' ), 'nonempty notes remain visible in ' + layout );
+					}
+				} );
+
+				QUnit.test( 'Preview frames are named and slide controls are not complementary landmarks', assert => {
+					assert.strictEqual( doc.querySelector( '#current-slide iframe' ).title, 'Current slide preview' );
+					assert.strictEqual( doc.querySelector( '#upcoming-slide iframe' ).title, 'Upcoming slide preview' );
+					for( const document of [ deckWindow.document, doc.querySelector( '#current-slide iframe' ).contentDocument ] ) {
+						const controls = document.querySelector( '.controls' );
+						assert.strictEqual( controls.tagName, 'DIV', 'controls use a neutral container' );
+						assert.strictEqual( controls.getAttribute( 'role' ), null, 'controls do not create a landmark' );
+						assert.strictEqual( controls.querySelectorAll( 'button' ).length, 4, 'native directional buttons remain' );
+						assert.strictEqual( controls.querySelector( '.navigate-right' ).getAttribute( 'aria-label' ), 'next slide', 'button name is retained' );
+					}
+				} );
+
+				QUnit.test( 'Notes disappear and return with slide content', async assert => {
+					deckWindow.Reveal.nextFragment();
+					await waitFor( () => doc.querySelector( '#current-slide iframe' ).contentWindow.Reveal.getIndices().f === 0 );
+					assert.ok( visible( '.speaker-controls-notes' ), 'notes remain available across fragments' );
+					deckWindow.Reveal.slide( 1 );
+					await waitFor( () => !visible( '.speaker-controls-notes' ) );
+					assert.notOk( visible( '.speaker-controls-notes' ), 'empty notes region is hidden' );
+					deckWindow.Reveal.slide( 2 );
+					await waitFor( () => visible( '.speaker-controls-notes' ) && doc.querySelector( '.speaker-controls-notes .value' ).textContent.includes( 'Last slide notes' ) );
+					assert.ok( visible( '.speaker-controls-notes' ), 'notes region returns with new content' );
+				} );
+
+				QUnit.test( 'Native controls keep their keys while speaker background keys still navigate', async assert => {
+					const preview = doc.querySelector( '#current-slide iframe' ).contentWindow;
+					const messages = [];
+					const receive = event => {
+						try {
+							const data = JSON.parse( event.data );
+							if( data.method === 'triggerKey' ) messages.push( data );
+						}
+						catch( e ) {}
+					};
+					preview.addEventListener( 'message', receive );
+					try {
+						doc.querySelector( '.speaker-layout-dropdown' ).dispatchEvent( new speakerWindow.KeyboardEvent( 'keydown', { key: 'ArrowDown', keyCode: 40, bubbles: true } ) );
+						await new Promise( resolve => setTimeout( resolve, 100 ) );
+						assert.strictEqual( messages.length, 0, 'select arrow key is not forwarded to the slide' );
+						assert.strictEqual( deckWindow.Reveal.getIndices().h, 0, 'select key does not advance the main deck' );
+						doc.body.dispatchEvent( new speakerWindow.KeyboardEvent( 'keydown', { key: 'ArrowRight', keyCode: 39, bubbles: true } ) );
+						await waitFor( () => messages.length > 0 );
+						assert.strictEqual( messages[0].args[0], 39, 'background key is still forwarded' );
+					}
+					finally {
+						preview.removeEventListener( 'message', receive );
+					}
+				} );
+			} );
+		</script>
+	</body>
+</html>
