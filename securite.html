@@ -1,0 +1,1083 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Sécurité</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black.css">
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	<link rel="stylesheet" href="css/cours.css">
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+
+			<section data-ak-join>
+				<h2>Rejoignez la séance</h2>
+				<p>Scannez le QR code ou entrez le code sur votre téléphone.</p>
+			</section>
+
+			<!-- Introduction -->
+			<section>
+				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
+					<p class="kicker">Cours</p>
+					<h1>Sécurité</h1>
+					<p>Qui es-tu ? Qu'as-tu le droit de faire ?</p>
+					<aside class="notes">Même fil rouge que le cours middleware : FraisDirect, l'épicerie en ligne. Cette fois, elle a besoin de savoir qui se connecte et de limiter ce que chacun peut faire.</aside>
+				</section>
+				<section>
+					<h2>FraisDirect a besoin de comptes</h2>
+					<ul>
+						<li class="fragment"><strong>Alice</strong>, cliente : elle passe et suit ses commandes</li>
+						<li class="fragment"><strong>Bruno</strong>, préparateur : il voit les commandes à préparer</li>
+						<li class="fragment"><strong>Chloé</strong>, administratrice : elle gère le catalogue</li>
+					</ul>
+					<p class="fragment">Personne d'autre ne doit voir les commandes d'Alice.</p>
+					<aside class="notes">Ces trois personnes reviennent dans tout le cours. Demander aux étudiants ce que chacun doit pouvoir faire ou non.</aside>
+				</section>
+				<section>
+					<h2>Les trois A</h2>
+					<ol>
+						<li class="fragment"><strong>Authentification</strong> : qui es-tu ?</li>
+						<li class="fragment"><strong>Autorisation</strong> : as-tu le droit de faire ça ?</li>
+						<li class="fragment"><strong>Accounting</strong> (traçabilité) : qu'as-tu fait ?</li>
+					</ol>
+					<aside class="notes">On parle de AAA. L'ordre compte : on ne peut pas décider des droits de quelqu'un qu'on n'a pas identifié, ni tracer ses actions.</aside>
+				</section>
+				<section>
+					<h2>Au programme</h2>
+					<ol>
+						<li>Prouver qui on est : <strong>mots de passe</strong></li>
+						<li>Protéger une API : <strong>Spring Security</strong></li>
+						<li>Ne plus renvoyer son mot de passe : <strong>tokens et JWT</strong></li>
+						<li>Se connecter ailleurs : <strong>SSO, OAuth, OpenID Connect</strong></li>
+						<li>Les droits : <strong>RBAC et ABAC</strong></li>
+						<li>Garder une trace : <strong>accounting</strong></li>
+					</ol>
+				</section>
+			</section>
+
+			<!-- Acte 1 : s'authentifier -->
+			<section>
+				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
+					<p class="kicker">Acte 1</p>
+					<h1>Qui es-tu ?</h1>
+					<p>Prouver son identité</p>
+				</section>
+				<section>
+					<h2>Trois façons de le prouver</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Ce que l'on…</th>
+								<th>Exemples</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="fragment">
+								<td><strong>sait</strong></td>
+								<td>un mot de passe, un code PIN</td>
+							</tr>
+							<tr class="fragment">
+								<td><strong>possède</strong></td>
+								<td>un téléphone, une carte bancaire, une clé USB de sécurité</td>
+							</tr>
+							<tr class="fragment">
+								<td><strong>est</strong></td>
+								<td>une empreinte digitale, un visage</td>
+							</tr>
+						</tbody>
+					</table>
+					<aside class="notes">On appelle ça des facteurs d'authentification. On y revient avec l'authentification forte, qui en combine plusieurs.</aside>
+				</section>
+				<section data-ak-question="choice" data-ak-choices="3" data-ak-id="facteur-sms">
+					<h4>Un code reçu par SMS prouve quelque chose que l'utilisateur…</h4>
+					<ul style="list-style: none;">
+						<li><strong>A.</strong> sait</li>
+						<li><strong>B.</strong> possède</li>
+						<li><strong>C.</strong> est</li>
+					</ul>
+					<aside class="notes">Réponse : B. Le code change à chaque fois : ce qui compte, c'est d'avoir le téléphone en main. Le code lui-même ne se retient pas.</aside>
+				</section>
+				<section>
+					<h2>Le mot de passe : comment l'envoyer ?</h2>
+					<ul>
+						<li><strong>Basic Auth</strong> : dans un header, à chaque requête</li>
+						<li><strong>Digest Auth</strong> : une variante de Basic, à éviter</li>
+						<li><strong>Formulaire</strong> : une requête dédiée à la connexion</li>
+					</ul>
+					<aside class="notes">On détaille Basic Auth : c'est le plus simple et c'est celui qu'on utilisera avec Spring Security.</aside>
+				</section>
+				<section>
+					<h2>Basic Auth, étape par étape</h2>
+					<div class="mermaid">
+						<pre>
+							sequenceDiagram
+							participant Navigateur
+							participant API as API FraisDirect
+							Navigateur->>API: GET /commandes
+							API-->>Navigateur: 401 + WWW-Authenticate: Basic
+							Note over Navigateur: demande identifiant et mot de passe
+							Navigateur->>API: GET /commandes + Authorization: Basic YWxp…
+							API-->>Navigateur: 200 + les commandes
+						</pre>
+					</div>
+					<aside class="notes">Le 401 avec le header WWW-Authenticate indique au navigateur qu'il doit demander un identifiant et un mot de passe : c'est la petite fenêtre grise du navigateur. Ensuite, le navigateur renvoie le header Authorization à chaque requête.</aside>
+				</section>
+				<section>
+					<h2>Construire le header</h2>
+					<ol>
+						<li class="fragment">Identifiant et mot de passe : <code>alice:tomate42</code></li>
+						<li class="fragment">Encodés en Base64 : <code>YWxpY2U6dG9tYXRlNDI=</code></li>
+						<li class="fragment">Dans le header : <code>Authorization: Basic YWxpY2U6dG9tYXRlNDI=</code></li>
+					</ol>
+					<aside class="notes">À faire tester : echo -n 'alice:tomate42' | base64 dans un terminal, puis le décodage avec base64 -d.</aside>
+				</section>
+				<section data-ak-question="yesno" data-ak-id="basic-chiffre">
+					<h4>Avec Basic Auth, le mot de passe envoyé est-il chiffré ?</h4>
+					<aside class="notes">Réponse : non. Base64 est un encodage, pas un chiffrement : n'importe qui le décode, sans clé.</aside>
+				</section>
+				<section>
+					<h2>Base64 n'est pas du chiffrement</h2>
+					<pre><code class="language-bash" data-trim>
+$ echo 'YWxpY2U6dG9tYXRlNDI=' | base64 -d
+alice:tomate42
+					</code></pre>
+					<p class="fragment">Basic Auth ne s'utilise <strong>qu'en HTTPS</strong> : c'est HTTPS qui chiffre la requête.</p>
+					<aside class="notes">Base64 sert à transporter n'importe quel caractère dans un header HTTP, pas à cacher quoi que ce soit.</aside>
+				</section>
+				<section>
+					<h2>Digest Auth : à éviter</h2>
+					<ul>
+						<li>Le mot de passe n'est pas envoyé : le client envoie un hash calculé avec un nombre fourni par le serveur</li>
+						<li class="con">Pour vérifier ce hash, le serveur doit connaître le mot de passe : il ne peut pas le stocker de façon sûre</li>
+						<li class="con">Repose sur MD5, un algorithme cassé</li>
+					</ul>
+					<p>Aujourd'hui : Basic Auth ou formulaire, <strong>en HTTPS</strong>.</p>
+					<aside class="notes">Digest date d'avant la généralisation de HTTPS. Il oblige le serveur à garder le mot de passe (ou un équivalent) réutilisable, ce qui contredit la slide suivante.</aside>
+				</section>
+				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="stockage-mdp">
+					<h4>Comment FraisDirect doit-il stocker le mot de passe d'Alice en base ?</h4>
+					<ul style="list-style: none;">
+						<li><strong>A.</strong> En clair</li>
+						<li><strong>B.</strong> Chiffré avec une clé (AES)</li>
+						<li><strong>C.</strong> Hashé avec SHA-256</li>
+						<li><strong>D.</strong> Hashé avec BCrypt</li>
+					</ul>
+					<aside class="notes">Réponse : D. Les slides suivantes expliquent pourquoi, étape par étape.</aside>
+				</section>
+				<section>
+					<h2>Stocker un mot de passe (1/3)</h2>
+					<p>Jamais en clair, ni chiffré</p>
+					<ul>
+						<li class="fragment">Les bases de données fuient : LinkedIn, Adobe, et bien d'autres</li>
+						<li class="fragment">Les gens réutilisent leurs mots de passe ailleurs</li>
+						<li class="fragment">Chiffré : celui qui vole la clé déchiffre tout</li>
+					</ul>
+					<p class="fragment">On stocke un <strong>hash</strong> : une empreinte qu'on ne peut pas inverser.</p>
+					<aside class="notes">Faire tester haveibeenpwned.com pour montrer l'ampleur des fuites. À la connexion, on hashe le mot de passe saisi et on compare les deux empreintes.</aside>
+				</section>
+				<section>
+					<h2>Stocker un mot de passe (2/3)</h2>
+					<p>Un hash seul ne suffit pas</p>
+					<ul>
+						<li class="fragment">Deux personnes avec le même mot de passe ont le même hash</li>
+						<li class="fragment">Des tables géantes donnent le mot de passe d'un hash connu</li>
+					</ul>
+					<p class="fragment">On ajoute un <strong>sel</strong> : une valeur aléatoire, différente pour chaque utilisateur, mélangée au mot de passe.</p>
+					<aside class="notes">Les tables précalculées (rainbow tables) contiennent les hashs des mots de passe courants. Avec un sel, il faudrait une table par utilisateur.</aside>
+				</section>
+				<section>
+					<h2>Stocker un mot de passe (3/3)</h2>
+					<p>Un algorithme <strong>lent</strong>, fait pour ça : BCrypt</p>
+					<p class="jwt"><span class="jwt-header">$2b$</span><span class="jwt-payload">10</span>$<span class="jwt-signature">jpQqRmgJM0Er6Os2yTMFWu</span><span class="hash-part">3lHfgjD7mp1xclQqTtadOgQOoSqUzcK</span></p>
+					<table>
+						<thead>
+							<tr>
+								<th>Partie</th>
+								<th>Rôle</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="jwt-header">$2b$</td>
+								<td>l'algorithme</td>
+							</tr>
+							<tr>
+								<td class="jwt-payload">10</td>
+								<td>le coût : 2¹⁰ tours</td>
+							</tr>
+							<tr>
+								<td class="jwt-signature">jpQqRmgJM0Er6Os2yTMFWu</td>
+								<td>le sel</td>
+							</tr>
+							<tr>
+								<td class="hash-part">3lHfgjD7mp1x…</td>
+								<td>le hash</td>
+							</tr>
+						</tbody>
+					</table>
+					<aside class="notes">SHA-256 est conçu pour être rapide : un attaquant en teste des milliards par seconde. BCrypt est volontairement lent, et le coût s'augmente avec les années. Le sel est rangé dans le hash : pas besoin d'une colonne en plus. Hasher deux fois tomate42 donne deux résultats différents. Argon2 est l'alternative moderne.</aside>
+				</section>
+				<section>
+					<h2>Sans mot de passe : le certificat client</h2>
+					<ul>
+						<li>Le client présente un certificat, comme un serveur HTTPS</li>
+						<li class="pro">Rien à retenir, rien à taper</li>
+						<li class="con">Il faut le renouveler avant son expiration</li>
+						<li class="con">Le distribuer et le révoquer est compliqué</li>
+					</ul>
+					<p>Exemple : l'accès à l'API Kubernetes</p>
+					<aside class="notes">Le certificat HTTPS habituel prouve l'identité du serveur ; ici, c'est le client qui prouve la sienne. Kubernetes ne sait pas révoquer un certificat client : un certificat volé reste valable jusqu'à son expiration.</aside>
+				</section>
+			</section>
+
+			<!-- Acte 2 : Spring Security -->
+			<section>
+				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
+					<p class="kicker">Acte 2</p>
+					<h1>Spring Security</h1>
+					<p>Protéger l'API FraisDirect</p>
+				</section>
+				<section>
+					<h2>Étape 1 : la dépendance</h2>
+					<pre class="long"><code class="language-groovy" data-trim>
+implementation 'org.springframework.boot:spring-boot-starter-security'
+					</code></pre>
+					<p class="fragment">… et c'est tout : l'API est déjà protégée.</p>
+					<ul>
+						<li class="fragment">Toutes les URL demandent une connexion</li>
+						<li class="fragment">Un utilisateur <code>user</code>, avec un mot de passe affiché dans les logs</li>
+						<li class="fragment">Un formulaire de connexion et Basic Auth</li>
+					</ul>
+					<aside class="notes">Faire chercher la ligne « Using generated security password » au démarrage. Ce comportement par défaut sert à ne rien exposer par erreur : on ouvre ensuite ce qu'on veut.</aside>
+				</section>
+				<section>
+					<h2>Comment ça marche : des filtres</h2>
+					<div class="mermaid">
+						<pre>
+							graph LR
+							Requete[Requête] --> F1[Filtre CSRF]
+							F1 --> F2[Filtre Basic Auth]
+							F2 --> F3[Filtre d'autorisation]
+							F3 --> Controller
+						</pre>
+					</div>
+					<ol>
+						<li class="fragment">La requête traverse les filtres l'un après l'autre</li>
+						<li class="fragment">Un filtre peut identifier l'utilisateur et le ranger dans le <code>SecurityContext</code></li>
+						<li class="fragment">Un filtre peut aussi arrêter la requête : 401 ou 403</li>
+						<li class="fragment">Si tout passe, le controller est appelé</li>
+					</ol>
+					<aside class="notes">Spring Security n'est qu'une suite de filtres (la SecurityFilterChain), placée devant les controllers. Il y en a une quinzaine en réalité ; on en montre trois.</aside>
+				</section>
+				<section>
+					<h2>Un filtre</h2>
+					<pre><code class="language-java" data-trim data-line-numbers="|1|4-8|9|10">
+public class LogFilter extends OncePerRequestFilter {
+
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain chain)
+            throws ServletException, IOException {
+        log.info("Requête sur {}", request.getRequestURI());
+        chain.doFilter(request, response);
+    }
+}
+					</code></pre>
+					<aside class="notes">Filter est une interface de Jakarta Servlet, pas de Spring : elle existe sans Spring Security. OncePerRequestFilter (Spring) garantit un seul passage par requête. Ligne 10 : on passe la main au filtre suivant. Ne pas l'appeler, c'est arrêter la requête. Avant Spring Boot 3, les imports étaient en javax.servlet ; aujourd'hui en jakarta.servlet.</aside>
+				</section>
+				<section>
+					<h2>Étape 2 : configurer la chaîne</h2>
+					<pre><code class="language-java" data-trim data-line-numbers="|1-3|5-6|7">
+@Bean
+SecurityFilterChain filterChain(HttpSecurity http)
+        throws Exception {
+    http
+        .authorizeHttpRequests(auth -> auth
+            .anyRequest().authenticated())
+        .httpBasic(Customizer.withDefaults());
+    return http.build();
+}
+					</code></pre>
+					<aside class="notes">Dès qu'on déclare ce bean, la configuration par défaut disparaît : on décrit tout nous-mêmes. Lignes 5-6 : toute requête doit être authentifiée. Ligne 7 : on accepte Basic Auth. Cette syntaxe avec des lambdas est celle de Spring Security 6 et 7 ; l'ancienne (.and(), antMatchers) n'existe plus.</aside>
+				</section>
+				<section>
+					<h2>Étape 3 : pas de session en mémoire</h2>
+					<ul>
+						<li class="fragment">Par défaut, Spring garde l'utilisateur connecté dans une session HTTP</li>
+						<li class="fragment">Cette session vit dans la mémoire de l'instance</li>
+						<li class="fragment">Avec plusieurs instances derrière un load balancer : le panier perdu du cours middleware !</li>
+					</ul>
+					<pre class="fragment"><code class="language-java" data-trim>
+        .sessionManagement(session -> session
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+					</code></pre>
+					<aside class="notes">STATELESS : Spring ne crée plus de session, l'utilisateur est réauthentifié à chaque requête grâce à son header. L'API peut alors tourner sur plusieurs instances.</aside>
+				</section>
+				<section>
+					<h2>Étape 4 : ouvrir une partie de l'API</h2>
+					<pre><code class="language-java" data-trim data-line-numbers="|3|4|5">
+http
+    .authorizeHttpRequests(auth -> auth
+        .requestMatchers("/produits/**").permitAll()
+        .requestMatchers("/commandes/**").authenticated()
+        .anyRequest().denyAll())
+    .httpBasic(Customizer.withDefaults());
+					</code></pre>
+					<p>Les règles sont lues <strong>dans l'ordre</strong> : la première qui correspond gagne.</p>
+					<aside class="notes">Le catalogue est public, les commandes demandent une connexion, tout le reste est refusé. Mettre anyRequest() en premier rendrait les autres règles inutiles : Spring refuse d'ailleurs de démarrer dans ce cas.</aside>
+				</section>
+				<section data-ak-question="code" data-ak-language="java" data-ak-id="securite-regles">
+					<h4>À vous : le catalogue est public, tout le reste demande une connexion</h4>
+					<p>Le catalogue est servi sous <code>/produits</code>.</p>
+					<script type="text/x-java" data-ak-context>
+// API FraisDirect
+// GET  /produits/**  : le catalogue
+// GET  /commandes/** : les commandes du client
+// POST /commandes    : passer une commande
+					</script>
+					<script type="text/x-java" data-ak-template>
+@Bean
+SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+        .authorizeHttpRequests(auth -> auth
+            @@
+        )
+        .httpBasic(Customizer.withDefaults());
+    return http.build();
+}
+					</script>
+					<aside class="notes">Réponse attendue : .requestMatchers("/produits/**").permitAll() puis .anyRequest().authenticated(). Erreur fréquente : inverser les deux lignes.</aside>
+				</section>
+				<section>
+					<h2>Étape 5 : brancher nos utilisateurs</h2>
+					<pre><code class="language-java" data-trim data-line-numbers="|2-3|7|8-10|11-14">
+@Service
+public class ClientDetailsService
+        implements UserDetailsService {
+    // ...
+
+    @Override
+    public UserDetails loadUserByUsername(String email) {
+        Client client = clientRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException(email));
+        return User.withUsername(client.getEmail())
+                .password(client.getMotDePasseHash())
+                .roles(client.getRole())
+                .build();
+    }
+}
+					</code></pre>
+					<aside class="notes">Spring Security ne connaît pas notre table de clients : UserDetailsService lui explique comment trouver un utilisateur. Spring compare ensuite lui-même le mot de passe reçu avec le hash, grâce au PasswordEncoder de la slide suivante.</aside>
+				</section>
+				<section>
+					<h2>Étape 6 : comparer avec BCrypt</h2>
+					<pre><code class="language-java" data-trim>
+@Bean
+PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+}
+					</code></pre>
+					<p>À l'inscription : <code>passwordEncoder.encode(motDePasse)</code><br>
+						À la connexion : Spring appelle <code>matches</code> tout seul</p>
+					<aside class="notes">On ne compare jamais deux hashs BCrypt avec equals : le sel est différent à chaque encodage. C'est matches qui relit le sel dans le hash stocké.</aside>
+				</section>
+				<section>
+					<h2>Côté Angular : protéger les pages</h2>
+					<pre><code class="language-typescript" data-trim data-line-numbers="|1|2-3|4-6">
+export const authGuard: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  return auth.estConnecte()
+    ? true
+    : router.parseUrl('/connexion');
+};
+					</code></pre>
+					<pre><code class="language-typescript" data-trim>
+{
+  path: 'commandes',
+  component: CommandesComponent,
+  canActivate: [authGuard]
+}
+					</code></pre>
+					<aside class="notes">Le guard est appelé avant d'ouvrir la page : s'il renvoie une autre URL, Angular redirige. Attention : c'est du confort pour l'utilisateur, pas de la sécurité. Le code du front se modifie dans le navigateur : la vraie protection est dans l'API. Les anciens guards en classe (interface CanActivate) sont dépréciés.</aside>
+				</section>
+				<section>
+					<h2>Côté Angular : envoyer le header partout</h2>
+					<pre><code class="language-typescript" data-trim data-line-numbers="|3|4-6|7-9">
+export const authInterceptor: HttpInterceptorFn =
+  (req, next) => {
+    const token = inject(AuthService).token();
+    if (!token) {
+      return next(req);
+    }
+    return next(req.clone({
+      setHeaders: { Authorization: `Bearer ${token}` }
+    }));
+  };
+					</code></pre>
+					<pre><code class="language-typescript" data-trim>
+provideHttpClient(withInterceptors([authInterceptor]))
+					</code></pre>
+					<aside class="notes">L'intercepteur s'applique à toutes les requêtes HttpClient : plus besoin d'ajouter le header à la main dans chaque service. La requête est immuable : on la clone avec le header en plus. Le token Bearer arrive dans l'acte suivant.</aside>
+				</section>
+			</section>
+
+			<!-- Acte 3 : tokens -->
+			<section>
+				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
+					<p class="kicker">Acte 3</p>
+					<h1>Les tokens</h1>
+					<p>Ne plus envoyer son mot de passe à chaque requête</p>
+				</section>
+				<section>
+					<h2>Le problème de Basic Auth</h2>
+					<ul>
+						<li class="fragment">Le mot de passe voyage dans chaque requête</li>
+						<li class="fragment">Le front doit le garder en mémoire</li>
+						<li class="fragment">Chaque requête relance BCrypt, volontairement lent</li>
+					</ul>
+					<aside class="notes">BCrypt prend environ 100 ms : à chaque appel d'API, c'est beaucoup.</aside>
+				</section>
+				<section>
+					<h2>L'idée : échanger le mot de passe contre un token</h2>
+					<div class="mermaid">
+						<pre>
+							sequenceDiagram
+							participant Front
+							participant API as API FraisDirect
+							Front->>API: POST /connexion (alice, tomate42)
+							API-->>Front: un token
+							Front->>API: GET /commandes + Authorization: Bearer token
+							API-->>Front: 200 + les commandes
+						</pre>
+					</div>
+					<p>Le mot de passe n'est envoyé qu'<strong>une fois</strong>.</p>
+					<aside class="notes">Bearer veut dire « porteur » : celui qui présente le token est authentifié. Un token volé suffit donc à se faire passer pour quelqu'un : il doit lui aussi voyager en HTTPS.</aside>
+				</section>
+				<section>
+					<h2>Token enregistré</h2>
+					<ol>
+						<li class="fragment">À la connexion, l'API tire une valeur au hasard</li>
+						<li class="fragment">Elle l'enregistre en base, avec l'utilisateur</li>
+						<li class="fragment">À chaque requête, elle cherche le token en base</li>
+					</ol>
+					<ul class="fragment">
+						<li class="pro">On peut le révoquer : il suffit de le supprimer</li>
+						<li class="con">Une lecture en base à chaque requête</li>
+					</ul>
+					<aside class="notes">Usages : les tokens d'API de GitHub (avec une page pour les gérer et les révoquer), l'option « rester connecté » des sites web.</aside>
+				</section>
+				<section>
+					<h2>Token signé</h2>
+					<ol>
+						<li class="fragment">À la connexion, l'API écrit qui est l'utilisateur dans le token</li>
+						<li class="fragment">Elle le signe avec un secret qu'elle seule connaît</li>
+						<li class="fragment">À chaque requête, elle vérifie la signature : pas de base</li>
+					</ol>
+					<ul class="fragment">
+						<li class="pro">Aucune base à interroger</li>
+						<li class="con">Impossible à révoquer avant son expiration</li>
+					</ul>
+					<aside class="notes">Pour limiter le risque : une durée de vie courte (quelques minutes) et un refresh token, enregistré et révocable, pour en obtenir un nouveau.</aside>
+				</section>
+				<section>
+					<h2>JWT : JSON Web Token</h2>
+					<p>Le format de token signé le plus répandu : trois parties séparées par des points</p>
+					<p class="jwt"><span class="jwt-header">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</span>.<span class="jwt-payload">eyJzdWIiOiJhbGljZSIsIm5hbWUiOiJBbGljZSIsInJvbGVzIjpbIkNMSUVOVCJdLCJpYXQiOjE3OTU0MzA0MDAsImV4cCI6MTc5NTQzNDAwMH0</span>.<span class="jwt-signature">kmSnlxdc6nSezfww2U7Qcse7mJTaiJNuLD0D9oJZLRY</span></p>
+					<ol>
+						<li class="fragment"><span class="jwt-header">Le header</span> : l'algorithme de signature</li>
+						<li class="fragment"><span class="jwt-payload">Le payload</span> : les informations sur l'utilisateur</li>
+						<li class="fragment"><span class="jwt-signature">La signature</span></li>
+					</ol>
+					<aside class="notes">Un vrai token, signé avec le secret « secret-de-fraisdirect ». Le coller sur jwt.io pour le décoder en direct, puis saisir le secret pour vérifier la signature.</aside>
+				</section>
+				<section>
+					<h2>Ce qu'il contient</h2>
+					<pre><code class="language-json" data-trim>
+{ "alg": "HS256", "typ": "JWT" }
+					</code></pre>
+					<pre><code class="language-json" data-trim>
+{
+  "sub": "alice",
+  "name": "Alice",
+  "roles": ["CLIENT"],
+  "iat": 1795430400,
+  "exp": 1795434000
+}
+					</code></pre>
+					<aside class="notes">Les deux premières parties sont du JSON encodé en Base64. sub : l'identifiant de l'utilisateur. iat : la date de création. exp : la date d'expiration, ici une heure plus tard. Ces dates sont en secondes depuis 1970.</aside>
+				</section>
+				<section data-ak-question="yesno" data-ak-id="jwt-lisible">
+					<h4>Sans connaître le secret, peut-on lire le contenu d'un JWT ?</h4>
+					<aside class="notes">Réponse : oui. Ce n'est que du Base64, comme Basic Auth.</aside>
+				</section>
+				<section>
+					<h2>Signé, pas chiffré</h2>
+					<ul>
+						<li class="fragment">Tout le monde peut <strong>lire</strong> un JWT</li>
+						<li class="fragment">Seul le détenteur du secret peut le <strong>créer</strong> ou le <strong>modifier</strong></li>
+					</ul>
+					<p class="fragment">Jamais de mot de passe ni de donnée secrète dans un JWT.</p>
+				</section>
+				<section>
+					<h2>La signature</h2>
+					<pre><code class="language-plaintext" data-trim>
+HMAC-SHA256( header + "." + payload , "secret-de-fraisdirect" )
+					</code></pre>
+					<p>Pour vérifier un token, l'API :</p>
+					<ol>
+						<li class="fragment">sépare les trois parties</li>
+						<li class="fragment">recalcule la signature avec son secret</li>
+						<li class="fragment">la compare avec celle du token</li>
+						<li class="fragment">vérifie que <code>exp</code> n'est pas dépassé</li>
+					</ol>
+					<aside class="notes">Le secret ne se met jamais dans le code (le TP le faisait pour simplifier) : variable d'environnement ou gestionnaire de secrets.</aside>
+				</section>
+				<section data-ak-question="choice" data-ak-choices="3" data-ak-id="jwt-modifie">
+					<h4>Alice décode son JWT, remplace <code>CLIENT</code> par <code>ADMIN</code> et le renvoie à l'API. Que se passe-t-il ?</h4>
+					<ul style="list-style: none;">
+						<li><strong>A.</strong> L'API l'accepte : Alice devient administratrice</li>
+						<li><strong>B.</strong> L'API le rejette : la signature ne correspond plus</li>
+						<li><strong>C.</strong> L'API lui redemande son mot de passe</li>
+					</ul>
+					<aside class="notes">Réponse : B. Le payload a changé, la signature recalculée par l'API est différente de celle du token. Pour en produire une valide, il faudrait le secret.</aside>
+				</section>
+			</section>
+
+			<!-- Acte 4 : se connecter ailleurs -->
+			<section>
+				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
+					<p class="kicker">Acte 4</p>
+					<h1>Se connecter ailleurs</h1>
+					<p>SSO, authentification forte, OAuth, OpenID Connect</p>
+				</section>
+				<section>
+					<h2>Le problème des employés</h2>
+					<ul>
+						<li class="fragment">Bruno utilise le back-office, l'outil de l'entrepôt, le planning…</li>
+						<li class="fragment">Un compte et un mot de passe par application</li>
+						<li class="fragment">Et le jour où il quitte FraisDirect, il faut les fermer un par un</li>
+					</ul>
+					<p class="fragment">Une seule connexion pour toutes les applications : le <strong>Single Sign-On</strong> (SSO).</p>
+				</section>
+				<section>
+					<h2>Le SSO avec SAML</h2>
+					<div class="mermaid">
+						<pre>
+							sequenceDiagram
+							participant Bruno as Navigateur de Bruno
+							participant App as Back-office
+							participant IdP as Fournisseur d'identité
+							Bruno->>App: 1. GET /commandes
+							App-->>Bruno: 2. Va te connecter chez le fournisseur
+							Bruno->>IdP: 3. Bruno, et son mot de passe
+							IdP-->>Bruno: 4. Une preuve signée, rapporte-la au back-office
+							Bruno->>App: 5. Voici la preuve
+							App-->>Bruno: 6. OK, je sais qui tu es : les commandes
+						</pre>
+					</div>
+					<aside class="notes">Le back-office (service provider) ne voit jamais le mot de passe de Bruno. Il fait confiance au fournisseur d'identité (identity provider), dont il vérifie la signature. Pour l'outil de l'entrepôt, Bruno est déjà connecté chez le fournisseur : l'étape 3 est sautée. SAML est un standard en XML, très présent en entreprise.</aside>
+				</section>
+				<section>
+					<h2>Ce que le SSO apporte</h2>
+					<ul>
+						<li class="fragment">Un seul mot de passe pour toutes les applications</li>
+						<li class="fragment">On ne se connecte qu'une fois</li>
+						<li class="fragment">On peut renforcer la connexion à un seul endroit</li>
+						<li class="fragment">Branché sur l'annuaire de l'entreprise (LDAP, Active Directory)</li>
+					</ul>
+					<aside class="notes">Le départ de Bruno : on désactive un seul compte, dans l'annuaire.</aside>
+				</section>
+				<section>
+					<h2>L'authentification forte</h2>
+					<p>Combiner au moins deux facteurs de l'acte 1</p>
+					<ul>
+						<li class="fragment">Ce qu'on <strong>sait</strong> : le mot de passe</li>
+						<li class="fragment">+ ce qu'on <strong>possède</strong> : une application d'authentification, une clé de sécurité, un SMS</li>
+					</ul>
+					<ul class="fragment">
+						<li class="pro">Un mot de passe volé ne suffit plus</li>
+						<li class="con">Une connexion un peu moins simple</li>
+					</ul>
+					<aside class="notes">Grâce au SSO, on ne l'ajoute qu'à un seul endroit : le fournisseur d'identité. Le SMS est le second facteur le plus faible (détournement de numéro) ; les clés de sécurité et les passkeys sont les plus solides.</aside>
+				</section>
+				<section>
+					<h2>Un nouveau besoin</h2>
+					<p>FraisDirect veut ajouter le créneau de livraison dans l'agenda Google d'Alice.</p>
+					<p class="fragment">Mauvaise idée : demander à Alice son mot de passe Google.</p>
+					<p class="fragment">Bonne idée : demander à Google une autorisation <strong>limitée</strong> à l'agenda : <strong>OAuth 2</strong>.</p>
+					<aside class="notes">Avec le mot de passe, FraisDirect pourrait tout faire : lire les mails, changer le mot de passe. OAuth donne un accès limité (le scope), révocable par Alice à tout moment.</aside>
+				</section>
+				<section>
+					<h2>Les acteurs d'OAuth</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Rôle</th>
+								<th>Dans l'exemple</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Resource owner</td>
+								<td>Alice, propriétaire de son agenda</td>
+							</tr>
+							<tr>
+								<td>Client</td>
+								<td>FraisDirect, qui veut accéder à l'agenda</td>
+							</tr>
+							<tr>
+								<td>Authorization server</td>
+								<td>Google Accounts, qui délivre les tokens</td>
+							</tr>
+							<tr>
+								<td>Resource server</td>
+								<td>L'API Google Agenda</td>
+							</tr>
+						</tbody>
+					</table>
+					<aside class="notes">Attention au vocabulaire : en OAuth, le « client » est l'application (FraisDirect), pas l'utilisateur.</aside>
+				</section>
+				<section>
+					<h2>OAuth étape par étape (1/3)</h2>
+					<div class="mermaid">
+						<pre>
+							sequenceDiagram
+							participant Alice as Navigateur d'Alice
+							participant FD as FraisDirect
+							participant Google as Google Accounts
+							Alice->>FD: Ajouter à mon agenda Google
+							FD-->>Alice: Redirection vers Google (scope : agenda)
+							Alice->>Google: Je viens de la part de FraisDirect
+							Google-->>Alice: Connecte-toi
+						</pre>
+					</div>
+					<aside class="notes">Alice se connecte chez Google, sur une page de Google : FraisDirect ne voit jamais son mot de passe. La redirection contient l'identifiant de FraisDirect et le scope demandé.</aside>
+				</section>
+				<section>
+					<h2>OAuth étape par étape (2/3)</h2>
+					<div class="mermaid">
+						<pre>
+							sequenceDiagram
+							participant Alice as Navigateur d'Alice
+							participant FD as FraisDirect
+							participant Google as Google Accounts
+							Alice->>Google: alice, et son mot de passe
+							Google-->>Alice: FraisDirect veut accéder à ton agenda, d'accord ?
+							Alice->>Google: Oui
+							Google-->>Alice: Redirection vers FraisDirect, avec un code
+							Alice->>FD: Voici le code
+						</pre>
+					</div>
+					<aside class="notes">C'est l'écran de consentement. Le code est à usage unique et ne vit que quelques secondes : il passe par le navigateur, donc on ne veut pas qu'il serve à grand-chose.</aside>
+				</section>
+				<section>
+					<h2>OAuth étape par étape (3/3)</h2>
+					<div class="mermaid">
+						<pre>
+							sequenceDiagram
+							participant FD as FraisDirect
+							participant Google as Google Accounts
+							participant Agenda as API Google Agenda
+							FD->>Google: Le code + le secret de FraisDirect
+							Google-->>FD: Un access token
+							FD->>Agenda: Ajoute la livraison + Bearer access token
+							Agenda-->>FD: OK
+						</pre>
+					</div>
+					<aside class="notes">Cet échange se fait de serveur à serveur, sans passer par le navigateur. C'est le flow « authorization code ». Pour une application sans serveur (Angular seul), on ajoute PKCE à la place du secret. L'ancien flow « implicit » est déconseillé.</aside>
+				</section>
+				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="oauth-acteur">
+					<h4>Dans cet exemple, qui délivre l'access token ?</h4>
+					<ul style="list-style: none;">
+						<li><strong>A.</strong> FraisDirect</li>
+						<li><strong>B.</strong> Google Accounts</li>
+						<li><strong>C.</strong> L'API Google Agenda</li>
+						<li><strong>D.</strong> Le navigateur d'Alice</li>
+					</ul>
+					<aside class="notes">Réponse : B, l'authorization server. FraisDirect est le client, l'API Agenda est le resource server.</aside>
+				</section>
+				<section>
+					<h2>OAuth autorise, il n'identifie pas</h2>
+					<ul>
+						<li class="fragment">L'access token dit : « ce porteur peut modifier cet agenda »</li>
+						<li class="fragment">Il ne dit pas à FraisDirect <strong>qui</strong> est Alice</li>
+					</ul>
+					<p class="fragment">Pour « Se connecter avec Google » : <strong>OpenID Connect</strong>.</p>
+				</section>
+				<section>
+					<h2>OpenID Connect (OIDC)</h2>
+					<ol>
+						<li class="fragment">Les mêmes étapes qu'OAuth, avec le scope <code>openid</code></li>
+						<li class="fragment">En plus de l'access token, Google renvoie un <strong>ID token</strong></li>
+						<li class="fragment">L'ID token est un JWT qui décrit l'utilisateur</li>
+					</ol>
+					<pre class="fragment"><code class="language-json" data-trim>
+{
+  "iss": "https://accounts.google.com",
+  "sub": "110248495921238986420",
+  "aud": "fraisdirect",
+  "email": "alice@example.com",
+  "name": "Alice",
+  "exp": 1795434000
+}
+					</code></pre>
+					<aside class="notes">iss : qui a émis le token. aud : pour quelle application. sub : l'identifiant unique et stable d'Alice chez Google, à utiliser plutôt que l'email, qui peut changer.</aside>
+				</section>
+				<section>
+					<h2>La signature, sans secret partagé</h2>
+					<ul>
+						<li class="fragment">Google signe ses tokens avec une clé <strong>privée</strong> (algorithme RS256)</li>
+						<li class="fragment">Il publie la clé <strong>publique</strong> correspondante</li>
+						<li class="fragment">N'importe quelle API peut vérifier le token, sans pouvoir en fabriquer</li>
+					</ul>
+					<aside class="notes">Avec HS256 (acte 3), le même secret sert à signer et à vérifier : on ne peut pas le partager avec toutes les applications du monde. Avec RS256, seul Google signe, tout le monde vérifie.</aside>
+				</section>
+				<section>
+					<h2>La découverte automatique</h2>
+					<p><code>https://accounts.google.com/.well-known/openid-configuration</code></p>
+					<pre class="long"><code class="language-json" data-trim>
+{
+  "issuer": "https://accounts.google.com",
+  "authorization_endpoint": "https://accounts.google.com/o/oauth2/v2/auth",
+  "token_endpoint": "https://oauth2.googleapis.com/token",
+  "jwks_uri": "https://www.googleapis.com/oauth2/v3/certs"
+}
+					</code></pre>
+					<aside class="notes">Extrait. Tout fournisseur OIDC publie ce document à la même adresse : il suffit de connaître l'issuer pour trouver le reste. jwks_uri donne les clés publiques. Ouvrir l'URL en direct dans le navigateur.</aside>
+				</section>
+				<section>
+					<h2>Dans Spring : vérifier les tokens</h2>
+					<pre class="long"><code class="language-groovy" data-trim>
+implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+					</code></pre>
+					<pre class="long"><code class="language-properties" data-trim>
+spring.security.oauth2.resourceserver.jwt.issuer-uri=https://accounts.google.com
+					</code></pre>
+					<pre><code class="language-java" data-trim>
+http.oauth2ResourceServer(oauth2 -> oauth2
+        .jwt(Customizer.withDefaults()));
+					</code></pre>
+					<ol>
+						<li class="fragment">Au démarrage, Spring lit la découverte de l'issuer</li>
+						<li class="fragment">Il récupère les clés publiques</li>
+						<li class="fragment">À chaque requête, il vérifie la signature et l'expiration du token</li>
+					</ol>
+					<aside class="notes">La ligne Java se place dans la SecurityFilterChain, à la place de httpBasic. Pour avoir son propre fournisseur d'identité (comptes clients de FraisDirect), on installe Keycloak : seul l'issuer change.</aside>
+				</section>
+			</section>
+
+			<!-- Acte 5 : autorisation -->
+			<section>
+				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
+					<p class="kicker">Acte 5</p>
+					<h1>As-tu le droit ?</h1>
+					<p>L'autorisation</p>
+				</section>
+				<section data-ak-question="choice" data-ak-choices="2" data-ak-id="code-401-403">
+					<h4>Bruno est bien connecté, mais il n'a pas le droit de modifier le catalogue. Quel code HTTP l'API doit-elle renvoyer ?</h4>
+					<ul style="list-style: none;">
+						<li><strong>A.</strong> 401 Unauthorized</li>
+						<li><strong>B.</strong> 403 Forbidden</li>
+					</ul>
+					<aside class="notes">Réponse : B. Piège classique : malgré son nom, 401 veut dire « je ne sais pas qui tu es » (authentification), 403 « je sais qui tu es, mais c'est non » (autorisation).</aside>
+				</section>
+				<section>
+					<h2>401 ou 403 ?</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Code</th>
+								<th>Signifie</th>
+								<th>Le client doit…</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>401</td>
+								<td>Je ne sais pas qui tu es</td>
+								<td>se connecter</td>
+							</tr>
+							<tr>
+								<td>403</td>
+								<td>Je sais qui tu es, et c'est non</td>
+								<td>abandonner</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+				<section>
+					<h2>RBAC : des droits par rôle</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Rôle</th>
+								<th>Catalogue</th>
+								<th>Commandes</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>CLIENT (Alice)</td>
+								<td>lire</td>
+								<td>passer, suivre</td>
+							</tr>
+							<tr>
+								<td>PREPARATEUR (Bruno)</td>
+								<td>lire</td>
+								<td>voir, préparer</td>
+							</tr>
+							<tr>
+								<td>ADMIN (Chloé)</td>
+								<td>lire, modifier</td>
+								<td>tout</td>
+							</tr>
+						</tbody>
+					</table>
+					<aside class="notes">Role Based Access Control : on donne des droits à des rôles, puis des rôles aux personnes. Exemple d'API qui fonctionne ainsi : Kubernetes.</aside>
+				</section>
+				<section>
+					<h2>Les rôles dans Spring</h2>
+					<ol>
+						<li class="fragment"><code>.roles("ADMIN")</code> dans le <code>UserDetailsService</code></li>
+						<li class="fragment">Spring en fait l'autorité <code>ROLE_ADMIN</code></li>
+						<li class="fragment"><code>hasRole("ADMIN")</code> cherche <code>ROLE_ADMIN</code></li>
+						<li class="fragment"><code>hasAuthority("ADMIN")</code> cherche exactement <code>ADMIN</code></li>
+					</ol>
+					<aside class="notes">Source d'erreurs fréquente : mélanger hasRole et hasAuthority. Choisir une convention et s'y tenir.</aside>
+				</section>
+				<section>
+					<h2>Des règles par URL</h2>
+					<pre><code class="language-java" data-trim data-line-numbers="|3-4|5-6|7-8|9">
+http
+    .authorizeHttpRequests(auth -> auth
+        .requestMatchers(HttpMethod.GET, "/produits/**")
+            .permitAll()
+        .requestMatchers("/produits/**")
+            .hasRole("ADMIN")
+        .requestMatchers("/preparation/**")
+            .hasAnyRole("PREPARATEUR", "ADMIN")
+        .anyRequest().authenticated())
+					</code></pre>
+					<aside class="notes">Lignes 3-4 : lire le catalogue est public. Lignes 5-6 : le modifier (POST, PUT, DELETE) est réservé aux administrateurs. L'ordre compte toujours.</aside>
+				</section>
+				<section>
+					<h2>Piège : mon POST renvoie 403</h2>
+					<ul>
+						<li class="fragment">Spring active la protection <strong>CSRF</strong> par défaut</li>
+						<li class="fragment">Elle protège les sessions par cookie</li>
+						<li class="fragment">Notre API est stateless, avec un header : pas de cookie à protéger</li>
+					</ul>
+					<pre class="fragment"><code class="language-java" data-trim>
+        .csrf(csrf -> csrf.disable())
+					</code></pre>
+					<aside class="notes">CSRF : un site malveillant fait envoyer une requête par le navigateur de la victime, qui joint automatiquement ses cookies. Un header Authorization n'est jamais ajouté automatiquement : l'attaque ne fonctionne pas. On ne désactive CSRF que dans ce cas-là.</aside>
+				</section>
+				<section>
+					<h2>Des règles sur les méthodes</h2>
+					<pre><code class="language-java" data-trim>
+@Configuration
+@EnableMethodSecurity
+public class SecurityConfig { /* ... */ }
+					</code></pre>
+					<pre><code class="language-java" data-trim data-line-numbers="2">
+@PostMapping("/produits")
+@PreAuthorize("hasRole('ADMIN')")
+public Produit creer(@RequestBody Produit produit) {
+    return produitService.creer(produit);
+}
+					</code></pre>
+					<aside class="notes">Sans @EnableMethodSecurity, les annotations sont ignorées en silence. @Secured et @RolesAllowed existent aussi ; @PreAuthorize est la plus souple, on s'en sert juste après pour l'ABAC.</aside>
+				</section>
+				<section>
+					<h2>Une hiérarchie de rôles</h2>
+					<pre><code class="language-java" data-trim>
+@Bean
+static RoleHierarchy roleHierarchy() {
+    return RoleHierarchyImpl.fromHierarchy("""
+            ROLE_ADMIN > ROLE_PREPARATEUR
+            ROLE_PREPARATEUR > ROLE_CLIENT
+            """);
+}
+					</code></pre>
+					<p>Chloé a automatiquement les droits de Bruno, et Bruno ceux d'Alice.</p>
+					<aside class="notes">Plus besoin d'écrire hasAnyRole("PREPARATEUR", "ADMIN") : hasRole("PREPARATEUR") suffit. Disponible depuis Spring Security 6.3 ; l'ancienne version avec AccessDecisionVoter est dépréciée.</aside>
+				</section>
+				<section>
+					<h2>Le rôle ne suffit pas toujours</h2>
+					<p>Alice et Bob sont tous les deux <code>CLIENT</code>.</p>
+					<p class="fragment">Alice ne doit voir que <strong>ses</strong> commandes, pas celles de Bob.</p>
+					<p class="fragment">La décision dépend d'un <strong>attribut</strong> : à qui appartient la commande.</p>
+				</section>
+				<section>
+					<h2>ABAC : des droits par attribut</h2>
+					<ul>
+						<li>Le pays de l'utilisateur : le catalogue de Netflix</li>
+						<li>L'âge : le contrôle parental de Disney+</li>
+						<li>La relation : les publications « amis » de Facebook</li>
+						<li>Le propriétaire : les commandes d'Alice</li>
+					</ul>
+					<aside class="notes">Attribute Based Access Control : la décision combine des attributs de l'utilisateur, de la ressource et du contexte (heure, lieu).</aside>
+				</section>
+				<section data-ak-question="choice" data-ak-choices="2" data-ak-id="rbac-abac">
+					<h4>« Un préparateur ne voit que les commandes de son entrepôt. » C'est une règle…</h4>
+					<ul style="list-style: none;">
+						<li><strong>A.</strong> RBAC : par rôle</li>
+						<li><strong>B.</strong> ABAC : par attribut</li>
+					</ul>
+					<aside class="notes">Réponse : B. Le rôle PREPARATEUR ne suffit pas : il faut comparer l'entrepôt du préparateur et celui de la commande. En pratique, les deux se combinent : le rôle donne accès aux commandes, l'attribut filtre lesquelles.</aside>
+				</section>
+				<section>
+					<h2>ABAC dans Spring</h2>
+					<pre><code class="language-java" data-trim data-line-numbers="2">
+@GetMapping("/commandes/{id}")
+@PostAuthorize("returnObject.client == authentication.name")
+public Commande commande(@PathVariable Long id) {
+    return commandeService.trouver(id);
+}
+					</code></pre>
+					<ol>
+						<li class="fragment">La méthode s'exécute et charge la commande</li>
+						<li class="fragment">Spring compare son client avec l'utilisateur connecté</li>
+						<li class="fragment">S'ils diffèrent : 403</li>
+					</ol>
+					<aside class="notes">@PostAuthorize décide après l'exécution, à partir du résultat. @PreAuthorize décide avant, à partir des paramètres : @PreAuthorize("#clientId == authentication.name"). Pour des règles plus complexes, on écrit un bean et on l'appelle depuis l'annotation.</aside>
+				</section>
+				<section>
+					<h2>RBAC et ABAC ensemble</h2>
+					<ul>
+						<li>Les rôles donnent les grands droits</li>
+						<li>Les attributs les affinent</li>
+					</ul>
+					<aside class="notes">Les rôles seuls ne suffisent pas pour les données personnelles ; les attributs seuls deviennent vite illisibles.</aside>
+				</section>
+			</section>
+
+			<!-- Acte 6 : accounting -->
+			<section>
+				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
+					<p class="kicker">Acte 6</p>
+					<h1>Qu'as-tu fait ?</h1>
+					<p>L'accounting</p>
+				</section>
+				<section>
+					<h2>Garder une trace</h2>
+					<ul>
+						<li class="fragment"><strong>Qui</strong> : Chloé</li>
+						<li class="fragment"><strong>Quoi</strong> : a changé le prix des tomates de 4,20 € à 0,42 €</li>
+						<li class="fragment"><strong>Quand</strong> : le 24 novembre à 9 h 12</li>
+					</ul>
+					<p class="fragment">Dans des logs dédiés, ou dans une table d'historique en base.</p>
+					<aside class="notes">Utile pour comprendre une erreur, pour un audit, et parfois obligatoire (banque, santé, paiement). Les traces doivent être difficiles à modifier, y compris par un administrateur, et ne jamais contenir de mot de passe ni de token.</aside>
+				</section>
+			</section>
+
+			<!-- Conclusion -->
+			<section>
+				<section class="retenir">
+					<h2>À retenir</h2>
+					<ul>
+						<li>Authentification, autorisation, accounting : dans cet ordre</li>
+						<li>Un mot de passe se stocke hashé avec BCrypt, et voyage en HTTPS</li>
+						<li>Un JWT est signé, pas chiffré</li>
+						<li>OAuth autorise, OpenID Connect authentifie</li>
+						<li>La sécurité se fait dans l'API, jamais seulement dans le front</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<!-- Chemin RELATIF : servi par audience-keeper sous /deck/, un chemin absolu
+	     (/node_modules/…) sortirait du dossier du diaporama. -->
+	<script src="node_modules/reveal.js-mermaid-plugin/plugin/mermaid/mermaid.js"></script>
+	<!-- Audience Keeper : questions en direct et diffusion des slides aux étudiants.
+	     Fourni par le serveur audience-keeper ; ailleurs (nginx seul) il est absent
+	     et le diaporama fonctionne sans. -->
+	<script src="/static/reveal-ak.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		// Mermaid donne les mêmes id aux pointes de flèche de tous les schémas : le
+		// navigateur prend celles du premier, sur une slide masquée, et les flèches
+		// perdent leur pointe. On rend ces id uniques, schéma par schéma.
+		function fixMermaidMarkers() {
+			document.querySelectorAll('.mermaid svg:not([data-markers-fixed])').forEach(svg => {
+				svg.querySelectorAll('marker').forEach(marker => {
+					marker.id = svg.id + '-' + marker.id;
+				});
+				svg.querySelectorAll('[marker-start], [marker-end]').forEach(el => {
+					['marker-start', 'marker-end'].forEach(attr => {
+						const value = el.getAttribute(attr);
+						if (value) el.setAttribute(attr, value.replace('url(#', 'url(#' + svg.id + '-'));
+					});
+				});
+				svg.setAttribute('data-markers-fixed', '');
+			});
+		}
+		// Les schémas sont insérés de façon asynchrone, y compris en mode impression
+		new MutationObserver(fixMermaidMarkers)
+			.observe(document.querySelector('.reveal .slides'), { childList: true, subtree: true });
+
+		Reveal.initialize({
+			hash: true,
+			// Couleurs des schémas, accordées à css/cours.css
+			mermaid: {
+				theme: 'base',
+				themeVariables: {
+					darkMode: true,
+					fontFamily: 'Source Sans Pro, Helvetica, sans-serif',
+					fontSize: '22px',
+					background: '#0f1724',
+					primaryColor: '#1b2a45',
+					primaryTextColor: '#e8eef7',
+					primaryBorderColor: '#4ade80',
+					secondaryColor: '#22304d',
+					tertiaryColor: '#18233a',
+					lineColor: '#7dd3fc',
+					textColor: '#e8eef7',
+					edgeLabelBackground: '#0f1724',
+					actorBkg: '#1b2a45',
+					actorBorder: '#4ade80',
+					actorTextColor: '#e8eef7',
+					actorLineColor: '#475569',
+					signalColor: '#7dd3fc',
+					signalTextColor: '#e8eef7',
+					noteBkgColor: '#3a2f14',
+					noteTextColor: '#fde68a',
+					noteBorderColor: '#f59e0b',
+					labelBoxBkgColor: '#22304d',
+					labelBoxBorderColor: '#4ade80',
+					labelTextColor: '#e8eef7',
+					loopTextColor: '#e8eef7'
+				},
+				flowchart: { curve: 'basis', padding: 16 },
+				fontSize: 22,
+				sequence: { mirrorActors: false, width: 130, actorMargin: 40 }
+			},
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMermaid]
+				.concat(window.AudienceKeeper ? [AudienceKeeper] : [])
+		});
+	</script>
+</body>
+
+</html>

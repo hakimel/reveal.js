@@ -1,5 +1,5 @@
 /*
- * Style du cours Middleware, chargé après dist/theme/black.css.
+ * Style des cours (middleware, sécurité), chargé après dist/theme/black.css.
  * Palette « FraisDirect » : bleu nuit, vert frais, tomate pour les pannes.
  */
 :root {
@@ -198,7 +198,12 @@
 	width: 92%;
 	border-radius: 14px;
 	box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-	font-size: 0.6em;
+	font-size: 0.55em;
+}
+
+/* Une seule ligne longue qu'on ne peut pas couper (dépendance, URL) */
+.reveal pre.long {
+	font-size: 0.45em;
 }
 
 .reveal pre code,
@@ -288,4 +293,29 @@
 
 .reveal .controls {
 	color: var(--fd-accent);
+}
+
+/* Un JWT, coloré partie par partie */
+.reveal .jwt {
+	font-family: var(--r-code-font);
+	font-size: 0.6em;
+	word-break: break-all;
+	text-align: left;
+}
+
+.reveal .jwt-header {
+	color: var(--fd-tomato);
+}
+
+.reveal .jwt-payload {
+	color: #c084fc;
+}
+
+.reveal .jwt-signature {
+	color: var(--fd-sky);
+}
+
+/* Les parties d'un hash BCrypt */
+.reveal .hash-part {
+	color: var(--fd-accent-light);
 }
