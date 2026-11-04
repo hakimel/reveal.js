@@ -907,5 +907,221 @@
 			})();
 
 		</script>
+		<style>
+			.split { position: absolute; z-index: 20; background: rgba( 0, 0, 0, 0.12 ); }
+			.split::after { content: ""; position: absolute; background: rgba( 0, 0, 0, 0.45 ); border-radius: 2px; }
+			.split:hover, .split.active { background: rgba( 120, 120, 120, 0.45 ); }
+			.split-v { width: 8px; margin-left: -4px; cursor: col-resize; }
+			.split-v::after { width: 2px; height: 48px; left: 3px; top: 50%; margin-top: -24px; }
+			.split-h { height: 8px; margin-top: -4px; cursor: row-resize; }
+			.split-h::after { height: 2px; width: 48px; top: 3px; left: 50%; margin-left: -24px; }
+			body.splitting iframe { pointer-events: none; }
+
+			body.timer-collapsed .speaker-controls-time { display: none; }
+			.timer-toggle {
+				float: right;
+				margin: -2px 0 0 8px;
+				padding: 1px 8px;
+				font-size: 12px;
+				text-transform: none;
+				color: #444;
+				background: #f2f2f2;
+				border: 1px solid #ccc;
+				border-radius: 3px;
+				cursor: pointer;
+			}
+			.timer-toggle:hover { background: #e4e4e4; }
+			.font-toggle { font-weight: bold; padding: 1px 6px; }
+			.speaker-controls-notes .label.with-tools { display: flex; align-items: center; }
+			.speaker-controls-notes .label.with-tools .timer-toggle { float: none; margin: 0; }
+			.notes-font-tools { flex: 1; display: flex; justify-content: center; gap: 6px; }
+			.notes-nav { position: fixed; z-index: 30; display: flex; gap: 14px; }
+			.notes-nav button { width: 34px; height: 34px; padding: 0; border: 0; background: transparent; cursor: pointer; color: #222; opacity: 0.2; }
+			.notes-nav button:hover { opacity: 0.9; transform: scale( 1.12 ); }
+			.notes-nav button.off { visibility: hidden; }
+			.notes-nav svg { width: 100%; height: 100%; display: block; }
+			.speaker-controls-notes .value { font-size: calc( 1.2em * var( --notes-scale, 1 ) ) !important; }
+		</style>
+		<script>
+			(function() {
+
+				// Draggable pane borders for every layout with slides
+				var KEY = 'reveal-speaker-split';
+				var DEFAULTS = { 'default': { v: 60, h: 40 }, 'wide': { v: 50, h: 45 }, 'tall': { v: 45, h: 50 } };
+				var state = {};
+				try { state = JSON.parse( localStorage.getItem( KEY ) ) || {}; } catch( e ) {}
+				if( state.v ) state = { 'default': { v: state.v, h: state.h } };
+
+				var sv = document.createElement( 'div' ); sv.className = 'split split-v';
+				var sh = document.createElement( 'div' ); sh.className = 'split split-h';
+				document.body.appendChild( sv );
+				document.body.appendChild( sh );
+
+				function el( id ) { return document.getElementById( id ); }
+				function layout() { return document.body.getAttribute( 'data-speaker-layout' ) || 'default'; }
+				function cur() {
+					var l = layout();
+					if( !DEFAULTS[ l ] ) return null;
+					if( !state[ l ] ) state[ l ] = { v: DEFAULTS[ l ].v, h: DEFAULTS[ l ].h };
+					return state[ l ];
+				}
+				function place( e, left, top, width, height ) {
+					if( !e ) return;
+					e.style.left = left + '%';
+					e.style.top = top + '%';
+					e.style.width = width + '%';
+					e.style.height = height + '%';
+					e.style.right = 'auto';
+				}
+				function clear() {
+					[ 'current-slide', 'upcoming-slide', 'speaker-controls' ].forEach( function( id ) {
+						var e = el( id ); if( e ) e.removeAttribute( 'style' );
+					} );
+				}
+				function apply() {
+					var s = cur();
+					sv.style.display = sh.style.display = s ? 'block' : 'none';
+					if( !s ) { clear(); return; }
+					var v = s.v, h = s.h, l = layout();
+					var c = el( 'current-slide' ), u = el( 'upcoming-slide' ), k = el( 'speaker-controls' );
+					if( l === 'default' ) {
+						place( c, 0, 0, v, 100 );
+						place( u, v, 0, 100 - v, h );
+						place( k, v, h, 100 - v, 100 - h );
+						place( sv, v, 0, 0, 100 );
+						place( sh, v, h, 100 - v, 0 );
+					}
+					else if( l === 'wide' ) {
+						place( c, 0, 0, v, h );
+						place( u, v, 0, 100 - v, h );
+						place( k, 0, h, 100, 100 - h );
+						place( sv, v, 0, 0, h );
+						place( sh, 0, h, 100, 0 );
+					}
+					else if( l === 'tall' ) {
+						place( c, 0, 0, v, h );
+						place( u, 0, h, v, 100 - h );
+						place( k, v, 0, 100 - v, 100 );
+						place( sv, v, 0, 0, 100 );
+						place( sh, 0, h, v, 0 );
+					}
+					sv.style.width = ''; sh.style.height = '';
+				}
+				function drag( handle, update ) {
+					handle.addEventListener( 'pointerdown', function( event ) {
+						event.preventDefault();
+						handle.setPointerCapture( event.pointerId );
+						handle.classList.add( 'active' );
+						document.body.classList.add( 'splitting' );
+						function move( e ) { var s = cur(); if( s ) { update( s, e ); apply(); } }
+						function up() {
+							handle.classList.remove( 'active' );
+							document.body.classList.remove( 'splitting' );
+							handle.removeEventListener( 'pointermove', move );
+							handle.removeEventListener( 'pointerup', up );
+							try { localStorage.setItem( KEY, JSON.stringify( state ) ); } catch( e ) {}
+						}
+						handle.addEventListener( 'pointermove', move );
+						handle.addEventListener( 'pointerup', up );
+					} );
+				}
+				function clamp( x ) { return Math.max( 15, Math.min( 85, x ) ); }
+				drag( sv, function( s, e ) { s.v = clamp( e.clientX / window.innerWidth * 100 ); } );
+				drag( sh, function( s, e ) { s.h = clamp( e.clientY / window.innerHeight * 100 ); } );
+
+				new MutationObserver( apply ).observe( document.body, { attributes: true, attributeFilter: [ 'data-speaker-layout' ] } );
+				window.addEventListener( 'load', apply );
+				apply();
+
+				// Timer hidden by default; a small button next to the Notes label shows it
+				var TKEY = 'reveal-speaker-timer';
+				var shown = false;
+				try { shown = localStorage.getItem( TKEY ) === 'shown'; } catch( e ) {}
+				var btn = document.createElement( 'button' );
+				btn.className = 'timer-toggle';
+				btn.type = 'button';
+				function setTimer( on ) {
+					shown = on;
+					document.body.classList.toggle( 'timer-collapsed', !on );
+					btn.textContent = on ? 'Timer ▴' : 'Timer ▾';
+					btn.title = on ? 'Hide the timer' : 'Show the timer';
+					try { localStorage.setItem( TKEY, on ? 'shown' : 'hidden' ); } catch( e ) {}
+				}
+				btn.addEventListener( 'click', function() { setTimer( !shown ); } );
+				var notesLabel = document.querySelector( '.speaker-controls-notes .label' );
+				var controls = el( 'speaker-controls' );
+				if( notesLabel ) notesLabel.appendChild( btn );
+				else if( controls ) controls.insertBefore( btn, controls.firstChild );
+				setTimer( shown );
+
+				// Notes font size: A- and A+ to the left of the Timer button
+				var FKEY = 'reveal-speaker-notes-scale';
+				var scale = 1;
+				try { scale = parseFloat( localStorage.getItem( FKEY ) ) || 1; } catch( e ) {}
+				function setScale( x ) {
+					scale = Math.round( Math.max( 0.5, Math.min( 3, x ) ) * 10 ) / 10;
+					document.body.style.setProperty( '--notes-scale', scale );
+					try { localStorage.setItem( FKEY, scale ); } catch( e ) {}
+				}
+				function fontButton( text, title, step ) {
+					var b = document.createElement( 'button' );
+					b.className = 'timer-toggle font-toggle';
+					b.type = 'button';
+					b.textContent = text;
+					b.title = title;
+					b.addEventListener( 'click', function() { setScale( scale + step ); } );
+					return b;
+				}
+				// centered between the NOTES label and the Timer button
+				var tools = document.createElement( 'span' );
+				tools.className = 'notes-font-tools';
+				tools.appendChild( fontButton( 'A\u2212', 'Smaller notes', -0.1 ) );
+				tools.appendChild( fontButton( 'A+', 'Larger notes', 0.1 ) );
+				if( btn.parentNode ) {
+					btn.parentNode.classList.add( 'with-tools' );
+					btn.parentNode.insertBefore( tools, btn );
+				}
+				setScale( scale );
+
+				// Prev/next arrows always shown at the bottom right of the notes pane
+				var nav = document.createElement( 'div' );
+				nav.className = 'notes-nav';
+				function arrow( dir, title, method ) {
+					var b = document.createElement( 'button' );
+					b.type = 'button';
+					b.title = title;
+					b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="' + ( dir < 0 ? '15 4 7 12 15 20' : '9 4 17 12 9 20' ) + '"/></svg>';
+					b.addEventListener( 'click', function() {
+						var f = document.querySelector( '#current-slide iframe' );
+						if( f ) f.contentWindow.postMessage( JSON.stringify( { method: method, args: [] } ), '*' );
+					} );
+					nav.appendChild( b );
+				}
+				arrow( -1, 'Previous slide', 'prev' );
+				arrow( 1, 'Next slide', 'next' );
+				// hide prev on the first slide and next on the last one
+				setInterval( function() {
+					var f = document.querySelector( '#current-slide iframe' ), R;
+					try { R = f && f.contentWindow.Reveal; } catch( e ) {}
+					if( !R || !R.isReady || !R.isReady() ) return;
+					nav.children[ 0 ].classList.toggle( 'off', R.isFirstSlide() );
+					nav.children[ 1 ].classList.toggle( 'off', R.isLastSlide() );
+				}, 300 );
+				document.body.appendChild( nav );
+				function placeNav() {
+					var k = el( 'speaker-controls' );
+					if( !k ) return;
+					var r = k.getBoundingClientRect();
+					nav.style.right = ( window.innerWidth - r.right + 22 ) + 'px';
+					nav.style.bottom = ( window.innerHeight - r.bottom + 14 ) + 'px';
+				}
+				var applyBase = apply;
+				apply = function() { applyBase(); placeNav(); };
+				window.addEventListener( 'resize', placeNav );
+				new MutationObserver( placeNav ).observe( document.body, { attributes: true, attributeFilter: [ 'data-speaker-layout' ] } );
+				placeNav();
+
+			})();
+		</script>
 	</body>
 </html>
