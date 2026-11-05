@@ -30,10 +30,10 @@
 					<p class="kicker">Cours</p>
 					<h1>Observabilité</h1>
 					<p>Comprendre ce qui se passe en production</p>
-					<aside class="notes">Fil rouge : FraisDirect, après le cours middleware. Elle a maintenant un load balancer, plusieurs instances, RabbitMQ et un service de livraison. Elle tourne en production, et un jour, elle est lente.</aside>
+					<aside class="notes">Fil rouge : notre banque en ligne, après le cours middleware. Elle a maintenant un load balancer, plusieurs instances, RabbitMQ et un service anti-fraude. Elle tourne en production, et un jour, elle est lente.</aside>
 				</section>
 				<section>
-					<h2>FraisDirect en production</h2>
+					<h2>La banque en production</h2>
 					<div class="mermaid">
 						<pre>
 							graph LR
@@ -42,9 +42,9 @@
 							LB --> A2[API 2]
 							LB --> A3[API 3]
 							A1 --> PG[(PostgreSQL)]
-							A1 --> B[Banque]
+							A1 --> B[Réseau SEPA]
 							A1 --> R[RabbitMQ]
-							R --> L[Service livraison]
+							R --> L[Service anti-fraude]
 						</pre>
 					</div>
 					<aside class="notes">L'architecture à la fin du cours middleware, simplifiée : seule l'API 1 montre ses flèches, mais les trois font pareil.</aside>
@@ -52,7 +52,7 @@
 				<section>
 					<h2>Vendredi, 19 h</h2>
 					<ol>
-						<li class="fragment">Les clients se plaignent : une commande prend 10 secondes</li>
+						<li class="fragment">Les clients se plaignent : un virement prend 10 secondes</li>
 						<li class="fragment">Le tableau de bord : tous les serveurs sont verts</li>
 						<li class="fragment">Les logs : 3 instances, 2 millions de lignes</li>
 						<li class="fragment">Par où commencer ?</li>
@@ -102,8 +102,8 @@
 				<section>
 					<h2>Les logs</h2>
 					<ul>
-						<li class="fragment pro">Suivre une action en particulier : la commande 42</li>
-						<li class="fragment con">Pas de vision globale : combien de commandes lentes ? depuis quand ?</li>
+						<li class="fragment pro">Suivre une action en particulier : le virement 42</li>
+						<li class="fragment con">Pas de vision globale : combien de virements lents ? depuis quand ?</li>
 					</ul>
 					<aside class="notes">Les logs répondent à « que s'est-il passé pour cette requête ? », mais pas à « que se passe-t-il en général ? ».</aside>
 				</section>
@@ -116,7 +116,7 @@
 						<li class="fragment pro">Être sûr qu'on en est sorti</li>
 						<li class="fragment con">Ne remplace pas le monitoring, les logs et l'alerting</li>
 					</ul>
-					<aside class="notes">Le monitoring répond aux questions qu'on a prévues. L'observabilité permet de poser des questions qu'on n'avait pas prévues : « les commandes sont lentes, mais seulement celles payées par carte, seulement depuis 18 h ».</aside>
+					<aside class="notes">Le monitoring répond aux questions qu'on a prévues. L'observabilité permet de poser des questions qu'on n'avait pas prévues : « les virements sont lents, mais seulement les virements instantanés, seulement depuis 18 h ».</aside>
 				</section>
 				<section>
 					<h2>En résumé</h2>
@@ -161,7 +161,7 @@
 				<section>
 					<h2>Pourquoi maintenant ?</h2>
 					<ul>
-						<li class="fragment">Des systèmes de plus en plus complexes : FraisDirect a déjà 6 composants</li>
+						<li class="fragment">Des systèmes de plus en plus complexes : la banque a déjà 6 composants</li>
 						<li class="fragment">Des disponibilités de plus en plus hautes</li>
 					</ul>
 					<table class="fragment">
@@ -222,7 +222,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<aside class="notes">OpenTelemetry (OTel) définit le format et fournit les librairies. On choisit ensuite où envoyer les signaux. Le baggage est plus rare : des données métier qui voyagent avec la requête, comme l'identifiant du client. On voit les trois premiers, un par acte.</aside>
+					<aside class="notes">OpenTelemetry (OTel) définit le format et fournit les librairies. On choisit ensuite où envoyer les signaux. Le baggage est plus rare : des données métier qui voyagent avec la requête, comme l'identifiant du compte. On voit les trois premiers, un par acte.</aside>
 				</section>
 			</section>
 
@@ -240,58 +240,59 @@
 						<thead>
 							<tr>
 								<th>Niveau</th>
-								<th>Exemple FraisDirect</th>
+								<th>Exemple</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td><code>ERROR</code></td>
-								<td>La base ne répond plus, la commande est perdue</td>
+								<td>La base ne répond plus, le virement est perdu</td>
 							</tr>
 							<tr>
 								<td><code>WARN</code></td>
-								<td>La banque a répondu en erreur, on réessaie</td>
+								<td>Le réseau SEPA a répondu en erreur, on réessaie</td>
 							</tr>
 							<tr>
 								<td><code>INFO</code></td>
-								<td>Commande 42 créée</td>
+								<td>Virement 42 créé</td>
 							</tr>
 							<tr>
 								<td><code>DEBUG</code></td>
-								<td>Détail du calcul des frais de livraison</td>
+								<td>Détail du contrôle du plafond</td>
 							</tr>
 							<tr>
 								<td><code>TRACE</code></td>
-								<td>Chaque ligne du panier</td>
+								<td>Chaque opération du relevé</td>
 							</tr>
 						</tbody>
 					</table>
 					<aside class="notes">ERROR : quelqu'un doit agir. WARN : anormal, mais l'application s'en sort. INFO : ce qui change l'état du système. En production on garde INFO, on active DEBUG temporairement pour enquêter.</aside>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="log-niveau">
-					<h4>Le paiement d'une commande échoue définitivement : la banque refuse après trois essais. Quel niveau ?</h4>
+					<h4>L'envoi d'un virement au réseau SEPA échoue définitivement après trois essais. Quel niveau ?</h4>
 					<ul>
 						<li><strong>A.</strong> <code>DEBUG</code></li>
 						<li><strong>B.</strong> <code>INFO</code></li>
 						<li><strong>C.</strong> <code>WARN</code></li>
 						<li><strong>D.</strong> <code>ERROR</code></li>
 					</ul>
-					<aside class="notes">Réponse D si la commande est perdue et que quelqu'un doit agir. Discussion intéressante si certains répondent WARN : une carte refusée pour solde insuffisant est un cas métier normal, pas une erreur. Tout dépend de qui doit réagir.</aside>
+					<aside class="notes">Réponse D si le virement est perdu et que quelqu'un doit agir. Discussion intéressante si certains répondent WARN : un virement refusé pour solde insuffisant est un cas métier normal, pas une erreur. Tout dépend de qui doit réagir.</aside>
 				</section>
 				<section>
 					<h2>Un log utile</h2>
-					<pre class="long"><code class="language-java" data-trim data-line-numbers="1|3-4">
-log.info("Commande créée");
+					<pre class="long"><code class="language-java" data-trim data-line-numbers="1|3-5">
+log.info("Virement créé");
 
-log.info("Commande {} créée pour le client {}, {} centimes",
-        commande.id(), commande.client(), commande.montant());
+log.info("Virement {} créé de {} vers {}, {} centimes",
+        virement.id(), virement.source(), virement.cible(),
+        virement.montant());
 					</code></pre>
 					<ul>
 						<li class="fragment">Toujours l'identifiant de ce qu'on manipule</li>
 						<li class="fragment">Logguer les <strong>écritures</strong> : création, modification, suppression</li>
 						<li class="fragment con">Jamais de mot de passe, de token ou de numéro de carte</li>
 					</ul>
-					<aside class="notes">Le premier log ne sert à rien le vendredi soir : quelle commande ? Les {} évitent de construire la chaîne si le niveau est désactivé. Les écritures sont ce qu'on cherche en premier quand on enquête : qui a changé quoi, et quand. Le dernier point rejoint le cours sécurité.</aside>
+					<aside class="notes">Le premier log ne sert à rien le vendredi soir : quel virement ? Les {} évitent de construire la chaîne si le niveau est désactivé. Les écritures sont ce qu'on cherche en premier quand on enquête : qui a changé quoi, et quand. Le dernier point rejoint le cours sécurité.</aside>
 				</section>
 				<section>
 					<h2>Agréger les logs</h2>
@@ -301,13 +302,13 @@ log.info("Commande {} créée pour le client {}, {} centimes",
 							A1[API 1] --> Col[Collecteur]
 							A2[API 2] --> Col
 							A3[API 3] --> Col
-							L[Service livraison] --> Col
+							L[Service anti-fraude] --> Col
 							Col --> S[("Stockage : Loki, Elasticsearch")]
 							S --> G[Grafana, Kibana]
 						</pre>
 					</div>
 					<p class="fragment">Un seul endroit pour chercher, au lieu de quatre serveurs</p>
-					<aside class="notes">Avec le load balancer, la commande 42 peut avoir été traitée par n'importe quelle instance. Sans agrégation, il faut se connecter à chaque serveur. Avec, on cherche « commande 42 » une seule fois.</aside>
+					<aside class="notes">Avec le load balancer, le virement 42 peut avoir été traité par n'importe quelle instance. Sans agrégation, il faut se connecter à chaque serveur. Avec, on cherche « virement 42 » une seule fois.</aside>
 				</section>
 			</section>
 
@@ -317,14 +318,14 @@ log.info("Commande {} créée pour le client {}, {} centimes",
 					<p class="kicker">Acte 3</p>
 					<h1>Les métriques</h1>
 					<p>Des chiffres sur l'application, dans le temps</p>
-					<aside class="notes">Les logs racontent une requête. Les métriques donnent la vision globale qui leur manque : combien de commandes lentes, depuis quand.</aside>
+					<aside class="notes">Les logs racontent une requête. Les métriques donnent la vision globale qui leur manque : combien de virements lents, depuis quand.</aside>
 				</section>
 				<section>
 					<h2>C'est quoi une métrique ?</h2>
 					<p>Une mesure de quelque chose dans l'application</p>
 					<ul>
-						<li class="fragment">Un nombre d'actions : commandes passées</li>
-						<li class="fragment">Une durée : temps d'une commande</li>
+						<li class="fragment">Un nombre d'actions : virements effectués</li>
+						<li class="fragment">Une durée : temps d'un virement</li>
 						<li class="fragment">Une ressource réservée : connexions à la base</li>
 					</ul>
 					<aside class="notes">Une métrique est un nombre, mesuré régulièrement. On ne regarde jamais une valeur seule, mais une courbe.</aside>
@@ -393,8 +394,8 @@ management:
 					<p><code>GET /actuator/prometheus</code></p>
 					<pre class="long"><code class="language-plaintext" data-trim>
 # TYPE http_server_requests_seconds summary
-http_server_requests_seconds_count{method="POST",uri="/commandes"} 1532
-http_server_requests_seconds_sum{method="POST",uri="/commandes"} 412.7
+http_server_requests_seconds_count{method="POST",uri="/virements"} 1532
+http_server_requests_seconds_sum{method="POST",uri="/virements"} 412.7
 # TYPE jvm_memory_used_bytes gauge
 jvm_memory_used_bytes{area="heap"} 1.43E8
 					</code></pre>
@@ -406,17 +407,17 @@ jvm_memory_used_bytes{area="heap"} 1.43E8
 						<thead>
 							<tr>
 								<th>Type</th>
-								<th>Exemple FraisDirect</th>
+								<th>Exemple</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td>Compteur <small>(Counter)</small></td>
-								<td>Commandes passées</td>
+								<td>Virements effectués</td>
 							</tr>
 							<tr>
 								<td>Durée <small>(Timer)</small></td>
-								<td>Temps de passage d'une commande</td>
+								<td>Temps de traitement d'un virement</td>
 							</tr>
 							<tr>
 								<td>Jauge <small>(Gauge)</small></td>
@@ -424,14 +425,14 @@ jvm_memory_used_bytes{area="heap"} 1.43E8
 							</tr>
 							<tr>
 								<td>Distribution <small>(Distribution summary)</small></td>
-								<td>Montant des paniers</td>
+								<td>Montant des virements</td>
 							</tr>
 						</tbody>
 					</table>
 					<aside class="notes">Un compteur ne fait que monter. Une jauge monte et descend. Un timer et une distribution donnent le nombre, la somme, le maximum, et des percentiles si on les active.</aside>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="metrique-type">
-					<h4>On veut suivre le nombre de livreurs disponibles en ce moment. Quel type de mesure ?</h4>
+					<h4>On veut suivre le nombre de clients connectés en ce moment. Quel type de mesure ?</h4>
 					<ul>
 						<li><strong>A.</strong> Compteur</li>
 						<li><strong>B.</strong> Durée</li>
@@ -441,17 +442,17 @@ jvm_memory_used_bytes{area="heap"} 1.43E8
 					<aside class="notes">Réponse C : la valeur monte et descend. Un compteur ne peut que monter.</aside>
 				</section>
 				<section>
-					<h2>Mesurer une commande : mauvaise façon</h2>
+					<h2>Mesurer un virement : mauvaise façon</h2>
 					<pre class="long"><code class="language-java" data-trim data-line-numbers="|2|3|5-7|9-10">
-public void passerCommande(Commande commande) {
-    commandesPassees.increment();
+public void virer(Virement virement) {
+    virementsEffectues.increment();
     chrono.record(() -&gt; {
         try {
-            verifierStock(commande);
-            payer(commande);
-            publierEvenement(commande);
+            verifierPlafond(virement);
+            envoyerSepa(virement);
+            publierEvenement(virement);
         } catch (RuntimeException e) {
-            commandesEchouees.increment();
+            virementsEchoues.increment();
             throw e;
         }
     });
@@ -462,15 +463,15 @@ public void passerCommande(Commande commande) {
 				<section>
 					<h2>Mieux : séparer métier et mesure</h2>
 					<pre class="long"><code class="language-java" data-trim data-line-numbers="|1-3|5-11">
-public interface CommandeService {
-    void passerCommande(Commande commande);
+public interface VirementService {
+    void virer(Virement virement);
 }
 
-public class CommandeServiceImpl implements CommandeService {
-    public void passerCommande(Commande commande) {
-        verifierStock(commande);
-        payer(commande);
-        publierEvenement(commande);
+public class VirementServiceImpl implements VirementService {
+    public void virer(Virement virement) {
+        verifierPlafond(virement);
+        envoyerSepa(virement);
+        publierEvenement(virement);
     }
 }
 					</code></pre>
@@ -479,16 +480,16 @@ public class CommandeServiceImpl implements CommandeService {
 				<section>
 					<h2>Mieux : la délégation</h2>
 					<pre class="long"><code class="language-java" data-trim data-line-numbers="|1-2|4-5|6-9">
-public class CommandeServiceMesure implements CommandeService {
-    private final CommandeService delegue;
+public class VirementServiceMesure implements VirementService {
+    private final VirementService delegue;
 
-    public void passerCommande(Commande commande) {
-        commandesPassees.increment();
+    public void virer(Virement virement) {
+        virementsEffectues.increment();
         chrono.record(() -&gt; {
             try {
-                delegue.passerCommande(commande);
+                delegue.virer(virement);
             } catch (RuntimeException e) {
-                commandesEchouees.increment();
+                virementsEchoues.increment();
                 throw e;
             }
         });
@@ -502,18 +503,18 @@ public class CommandeServiceMesure implements CommandeService {
 					<pre class="long"><code class="language-java" data-trim data-line-numbers="|3|5|6-7|11-13">
 @Aspect
 @Component
-class CommandeMetriques {
-    @Around("execution(* *..CommandeService.passerCommande(..))")
+class VirementMetriques {
+    @Around("execution(* *..VirementService.virer(..))")
     Object mesurer(ProceedingJoinPoint appel) throws Throwable {
-        commandesPassees.increment();
+        virementsEffectues.increment();
         Timer.Sample chrono = Timer.start(registry);
         try {
             return appel.proceed();
         } catch (Throwable e) {
-            commandesEchouees.increment();
+            virementsEchoues.increment();
             throw e;
         } finally {
-            chrono.stop(registry.timer("commande.duree"));
+            chrono.stop(registry.timer("virement.duree"));
         }
     }
 }
@@ -523,11 +524,11 @@ class CommandeMetriques {
 				<section>
 					<h2>Encore plus simple : <code>@Timed</code></h2>
 					<pre class="long"><code class="language-java" data-trim>
-@Timed("commande.duree")
-public void passerCommande(Commande commande) {
-    verifierStock(commande);
-    payer(commande);
-    publierEvenement(commande);
+@Timed("virement.duree")
+public void virer(Virement virement) {
+    verifierPlafond(virement);
+    envoyerSepa(virement);
+    publierEvenement(virement);
 }
 					</code></pre>
 					<p class="fragment">Micrometer fournit l'aspect tout fait</p>
@@ -541,9 +542,9 @@ registry.counter("http.appels", "path", path).increment();
 					<ul>
 						<li class="fragment">Le nombre d'appels, c'est bien</li>
 						<li class="fragment">Le nombre d'appels <strong>par endpoint</strong>, c'est mieux</li>
-						<li class="fragment con">Jamais de valeur sans limite : pas d'identifiant de client en tag</li>
+						<li class="fragment con">Jamais de valeur sans limite : pas d'identifiant de compte en tag</li>
 					</ul>
-					<aside class="notes">Un tag ajoute du contexte, et permet de filtrer et de regrouper. Mais chaque valeur de tag crée une nouvelle série dans Prometheus : avec un identifiant de client, on crée un million de séries et Prometheus tombe.</aside>
+					<aside class="notes">Un tag ajoute du contexte, et permet de filtrer et de regrouper. Mais chaque valeur de tag crée une nouvelle série dans Prometheus : avec un identifiant de compte, on crée un million de séries et Prometheus tombe.</aside>
 				</section>
 				<section>
 					<h2>Tagguer toutes les métriques</h2>
@@ -561,7 +562,7 @@ registry.config().commonTags("instance", nomDuServeur);
 					<p class="kicker">Acte 4</p>
 					<h1>Les traces</h1>
 					<p>Suivre une requête de bout en bout</p>
-					<aside class="notes">Les métriques disent que les commandes sont lentes, sur les trois instances. Mais où se perd le temps ? Base, banque, RabbitMQ ? C'est le rôle des traces.</aside>
+					<aside class="notes">Les métriques disent que les virements sont lents, sur les trois instances. Mais où se perd le temps ? Base, réseau SEPA, RabbitMQ ? C'est le rôle des traces.</aside>
 				</section>
 				<section>
 					<h2>Le principe</h2>
@@ -579,41 +580,41 @@ registry.config().commonTags("instance", nomDuServeur);
 							sequenceDiagram
 							participant LB as Load balancer
 							participant API as API
-							participant B as Banque
+							participant B as Réseau SEPA
 							participant R as RabbitMQ
-							participant L as Livraison
+							participant L as Anti-fraude
 							LB->>API: traceId=4bf9…
-							Note over API: span « POST /commandes »
+							Note over API: span « POST /virements »
 							API->>B: traceId=4bf9…
-							Note over B: span « paiement »
+							Note over B: span « envoi SEPA »
 							API->>R: traceId=4bf9…
 							R->>L: traceId=4bf9…
-							Note over L: span « préparer livraison »
+							Note over L: span « contrôle anti-fraude »
 						</pre>
 					</div>
 					<aside class="notes">Le traceId passe dans un en-tête HTTP (traceparent) ou dans les en-têtes du message RabbitMQ. Chaque service crée ses spans avec le même traceId.</aside>
 				</section>
 				<section>
 					<h2>Une trace</h2>
-					<p><code>POST /commandes</code> : 1 240 ms</p>
+					<p><code>POST /virements</code> : 1 240 ms</p>
 					<div class="trace">
-						<div class="span-ligne"><span class="nom">POST /commandes</span><div class="piste"><i class="api" style="--debut:0;--duree:100"></i></div></div>
-						<div class="span-ligne"><span class="nom">SELECT stock</span><div class="piste"><i class="base" style="--debut:2;--duree:2"></i></div></div>
-						<div class="span-ligne"><span class="nom">POST banque</span><div class="piste"><i class="lent" style="--debut:4;--duree:83"></i></div></div>
-						<div class="span-ligne"><span class="nom">publier commande</span><div class="piste"><i class="messagerie" style="--debut:88;--duree:2"></i></div></div>
-						<div class="span-ligne"><span class="nom">préparer livraison</span><div class="piste"><i class="api" style="--debut:90;--duree:10"></i></div></div>
+						<div class="span-ligne"><span class="nom">POST /virements</span><div class="piste"><i class="api" style="--debut:0;--duree:100"></i></div></div>
+						<div class="span-ligne"><span class="nom">SELECT compte</span><div class="piste"><i class="base" style="--debut:2;--duree:2"></i></div></div>
+						<div class="span-ligne"><span class="nom">POST SEPA</span><div class="piste"><i class="lent" style="--debut:4;--duree:83"></i></div></div>
+						<div class="span-ligne"><span class="nom">publier virement</span><div class="piste"><i class="messagerie" style="--debut:88;--duree:2"></i></div></div>
+						<div class="span-ligne"><span class="nom">contrôle anti-fraude</span><div class="piste"><i class="api" style="--debut:90;--duree:10"></i></div></div>
 					</div>
-					<aside class="notes">Chaque barre est un span, placé dans le temps. Faire chercher où passe le temps : la banque, 1 030 ms sur 1 240. Ce n'est ni notre code, ni notre base.</aside>
+					<aside class="notes">Chaque barre est un span, placé dans le temps. Faire chercher où passe le temps : le réseau SEPA, 1 030 ms sur 1 240. Ce n'est ni notre code, ni notre base.</aside>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="trace-lenteur">
-					<h4>Vendredi 19 h : la trace montre 1 030 ms sur 1 240 passées à attendre la banque. Que faire en premier ?</h4>
+					<h4>Vendredi 19 h : la trace montre 1 030 ms sur 1 240 passées à attendre le réseau SEPA. Que faire en premier ?</h4>
 					<ul>
 						<li><strong>A.</strong> Ajouter une quatrième instance de l'API</li>
 						<li><strong>B.</strong> Ajouter un index en base</li>
-						<li><strong>C.</strong> Regarder du côté de la banque</li>
+						<li><strong>C.</strong> Regarder du côté du réseau SEPA</li>
 						<li><strong>D.</strong> Redémarrer RabbitMQ</li>
 					</ul>
-					<aside class="notes">Réponse C. A et B sont les réflexes classiques, et ne changeraient rien : le temps est passé à attendre la banque. Sans trace, on aurait pu passer la soirée à optimiser la base.</aside>
+					<aside class="notes">Réponse C. A et B sont les réflexes classiques, et ne changeraient rien : le temps est passé à attendre le réseau SEPA. Sans trace, on aurait pu passer la soirée à optimiser la base.</aside>
 				</section>
 				<section>
 					<h2>Les traces, à quoi ça sert ?</h2>
@@ -633,7 +634,7 @@ implementation "io.opentelemetry:opentelemetry-exporter-otlp"
 					</code></pre>
 					<p class="fragment">Le traceId apparaît tout seul dans les logs</p>
 					<pre class="long fragment"><code class="language-plaintext" data-trim>
-INFO [api,4bf92f3577b34da6,00f067aa0ba902b7] Commande 42 créée
+INFO [api,4bf92f3577b34da6,00f067aa0ba902b7] Virement 42 créé
 					</code></pre>
 					<aside class="notes">Spring Boot propage le traceId dans RestClient, WebClient et RabbitTemplate. Les traces partent vers un collecteur OpenTelemetry, puis vers Jaeger, Tempo ou Zipkin. Dans le log : le nom de l'application, le traceId, puis le spanId.</aside>
 				</section>
@@ -649,7 +650,7 @@ INFO [api,4bf92f3577b34da6,00f067aa0ba902b7] Commande 42 créée
 						<li>Des métriques avec Micrometer, séparées du code métier</li>
 						<li>Des traces pour suivre une requête entre les services</li>
 					</ul>
-					<aside class="notes">Retour au vendredi 19 h : les métriques montrent que les commandes sont lentes sur les trois instances, la trace montre que c'est la banque, les logs du traceId donnent le détail de l'erreur. Trois signaux, une réponse en quelques minutes.</aside>
+					<aside class="notes">Retour au vendredi 19 h : les métriques montrent que les virements sont lents sur les trois instances, la trace montre que c'est le réseau SEPA, les logs du traceId donnent le détail de l'erreur. Trois signaux, une réponse en quelques minutes.</aside>
 				</section>
 			</section>
 		</div>

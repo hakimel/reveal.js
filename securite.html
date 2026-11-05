@@ -31,16 +31,16 @@
 					<p class="kicker">Cours</p>
 					<h1>Sécurité</h1>
 					<p>Qui es-tu ? Qu'as-tu le droit de faire ?</p>
-					<aside class="notes">Même fil rouge que les cours tests et middleware : FraisDirect, l'épicerie en ligne. Cette fois, elle a besoin de savoir qui se connecte et de limiter ce que chacun peut faire.</aside>
+					<aside class="notes">Même fil rouge que les cours tests et middleware : notre banque en ligne. Cette fois, elle a besoin de savoir qui se connecte et de limiter ce que chacun peut faire.</aside>
 				</section>
 				<section>
-					<h2>FraisDirect a besoin de comptes</h2>
+					<h2>La banque a besoin de savoir qui se connecte</h2>
 					<ul>
-						<li class="fragment"><strong>Alice</strong>, cliente : elle passe et suit ses commandes</li>
-						<li class="fragment"><strong>Bruno</strong>, préparateur : il voit les commandes à préparer</li>
-						<li class="fragment"><strong>Chloé</strong>, administratrice : elle gère le catalogue</li>
+						<li class="fragment"><strong>Alice</strong>, cliente : elle consulte ses comptes et fait des virements</li>
+						<li class="fragment"><strong>Bruno</strong>, conseiller bancaire : il voit les comptes de ses clients</li>
+						<li class="fragment"><strong>Chloé</strong>, administratrice : elle gère le catalogue des offres</li>
 					</ul>
-					<p class="fragment">Personne d'autre ne doit voir les commandes d'Alice.</p>
+					<p class="fragment">Personne d'autre ne doit voir les comptes d'Alice.</p>
 					<aside class="notes">Ces trois personnes reviennent dans tout le cours. Demander aux étudiants ce que chacun doit pouvoir faire ou non.</aside>
 				</section>
 				<section>
@@ -122,12 +122,12 @@
 						<pre>
 							sequenceDiagram
 							participant Navigateur
-							participant API as API FraisDirect
-							Navigateur->>API: GET /commandes
+							participant API as API de la banque
+							Navigateur->>API: GET /comptes
 							API-->>Navigateur: 401 + WWW-Authenticate: Basic
 							Note over Navigateur: demande identifiant et mot de passe
-							Navigateur->>API: GET /commandes + Authorization: Basic YWxp…
-							API-->>Navigateur: 200 + les commandes
+							Navigateur->>API: GET /comptes + Authorization: Basic YWxp…
+							API-->>Navigateur: 200 + les comptes
 						</pre>
 					</div>
 					<aside class="notes">Le 401 avec le header WWW-Authenticate indique au navigateur qu'il doit demander un identifiant et un mot de passe : c'est la petite fenêtre grise du navigateur. Ensuite, le navigateur renvoie le header Authorization à chaque requête.</aside>
@@ -135,11 +135,11 @@
 				<section>
 					<h2>Construire le header</h2>
 					<ol>
-						<li class="fragment">Identifiant et mot de passe : <code>alice:tomate42</code></li>
-						<li class="fragment">Encodés en Base64 : <code>YWxpY2U6dG9tYXRlNDI=</code></li>
-						<li class="fragment">Dans le header : <code>Authorization: Basic YWxpY2U6dG9tYXRlNDI=</code></li>
+						<li class="fragment">Identifiant et mot de passe : <code>alice:livret42</code></li>
+						<li class="fragment">Encodés en Base64 : <code>YWxpY2U6bGl2cmV0NDI=</code></li>
+						<li class="fragment">Dans le header : <code>Authorization: Basic YWxpY2U6bGl2cmV0NDI=</code></li>
 					</ol>
-					<aside class="notes">À faire tester : echo -n 'alice:tomate42' | base64 dans un terminal, puis le décodage avec base64 -d.</aside>
+					<aside class="notes">À faire tester : echo -n 'alice:livret42' | base64 dans un terminal, puis le décodage avec base64 -d.</aside>
 				</section>
 				<section data-ak-question="yesno" data-ak-id="basic-chiffre">
 					<h4>Avec Basic Auth, le mot de passe envoyé est-il chiffré ?</h4>
@@ -148,8 +148,8 @@
 				<section>
 					<h2>Base64 n'est pas du chiffrement</h2>
 					<pre><code class="language-bash" data-trim>
-$ echo 'YWxpY2U6dG9tYXRlNDI=' | base64 -d
-alice:tomate42
+$ echo 'YWxpY2U6bGl2cmV0NDI=' | base64 -d
+alice:livret42
 					</code></pre>
 					<p class="fragment">Basic Auth ne s'utilise <strong>qu'en HTTPS</strong> : c'est HTTPS qui chiffre la requête.</p>
 					<aside class="notes">Base64 sert à transporter n'importe quel caractère dans un header HTTP, pas à cacher quoi que ce soit.</aside>
@@ -165,7 +165,7 @@ alice:tomate42
 					<aside class="notes">Digest date d'avant la généralisation de HTTPS. Il oblige le serveur à garder le mot de passe (ou un équivalent) réutilisable, ce qui contredit la slide suivante.</aside>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="stockage-mdp">
-					<h4>Comment FraisDirect doit-il stocker le mot de passe d'Alice en base ?</h4>
+					<h4>Comment la banque doit-elle stocker le mot de passe d'Alice en base ?</h4>
 					<ul style="list-style: none;">
 						<li><strong>A.</strong> En clair</li>
 						<li><strong>B.</strong> Chiffré avec une clé (AES)</li>
@@ -225,7 +225,7 @@ alice:tomate42
 							</tr>
 						</tbody>
 					</table>
-					<aside class="notes">SHA-256 est conçu pour être rapide : un attaquant en teste des milliards par seconde. BCrypt est volontairement lent, et le coût s'augmente avec les années. Le sel est rangé dans le hash : pas besoin d'une colonne en plus. Hasher deux fois tomate42 donne deux résultats différents. Argon2 est l'alternative moderne.</aside>
+					<aside class="notes">SHA-256 est conçu pour être rapide : un attaquant en teste des milliards par seconde. BCrypt est volontairement lent, et le coût s'augmente avec les années. Le sel est rangé dans le hash : pas besoin d'une colonne en plus. Hasher deux fois livret42 donne deux résultats différents. Argon2 est l'alternative moderne.</aside>
 				</section>
 				<section>
 					<h2>Sans mot de passe : le certificat client</h2>
@@ -245,7 +245,7 @@ alice:tomate42
 				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
 					<p class="kicker">Acte 2</p>
 					<h1>Spring Security</h1>
-					<p>Protéger l'API FraisDirect</p>
+					<p>Protéger l'API de la banque</p>
 				</section>
 				<section>
 					<h2>Étape 1 : la dépendance</h2>
@@ -317,7 +317,7 @@ SecurityFilterChain filterChain(HttpSecurity http)
 					<ul>
 						<li class="fragment">Par défaut, Spring garde l'utilisateur connecté dans une session HTTP</li>
 						<li class="fragment">Cette session vit dans la mémoire de l'instance</li>
-						<li class="fragment">Avec plusieurs instances derrière un load balancer : le panier perdu du cours middleware !</li>
+						<li class="fragment">Avec plusieurs instances derrière un load balancer : le virement en cours perdu du cours middleware !</li>
 					</ul>
 					<pre class="fragment"><code class="language-java" data-trim>
         .sessionManagement(session -> session
@@ -330,22 +330,22 @@ SecurityFilterChain filterChain(HttpSecurity http)
 					<pre><code class="language-java" data-trim data-line-numbers="|3|4|5">
 http
     .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/produits/**").permitAll()
-        .requestMatchers("/commandes/**").authenticated()
+        .requestMatchers("/offres/**").permitAll()
+        .requestMatchers("/comptes/**").authenticated()
         .anyRequest().denyAll())
     .httpBasic(Customizer.withDefaults());
 					</code></pre>
 					<p>Les règles sont lues <strong>dans l'ordre</strong> : la première qui correspond gagne.</p>
-					<aside class="notes">Le catalogue est public, les commandes demandent une connexion, tout le reste est refusé. Mettre anyRequest() en premier rendrait les autres règles inutiles : Spring refuse d'ailleurs de démarrer dans ce cas.</aside>
+					<aside class="notes">Le catalogue des offres est public, les comptes demandent une connexion, tout le reste est refusé. Mettre anyRequest() en premier rendrait les autres règles inutiles : Spring refuse d'ailleurs de démarrer dans ce cas.</aside>
 				</section>
 				<section data-ak-question="code" data-ak-language="java" data-ak-id="securite-regles">
-					<h4>À vous : le catalogue est public, tout le reste demande une connexion</h4>
-					<p>Le catalogue est servi sous <code>/produits</code>.</p>
+					<h4>À vous : le catalogue des offres est public, tout le reste demande une connexion</h4>
+					<p>Le catalogue est servi sous <code>/offres</code>.</p>
 					<script type="text/x-java" data-ak-context>
-// API FraisDirect
-// GET  /produits/**  : le catalogue
-// GET  /commandes/** : les commandes du client
-// POST /commandes    : passer une commande
+// API de la banque
+// GET  /offres/**    : le catalogue des offres
+// GET  /comptes/**   : les comptes du client
+// POST /virements    : faire un virement
 					</script>
 					<script type="text/x-java" data-ak-template>
 @Bean
@@ -358,7 +358,7 @@ SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http.build();
 }
 					</script>
-					<aside class="notes">Réponse attendue : .requestMatchers("/produits/**").permitAll() puis .anyRequest().authenticated(). Erreur fréquente : inverser les deux lignes.</aside>
+					<aside class="notes">Réponse attendue : .requestMatchers("/offres/**").permitAll() puis .anyRequest().authenticated(). Erreur fréquente : inverser les deux lignes.</aside>
 				</section>
 				<section>
 					<h2>Étape 5 : brancher nos utilisateurs</h2>
@@ -407,8 +407,8 @@ export const authGuard: CanActivateFn = () => {
 					</code></pre>
 					<pre><code class="language-typescript" data-trim>
 {
-  path: 'commandes',
-  component: CommandesComponent,
+  path: 'comptes',
+  component: ComptesComponent,
   canActivate: [authGuard]
 }
 					</code></pre>
@@ -457,11 +457,11 @@ provideHttpClient(withInterceptors([authInterceptor]))
 						<pre>
 							sequenceDiagram
 							participant Front
-							participant API as API FraisDirect
-							Front->>API: POST /connexion (alice, tomate42)
+							participant API as API de la banque
+							Front->>API: POST /connexion (alice, livret42)
 							API-->>Front: un token
-							Front->>API: GET /commandes + Authorization: Bearer token
-							API-->>Front: 200 + les commandes
+							Front->>API: GET /comptes + Authorization: Bearer token
+							API-->>Front: 200 + les comptes
 						</pre>
 					</div>
 					<p>Le mot de passe n'est envoyé qu'<strong>une fois</strong>.</p>
@@ -496,13 +496,13 @@ provideHttpClient(withInterceptors([authInterceptor]))
 				<section>
 					<h2>JWT : JSON Web Token</h2>
 					<p>Le format de token signé le plus répandu : trois parties séparées par des points</p>
-					<p class="jwt"><span class="jwt-header">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</span>.<span class="jwt-payload">eyJzdWIiOiJhbGljZSIsIm5hbWUiOiJBbGljZSIsInJvbGVzIjpbIkNMSUVOVCJdLCJpYXQiOjE3OTU0MzA0MDAsImV4cCI6MTc5NTQzNDAwMH0</span>.<span class="jwt-signature">kmSnlxdc6nSezfww2U7Qcse7mJTaiJNuLD0D9oJZLRY</span></p>
+					<p class="jwt"><span class="jwt-header">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</span>.<span class="jwt-payload">eyJzdWIiOiJhbGljZSIsIm5hbWUiOiJBbGljZSIsInJvbGVzIjpbIkNMSUVOVCJdLCJpYXQiOjE3OTU0MzA0MDAsImV4cCI6MTc5NTQzNDAwMH0</span>.<span class="jwt-signature">B0vsvfEt6gIRxe2GEDoWIHnLwxk8AHnod2exx0DLj0w</span></p>
 					<ol>
 						<li class="fragment"><span class="jwt-header">Le header</span> : l'algorithme de signature</li>
 						<li class="fragment"><span class="jwt-payload">Le payload</span> : les informations sur l'utilisateur</li>
 						<li class="fragment"><span class="jwt-signature">La signature</span></li>
 					</ol>
-					<aside class="notes">Un vrai token, signé avec le secret « secret-de-fraisdirect ». Le coller sur jwt.io pour le décoder en direct, puis saisir le secret pour vérifier la signature.</aside>
+					<aside class="notes">Un vrai token, signé avec le secret « secret-de-la-banque ». Le coller sur jwt.io pour le décoder en direct, puis saisir le secret pour vérifier la signature.</aside>
 				</section>
 				<section>
 					<h2>Ce qu'il contient</h2>
@@ -535,7 +535,7 @@ provideHttpClient(withInterceptors([authInterceptor]))
 				<section>
 					<h2>La signature</h2>
 					<pre><code class="language-plaintext" data-trim>
-HMAC-SHA256( header + "." + payload , "secret-de-fraisdirect" )
+HMAC-SHA256( header + "." + payload , "secret-de-la-banque" )
 					</code></pre>
 					<p>Pour vérifier un token, l'API :</p>
 					<ol>
@@ -567,9 +567,9 @@ HMAC-SHA256( header + "." + payload , "secret-de-fraisdirect" )
 				<section>
 					<h2>Le problème des employés</h2>
 					<ul>
-						<li class="fragment">Bruno utilise le back-office, l'outil de l'entrepôt, le planning…</li>
+						<li class="fragment">Bruno utilise le back-office, l'outil de gestion des crédits, le planning…</li>
 						<li class="fragment">Un compte et un mot de passe par application</li>
-						<li class="fragment">Et le jour où il quitte FraisDirect, il faut les fermer un par un</li>
+						<li class="fragment">Et le jour où il quitte la banque, il faut les fermer un par un</li>
 					</ul>
 					<p class="fragment">Une seule connexion pour toutes les applications : le <strong>Single Sign-On</strong> (SSO).</p>
 				</section>
@@ -581,15 +581,15 @@ HMAC-SHA256( header + "." + payload , "secret-de-fraisdirect" )
 							participant Bruno as Navigateur de Bruno
 							participant App as Back-office
 							participant IdP as Fournisseur d'identité
-							Bruno->>App: 1. GET /commandes
+							Bruno->>App: 1. GET /comptes
 							App-->>Bruno: 2. Va te connecter chez le fournisseur
 							Bruno->>IdP: 3. Bruno, et son mot de passe
 							IdP-->>Bruno: 4. Une preuve signée, rapporte-la au back-office
 							Bruno->>App: 5. Voici la preuve
-							App-->>Bruno: 6. OK, je sais qui tu es : les commandes
+							App-->>Bruno: 6. OK, je sais qui tu es : les comptes
 						</pre>
 					</div>
-					<aside class="notes">Le back-office (service provider) ne voit jamais le mot de passe de Bruno. Il fait confiance au fournisseur d'identité (identity provider), dont il vérifie la signature. Pour l'outil de l'entrepôt, Bruno est déjà connecté chez le fournisseur : l'étape 3 est sautée. SAML est un standard en XML, très présent en entreprise.</aside>
+					<aside class="notes">Le back-office (service provider) ne voit jamais le mot de passe de Bruno. Il fait confiance au fournisseur d'identité (identity provider), dont il vérifie la signature. Pour l'outil de gestion des crédits, Bruno est déjà connecté chez le fournisseur : l'étape 3 est sautée. SAML est un standard en XML, très présent en entreprise.</aside>
 				</section>
 				<section>
 					<h2>Ce que le SSO apporte</h2>
@@ -616,10 +616,10 @@ HMAC-SHA256( header + "." + payload , "secret-de-fraisdirect" )
 				</section>
 				<section>
 					<h2>Un nouveau besoin</h2>
-					<p>FraisDirect veut ajouter le créneau de livraison dans l'agenda Google d'Alice.</p>
+					<p>La banque veut ajouter le rendez-vous avec son conseiller dans l'agenda Google d'Alice.</p>
 					<p class="fragment">Mauvaise idée : demander à Alice son mot de passe Google.</p>
 					<p class="fragment">Bonne idée : demander à Google une autorisation <strong>limitée</strong> à l'agenda : <strong>OAuth 2</strong>.</p>
-					<aside class="notes">Avec le mot de passe, FraisDirect pourrait tout faire : lire les mails, changer le mot de passe. OAuth donne un accès limité (le scope), révocable par Alice à tout moment.</aside>
+					<aside class="notes">Avec le mot de passe, la banque pourrait tout faire : lire les mails, changer le mot de passe. OAuth donne un accès limité (le scope), révocable par Alice à tout moment.</aside>
 				</section>
 				<section>
 					<h2>Les acteurs d'OAuth</h2>
@@ -637,7 +637,7 @@ HMAC-SHA256( header + "." + payload , "secret-de-fraisdirect" )
 							</tr>
 							<tr>
 								<td>Client</td>
-								<td>FraisDirect, qui veut accéder à l'agenda</td>
+								<td>La banque, qui veut accéder à l'agenda</td>
 							</tr>
 							<tr>
 								<td>Authorization server</td>
@@ -649,7 +649,7 @@ HMAC-SHA256( header + "." + payload , "secret-de-fraisdirect" )
 							</tr>
 						</tbody>
 					</table>
-					<aside class="notes">Attention au vocabulaire : en OAuth, le « client » est l'application (FraisDirect), pas l'utilisateur.</aside>
+					<aside class="notes">Attention au vocabulaire : en OAuth, le « client » est l'application (la banque), pas l'utilisateur.</aside>
 				</section>
 				<section>
 					<h2>OAuth étape par étape (1/3)</h2>
@@ -657,15 +657,15 @@ HMAC-SHA256( header + "." + payload , "secret-de-fraisdirect" )
 						<pre>
 							sequenceDiagram
 							participant Alice as Navigateur d'Alice
-							participant FD as FraisDirect
+							participant FD as Banque
 							participant Google as Google Accounts
 							Alice->>FD: Ajouter à mon agenda Google
 							FD-->>Alice: Redirection vers Google (scope : agenda)
-							Alice->>Google: Je viens de la part de FraisDirect
+							Alice->>Google: Je viens de la part de la banque
 							Google-->>Alice: Connecte-toi
 						</pre>
 					</div>
-					<aside class="notes">Alice se connecte chez Google, sur une page de Google : FraisDirect ne voit jamais son mot de passe. La redirection contient l'identifiant de FraisDirect et le scope demandé.</aside>
+					<aside class="notes">Alice se connecte chez Google, sur une page de Google : la banque ne voit jamais son mot de passe. La redirection contient l'identifiant de la banque et le scope demandé.</aside>
 				</section>
 				<section>
 					<h2>OAuth étape par étape (2/3)</h2>
@@ -673,12 +673,12 @@ HMAC-SHA256( header + "." + payload , "secret-de-fraisdirect" )
 						<pre>
 							sequenceDiagram
 							participant Alice as Navigateur d'Alice
-							participant FD as FraisDirect
+							participant FD as Banque
 							participant Google as Google Accounts
 							Alice->>Google: alice, et son mot de passe
-							Google-->>Alice: FraisDirect veut accéder à ton agenda, d'accord ?
+							Google-->>Alice: La banque veut accéder à ton agenda, d'accord ?
 							Alice->>Google: Oui
-							Google-->>Alice: Redirection vers FraisDirect, avec un code
+							Google-->>Alice: Redirection vers la banque, avec un code
 							Alice->>FD: Voici le code
 						</pre>
 					</div>
@@ -689,12 +689,12 @@ HMAC-SHA256( header + "." + payload , "secret-de-fraisdirect" )
 					<div class="mermaid">
 						<pre>
 							sequenceDiagram
-							participant FD as FraisDirect
+							participant FD as Banque
 							participant Google as Google Accounts
 							participant Agenda as API Google Agenda
-							FD->>Google: Le code + le secret de FraisDirect
+							FD->>Google: Le code + le secret de la banque
 							Google-->>FD: Un access token
-							FD->>Agenda: Ajoute la livraison + Bearer access token
+							FD->>Agenda: Ajoute le rendez-vous + Bearer access token
 							Agenda-->>FD: OK
 						</pre>
 					</div>
@@ -703,18 +703,18 @@ HMAC-SHA256( header + "." + payload , "secret-de-fraisdirect" )
 				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="oauth-acteur">
 					<h4>Dans cet exemple, qui délivre l'access token ?</h4>
 					<ul style="list-style: none;">
-						<li><strong>A.</strong> FraisDirect</li>
+						<li><strong>A.</strong> La banque</li>
 						<li><strong>B.</strong> Google Accounts</li>
 						<li><strong>C.</strong> L'API Google Agenda</li>
 						<li><strong>D.</strong> Le navigateur d'Alice</li>
 					</ul>
-					<aside class="notes">Réponse : B, l'authorization server. FraisDirect est le client, l'API Agenda est le resource server.</aside>
+					<aside class="notes">Réponse : B, l'authorization server. La banque est le client, l'API Agenda est le resource server.</aside>
 				</section>
 				<section>
 					<h2>OAuth autorise, il n'identifie pas</h2>
 					<ul>
 						<li class="fragment">L'access token dit : « ce porteur peut modifier cet agenda »</li>
-						<li class="fragment">Il ne dit pas à FraisDirect <strong>qui</strong> est Alice</li>
+						<li class="fragment">Il ne dit pas à la banque <strong>qui</strong> est Alice</li>
 					</ul>
 					<p class="fragment">Pour « Se connecter avec Google » : <strong>OpenID Connect</strong>.</p>
 				</section>
@@ -729,7 +729,7 @@ HMAC-SHA256( header + "." + payload , "secret-de-fraisdirect" )
 {
   "iss": "https://accounts.google.com",
   "sub": "110248495921238986420",
-  "aud": "fraisdirect",
+  "aud": "banque",
   "email": "alice@example.com",
   "name": "Alice",
   "exp": 1795434000
@@ -776,7 +776,7 @@ http.oauth2ResourceServer(oauth2 -> oauth2
 						<li class="fragment">Il récupère les clés publiques</li>
 						<li class="fragment">À chaque requête, il vérifie la signature et l'expiration du token</li>
 					</ol>
-					<aside class="notes">La ligne Java se place dans la SecurityFilterChain, à la place de httpBasic. Pour avoir son propre fournisseur d'identité (comptes clients de FraisDirect), on installe Keycloak : seul l'issuer change.</aside>
+					<aside class="notes">La ligne Java se place dans la SecurityFilterChain, à la place de httpBasic. Pour avoir son propre fournisseur d'identité (comptes clients de la banque), on installe Keycloak : seul l'issuer change.</aside>
 				</section>
 			</section>
 
@@ -788,7 +788,7 @@ http.oauth2ResourceServer(oauth2 -> oauth2
 					<p>L'autorisation</p>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="2" data-ak-id="code-401-403">
-					<h4>Bruno est bien connecté, mais il n'a pas le droit de modifier le catalogue. Quel code HTTP l'API doit-elle renvoyer ?</h4>
+					<h4>Bruno est bien connecté, mais il n'a pas le droit de modifier le catalogue des offres. Quel code HTTP l'API doit-elle renvoyer ?</h4>
 					<ul style="list-style: none;">
 						<li><strong>A.</strong> 401 Unauthorized</li>
 						<li><strong>B.</strong> 403 Forbidden</li>
@@ -825,20 +825,20 @@ http.oauth2ResourceServer(oauth2 -> oauth2
 						<thead>
 							<tr>
 								<th>Rôle</th>
-								<th>Catalogue</th>
-								<th>Commandes</th>
+								<th>Offres</th>
+								<th>Comptes et virements</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td>CLIENT (Alice)</td>
 								<td>lire</td>
-								<td>passer, suivre</td>
+								<td>consulter, virer</td>
 							</tr>
 							<tr>
-								<td>PREPARATEUR (Bruno)</td>
+								<td>CONSEILLER (Bruno)</td>
 								<td>lire</td>
-								<td>voir, préparer</td>
+								<td>voir, conseiller</td>
 							</tr>
 							<tr>
 								<td>ADMIN (Chloé)</td>
@@ -864,15 +864,15 @@ http.oauth2ResourceServer(oauth2 -> oauth2
 					<pre><code class="language-java" data-trim data-line-numbers="|3-4|5-6|7-8|9">
 http
     .authorizeHttpRequests(auth -> auth
-        .requestMatchers(HttpMethod.GET, "/produits/**")
+        .requestMatchers(HttpMethod.GET, "/offres/**")
             .permitAll()
-        .requestMatchers("/produits/**")
+        .requestMatchers("/offres/**")
             .hasRole("ADMIN")
-        .requestMatchers("/preparation/**")
-            .hasAnyRole("PREPARATEUR", "ADMIN")
+        .requestMatchers("/clientele/**")
+            .hasAnyRole("CONSEILLER", "ADMIN")
         .anyRequest().authenticated())
 					</code></pre>
-					<aside class="notes">Lignes 3-4 : lire le catalogue est public. Lignes 5-6 : le modifier (POST, PUT, DELETE) est réservé aux administrateurs. L'ordre compte toujours.</aside>
+					<aside class="notes">Lignes 3-4 : lire le catalogue des offres est public. Lignes 5-6 : le modifier (POST, PUT, DELETE) est réservé aux administrateurs. L'ordre compte toujours.</aside>
 				</section>
 				<section>
 					<h2>Piège : mon POST renvoie 403</h2>
@@ -894,10 +894,10 @@ http
 public class SecurityConfig { /* ... */ }
 					</code></pre>
 					<pre><code class="language-java" data-trim data-line-numbers="2">
-@PostMapping("/produits")
+@PostMapping("/offres")
 @PreAuthorize("hasRole('ADMIN')")
-public Produit creer(@RequestBody Produit produit) {
-    return produitService.creer(produit);
+public Offre creer(@RequestBody Offre offre) {
+    return offreService.creer(offre);
 }
 					</code></pre>
 					<aside class="notes">Sans @EnableMethodSecurity, les annotations sont ignorées en silence. @Secured et @RolesAllowed existent aussi ; @PreAuthorize est la plus souple, on s'en sert juste après pour l'ABAC.</aside>
@@ -908,19 +908,19 @@ public Produit creer(@RequestBody Produit produit) {
 @Bean
 static RoleHierarchy roleHierarchy() {
     return RoleHierarchyImpl.fromHierarchy("""
-            ROLE_ADMIN > ROLE_PREPARATEUR
-            ROLE_PREPARATEUR > ROLE_CLIENT
+            ROLE_ADMIN > ROLE_CONSEILLER
+            ROLE_CONSEILLER > ROLE_CLIENT
             """);
 }
 					</code></pre>
 					<p>Chloé a automatiquement les droits de Bruno, et Bruno ceux d'Alice.</p>
-					<aside class="notes">Plus besoin d'écrire hasAnyRole("PREPARATEUR", "ADMIN") : hasRole("PREPARATEUR") suffit. Disponible depuis Spring Security 6.3 ; l'ancienne version avec AccessDecisionVoter est dépréciée.</aside>
+					<aside class="notes">Plus besoin d'écrire hasAnyRole("CONSEILLER", "ADMIN") : hasRole("CONSEILLER") suffit. Disponible depuis Spring Security 6.3 ; l'ancienne version avec AccessDecisionVoter est dépréciée.</aside>
 				</section>
 				<section>
 					<h2>Le rôle ne suffit pas toujours</h2>
 					<p>Alice et Bob sont tous les deux <code>CLIENT</code>.</p>
-					<p class="fragment">Alice ne doit voir que <strong>ses</strong> commandes, pas celles de Bob.</p>
-					<p class="fragment">La décision dépend d'un <strong>attribut</strong> : à qui appartient la commande.</p>
+					<p class="fragment">Alice ne doit voir que <strong>ses</strong> comptes, pas ceux de Bob.</p>
+					<p class="fragment">La décision dépend d'un <strong>attribut</strong> : à qui appartient le compte.</p>
 				</section>
 				<section>
 					<h2>ABAC : des droits par attribut</h2>
@@ -928,29 +928,29 @@ static RoleHierarchy roleHierarchy() {
 						<li>Le pays de l'utilisateur : le catalogue de Netflix</li>
 						<li>L'âge : le contrôle parental de Disney+</li>
 						<li>La relation : les publications « amis » de Facebook</li>
-						<li>Le propriétaire : les commandes d'Alice</li>
+						<li>Le propriétaire : les comptes d'Alice</li>
 					</ul>
 					<aside class="notes">Attribute Based Access Control : la décision combine des attributs de l'utilisateur, de la ressource et du contexte (heure, lieu).</aside>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="2" data-ak-id="rbac-abac">
-					<h4>« Un préparateur ne voit que les commandes de son entrepôt. » C'est une règle…</h4>
+					<h4>« Un conseiller ne voit que les comptes de son agence. » C'est une règle…</h4>
 					<ul style="list-style: none;">
 						<li><strong>A.</strong> RBAC : par rôle</li>
 						<li><strong>B.</strong> ABAC : par attribut</li>
 					</ul>
-					<aside class="notes">Réponse : B. Le rôle PREPARATEUR ne suffit pas : il faut comparer l'entrepôt du préparateur et celui de la commande. En pratique, les deux se combinent : le rôle donne accès aux commandes, l'attribut filtre lesquelles.</aside>
+					<aside class="notes">Réponse : B. Le rôle CONSEILLER ne suffit pas : il faut comparer l'agence du conseiller et celle du compte. En pratique, les deux se combinent : le rôle donne accès aux comptes, l'attribut filtre lesquels.</aside>
 				</section>
 				<section>
 					<h2>ABAC dans Spring</h2>
 					<pre><code class="language-java" data-trim data-line-numbers="2">
-@GetMapping("/commandes/{id}")
+@GetMapping("/comptes/{id}")
 @PostAuthorize("returnObject.client == authentication.name")
-public Commande commande(@PathVariable Long id) {
-    return commandeService.trouver(id);
+public Compte compte(@PathVariable Long id) {
+    return compteService.trouver(id);
 }
 					</code></pre>
 					<ol>
-						<li class="fragment">La méthode s'exécute et charge la commande</li>
+						<li class="fragment">La méthode s'exécute et charge le compte</li>
 						<li class="fragment">Spring compare son client avec l'utilisateur connecté</li>
 						<li class="fragment">S'ils diffèrent : 403</li>
 					</ol>
@@ -977,11 +977,11 @@ public Commande commande(@PathVariable Long id) {
 					<h2>Garder une trace</h2>
 					<ul>
 						<li class="fragment"><strong>Qui</strong> : Chloé</li>
-						<li class="fragment"><strong>Quoi</strong> : a changé le prix des tomates de 4,20 € à 0,42 €</li>
+						<li class="fragment"><strong>Quoi</strong> : a changé le taux du Livret A de 3,00 % à 30,0 %</li>
 						<li class="fragment"><strong>Quand</strong> : le 24 novembre à 9 h 12</li>
 					</ul>
 					<p class="fragment">Dans des logs dédiés, ou dans une table d'historique en base.</p>
-					<aside class="notes">Utile pour comprendre une erreur, pour un audit, et parfois obligatoire (banque, santé, paiement). Les traces doivent être difficiles à modifier, y compris par un administrateur, et ne jamais contenir de mot de passe ni de token.</aside>
+					<aside class="notes">Utile pour comprendre une erreur, pour un audit, et obligatoire dans une banque, comme dans la santé ou le paiement. Les traces doivent être difficiles à modifier, y compris par un administrateur, et ne jamais contenir de mot de passe ni de token.</aside>
 				</section>
 			</section>
 

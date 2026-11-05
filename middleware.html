@@ -42,8 +42,8 @@
 					<aside class="notes">Demander d'abord à la salle s'ils en connaissent un. Une base de données est un middleware : on ne l'écrit pas, mais l'application ne marche pas sans.</aside>
 				</section>
 				<section>
-					<h2>FraisDirect</h2>
-					<p>Une épicerie en ligne qui livre des produits frais</p>
+					<h2>Notre banque en ligne</h2>
+					<p>Des comptes, des virements</p>
 					<div class="mermaid">
 						<pre>
 							graph LR
@@ -70,7 +70,7 @@
 			<section>
 				<section class="chapitre" data-background-gradient="radial-gradient(circle at 20% 15%, #14532d 0%, #0f1724 60%)">
 					<p class="kicker">Acte 1</p>
-					<h1>Le Black Friday</h1>
+					<h1>Le jour de paie</h1>
 					<p>Le site est saturé</p>
 				</section>
 				<section>
@@ -87,6 +87,7 @@
 						</pre>
 					</div>
 					<ul>
+						<li class="fragment">Fin de mois : tout le monde paie son loyer en même temps</li>
 						<li class="fragment">10 fois plus de clients que d'habitude</li>
 						<li class="fragment">Un seul serveur : il ne répond plus</li>
 					</ul>
@@ -102,7 +103,7 @@
 							User -.->|?| App3[Instance 3]
 						</pre>
 					</div>
-					<p class="fragment">Mais le client ne connaît qu'une adresse : <code>fraisdirect.fr</code>.<br>Sur quelle instance doit-il aller ?</p>
+					<p class="fragment">Mais le client ne connaît qu'une adresse : <code>banque.example</code>.<br>Sur quelle instance doit-il aller ?</p>
 					<aside class="notes">Les trois instances font tourner exactement le même code. Le problème : le client ne doit pas avoir à choisir.</aside>
 				</section>
 				<section>
@@ -111,14 +112,14 @@
 						<pre>
 							graph LR
 							classDef actif fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:3px;
-							User[Client] -->|fraisdirect.fr| LB[Load balancer]
+							User[Client] -->|banque.example| LB[Load balancer]
 							LB --> App1[Instance 1]
 							LB --> App2[Instance 2]
 							LB --> App3[Instance 3]
 							class LB actif;
 						</pre>
 					</div>
-					<p>L'adresse <code>fraisdirect.fr</code> pointe sur le load balancer. Lui seul connaît les instances.</p>
+					<p>L'adresse <code>banque.example</code> pointe sur le load balancer. Lui seul connaît les instances.</p>
 					<aside class="notes">Le load balancer reçoit toutes les requêtes et les transmet aux instances. Pour le client, rien ne change.</aside>
 				</section>
 				<section>
@@ -179,16 +180,16 @@
 					<p>Plus aucune requête ne part vers l'instance 3.<br>Quand elle répond de nouveau, le load balancer la réintègre.</p>
 					<aside class="notes">C'est aussi ce qui permet de mettre à jour l'application sans coupure : on arrête et on met à jour les instances une par une.</aside>
 				</section>
-				<section data-ak-question="yesno" data-ak-id="panier-en-session">
-					<h4>Le panier est gardé en mémoire dans la session HTTP de l'application. Avec 3 instances derrière un load balancer en round robin, ça marche ?</h4>
+				<section data-ak-question="yesno" data-ak-id="virement-en-session">
+					<h4>Le virement en cours de saisie est gardé en mémoire dans la session HTTP de l'application. Avec 3 instances derrière un load balancer en round robin, ça marche ?</h4>
 					<aside class="notes">Réponse : non. Laisser répondre, puis dérouler la slide suivante étape par étape.</aside>
 				</section>
 				<section>
-					<h2>Le panier perdu, étape par étape</h2>
+					<h2>Le virement perdu, étape par étape</h2>
 					<ol>
-						<li class="fragment">« Ajouter des tomates » → instance 1<br><small>le panier est rangé dans la mémoire de l'instance 1</small></li>
-						<li class="fragment">« Voir mon panier » → instance 2</li>
-						<li class="fragment">L'instance 2 ne connaît pas ce panier : il est vide</li>
+						<li class="fragment">« Choisir Bob comme bénéficiaire » → instance 1<br><small>le virement en cours est rangé dans la mémoire de l'instance 1</small></li>
+						<li class="fragment">« Confirmer le virement » → instance 2</li>
+						<li class="fragment">L'instance 2 ne connaît pas ce virement : Alice doit tout recommencer</li>
 					</ol>
 					<aside class="notes">Chaque instance a sa propre mémoire. Rien n'est partagé entre elles.</aside>
 				</section>
@@ -232,7 +233,7 @@
 				<section>
 					<h2>Le problème</h2>
 					<ul>
-						<li class="fragment">FraisDirect a maintenant trois applications : un site vitrine, un front et une API</li>
+						<li class="fragment">La banque a maintenant trois applications : un site vitrine, un front et une API</li>
 						<li class="fragment">Les clients ne doivent voir qu'une seule adresse</li>
 					</ul>
 					<aside class="notes">On ne veut pas exposer trois serveurs ou trois ports aux clients.</aside>
@@ -243,9 +244,9 @@
 						<pre>
 							graph LR
 							User[Client] --> Reverse[Reverse proxy]
-							Reverse -->|www.fraisdirect.fr| Vitrine[Site vitrine]
-							Reverse -->|app.fraisdirect.fr| Front
-							Reverse -->|app.fraisdirect.fr/api| API
+							Reverse -->|www.banque.example| Vitrine[Site vitrine]
+							Reverse -->|app.banque.example| Front
+							Reverse -->|app.banque.example/api| API
 						</pre>
 					</div>
 					<p>Il reçoit toutes les requêtes et choisit l'application selon le domaine et le chemin.</p>
@@ -253,21 +254,21 @@
 				</section>
 				<section>
 					<h2>Suivre une requête</h2>
-					<p><code>GET https://app.fraisdirect.fr/api/commandes</code></p>
+					<p><code>GET https://app.banque.example/api/virements</code></p>
 					<ol>
 						<li class="fragment">Le reverse proxy reçoit la requête</li>
-						<li class="fragment">Il lit le domaine : <code>app.fraisdirect.fr</code></li>
+						<li class="fragment">Il lit le domaine : <code>app.banque.example</code></li>
 						<li class="fragment">Il lit le chemin : commence par <code>/api</code></li>
 						<li class="fragment">Il transmet la requête à l'API</li>
 						<li class="fragment">Il renvoie la réponse de l'API au client</li>
 					</ol>
-					<aside class="notes">Faire dérouler la même chose aux étudiants avec https://app.fraisdirect.fr/panier : même domaine, mais le chemin ne commence pas par /api, donc le front.</aside>
+					<aside class="notes">Faire dérouler la même chose aux étudiants avec https://app.banque.example/comptes : même domaine, mais le chemin ne commence pas par /api, donc le front.</aside>
 				</section>
 				<section>
 					<h2>La même chose avec Nginx</h2>
 					<pre><code class="language-nginx" data-trim data-line-numbers="|2|4-6|8-10">
 server {
-    server_name app.fraisdirect.fr;
+    server_name app.banque.example;
 
     location /api/ {
         proxy_pass http://api:8080;
@@ -301,7 +302,7 @@ server {
 					<aside class="notes">La différence est dans l'intention, pas dans l'outil.</aside>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="2" data-ak-id="lb-ou-rp">
-					<h4>Ajouter une 2ᵉ instance de l'application pour encaisser le pic du Black Friday : c'est d'abord le rôle…</h4>
+					<h4>Ajouter une 2ᵉ instance de l'application pour encaisser le pic du jour de paie : c'est d'abord le rôle…</h4>
 					<ul style="list-style: none;">
 						<li><strong>A.</strong> du reverse proxy (préoccupation DEV)</li>
 						<li><strong>B.</strong> du load balancer (préoccupation OPS)</li>
@@ -318,13 +319,13 @@ server {
 					<p>La bonne base pour le bon besoin</p>
 				</section>
 				<section>
-					<h2>Les besoins de FraisDirect</h2>
+					<h2>Les besoins de la banque</h2>
 					<ul>
-						<li>Les commandes</li>
-						<li>Le catalogue de produits</li>
-						<li>Les paniers (promis à l'acte 1)</li>
-						<li>La température des chambres froides</li>
-						<li>Les photos des produits</li>
+						<li>Les comptes et les virements</li>
+						<li>Les offres : Livret A, PEL, assurances</li>
+						<li>Les virements en cours de saisie (promis à l'acte 1)</li>
+						<li>Les cours de bourse</li>
+						<li>Les relevés de compte en PDF</li>
 					</ul>
 					<aside class="notes">Faire deviner, pour chaque besoin, si PostgreSQL convient.</aside>
 				</section>
@@ -339,53 +340,55 @@ server {
 					<aside class="notes">On applique ces trois questions à chaque besoin, un par un. C'est cette méthode qu'il faut retenir, plus que la liste des bases.</aside>
 				</section>
 				<section>
-					<h2>Les commandes</h2>
+					<h2>Les virements</h2>
 					<table>
 						<thead>
 							<tr>
-								<th>commande</th>
-								<th>client</th>
-								<th>date</th>
+								<th>compte</th>
+								<th>titulaire</th>
+								<th>solde</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>1042</td>
+								<td>FR76-001</td>
 								<td>Alice</td>
-								<td>24/11</td>
+								<td>1 250 €</td>
+							</tr>
+							<tr>
+								<td>FR76-002</td>
+								<td>Bob</td>
+								<td>340 €</td>
 							</tr>
 						</tbody>
 					</table>
 					<table>
 						<thead>
 							<tr>
-								<th>commande</th>
-								<th>produit</th>
-								<th>quantité</th>
+								<th>virement</th>
+								<th>source</th>
+								<th>cible</th>
+								<th>montant</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td>1042</td>
-								<td>Tomates</td>
-								<td>2 kg</td>
-							</tr>
-							<tr>
-								<td>1042</td>
-								<td>Comté</td>
-								<td>300 g</td>
+								<td>FR76-001</td>
+								<td>FR76-002</td>
+								<td>50 €</td>
 							</tr>
 						</tbody>
 					</table>
 					<ol>
 						<li class="fragment">Des lignes et des colonnes, liées entre elles</li>
-						<li class="fragment">On les croise : les commandes d'un client, avec leurs lignes</li>
+						<li class="fragment">On les croise : les virements d'un compte, avec son titulaire</li>
 						<li class="fragment">Très grave : c'est de l'argent</li>
 					</ol>
 					<aside class="notes">Faire répondre aux trois questions avant de montrer les fragments.</aside>
 				</section>
 				<section>
-					<h2>Commandes : base relationnelle</h2>
+					<h2>Virements : base relationnelle</h2>
 					<ul>
 						<li>Des tables liées entre elles, interrogées en SQL</li>
 						<li class="pro">Transactions : tout est enregistré, ou rien</li>
@@ -393,23 +396,23 @@ server {
 						<li class="con">Changer la structure demande une migration</li>
 					</ul>
 					<p>PostgreSQL, MySQL / MariaDB, Oracle</p>
-					<aside class="notes">Transaction : si on enregistre la commande mais que l'enregistrement des lignes échoue, rien n'est gardé. C'est le choix par défaut pour les données métier.</aside>
+					<aside class="notes">Transaction : si on débite le compte d'Alice mais que le crédit sur le compte de Bob échoue, rien n'est gardé : personne ne perd 50 €. C'est le choix par défaut pour les données métier.</aside>
 				</section>
 				<section>
-					<h2>Le catalogue</h2>
+					<h2>Les offres</h2>
 					<pre><code class="language-json" data-trim>
-{ "nom": "Comté 18 mois", "prix": 32.5, "affinage": "18 mois", "lait": "cru" }
-{ "nom": "Tomate cœur de bœuf", "prix": 4.2, "origine": "Provence", "calibre": "XL" }
+{ "nom": "Livret A", "taux": 2.4, "plafond": 22950 }
+{ "nom": "Assurance auto", "franchise": 300 }
 					</code></pre>
 					<ol>
-						<li class="fragment">Chaque produit a ses propres champs</li>
-						<li class="fragment">On cherche par mots : « tomate provence », même avec une faute</li>
+						<li class="fragment">Chaque offre a ses propres champs</li>
+						<li class="fragment">On cherche par mots : « asurance auto », même avec une faute</li>
 						<li class="fragment">Peu grave : on peut le reconstruire</li>
 					</ol>
-					<aside class="notes">En relationnel, un fromage et une tomate n'ont pas les mêmes colonnes : il faudrait une colonne par attribut possible, ou une table générique pénible à interroger.</aside>
+					<aside class="notes">En relationnel, un livret et une assurance n'ont pas les mêmes colonnes : il faudrait une colonne par attribut possible, ou une table générique pénible à interroger.</aside>
 				</section>
 				<section>
-					<h2>Catalogue : base document</h2>
+					<h2>Offres : base document</h2>
 					<ul>
 						<li>Chaque donnée est un document JSON</li>
 						<li class="pro">Chaque document a ses propres champs</li>
@@ -420,31 +423,31 @@ server {
 					<aside class="notes">Elasticsearch est d'abord un moteur de recherche : on l'alimente à partir de la base principale.</aside>
 				</section>
 				<section>
-					<h2>Les paniers</h2>
+					<h2>Les virements en cours</h2>
 					<pre><code class="language-plaintext" data-trim>
-panier:alice → { "tomates": "2 kg", "comté": "300 g" }
-panier:bob   → { "pain": 1 }
+saisie:alice → { "cible": "bob", "montant": 5000 }
+saisie:carla → { "cible": "dan" }
 					</code></pre>
 					<ol>
 						<li class="fragment">Une clé, une valeur</li>
 						<li class="fragment">Toujours lu par sa clé, très souvent, très vite</li>
-						<li class="fragment">Pas très grave : le client refait son panier</li>
+						<li class="fragment">Pas très grave : la cliente refait sa saisie</li>
 					</ol>
-					<aside class="notes">On ne cherche jamais « tous les paniers qui contiennent des tomates » : on lit toujours le panier d'un client donné.</aside>
+					<aside class="notes">On ne cherche jamais « toutes les saisies vers Bob » : on lit toujours la saisie d'un client donné. Rien n'est encore viré : le vrai virement, lui, est dans la base relationnelle.</aside>
 				</section>
 				<section>
-					<h2>Paniers : base clé-valeur</h2>
+					<h2>Saisies : base clé-valeur</h2>
 					<ul>
 						<li>Comme une <code>Map</code>, partagée entre les instances</li>
 						<li class="pro">Très rapide : les données sont en mémoire</li>
-						<li class="pro">Une clé peut expirer toute seule (panier abandonné)</li>
+						<li class="pro">Une clé peut expirer toute seule (saisie abandonnée)</li>
 						<li class="con">On ne lit que par la clé : pas de recherche</li>
 					</ul>
 					<p>Redis / Valkey, Memcached</p>
 					<aside class="notes">C'est le stockage partagé de l'acte 1 : les instances deviennent stateless. Avec Spring, Spring Session range les sessions HTTP dans Redis sans changer le code. Redis peut aussi écrire ses données sur disque, si on le configure.</aside>
 				</section>
-				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="bdd-capteur">
-					<h4>La température d'un capteur, relevée toutes les 10 secondes pendant un an : quel type de BDD ?</h4>
+				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="bdd-cotation">
+					<h4>Le cours d'une action, relevé toutes les 10 secondes pendant un an : quel type de BDD ?</h4>
 					<ul style="list-style: none;">
 						<li><strong>A.</strong> Relationnel</li>
 						<li><strong>B.</strong> Document</li>
@@ -454,42 +457,42 @@ panier:bob   → { "pain": 1 }
 					<aside class="notes">Réponse : C. Les étudiants ne connaissent pas encore ce type : la question sert à les faire réfléchir. Les slides suivantes expliquent.</aside>
 				</section>
 				<section>
-					<h2>Les chambres froides</h2>
+					<h2>Les cours de bourse</h2>
 					<table>
 						<thead>
 							<tr>
 								<th>heure</th>
-								<th>capteur</th>
-								<th>température</th>
+								<th>action</th>
+								<th>cours</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td>10:00:00</td>
-								<td>frigo-1</td>
-								<td>3,1 °C</td>
+								<td>AIR</td>
+								<td>142,10 €</td>
 							</tr>
 							<tr>
 								<td>10:00:10</td>
-								<td>frigo-1</td>
-								<td>3,2 °C</td>
+								<td>AIR</td>
+								<td>142,15 €</td>
 							</tr>
 							<tr>
 								<td>10:00:20</td>
-								<td>frigo-1</td>
-								<td>3,2 °C</td>
+								<td>AIR</td>
+								<td>142,12 €</td>
 							</tr>
 						</tbody>
 					</table>
 					<ol>
-						<li class="fragment">Une mesure datée, encore et encore : 3 millions par an et par capteur</li>
-						<li class="fragment">Par période : « la moyenne par heure cette semaine »</li>
+						<li class="fragment">Une mesure datée, encore et encore : 3 millions par an et par action</li>
+						<li class="fragment">Par période : « le cours moyen par heure cette semaine »</li>
 						<li class="fragment">Une mesure perdue n'est pas grave</li>
 					</ol>
-					<aside class="notes">Usage typique : une alerte si la température dépasse 4 °C pendant plus de 10 minutes, et un graphique de la semaine.</aside>
+					<aside class="notes">Usage typique : une alerte si une action perd plus de 5 % en 10 minutes, et le graphique de la semaine dans l'application.</aside>
 				</section>
 				<section>
-					<h2>Chambres froides : base timeseries</h2>
+					<h2>Cotations : base timeseries</h2>
 					<ul>
 						<li>Faite pour des mesures rangées dans le temps</li>
 						<li class="pro">Compresse énormément les mesures</li>
@@ -500,20 +503,20 @@ panier:bob   → { "pain": 1 }
 					<aside class="notes">TimescaleDB est une extension de PostgreSQL : pratique si PostgreSQL est déjà en place. Prometheus sert surtout à surveiller les applications.</aside>
 				</section>
 				<section>
-					<h2>Les photos des produits</h2>
+					<h2>Les relevés de compte</h2>
 					<pre><code class="language-plaintext" data-trim>
-fraisdirect-photos/tomate-coeur-de-boeuf.jpg
-fraisdirect-photos/comte-18-mois.jpg
+banque-releves/alice/2026-10.pdf
+banque-releves/bob/2026-10.pdf
 					</code></pre>
 					<ol>
 						<li class="fragment">Des fichiers, parfois gros</li>
 						<li class="fragment">On les télécharge en entier, par leur nom</li>
-						<li class="fragment">Gênant : il faut les sauvegarder</li>
+						<li class="fragment">Grave : la banque doit les garder des années, il faut les sauvegarder</li>
 					</ol>
-					<aside class="notes">Pourquoi pas le disque du serveur ? Avec trois instances, chacune a son propre disque : une photo envoyée sur l'instance 1 n'existe pas sur l'instance 2. Même problème que le panier de l'acte 1.</aside>
+					<aside class="notes">Pourquoi pas le disque du serveur ? Avec trois instances, chacune a son propre disque : un relevé généré sur l'instance 1 n'existe pas sur l'instance 2. Même problème que le virement en cours de l'acte 1.</aside>
 				</section>
 				<section>
-					<h2>Photos : object storage</h2>
+					<h2>Relevés : object storage</h2>
 					<ul>
 						<li>Des fichiers (<em>objets</em>) rangés dans des <em>buckets</em></li>
 						<li class="pro">Accessible en HTTP depuis toutes les instances</li>
@@ -521,7 +524,7 @@ fraisdirect-photos/comte-18-mois.jpg
 						<li class="con">On remplace un fichier, on ne le modifie pas</li>
 					</ul>
 					<p>AWS S3, Google Cloud Storage, Garage, Ceph</p>
-					<aside class="notes">Le bucket est le conteneur : fraisdirect-photos dans l'exemple. L'API de S3 est devenue un standard, que les autres outils imitent.</aside>
+					<aside class="notes">Le bucket est le conteneur : banque-releves dans l'exemple. L'API de S3 est devenue un standard, que les autres outils imitent.</aside>
 				</section>
 				<section>
 					<h2>Récapitulatif</h2>
@@ -535,27 +538,27 @@ fraisdirect-photos/comte-18-mois.jpg
 						</thead>
 						<tbody>
 							<tr>
-								<td>Commandes</td>
+								<td>Virements</td>
 								<td>Relationnel</td>
 								<td>PostgreSQL</td>
 							</tr>
 							<tr>
-								<td>Catalogue</td>
+								<td>Offres</td>
 								<td>Document</td>
 								<td>MongoDB, Elasticsearch</td>
 							</tr>
 							<tr>
-								<td>Paniers</td>
+								<td>Saisies en cours</td>
 								<td>Clé-valeur</td>
 								<td>Redis</td>
 							</tr>
 							<tr>
-								<td>Températures</td>
+								<td>Cotations</td>
 								<td>Timeseries</td>
 								<td>InfluxDB</td>
 							</tr>
 							<tr>
-								<td>Photos</td>
+								<td>Relevés</td>
 								<td>Object storage</td>
 								<td>S3</td>
 							</tr>
@@ -564,7 +567,7 @@ fraisdirect-photos/comte-18-mois.jpg
 					<aside class="notes">Il existe d'autres familles, comme les bases colonne (Cassandra, ClickHouse) pour les très gros volumes. Hors programme ici.</aside>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="sgbd-petite-appli">
-					<h4>Une application avec peu de trafic, beaucoup de règles métier et une recherche par nom de produit : quel type de SGBD choisir ?</h4>
+					<h4>Une application avec peu de trafic, beaucoup de règles métier et une recherche par nom de client : quel type de SGBD choisir ?</h4>
 					<!-- Lettres écrites en clair : le thème impose une numérotation 1, 2, 3
 					     alors que les étudiants répondent avec des boutons A, B, C, D. -->
 					<ul style="list-style: none;">
@@ -604,13 +607,13 @@ fraisdirect-photos/comte-18-mois.jpg
 				</section>
 				<section>
 					<h2>Le problème</h2>
-					<p>Quand une commande est validée, il faut aussi :</p>
+					<p>Quand un virement est validé, il faut aussi :</p>
 					<ul>
 						<li class="fragment">envoyer un email de confirmation</li>
-						<li class="fragment">générer la facture</li>
-						<li class="fragment">prévenir l'entrepôt</li>
+						<li class="fragment">générer l'avis d'opération en PDF</li>
+						<li class="fragment">prévenir l'anti-fraude</li>
 					</ul>
-					<aside class="notes">Ces trois tâches sont faites par trois autres services. Comment le service commande les prévient-il ?</aside>
+					<aside class="notes">Ces trois tâches sont faites par trois autres services. Comment le service virement les prévient-il ? L'anti-fraude analyse ici a posteriori : elle peut bloquer le compte pour les virements suivants.</aside>
 				</section>
 				<section>
 					<h2>Première idée : des appels HTTP</h2>
@@ -618,18 +621,18 @@ fraisdirect-photos/comte-18-mois.jpg
 						<pre>
 							sequenceDiagram
 							participant Client
-							participant Commande
+							participant Virement
 							participant Email
-							participant Facture
-							participant Entrepot as Entrepôt
-							Client->>Commande: valider la commande
-							Commande->>Email: envoyer l'email
-							Email-->>Commande: OK (0,2 s)
-							Commande->>Facture: générer la facture
-							Facture-->>Commande: OK (1 s)
-							Commande->>Entrepot: préparer la commande
-							Entrepot-->>Commande: OK (0,3 s)
-							Commande-->>Client: commande validée (1,5 s)
+							participant Releve as Relevé
+							participant Fraude as Anti-fraude
+							Client->>Virement: valider le virement
+							Virement->>Email: envoyer l'email
+							Email-->>Virement: OK (0,2 s)
+							Virement->>Releve: générer l'avis d'opération
+							Releve-->>Virement: OK (1 s)
+							Virement->>Fraude: analyser le virement
+							Fraude-->>Virement: OK (0,3 s)
+							Virement-->>Client: virement validé (1,5 s)
 						</pre>
 					</div>
 					<aside class="notes">Dérouler le diagramme de haut en bas. Le client attend que les trois services aient répondu, l'un après l'autre.</aside>
@@ -640,15 +643,15 @@ fraisdirect-photos/comte-18-mois.jpg
 						<pre>
 							sequenceDiagram
 							participant Client
-							participant Commande
+							participant Virement
 							participant Email
-							Client->>Commande: valider la commande
-							Commande-xEmail: envoyer l'email
-							Commande-->>Client: erreur, commande refusée
+							Client->>Virement: valider le virement
+							Virement-xEmail: envoyer l'email
+							Virement-->>Client: erreur, virement refusé
 						</pre>
 					</div>
-					<p class="fragment">Une panne de l'email empêche de vendre !</p>
-					<aside class="notes">Deux problèmes : le client attend tout le monde, et la panne d'un service secondaire bloque la vente.</aside>
+					<p class="fragment">Une panne de l'email empêche de faire des virements !</p>
+					<aside class="notes">Deux problèmes : le client attend tout le monde, et la panne d'un service secondaire bloque le virement.</aside>
 				</section>
 				<section>
 					<h2>Deuxième idée : un broker de messages</h2>
@@ -656,38 +659,38 @@ fraisdirect-photos/comte-18-mois.jpg
 						<pre>
 							sequenceDiagram
 							participant Client
-							participant Commande
+							participant Virement
 							participant Broker
 							participant Email
-							participant Facture
-							Client->>Commande: valider la commande
-							Commande->>Broker: message « commande créée »
-							Commande-->>Client: commande validée (0,1 s)
-							Broker->>Email: commande créée
-							Broker->>Facture: commande créée
+							participant Releve as Relevé
+							Client->>Virement: valider le virement
+							Virement->>Broker: message « virement créé »
+							Virement-->>Client: virement validé (0,1 s)
+							Broker->>Email: virement créé
+							Broker->>Releve: virement créé
 						</pre>
 					</div>
-					<aside class="notes">Le service commande dépose un message et répond tout de suite au client. Le broker le distribue ensuite aux services intéressés, à leur rythme.</aside>
+					<aside class="notes">Le service virement dépose un message et répond tout de suite au client. Le broker le distribue ensuite aux services intéressés, à leur rythme.</aside>
 				</section>
 				<section>
 					<h2>Ce qu'on gagne</h2>
 					<ul>
 						<li class="fragment"><strong>Rapide</strong> : le client n'attend plus les autres services</li>
 						<li class="fragment"><strong>Robuste</strong> : si l'email est en panne, son message l'attend dans le broker</li>
-						<li class="fragment"><strong>Évolutif</strong> : un nouveau service s'abonne sans toucher au service commande</li>
+						<li class="fragment"><strong>Évolutif</strong> : un nouveau service s'abonne sans toucher au service virement</li>
 					</ul>
-					<aside class="notes">Le service commande annonce un fait (« une commande a été créée ») ; il ne donne pas d'ordre et ne sait pas qui écoute.</aside>
+					<aside class="notes">Le service virement annonce un fait (« un virement a été créé ») ; il ne donne pas d'ordre et ne sait pas qui écoute.</aside>
 				</section>
 				<section>
 					<h2>Bonus : absorber les pics</h2>
 					<div class="mermaid">
 						<pre>
 							graph LR
-							Producer[Service commande] -->|jusqu'à 40 messages/s| Queue
-							Queue -->|10 messages/s| Consumer[Service facture]
+							Producer[Service virement] -->|jusqu'à 40 messages/s| Queue
+							Queue -->|10 messages/s| Consumer[Service relevé]
 						</pre>
 					</div>
-					<p>Pendant le pic, la file se remplit. Après, le service facture rattrape son retard. Rien n'est perdu.</p>
+					<p>Pendant le pic, la file se remplit. Après, le service relevé rattrape son retard. Rien n'est perdu.</p>
 					<aside class="notes">Si le consumer reste durablement plus lent que le producer, la file grossit sans fin : il faut alors ajouter des consumers.</aside>
 				</section>
 				<section>
@@ -714,15 +717,15 @@ fraisdirect-photos/comte-18-mois.jpg
 						<pre>
 							graph LR
 							classDef actif fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:3px;
-							Producer[Service commande] -->|commande.creee| Exchange{{Exchange}}
-							Exchange --> QF[Queue facturation]
+							Producer[Service virement] -->|virement.cree| Exchange{{Exchange}}
+							Exchange --> QF[Queue releves]
 							Exchange --> QE[Queue email]
-							QF --> CF[Service facture]
+							QF --> CF[Service relevé]
 							QE --> CE[Service email]
 							class Producer actif;
 						</pre>
 					</div>
-					<p>Le producer envoie le message à l'<strong>exchange</strong>, avec la routing key <code>commande.creee</code>.</p>
+					<p>Le producer envoie le message à l'<strong>exchange</strong>, avec la routing key <code>virement.cree</code>.</p>
 					<aside class="notes">Le producer ne connaît ni les queues ni les consumers : seulement l'exchange et la routing key.</aside>
 				</section>
 				<section>
@@ -731,16 +734,16 @@ fraisdirect-photos/comte-18-mois.jpg
 						<pre>
 							graph LR
 							classDef actif fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:3px;
-							Producer[Service commande] -->|commande.creee| Exchange{{Exchange}}
-							Exchange --> QF[Queue facturation]
+							Producer[Service virement] -->|virement.cree| Exchange{{Exchange}}
+							Exchange --> QF[Queue releves]
 							Exchange --> QE[Queue email]
-							QF --> CF[Service facture]
+							QF --> CF[Service relevé]
 							QE --> CE[Service email]
 							class Exchange actif;
 						</pre>
 					</div>
 					<p>L'exchange compare la routing key aux <strong>bindings</strong> de chaque queue.</p>
-					<aside class="notes">Les deux queues sont intéressées par les commandes créées : leurs bindings correspondent.</aside>
+					<aside class="notes">Les deux queues sont intéressées par les virements créés : leurs bindings correspondent.</aside>
 				</section>
 				<section>
 					<h2>Le trajet d'un message (3/5)</h2>
@@ -748,10 +751,10 @@ fraisdirect-photos/comte-18-mois.jpg
 						<pre>
 							graph LR
 							classDef actif fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:3px;
-							Producer[Service commande] -->|commande.creee| Exchange{{Exchange}}
-							Exchange --> QF[Queue facturation]
+							Producer[Service virement] -->|virement.cree| Exchange{{Exchange}}
+							Exchange --> QF[Queue releves]
 							Exchange --> QE[Queue email]
-							QF --> CF[Service facture]
+							QF --> CF[Service relevé]
 							QE --> CE[Service email]
 							class QF,QE actif;
 						</pre>
@@ -765,16 +768,16 @@ fraisdirect-photos/comte-18-mois.jpg
 						<pre>
 							graph LR
 							classDef actif fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:3px;
-							Producer[Service commande] -->|commande.creee| Exchange{{Exchange}}
-							Exchange --> QF[Queue facturation]
+							Producer[Service virement] -->|virement.cree| Exchange{{Exchange}}
+							Exchange --> QF[Queue releves]
 							Exchange --> QE[Queue email]
-							QF --> CF[Service facture]
+							QF --> CF[Service relevé]
 							QE --> CE[Service email]
 							class CF,CE actif;
 						</pre>
 					</div>
 					<p>Chaque consumer lit le message dans sa queue et le traite.</p>
-					<aside class="notes">Chaque service avance à son rythme : la facture peut être générée avant ou après l'email.</aside>
+					<aside class="notes">Chaque service avance à son rythme : l'avis d'opération peut être généré avant ou après l'email.</aside>
 				</section>
 				<section>
 					<h2>Le trajet d'un message (5/5)</h2>
@@ -782,10 +785,10 @@ fraisdirect-photos/comte-18-mois.jpg
 						<pre>
 							graph LR
 							classDef actif fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:3px;
-							Producer[Service commande] -->|commande.creee| Exchange{{Exchange}}
-							Exchange --> QF[Queue facturation]
+							Producer[Service virement] -->|virement.cree| Exchange{{Exchange}}
+							Exchange --> QF[Queue releves]
 							Exchange --> QE[Queue email]
-							QF --> CF[Service facture]
+							QF --> CF[Service relevé]
 							QE --> CE[Service email]
 							CF -.->|ack| QF
 							CE -.->|ack| QE
@@ -798,7 +801,7 @@ fraisdirect-photos/comte-18-mois.jpg
 				<section>
 					<h2>La routing key</h2>
 					<p>Des mots séparés par des points :</p>
-					<p><code>commande.creee.fr</code></p>
+					<p><code>virement.cree.fr</code></p>
 					<table>
 						<thead>
 							<tr>
@@ -809,8 +812,8 @@ fraisdirect-photos/comte-18-mois.jpg
 						</thead>
 						<tbody>
 							<tr>
-								<td>commande</td>
-								<td>creee</td>
+								<td>virement</td>
+								<td>cree</td>
 								<td>fr</td>
 							</tr>
 							<tr>
@@ -824,7 +827,7 @@ fraisdirect-photos/comte-18-mois.jpg
 				</section>
 				<section>
 					<h2>Le binding : mot à mot</h2>
-					<p>Binding <code>commande.creee.fr</code>, message <code>commande.creee.fr</code></p>
+					<p>Binding <code>virement.cree.fr</code>, message <code>virement.cree.fr</code></p>
 					<table>
 						<thead>
 							<tr>
@@ -835,13 +838,13 @@ fraisdirect-photos/comte-18-mois.jpg
 						</thead>
 						<tbody>
 							<tr class="fragment">
-								<td>commande</td>
-								<td>commande</td>
+								<td>virement</td>
+								<td>virement</td>
 								<td>✓</td>
 							</tr>
 							<tr class="fragment">
-								<td>creee</td>
-								<td>creee</td>
+								<td>cree</td>
+								<td>cree</td>
 								<td>✓</td>
 							</tr>
 							<tr class="fragment">
@@ -856,7 +859,7 @@ fraisdirect-photos/comte-18-mois.jpg
 				</section>
 				<section>
 					<h2>Le joker <code>*</code> : exactement un mot</h2>
-					<p>Binding <code>commande.*.fr</code>, message <code>commande.creee.fr</code></p>
+					<p>Binding <code>virement.*.fr</code>, message <code>virement.cree.fr</code></p>
 					<table>
 						<thead>
 							<tr>
@@ -867,13 +870,13 @@ fraisdirect-photos/comte-18-mois.jpg
 						</thead>
 						<tbody>
 							<tr class="fragment">
-								<td>commande</td>
-								<td>commande</td>
+								<td>virement</td>
+								<td>virement</td>
 								<td>✓</td>
 							</tr>
 							<tr class="fragment">
 								<td>*</td>
-								<td>creee</td>
+								<td>cree</td>
 								<td>✓ un mot</td>
 							</tr>
 							<tr class="fragment">
@@ -883,12 +886,12 @@ fraisdirect-photos/comte-18-mois.jpg
 							</tr>
 						</tbody>
 					</table>
-					<p class="fragment">Cette queue reçoit tous les événements des commandes françaises.</p>
-					<aside class="notes">commande.annulee.fr arrive aussi dans cette queue. commande.creee.be n'y arrive pas.</aside>
+					<p class="fragment">Cette queue reçoit tous les événements des virements vers la France.</p>
+					<aside class="notes">virement.annule.fr arrive aussi dans cette queue. virement.cree.be n'y arrive pas.</aside>
 				</section>
 				<section>
 					<h2>Le joker <code>#</code> : zéro, un ou plusieurs mots</h2>
-					<p>Binding <code>commande.#</code>, message <code>commande.creee.fr</code></p>
+					<p>Binding <code>virement.#</code>, message <code>virement.cree.fr</code></p>
 					<table>
 						<thead>
 							<tr>
@@ -899,38 +902,38 @@ fraisdirect-photos/comte-18-mois.jpg
 						</thead>
 						<tbody>
 							<tr class="fragment">
-								<td>commande</td>
-								<td>commande</td>
+								<td>virement</td>
+								<td>virement</td>
 								<td>✓</td>
 							</tr>
 							<tr class="fragment">
 								<td>#</td>
-								<td>creee.fr</td>
+								<td>cree.fr</td>
 								<td>✓ deux mots</td>
 							</tr>
 						</tbody>
 					</table>
-					<p class="fragment">Cette queue reçoit tout ce qui commence par <code>commande</code>.</p>
+					<p class="fragment">Cette queue reçoit tout ce qui commence par <code>virement</code>.</p>
 					<aside class="notes">Ce ne sont pas des expressions régulières : * et # remplacent des mots entiers, jamais un morceau de mot.</aside>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="routing-key-etoile">
-					<h4>Une queue est liée avec le binding <code>commande.*</code>. Quels messages reçoit-elle ?</h4>
+					<h4>Une queue est liée avec le binding <code>virement.*</code>. Quels messages reçoit-elle ?</h4>
 					<ul style="list-style: none;">
-						<li><strong>A.</strong> <code>commande.creee</code> seulement</li>
-						<li><strong>B.</strong> <code>commande.creee.fr</code> seulement</li>
+						<li><strong>A.</strong> <code>virement.cree</code> seulement</li>
+						<li><strong>B.</strong> <code>virement.cree.fr</code> seulement</li>
 						<li><strong>C.</strong> Les deux</li>
 						<li><strong>D.</strong> Aucun des deux</li>
 					</ul>
-					<aside class="notes">Réponse : A. Refaire la comparaison mot à mot au tableau : pour commande.creee.fr, il reste le mot fr sans rien en face dans le binding. Pour recevoir les deux, il faudrait commande.#.</aside>
+					<aside class="notes">Réponse : A. Refaire la comparaison mot à mot au tableau : pour virement.cree.fr, il reste le mot fr sans rien en face dans le binding. Pour recevoir les deux, il faudrait virement.#.</aside>
 				</section>
 				<section>
 					<h2>Plusieurs queues : chacun sa copie</h2>
 					<div class="mermaid">
 						<pre>
 							graph LR
-							Exchange{{Exchange}} -->|message 1| QF[Queue facturation]
+							Exchange{{Exchange}} -->|message 1| QF[Queue releves]
 							Exchange -->|message 1| QE[Queue email]
-							QF -->|message 1| CF[Service facture]
+							QF -->|message 1| CF[Service relevé]
 							QE -->|message 1| CE[Service email]
 						</pre>
 					</div>
@@ -942,19 +945,19 @@ fraisdirect-photos/comte-18-mois.jpg
 					<div class="mermaid">
 						<pre>
 							graph LR
-							Exchange{{Exchange}} -->|messages 1, 2| QF[Queue facturation]
-							QF -->|message 1| F1[Facture instance 1]
-							QF -->|message 2| F2[Facture instance 2]
+							Exchange{{Exchange}} -->|messages 1, 2| QF[Queue releves]
+							QF -->|message 1| F1[Relevé instance 1]
+							QF -->|message 2| F2[Relevé instance 2]
 						</pre>
 					</div>
 					<p>Deux instances du même service : chaque message est traité <strong>une seule fois</strong>.</p>
-					<aside class="notes">Lien avec l'acte 1 : on peut lancer plusieurs instances du service facture pour aller plus vite, sans générer deux factures pour la même commande.</aside>
+					<aside class="notes">Lien avec l'acte 1 : on peut lancer plusieurs instances du service relevé pour aller plus vite, sans générer deux avis pour le même virement.</aside>
 				</section>
 				<section>
 					<h2>Des brokers</h2>
 					<ul>
 						<li>RabbitMQ : celui de ce cours</li>
-						<li>Mosquitto : pour les objets connectés (les capteurs des chambres froides)</li>
+						<li>Mosquitto : pour les objets connectés (protocole MQTT)</li>
 						<li>Kafka : pour de très gros volumes</li>
 					</ul>
 					<aside class="notes">Kafka fonctionne différemment : les messages ne sont pas supprimés après lecture et peuvent être relus. Hors programme ici.</aside>
@@ -973,9 +976,9 @@ fraisdirect-photos/comte-18-mois.jpg
 					<div class="mermaid">
 						<pre>
 							graph LR
-							Producer[CommandeService] -->|commande.creee.fr| Exchange{{Exchange fraisdirect}}
-							Exchange -->|commande.creee.*| Queue[Queue facturation]
-							Queue --> Consumer[FacturationListener]
+							Producer[VirementService] -->|virement.cree.fr| Exchange{{Exchange banque}}
+							Exchange -->|virement.cree.*| Queue[Queue releves]
+							Queue --> Consumer[ReleveListener]
 						</pre>
 					</div>
 					<ol>
@@ -1016,8 +1019,8 @@ MessageConverter jsonMessageConverter() {
 					<h2>Étape 3 : l'exchange</h2>
 					<pre><code class="language-java" data-trim>
 @Bean
-TopicExchange fraisDirectExchange() {
-    return new TopicExchange("fraisdirect");
+TopicExchange banqueExchange() {
+    return new TopicExchange("banque");
 }
 					</code></pre>
 					<p>Un exchange de type <em>topic</em> : il comprend les jokers <code>*</code> et <code>#</code>.</p>
@@ -1026,11 +1029,12 @@ TopicExchange fraisDirectExchange() {
 				<section>
 					<h2>Étape 4 : la queue</h2>
 					<pre><code class="language-java" data-trim>
-public static final String FACTURATION_QUEUE = "facturation";
+public static final String RELEVES_QUEUE = "releves";
 
 @Bean
-Queue facturationQueue() {
-    return QueueBuilder.durable(FACTURATION_QUEUE).build();
+Queue relevesQueue() {
+    return QueueBuilder.durable(RELEVES_QUEUE)
+            .build();
 }
 					</code></pre>
 					<p><em>durable</em> : la queue survit au redémarrage de RabbitMQ.</p>
@@ -1040,75 +1044,75 @@ Queue facturationQueue() {
 					<h2>Étape 5 : le binding</h2>
 					<pre><code class="language-java" data-trim>
 @Bean
-Binding facturationBinding(
-        Queue facturationQueue,
-        TopicExchange fraisDirectExchange) {
-    return BindingBuilder.bind(facturationQueue)
-            .to(fraisDirectExchange)
-            .with("commande.creee.*");
+Binding relevesBinding(
+        Queue relevesQueue,
+        TopicExchange banqueExchange) {
+    return BindingBuilder.bind(relevesQueue)
+            .to(banqueExchange)
+            .with("virement.cree.*");
 }
 					</code></pre>
-					<p>La queue <code>facturation</code> reçoit toutes les commandes créées, quel que soit le pays.</p>
-					<aside class="notes">Se lit comme une phrase : relier la queue facturation à l'exchange fraisdirect, avec le motif commande.creee.*. Les étapes 2 à 5 vont dans une même classe @Configuration.</aside>
+					<p>La queue <code>releves</code> reçoit tous les virements créés, quel que soit le pays.</p>
+					<aside class="notes">Se lit comme une phrase : relier la queue releves à l'exchange banque, avec le motif virement.cree.*. Les étapes 2 à 5 vont dans une même classe @Configuration.</aside>
 				</section>
 				<section>
 					<h2>Étape 6 : envoyer un message</h2>
 					<pre><code class="language-java" data-trim data-line-numbers="|4|9-11">
 @Service
-public class CommandeService {
+public class VirementService {
 
     private final RabbitTemplate rabbitTemplate;
     // ...
 
-    public void valider(Commande commande) {
-        commandeRepository.save(commande);
-        rabbitTemplate.convertAndSend("fraisdirect",
-                "commande.creee." + commande.pays(),
-                new CommandeCreee(commande.id()));
+    public void valider(Virement virement) {
+        virementRepository.save(virement);
+        rabbitTemplate.convertAndSend("banque",
+                "virement.cree." + virement.pays(),
+                new VirementCree(virement.id()));
     }
 }
 					</code></pre>
-					<aside class="notes">convertAndSend prend trois choses : l'exchange, la routing key et l'objet. On envoie un petit objet avec les informations utiles, pas l'entité JPA entière.</aside>
+					<aside class="notes">convertAndSend prend trois choses : l'exchange, la routing key et l'objet. On envoie un petit objet avec les informations utiles, pas l'entité JPA entière. Le pays est celui du compte cible.</aside>
 				</section>
 				<section>
 					<h2>Étape 7 : recevoir un message</h2>
 					<pre><code class="language-java" data-trim data-line-numbers="|7|8|9">
 @Service
-public class FacturationListener {
+public class ReleveListener {
 
-    private final FactureService factureService;
+    private final ReleveService releveService;
     // ...
 
-    @RabbitListener(queues = FACTURATION_QUEUE)
-    public void commandeCreee(CommandeCreee commande) {
-        factureService.generer(commande);
+    @RabbitListener(queues = RELEVES_QUEUE)
+    public void virementCree(VirementCree virement) {
+        releveService.generer(virement);
     }
 }
 					</code></pre>
-					<aside class="notes">Ligne 7 : on écoute une queue, jamais un exchange. Ligne 8 : le JSON est transformé en CommandeCreee. Ligne 9 : le traitement. Si la méthode se termine normalement, Spring envoie l'ack tout seul.</aside>
+					<aside class="notes">Ligne 7 : on écoute une queue, jamais un exchange. Ligne 8 : le JSON est transformé en VirementCree. Ligne 9 : le traitement. Si la méthode se termine normalement, Spring envoie l'ack tout seul.</aside>
 				</section>
-				<section data-ak-question="code" data-ak-language="java" data-ak-id="listener-commandes">
-					<h4>À vous : consommez la file <code>commandes</code></h4>
-					<p>Chaque message reçu (une chaîne) doit être passé à <code>commandeService.traiter(...)</code>.</p>
+				<section data-ak-question="code" data-ak-language="java" data-ak-id="listener-virements">
+					<h4>À vous : consommez la file <code>virements</code></h4>
+					<p>Chaque message reçu (une chaîne) doit être passé à <code>virementService.traiter(...)</code>.</p>
 					<script type="text/x-java" data-ak-context>
-interface CommandeService {
-    void traiter(String commande);
+interface VirementService {
+    void traiter(String virement);
 }
 					</script>
 					<script type="text/x-java" data-ak-template>
 @Service
-public class CommandeListener {
+public class VirementListener {
 
-    private final CommandeService commandeService;
+    private final VirementService virementService;
 
-    public CommandeListener(CommandeService commandeService) {
-        this.commandeService = commandeService;
+    public VirementListener(VirementService virementService) {
+        this.virementService = virementService;
     }
 
     @@
 }
 					</script>
-					<aside class="notes">Réponse attendue : @RabbitListener(queues = "commandes") sur une méthode public void recevoir(String commande) { commandeService.traiter(commande); }. Erreurs fréquentes : oublier l'annotation, mettre le nom de l'exchange au lieu de celui de la queue.</aside>
+					<aside class="notes">Réponse attendue : @RabbitListener(queues = "virements") sur une méthode public void recevoir(String virement) { virementService.traiter(virement); }. Erreurs fréquentes : oublier l'annotation, mettre le nom de l'exchange au lieu de celui de la queue.</aside>
 				</section>
 			</section>
 
@@ -1157,7 +1161,7 @@ spring.rabbitmq.listener.simple.retry.max-attempts=3
 						<li class="fragment">Puis il rejette le message pour de bon</li>
 						<li class="fragment">… et le message est <strong>supprimé</strong> !</li>
 					</ul>
-					<aside class="notes">Plus de boucle infinie, mais on perd la commande en échec. On veut la garder pour comprendre le problème et la retraiter plus tard : c'est l'étape 2.</aside>
+					<aside class="notes">Plus de boucle infinie, mais on perd le message en échec : l'avis d'opération ne sera jamais généré. On veut la garder pour comprendre le problème et la retraiter plus tard : c'est l'étape 2.</aside>
 				</section>
 				<section>
 					<h2>Solution, étape 2 : la dead letter queue</h2>
@@ -1165,9 +1169,9 @@ spring.rabbitmq.listener.simple.retry.max-attempts=3
 						<pre>
 							graph LR
 							classDef actif fill:#14532d,color:#fff,stroke:#4ade80,stroke-width:3px;
-							Queue[Queue facturation] -->|3 échecs| Listener
-							Queue -->|message rejeté| DLX{{Exchange fraisdirect.dlx}}
-							DLX --> DLQ[Queue facturation.dlq]
+							Queue[Queue releves] -->|3 échecs| Listener
+							Queue -->|message rejeté| DLX{{Exchange banque.dlx}}
+							DLX --> DLQ[Queue releves.dlq]
 							class DLQ actif;
 						</pre>
 					</div>
@@ -1178,25 +1182,26 @@ spring.rabbitmq.listener.simple.retry.max-attempts=3
 					<h2>Spring : où envoyer les rejets</h2>
 					<pre><code class="language-java" data-trim data-line-numbers="4">
 @Bean
-Queue facturationQueue() {
-    return QueueBuilder.durable(FACTURATION_QUEUE)
-            .deadLetterExchange("fraisdirect.dlx")
+Queue relevesQueue() {
+    return QueueBuilder.durable(RELEVES_QUEUE)
+            .deadLetterExchange("banque.dlx")
             .build();
 }
 					</code></pre>
-					<aside class="notes">Si la queue facturation existe déjà dans RabbitMQ sans cette option, RabbitMQ refuse de la redéclarer : il faut la supprimer dans l'interface web avant de relancer l'application.</aside>
+					<aside class="notes">Si la queue releves existe déjà dans RabbitMQ sans cette option, RabbitMQ refuse de la redéclarer : il faut la supprimer dans l'interface web avant de relancer l'application.</aside>
 				</section>
 				<section>
 					<h2>Spring : la queue des rejets</h2>
 					<pre><code class="language-java" data-trim>
 @Bean
 FanoutExchange deadLetterExchange() {
-    return new FanoutExchange("fraisdirect.dlx");
+    return new FanoutExchange("banque.dlx");
 }
 
 @Bean
-Queue facturationDlq() {
-    return QueueBuilder.durable("facturation.dlq").build();
+Queue relevesDlq() {
+    return QueueBuilder.durable("releves.dlq")
+            .build();
 }
 					</code></pre>
 					<aside class="notes">Les mêmes étapes que tout à l'heure : un exchange, puis une queue. Un exchange fanout envoie tout à toutes ses queues, sans regarder la routing key.</aside>
@@ -1205,15 +1210,15 @@ Queue facturationDlq() {
 					<h2>Spring : relier les deux</h2>
 					<pre><code class="language-java" data-trim>
 @Bean
-Binding facturationDlqBinding(
-        Queue facturationDlq,
+Binding relevesDlqBinding(
+        Queue relevesDlq,
         FanoutExchange deadLetterExchange) {
-    return BindingBuilder.bind(facturationDlq)
+    return BindingBuilder.bind(relevesDlq)
             .to(deadLetterExchange);
 }
 					</code></pre>
 					<p>Pas de <code>.with(...)</code> : un exchange fanout ne regarde pas la routing key.</p>
-					<aside class="notes">Comme à l'étape 5 : relier la queue facturation.dlq à l'exchange fraisdirect.dlx.</aside>
+					<aside class="notes">Comme à l'étape 5 : relier la queue releves.dlq à l'exchange banque.dlx.</aside>
 				</section>
 				<section>
 					<h2>Le parcours complet d'un message en échec</h2>
@@ -1221,8 +1226,8 @@ Binding facturationDlqBinding(
 						<li class="fragment">Le listener lève une exception</li>
 						<li class="fragment">Spring réessaie, jusqu'à 3 fois</li>
 						<li class="fragment">Spring rejette le message</li>
-						<li class="fragment">RabbitMQ l'envoie à l'exchange <code>fraisdirect.dlx</code></li>
-						<li class="fragment">Le message attend dans <code>facturation.dlq</code></li>
+						<li class="fragment">RabbitMQ l'envoie à l'exchange <code>banque.dlx</code></li>
+						<li class="fragment">Le message attend dans <code>releves.dlq</code></li>
 					</ol>
 					<aside class="notes">Récapitulatif à faire répéter par les étudiants. Il faut les deux étapes : sans limite d'essais, le message n'est jamais rejeté ; sans dead letter queue, il est perdu.</aside>
 				</section>
@@ -1231,7 +1236,7 @@ Binding facturationDlqBinding(
 			<!-- Conclusion -->
 			<section>
 				<section>
-					<h2>FraisDirect aujourd'hui</h2>
+					<h2>La banque aujourd'hui</h2>
 					<div class="mermaid">
 						<pre>
 							graph LR
@@ -1243,9 +1248,10 @@ Binding facturationDlqBinding(
 							API1 & API2 --> Redis[(Redis)]
 							API1 & API2 --> S3[(Object storage)]
 							API1 & API2 --> Broker{{RabbitMQ}}
-							Broker --> Facture[Service facture]
+							Broker --> Releve[Service relevé]
 							Broker --> Email[Service email]
-							Capteurs --> Influx[(InfluxDB)]
+							Broker --> Fraude[Service anti-fraude]
+							Cotations --> Influx[(InfluxDB)]
 						</pre>
 					</div>
 					<aside class="notes">Reprendre le schéma en remontant l'histoire : chaque brique correspond à un problème rencontré pendant le cours. Demander laquelle on supprimerait si le trafic redevenait faible.</aside>

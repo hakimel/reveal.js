@@ -30,13 +30,13 @@
 					<p class="kicker">Cours</p>
 					<h1>Bonnes pratiques</h1>
 					<p>Organiser son code pour qu'il reste facile à changer</p>
-					<aside class="notes">Fil rouge : FraisDirect, l'épicerie en ligne des autres cours. Son code a grossi, et chaque modification devient plus risquée. On voit trois façons de garder le code facile à changer : découper les objets, designer l'API, ranger les packages.</aside>
+					<aside class="notes">Fil rouge : la banque en ligne des autres cours. Son code a grossi, et chaque modification devient plus risquée. On voit trois façons de garder le code facile à changer : découper les objets, designer l'API, ranger les packages.</aside>
 				</section>
 				<section>
-					<h2>Le code de FraisDirect a grossi</h2>
+					<h2>Le code de la banque a grossi</h2>
 					<ul>
 						<li class="fragment">Une classe <code>Client</code> de 40 champs</li>
-						<li class="fragment">Un <code>CommandeService</code> qui envoie aussi les mails et les factures</li>
+						<li class="fragment">Un <code>VirementService</code> qui envoie aussi les mails et les relevés PDF</li>
 						<li class="fragment">Une API qui renvoie tout, tout le temps</li>
 						<li class="fragment">Un package <code>service/</code> de 80 classes</li>
 					</ul>
@@ -105,10 +105,10 @@
 							</tr>
 						</tbody>
 					</table>
-					<aside class="notes">Cinq principes, une phrase chacun. On ne détaille que le S, celui qu'on viole le plus souvent. Le D, ils l'ont déjà utilisé sans le savoir dans le cours sur les tests : c'est lui qui permet de passer un mock à CommandeService.</aside>
+					<aside class="notes">Cinq principes, une phrase chacun. On ne détaille que le S, celui qu'on viole le plus souvent. Le D, ils l'ont déjà utilisé sans le savoir dans le cours sur les tests : c'est lui qui permet de passer un mock de CompteRepository ou de SepaClient à VirementService.</aside>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="5" data-ak-id="solid-classe">
-					<h4>Une classe <code>ClientService</code> gère les clients, envoie les mails et génère les factures PDF. Quel principe viole-t-elle surtout ?</h4>
+					<h4>Une classe <code>ClientService</code> gère les clients, envoie les mails et génère les relevés PDF. Quel principe viole-t-elle surtout ?</h4>
 					<ul>
 						<li><strong>A.</strong> S : Single responsibility</li>
 						<li><strong>B.</strong> O : Open/closed</li>
@@ -116,17 +116,17 @@
 						<li><strong>D.</strong> I : Interface segregation</li>
 						<li><strong>E.</strong> D : Dependency inversion</li>
 					</ul>
-					<aside class="notes">Réponse A. Trois raisons de changer : les règles client, le contenu des mails, le format des factures. Un changement de mise en page de la facture oblige à toucher la classe qui gère les clients.</aside>
+					<aside class="notes">Réponse A. Trois raisons de changer : les règles client, le contenu des mails, le format des relevés. Un changement de mise en page du relevé oblige à toucher la classe qui gère les clients.</aside>
 				</section>
 				<section>
 					<h2>S : découper un service</h2>
 					<div class="mermaid">
 						<pre>
 							graph LR
-							A["ClientService (clients, mails, factures)"]:::gros
+							A["ClientService (clients, mails, relevés)"]:::gros
 							A -.->|découpé en| B[ClientService]
 							A -.-> C[MailService]
-							A -.-> D[FactureService]
+							A -.-> D[ReleveService]
 							classDef gros fill:#3b1418,stroke:#f87171,color:#fecaca
 						</pre>
 					</div>
@@ -168,20 +168,20 @@ public class Adresse {
 				</section>
 				<section>
 					<h2>Étape 2 · Le besoin change</h2>
-					<p>FraisDirect livre à une adresse et facture à une autre</p>
+					<p>La banque écrit au domicile, mais envoie les relevés ailleurs</p>
 					<pre><code class="language-java" data-trim data-line-numbers="3-4">
 public class Client {
     private String nom;
-    private Adresse adresseLivraison;
-    private Adresse adresseFacturation;
+    private Adresse adressePostale;
+    private Adresse adresseReleves;
 }
 					</code></pre>
 					<p class="fragment">Une ligne de plus, au lieu de quatre champs copiés.</p>
-					<aside class="notes">Sans l'étape 1, il aurait fallu rueFacturation, villeFacturation, codePostalFacturation… et dupliquer la validation. Le découpage paie dès le premier changement.</aside>
+					<aside class="notes">Sans l'étape 1, il aurait fallu rueReleves, villeReleves, codePostalReleves… et dupliquer la validation. Le découpage paie dès le premier changement.</aside>
 				</section>
 				<section>
 					<h2>Étape 3 · Des rôles différents</h2>
-					<p>Un client et un livreur ont tous les deux un compte</p>
+					<p>Un client et un conseiller se connectent tous les deux</p>
 					<pre class="long"><code class="language-java" data-trim data-line-numbers="|1-5|7-10|12-15">
 public class Utilisateur {
     private String nom;
@@ -191,15 +191,15 @@ public class Utilisateur {
 
 public class Client {
     private Utilisateur utilisateur;
-    private Adresse adresseLivraison;
+    private Adresse adressePostale;
 }
 
-public class Livreur {
+public class Conseiller {
     private Utilisateur utilisateur;
-    private String immatriculation;
+    private String agence;
 }
 					</code></pre>
-					<aside class="notes">Client et Livreur contiennent un Utilisateur, ils n'en héritent pas. C'est de la composition, le sujet de la suite.</aside>
+					<aside class="notes">Client et Conseiller contiennent un Utilisateur, ils n'en héritent pas. C'est de la composition, le sujet de la suite.</aside>
 				</section>
 				<section>
 					<h2>Composition over inheritance</h2>
@@ -213,7 +213,7 @@ public class Livreur {
 					<h2>Mauvais exemple</h2>
 					<pre class="long"><code class="language-java" data-trim data-line-numbers="|2|4-7|10-14">
 abstract class Notification {
-    abstract void envoyer(Commande commande);
+    abstract void envoyer(Virement virement);
 
     protected String formaterMontant(long centimes) {
         return String.format("%d,%02d €",
@@ -222,27 +222,27 @@ abstract class Notification {
 }
 
 class NotificationMail extends Notification {
-    void envoyer(Commande commande) {
-        String montant = formaterMontant(commande.montant());
+    void envoyer(Virement virement) {
+        String montant = formaterMontant(virement.montant());
         // … envoie le mail
     }
 }
 					</code></pre>
 					<p class="fragment">La mère n'appelle jamais <code>envoyer</code> : elle sert juste de boîte à outils</p>
-					<aside class="notes">Conséquence : FactureService veut aussi formater un montant. Il doit hériter de Notification ? Non. Et en Java, on n'hérite que d'une seule classe. Le code partagé doit aller dans sa propre classe.</aside>
+					<aside class="notes">Conséquence : ReleveService veut aussi formater un montant. Il doit hériter de Notification ? Non. Et en Java, on n'hérite que d'une seule classe. Le code partagé doit aller dans sa propre classe.</aside>
 				</section>
 				<section>
 					<h2>Bon exemple</h2>
 					<pre class="long"><code class="language-java" data-trim data-line-numbers="|2-6|8-9|12-19">
 abstract class Notification {
-    final void notifier(Commande commande) {
-        if (accepte(commande.client())) {
-            envoyer(commande);
+    final void notifier(Virement virement) {
+        if (accepte(virement.client())) {
+            envoyer(virement);
         }
     }
 
     abstract boolean accepte(Client client);
-    abstract void envoyer(Commande commande);
+    abstract void envoyer(Virement virement);
 }
 
 class NotificationSms extends Notification {
@@ -250,7 +250,7 @@ class NotificationSms extends Notification {
         return client.accepteLesSms();
     }
 
-    void envoyer(Commande commande) {
+    void envoyer(Virement virement) {
         // … envoie le SMS
     }
 }
@@ -332,12 +332,12 @@ public class Client {
     private String email;
     private String motDePasse;
     @OneToMany(mappedBy = "client")
-    private List&lt;Commande&gt; commandes;
+    private List&lt;Compte&gt; comptes;
 }
 					</code></pre>
 					<ul>
 						<li class="fragment con">Le hash du mot de passe part dans le JSON</li>
-						<li class="fragment con">Client → commandes → client → commandes… : sérialisation sans fin</li>
+						<li class="fragment con">Client → comptes → client → comptes… : sérialisation sans fin</li>
 						<li class="fragment con">Renommer une colonne casse le front</li>
 					</ul>
 					<aside class="notes">Les trois problèmes arrivent pour de vrai. Le deuxième se termine en StackOverflowError ou en LazyInitializationException. Le troisième est le plus sournois : le schéma de la base devient le contrat de l'API.</aside>
@@ -361,72 +361,72 @@ public ClientDto trouver(@PathVariable Long id) {
 				</section>
 				<section>
 					<h2>Découper les ressources</h2>
-					<p>Un produit de FraisDirect</p>
+					<p>Un compte de la banque</p>
 					<pre><code class="language-java" data-trim data-line-numbers="|4|5|6">
-public class Produit {
+public class Compte {
     private Long id;
-    private String nom;
-    private Categorie categorie;
-    private List&lt;Produit&gt; similaires;
-    private List&lt;Avis&gt; avis;
+    private String libelle;
+    private Titulaire titulaire;
+    private List&lt;Beneficiaire&gt; beneficiaires;
+    private List&lt;Operation&gt; operations;
 }
 					</code></pre>
-					<aside class="notes">Un petit objet (la catégorie), une liste d'objets du même type (les produits similaires), une liste qui peut devenir très longue (les avis). Que renvoyer sur GET /produits/12 ?</aside>
+					<aside class="notes">Un petit objet (le titulaire), une liste courte (les bénéficiaires), une liste qui peut devenir très longue (les opérations). Que renvoyer sur GET /comptes/12 ?</aside>
 				</section>
 				<section>
 					<h2>Mauvaise pratique</h2>
-					<p><code>GET /produits/12</code></p>
+					<p><code>GET /comptes/12</code></p>
 					<pre><code class="language-json" data-trim data-line-numbers="|4-6|7-9|10-13">
 {
   "id": 12,
-  "nom": "Comté 18 mois",
-  "categorie": {
-    "nom": "Fromages"
+  "libelle": "Compte courant",
+  "titulaire": {
+    "nom": "Alice"
   },
-  "similaires": [
-    { "id": 13, "nom": "Comté 24 mois" }
+  "beneficiaires": [
+    { "id": 7, "nom": "Bob" }
   ],
-  "avis": [
-    { "note": 5, "texte": "Délicieux" },
+  "operations": [
+    { "montant": -1200, "libelle": "Virement Bob" },
     …
   ]
 }
 					</code></pre>
-					<aside class="notes">Dérouler avec les fragments. La catégorie, ça va. Les produits similaires et les avis : le front qui veut juste afficher le nom télécharge 3 000 avis.</aside>
+					<aside class="notes">Dérouler avec les fragments. Le titulaire, ça va. Les bénéficiaires et les opérations : le front qui veut juste afficher le libellé du compte télécharge 3 000 opérations.</aside>
 				</section>
 				<section>
 					<h2>Bonne pratique</h2>
 					<div class="r-stack">
 						<div class="fragment fade-in-then-out">
-							<p><code>GET /produits/12</code></p>
+							<p><code>GET /comptes/12</code></p>
 							<pre><code class="language-json" data-trim>
 {
   "id": 12,
-  "nom": "Comté 18 mois",
-  "categorie": {
-    "nom": "Fromages"
+  "libelle": "Compte courant",
+  "titulaire": {
+    "nom": "Alice"
   }
 }
 							</code></pre>
 						</div>
 						<div class="fragment fade-in-then-out">
-							<p><code>GET /produits?similaireA=12</code></p>
+							<p><code>GET /beneficiaires?compte=12</code></p>
 							<pre><code class="language-json" data-trim>
 [
-  { "id": 13, "nom": "Comté 24 mois" }
+  { "id": 7, "nom": "Bob" }
 ]
 							</code></pre>
 						</div>
 						<div class="fragment fade-in-then-out">
-							<p><code>GET /avis?produit=12</code></p>
+							<p><code>GET /operations?compte=12</code></p>
 							<pre><code class="language-json" data-trim>
 [
-  { "note": 5, "texte": "Délicieux" }
+  { "montant": -1200, "libelle": "Virement Bob" }
 ]
 							</code></pre>
 						</div>
 					</div>
-					<aside class="notes">Une ressource par URL. Le petit objet reste dans le produit, les listes ont leur propre URL, avec filtre et pagination. Le front appelle ce dont il a besoin.</aside>
+					<aside class="notes">Une ressource par URL. Le petit objet reste dans le compte, les listes ont leur propre URL, avec filtre et pagination. Le front appelle ce dont il a besoin.</aside>
 				</section>
 				<section>
 					<h2>Les verbes HTTP</h2>
@@ -440,23 +440,23 @@ public class Produit {
 						<tbody>
 							<tr>
 								<td>Lire</td>
-								<td><code>GET /commandes/12</code></td>
+								<td><code>GET /virements/12</code></td>
 							</tr>
 							<tr>
 								<td>Chercher</td>
-								<td><code>GET /commandes?client=42</code></td>
+								<td><code>GET /virements?compte=42</code></td>
 							</tr>
 							<tr>
 								<td>Créer</td>
-								<td><code>POST /commandes</code></td>
+								<td><code>POST /virements</code></td>
 							</tr>
 							<tr>
 								<td>Modifier</td>
-								<td><code>PUT /commandes/12</code></td>
+								<td><code>PUT /virements/12</code></td>
 							</tr>
 							<tr>
 								<td>Supprimer</td>
-								<td><code>DELETE /commandes/12</code></td>
+								<td><code>DELETE /virements/12</code></td>
 							</tr>
 						</tbody>
 					</table>
@@ -465,22 +465,22 @@ public class Produit {
 				<section>
 					<h2>Les verbes dans l'URL</h2>
 					<ul>
-						<li class="fragment pro">Pour une action métier : <code>POST /commandes/12/annuler</code></li>
+						<li class="fragment pro">Pour une action métier : <code>POST /virements/12/annuler</code></li>
 						<li class="fragment con"><code>/init</code> : le <code>POST</code> suffit</li>
 						<li class="fragment con"><code>/search</code> : le <code>GET</code> suffit</li>
 						<li class="fragment con"><code>/delete</code> : le verbe HTTP existe</li>
 					</ul>
-					<aside class="notes">Annuler une commande, ce n'est pas la supprimer : on la garde, on change son état, on rembourse. C'est une action métier, un verbe dans l'URL est justifié. Pour le reste, les verbes HTTP suffisent.</aside>
+					<aside class="notes">Annuler un virement programmé, ce n'est pas le supprimer : on le garde dans l'historique, on change son état, on prévient le client. C'est une action métier, un verbe dans l'URL est justifié. Pour le reste, les verbes HTTP suffisent.</aside>
 				</section>
-				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="supprimer-produit">
-					<h4>Quel appel pour supprimer le produit 12 ?</h4>
+				<section data-ak-question="choice" data-ak-choices="4" data-ak-id="supprimer-beneficiaire">
+					<h4>Quel appel pour supprimer le bénéficiaire 12 ?</h4>
 					<ul>
-						<li><strong>A.</strong> <code>POST /produits/12/delete</code></li>
-						<li><strong>B.</strong> <code>DELETE /produits/12</code></li>
-						<li><strong>C.</strong> <code>GET /produits/delete?id=12</code></li>
-						<li><strong>D.</strong> <code>POST /produits/delete/12</code></li>
+						<li><strong>A.</strong> <code>POST /beneficiaires/12/delete</code></li>
+						<li><strong>B.</strong> <code>DELETE /beneficiaires/12</code></li>
+						<li><strong>C.</strong> <code>GET /beneficiaires/delete?id=12</code></li>
+						<li><strong>D.</strong> <code>POST /beneficiaires/delete/12</code></li>
 					</ul>
-					<aside class="notes">Réponse B. La C est la pire : un GET ne doit jamais modifier quoi que ce soit, un robot d'indexation ou un préchargement du navigateur pourrait supprimer le produit.</aside>
+					<aside class="notes">Réponse B. La C est la pire : un GET ne doit jamais modifier quoi que ce soit, un robot d'indexation ou un préchargement du navigateur pourrait supprimer le bénéficiaire.</aside>
 				</section>
 				<section class="retenir">
 					<h2>À retenir</h2>
@@ -506,7 +506,7 @@ public class Produit {
 					<div class="colonnes">
 						<div>
 							<pre class="arbre">
-fraisdirect/
+banque/
 ├─ config/
 ├─ controller/
 ├─ repository/
@@ -516,7 +516,7 @@ fraisdirect/
 							<ul>
 								<li class="fragment pro">Simple pour démarrer</li>
 								<li class="fragment con">80 classes dans <code>service/</code></li>
-								<li class="fragment con">Toucher aux commandes = ouvrir 4 dossiers</li>
+								<li class="fragment con">Toucher aux virements = ouvrir 4 dossiers</li>
 							</ul>
 						</div>
 					</div>
@@ -527,16 +527,16 @@ fraisdirect/
 					<div class="colonnes">
 						<div>
 							<pre class="arbre">
-fraisdirect/
-├─ catalogue/
+banque/
+├─ compte/
 │  ├─ controller/
 │  ├─ repository/
 │  └─ service/
-├─ commande/
+├─ virement/
 │  ├─ controller/
 │  ├─ repository/
 │  └─ service/
-└─ livraison/
+└─ notification/
    └─ …</pre>
 						</div>
 						<div>
@@ -546,21 +546,21 @@ fraisdirect/
 							</ul>
 						</div>
 					</div>
-					<aside class="notes">Un nouveau développeur qui doit corriger un bug sur les commandes sait où aller. Et un domaine qui grossit peut devenir une application séparée plus facilement.</aside>
+					<aside class="notes">Un nouveau développeur qui doit corriger un bug sur les virements sait où aller. Et un domaine qui grossit peut devenir une application séparée plus facilement.</aside>
 				</section>
 				<section>
 					<h2>Rangement 3 · Domaine, entrées et sorties</h2>
 					<div class="colonnes">
 						<div>
 							<pre class="arbre">
-commande/
+virement/
 ├─ config/
 ├─ in/
 │  ├─ controller/
 │  └─ amqp/
 ├─ out/
 │  ├─ repository/
-│  └─ paiement/
+│  └─ sepa/
 └─ service/</pre>
 						</div>
 						<div>
@@ -572,7 +572,7 @@ commande/
 							</ul>
 						</div>
 					</div>
-					<aside class="notes">Question d'étude d'impact : la banque change son API, qu'est-ce qui est touché ? Uniquement out/paiement. Le listener RabbitMQ du cours middleware irait dans in/amqp.</aside>
+					<aside class="notes">Question d'étude d'impact : le réseau SEPA change son API, qu'est-ce qui est touché ? Uniquement out/sepa. Le listener RabbitMQ du cours middleware irait dans in/amqp.</aside>
 				</section>
 				<section class="retenir">
 					<h2>À retenir</h2>
