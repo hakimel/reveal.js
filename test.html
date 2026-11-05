@@ -30,11 +30,11 @@
 					<p class="kicker">Cours</p>
 					<h1>Tester une application</h1>
 					<p>Du test unitaire au test end-to-end</p>
-					<aside class="notes">Premier cours de la série. On y présente FraisDirect, l'application fictive qu'on retrouvera dans les cours middleware et sécurité. Les étudiants connaissent déjà JUnit : on ne réexplique pas la syntaxe, on se concentre sur quoi tester, quand, et avec quel outil.</aside>
+					<aside class="notes">Premier cours de la série. On y présente la banque en ligne qui sert d'exemple : des comptes et des virements, qu'on retrouvera dans les cours suivants. Les étudiants connaissent déjà JUnit : on ne réexplique pas la syntaxe, on se concentre sur quoi tester, quand, et avec quel outil.</aside>
 				</section>
 				<section>
-					<h2>FraisDirect</h2>
-					<p>Une épicerie en ligne qui livre des produits frais</p>
+					<h2>Notre application</h2>
+					<p>Une banque en ligne : des comptes, des virements</p>
 					<div class="mermaid">
 						<pre>
 							graph LR
@@ -43,22 +43,22 @@
 						</pre>
 					</div>
 					<p class="fragment">On va la faire grandir dans les prochains cours. Aujourd'hui : s'assurer qu'elle marche.</p>
-					<aside class="notes">Le fil rouge de tous les cours. Ici, elle est encore petite : une application, une base. Le cours middleware la fera grandir, le cours sécurité lui ajoutera des comptes.</aside>
+					<aside class="notes">Le fil rouge des cours. Ici, elle est encore petite : une application, une base. C'est aussi le code de l'exemple qu'on reprend en mob programming.</aside>
 				</section>
 				<section>
 					<h2>Une règle métier</h2>
-					<p>La livraison coûte <strong>4,90 €</strong></p>
-					<p>Elle est <strong>offerte dès 50 €</strong> d'achat</p>
+					<p>Un virement est plafonné à <strong>1 000 €</strong></p>
+					<p>Un virement de <strong>1 000 € pile</strong> est accepté</p>
 					<aside class="notes">La règle qui va servir d'exemple pour tout le début du cours. Elle a l'air triviale, c'est voulu : même une règle de deux lignes cache un cas limite, on le verra en TDD.</aside>
 				</section>
 				<section>
 					<h2>Un lundi matin</h2>
 					<ol>
-						<li class="fragment">Un développeur modifie le calcul des promotions</li>
-						<li class="fragment">Il teste sa promotion à la main : elle marche</li>
+						<li class="fragment">Un développeur ajoute les virements instantanés</li>
+						<li class="fragment">Il teste son virement instantané à la main : il marche</li>
 						<li class="fragment">Il met en production</li>
-						<li class="fragment">La livraison redevient payante pour tout le monde</li>
-						<li class="fragment">On l'apprend une semaine plus tard, par les avis clients</li>
+						<li class="fragment">Les virements de 1 000 € pile sont refusés pour tout le monde</li>
+						<li class="fragment">On l'apprend une semaine plus tard, par le service client</li>
 					</ol>
 					<aside class="notes">Demander à la salle : qu'est-ce qui a manqué ? Il a testé ce qu'il a modifié, pas ce qui marchait déjà. C'est la définition d'une régression.</aside>
 				</section>
@@ -108,10 +108,10 @@
 							<h3>À la main</h3>
 							<ol>
 								<li>Démarrer l'application</li>
-								<li>Préparer les données</li>
-								<li>Remplir un panier à 49,99 €</li>
-								<li>Lire les frais de livraison</li>
-								<li>Recommencer à 50 €, à 60 €…</li>
+								<li>Créer deux comptes</li>
+								<li>Faire un virement de 999,99 €</li>
+								<li>Lire si le virement passe</li>
+								<li>Recommencer à 1 000 €, à 1 200 €…</li>
 							</ol>
 						</div>
 						<div class="fragment">
@@ -221,7 +221,7 @@
 					<p class="kicker">Acte 1</p>
 					<h1>TDD</h1>
 					<p>Test Driven Development : le test d'abord</p>
-					<aside class="notes">On déroule le TDD sur la règle de la livraison, en trois tours. Prendre le temps sur chaque tour : c'est le rythme qu'il faut faire sentir, pas le code, qui est trivial.</aside>
+					<aside class="notes">On déroule le TDD sur la règle du plafond, en trois tours. Prendre le temps sur chaque tour : c'est le rythme qu'il faut faire sentir, pas le code, qui est trivial.</aside>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="3" data-ak-id="tdd-etape-1">
 					<h4>En TDD, par quoi commence-t-on ?</h4>
@@ -251,125 +251,115 @@
 				</section>
 				<section>
 					<h2>Tour 1 · Rouge</h2>
-					<p>Un panier de 30 € paie la livraison</p>
+					<p>Un virement de 300 € est accepté</p>
 					<pre class="long"><code class="language-java" data-trim data-line-numbers="|5-6|8|10">
-class FraisLivraisonTest {
+class PlafondVirementTest {
 
     @Test
-    void unPanierDe30EurosPaieLaLivraison() {
+    void unVirementDe300EurosEstAccepte() {
         // Given : les montants sont en centimes
-        long totalPanier = 3000;
+        long montant = 30000;
         // When
-        long frais = new FraisLivraison().calculer(totalPanier);
+        boolean accepte = new PlafondVirement().accepte(montant);
         // Then
-        assertEquals(490, frais);
+        assertTrue(accepte);
     }
 }
 					</code></pre>
-					<aside class="notes">Rappel JUnit au passage : Given / When / Then, un nom de test qui se lit comme une phrase. Les montants sont en centimes pour éviter les erreurs d'arrondi des double. La classe FraisLivraison n'existe pas encore : le test ne compile même pas. C'est rouge.</aside>
+					<aside class="notes">Rappel JUnit au passage : Given / When / Then, un nom de test qui se lit comme une phrase. Les montants sont en centimes pour éviter les erreurs d'arrondi des double. La classe PlafondVirement n'existe pas encore : le test ne compile même pas. C'est rouge.</aside>
 				</section>
 				<section>
 					<h2>Tour 1 · Rouge</h2>
 					<p>On crée la classe, juste pour que ça compile</p>
 					<pre><code class="language-java" data-trim>
-class FraisLivraison {
-    long calculer(long totalPanier) {
-        return 0;
+class PlafondVirement {
+    boolean accepte(long montant) {
+        return false;
     }
 }
 					</code></pre>
-					<p class="resultat rouge fragment">✗ unPanierDe30EurosPaieLaLivraison<br><small>expected: &lt;490&gt; but was: &lt;0&gt;</small></p>
+					<p class="resultat rouge fragment">✗ unVirementDe300EurosEstAccepte<br><small>expected: &lt;true&gt; but was: &lt;false&gt;</small></p>
 					<aside class="notes">On lance le test et on le voit échouer, pour la bonne raison. Un test qu'on n'a jamais vu rouge peut très bien ne rien tester.</aside>
 				</section>
 				<section>
 					<h2>Tour 1 · Vert</h2>
 					<p>Le minimum pour passer au vert</p>
 					<pre><code class="language-java" data-trim data-line-numbers="3">
-class FraisLivraison {
-    long calculer(long totalPanier) {
-        return 490;
+class PlafondVirement {
+    boolean accepte(long montant) {
+        return true;
     }
 }
 					</code></pre>
-					<p class="resultat vert fragment">✓ unPanierDe30EurosPaieLaLivraison</p>
+					<p class="resultat vert fragment">✓ unVirementDe300EurosEstAccepte</p>
 					<aside class="notes">Les étudiants vont trouver ça ridicule, et c'est le but de la discussion : rien dans les tests ne demande autre chose pour l'instant. C'est le test suivant qui va forcer la vraie règle.</aside>
 				</section>
 				<section>
 					<h2>Tour 2 · Rouge</h2>
-					<p>Un panier de 60 € a la livraison offerte</p>
+					<p>Un virement de 1 500 € est refusé</p>
 					<pre><code class="language-java" data-trim>
 @Test
-void unPanierDe60EurosALaLivraisonOfferte() {
-    long frais = new FraisLivraison().calculer(6000);
+void unVirementDe1500EurosEstRefuse() {
+    var plafond = new PlafondVirement();
 
-    assertEquals(0, frais);
+    assertFalse(plafond.accepte(150000));
 }
 					</code></pre>
-					<p class="resultat rouge fragment">✗ unPanierDe60EurosALaLivraisonOfferte<br><small>expected: &lt;0&gt; but was: &lt;490&gt;</small></p>
+					<p class="resultat rouge fragment">✗ unVirementDe1500EurosEstRefuse<br><small>expected: &lt;false&gt; but was: &lt;true&gt;</small></p>
 					<aside class="notes">Le nouveau test échoue, le premier passe toujours.</aside>
 				</section>
 				<section>
 					<h2>Tour 2 · Vert</h2>
 					<pre><code class="language-java" data-trim data-line-numbers="3-5">
-class FraisLivraison {
-    long calculer(long totalPanier) {
-        if (totalPanier &gt; 5000) {
-            return 0;
-        }
-        return 490;
+class PlafondVirement {
+    boolean accepte(long montant) {
+        return montant &lt; 100000;
     }
 }
 					</code></pre>
-					<p class="resultat vert fragment">✓ unPanierDe30EurosPaieLaLivraison<br>✓ unPanierDe60EurosALaLivraisonOfferte</p>
-					<aside class="notes">Ne pas relever le &gt; tout de suite : la question qui suit le fait.</aside>
+					<p class="resultat vert fragment">✓ unVirementDe300EurosEstAccepte<br>✓ unVirementDe1500EurosEstRefuse</p>
+					<aside class="notes">Ne pas relever le &lt; tout de suite : la question qui suit le fait.</aside>
 				</section>
-				<section data-ak-question="yesno" data-ak-id="panier-50-euros">
-					<h4>Avec ce code, un panier de pile 50 € a-t-il la livraison offerte ?</h4>
-					<p><code>if (totalPanier &gt; 5000) return 0;</code></p>
-					<aside class="notes">Réponse : non. La règle dit « dès 50 € », donc 50 € compris. Les deux tests sont verts et pourtant le code est faux : aucun test ne regarde la limite. Les valeurs limites sont là où se cachent les bugs.</aside>
+				<section data-ak-question="yesno" data-ak-id="virement-1000-euros">
+					<h4>Avec ce code, un virement de 1 000 € pile est-il accepté ?</h4>
+					<p><code>return montant &lt; 100000;</code></p>
+					<aside class="notes">Réponse : non. La règle dit « jusqu'à 1 000 € », donc 1 000 € compris. Les deux tests sont verts et pourtant le code est faux : aucun test ne regarde la limite. Les valeurs limites sont là où se cachent les bugs.</aside>
 				</section>
 				<section>
 					<h2>Tour 3 · Rouge</h2>
 					<p>On teste la limite</p>
 					<pre><code class="language-java" data-trim>
 @Test
-void unPanierDePile50EurosALaLivraisonOfferte() {
-    long frais = new FraisLivraison().calculer(5000);
+void unVirementDe1000EurosPileEstAccepte() {
+    var plafond = new PlafondVirement();
 
-    assertEquals(0, frais);
+    assertTrue(plafond.accepte(100000));
 }
 					</code></pre>
-					<p class="resultat rouge fragment">✗ unPanierDePile50EurosALaLivraisonOfferte<br><small>expected: &lt;0&gt; but was: &lt;490&gt;</small></p>
-					<aside class="notes">Le bug est trouvé par un test, avant la production, et non par les avis clients.</aside>
+					<p class="resultat rouge fragment">✗ unVirementDe1000EurosPileEstAccepte<br><small>expected: &lt;true&gt; but was: &lt;false&gt;</small></p>
+					<aside class="notes">Le bug est trouvé par un test, avant la production, et non par le service client.</aside>
 				</section>
 				<section>
 					<h2>Tour 3 · Vert</h2>
 					<pre><code class="language-java" data-trim data-line-numbers="3">
-class FraisLivraison {
-    long calculer(long totalPanier) {
-        if (totalPanier &gt;= 5000) {
-            return 0;
-        }
-        return 490;
+class PlafondVirement {
+    boolean accepte(long montant) {
+        return montant &lt;= 100000;
     }
 }
 					</code></pre>
-					<p class="resultat vert fragment">✓ unPanierDe30EurosPaieLaLivraison<br>✓ unPanierDe60EurosALaLivraisonOfferte<br>✓ unPanierDePile50EurosALaLivraisonOfferte</p>
+					<p class="resultat vert fragment">✓ unVirementDe300EurosEstAccepte<br>✓ unVirementDe1500EurosEstRefuse<br>✓ unVirementDe1000EurosPileEstAccepte</p>
 					<aside class="notes">Un seul caractère change. Les trois tests sont verts.</aside>
 				</section>
 				<section>
 					<h2>Refactor</h2>
-					<p>On donne un nom aux nombres magiques</p>
-					<pre><code class="language-java" data-trim data-line-numbers="2-3|6-9">
-class FraisLivraison {
-    static final long SEUIL_LIVRAISON_OFFERTE = 5000;
-    static final long FRAIS_LIVRAISON = 490;
+					<p>On donne un nom au nombre magique</p>
+					<pre><code class="language-java" data-trim data-line-numbers="2|4-6">
+class PlafondVirement {
+    static final long PLAFOND = 100000;
 
-    long calculer(long totalPanier) {
-        if (totalPanier &gt;= SEUIL_LIVRAISON_OFFERTE) {
-            return 0;
-        }
-        return FRAIS_LIVRAISON;
+    boolean accepte(long montant) {
+        return montant &lt;= PLAFOND;
     }
 }
 					</code></pre>
@@ -383,7 +373,7 @@ class FraisLivraison {
 						<li>Le cas limite a été trouvé avant la production</li>
 						<li>Le prochain qui touche à ce code saura tout de suite s'il casse la règle</li>
 					</ul>
-					<aside class="notes">Revenir à l'histoire du lundi matin : avec ces trois tests, le développeur des promotions aurait vu un test rouge avant de mettre en production.</aside>
+					<aside class="notes">Revenir à l'histoire du lundi matin : avec ces trois tests, le développeur des virements instantanés aurait vu un test rouge avant de mettre en production.</aside>
 				</section>
 				<section>
 					<h2>Mon (vrai) avis sur le TDD</h2>
@@ -402,50 +392,50 @@ class FraisLivraison {
 					<p class="kicker">Acte 2</p>
 					<h1>Les tests unitaires</h1>
 					<p>Tester une classe, et seulement elle</p>
-					<aside class="notes">FraisLivraison n'avait aucune dépendance, c'était facile. Une vraie classe métier appelle une base, d'autres services, des API externes. Comment la tester seule ?</aside>
+					<aside class="notes">PlafondVirement n'avait aucune dépendance, c'était facile. Une vraie classe métier appelle une base, d'autres services, des API externes. Comment la tester seule ?</aside>
 				</section>
 				<section>
-					<h2>Passer une commande</h2>
+					<h2>Faire un virement</h2>
 					<pre class="long"><code class="language-java" data-trim data-line-numbers="|3-4|5-7|8-9">
-class CommandeService {
-    void passerCommande(Commande commande) {
-        String produit = commande.produit();
-        int disponible = stockRepository.quantiteDisponible(produit);
-        if (disponible &lt; commande.quantite()) {
-            throw new StockInsuffisantException(produit);
+class VirementService {
+    void virer(Virement virement) {
+        String source = virement.source();
+        Compte compte = compteRepository.trouver(source);
+        if (compte.bloque()) {
+            throw new CompteBloqueException(source);
         }
-        paiementClient.payer(commande.client(),
-                commande.montant());
+        sepaClient.envoyer(source, virement.cible(),
+                virement.montant());
     }
 }
 					</code></pre>
-					<aside class="notes">La règle à tester : si le stock ne suffit pas, on refuse la commande et on ne débite pas le client. Lire le code ligne par ligne avec les fragments. StockRepository et PaiementClient sont injectés par le constructeur.</aside>
+					<aside class="notes">La règle à tester : si le compte source est bloqué, on refuse le virement et rien ne part vers le réseau SEPA. Lire le code ligne par ligne avec les fragments. CompteRepository et SepaClient sont injectés par le constructeur.</aside>
 				</section>
 				<section>
 					<h2>Le problème</h2>
 					<div class="mermaid">
 						<pre>
 							graph LR
-							S[CommandeService] --> R[StockRepository]
+							S[VirementService] --> R[CompteRepository]
 							R --> DB[(PostgreSQL)]
-							S --> P[PaiementClient]
-							P --> B[Banque]
+							S --> P[SepaClient]
+							P --> B[Réseau SEPA]
 						</pre>
 					</div>
 					<ul>
-						<li class="fragment">Il faut une base remplie avec le bon stock</li>
-						<li class="fragment">Il faut une banque… qui débite vraiment</li>
+						<li class="fragment">Il faut une base remplie avec un compte bloqué</li>
+						<li class="fragment">Il faut un réseau SEPA… qui vire vraiment l'argent</li>
 						<li class="fragment">Et on veut juste tester un <code>if</code></li>
 					</ul>
-					<aside class="notes">Demander à la salle comment ils feraient. On veut tester la règle de CommandeService, pas PostgreSQL ni la banque.</aside>
+					<aside class="notes">Demander à la salle comment ils feraient. On veut tester la règle de VirementService, pas PostgreSQL ni le réseau SEPA.</aside>
 				</section>
 				<section>
 					<h2>La solution : des faux</h2>
 					<div class="mermaid">
 						<pre>
 							graph LR
-							S[CommandeService] --> R[Mock StockRepository]:::faux
-							S --> P[Mock PaiementClient]:::faux
+							S[VirementService] --> R[Mock CompteRepository]:::faux
+							S --> P[Mock SepaClient]:::faux
 							classDef faux fill:#3a2f14,stroke:#fde68a,color:#fde68a,stroke-dasharray:6 4
 						</pre>
 					</div>
@@ -465,15 +455,15 @@ class CommandeService {
 					<h2>Étape 1 · Créer les faux</h2>
 					<pre><code class="language-java" data-trim data-line-numbers="|1|4-7|9-10">
 @ExtendWith(MockitoExtension.class)
-class CommandeServiceTest {
+class VirementServiceTest {
 
     @Mock
-    private StockRepository stockRepository;
+    private CompteRepository compteRepository;
     @Mock
-    private PaiementClient paiementClient;
+    private SepaClient sepaClient;
 
     @InjectMocks
-    private CommandeService commandeService;
+    private VirementService virementService;
 }
 					</code></pre>
 					<ul>
@@ -485,46 +475,46 @@ class CommandeServiceTest {
 				<section>
 					<h2>Étape 2 · Programmer le faux</h2>
 					<pre class="long"><code class="language-java" data-trim>
-// Given : il ne reste que 2 tomates
-when(stockRepository.quantiteDisponible("tomate"))
-        .thenReturn(2);
-Commande commande = new Commande("alice", "tomate", 3, 1200);
+// Given : le compte d'Alice est bloqué
+when(compteRepository.trouver("alice"))
+        .thenReturn(new Compte("alice", 50000, true));
+Virement virement = new Virement("alice", "bob", 1200);
 					</code></pre>
-					<p class="fragment">« Quand on te demande le stock de tomates, réponds 2. »</p>
-					<aside class="notes">Lire le when / thenReturn à voix haute comme une phrase. Alice commande 3 tomates pour 12 €, il n'en reste que 2.</aside>
+					<p class="fragment">« Quand on te demande le compte d'Alice, réponds un compte bloqué. »</p>
+					<aside class="notes">Lire le when / thenReturn à voix haute comme une phrase. Alice a 500 € mais son compte est bloqué ; elle veut virer 12 € à Bob.</aside>
 				</section>
 				<section>
 					<h2>Étape 3 · Vérifier le résultat</h2>
 					<pre class="long"><code class="language-java" data-trim>
-// When / Then : la commande est refusée
-assertThrows(StockInsuffisantException.class,
-        () -&gt; commandeService.passerCommande(commande));
+// When / Then : le virement est refusé
+assertThrows(CompteBloqueException.class,
+        () -&gt; virementService.virer(virement));
 					</code></pre>
-					<p class="fragment">Le service a bien appelé le faux, reçu 2, et refusé.</p>
+					<p class="fragment">Le service a bien appelé le faux, reçu un compte bloqué, et refusé.</p>
 					<aside class="notes">assertThrows exécute la lambda et vérifie qu'elle lève bien cette exception. Si elle n'en lève pas, le test échoue.</aside>
 				</section>
 				<section>
 					<h2>Étape 4 · Vérifier les appels</h2>
 					<pre class="long"><code class="language-java" data-trim>
-// Then : Alice n'a pas été débitée
-verify(paiementClient, never()).payer(any(), anyLong());
+// Then : rien n'est parti vers le réseau SEPA
+verify(sepaClient, never()).envoyer(any(), any(), anyLong());
 					</code></pre>
 					<p class="fragment">Le résultat ne suffit pas : on vérifie aussi ce qui <strong>ne</strong> s'est <strong>pas</strong> passé.</p>
-					<aside class="notes">Si quelqu'un déplace l'appel à payer avant le contrôle du stock, l'exception est toujours levée, mais Alice est débitée. Seul ce verify le détecte.</aside>
+					<aside class="notes">Si quelqu'un déplace l'appel à envoyer avant le contrôle du blocage, l'exception est toujours levée, mais l'argent est parti. Seul ce verify le détecte.</aside>
 				</section>
 				<section>
 					<h2>Le test complet</h2>
 					<pre class="long"><code class="language-java" data-trim data-line-numbers="|3-5|7-8|10">
 @Test
-void refuseLaCommandeSiLeStockManque() {
-    when(stockRepository.quantiteDisponible("tomate"))
-            .thenReturn(2);
-    Commande commande = new Commande("alice", "tomate", 3, 1200);
+void refuseLeVirementSiLeCompteEstBloque() {
+    when(compteRepository.trouver("alice"))
+            .thenReturn(new Compte("alice", 50000, true));
+    Virement virement = new Virement("alice", "bob", 1200);
 
-    assertThrows(StockInsuffisantException.class,
-            () -&gt; commandeService.passerCommande(commande));
+    assertThrows(CompteBloqueException.class,
+            () -&gt; virementService.virer(virement));
 
-    verify(paiementClient, never()).payer(any(), anyLong());
+    verify(sepaClient, never()).envoyer(any(), any(), anyLong());
 }
 					</code></pre>
 					<aside class="notes">Les trois blocs Given / When / Then restent visibles grâce aux lignes vides.</aside>
@@ -541,16 +531,16 @@ assertEquals(5, calculator.calculate(2, 3));
 						<li class="fragment con">On vérifie que le mock renvoie… ce qu'on lui a dit de renvoyer</li>
 						<li class="fragment pro">Un test unitaire vérifie une <strong>décision</strong> de la classe : un <code>if</code>, un calcul, un appel ou un non-appel</li>
 					</ul>
-					<aside class="notes">Ce test est toujours vert, quoi que fasse calculate tant qu'elle passe la main. Demander : quelle décision CommandeService prend-elle ? Refuser ou payer. C'est ça qu'on teste.</aside>
+					<aside class="notes">Ce test est toujours vert, quoi que fasse calculate tant qu'elle passe la main. Demander : quelle décision VirementService prend-elle ? Refuser ou envoyer. C'est ça qu'on teste.</aside>
 				</section>
-				<section data-ak-question="choice" data-ak-choices="3" data-ak-id="mock-verifier-paiement">
-					<h4>Pour vérifier qu'Alice n'a pas été débitée, de quoi a-t-on besoin ?</h4>
+				<section data-ak-question="choice" data-ak-choices="3" data-ak-id="mock-verifier-sepa">
+					<h4>Pour vérifier que rien n'est parti vers le réseau SEPA, de quoi a-t-on besoin ?</h4>
 					<ul>
-						<li><strong>A.</strong> D'un compte de test à la banque</li>
-						<li><strong>B.</strong> D'un mock de <code>PaiementClient</code> et de <code>verify</code></li>
-						<li><strong>C.</strong> D'un <code>assertEquals</code> sur le retour de <code>passerCommande</code></li>
+						<li><strong>A.</strong> D'un compte de test chez une autre banque</li>
+						<li><strong>B.</strong> D'un mock de <code>SepaClient</code> et de <code>verify</code></li>
+						<li><strong>C.</strong> D'un <code>assertEquals</code> sur le retour de <code>virer</code></li>
 					</ul>
-					<aside class="notes">Réponse B. C ne marche pas : passerCommande ne renvoie rien, l'effet est un appel à un autre objet. A : jamais de vrai service externe dans un test.</aside>
+					<aside class="notes">Réponse B. C ne marche pas : virer ne renvoie rien, l'effet est un appel à un autre objet. A : jamais de vrai service externe dans un test.</aside>
 				</section>
 				<section>
 					<h2>C'est quoi un fake ?</h2>
@@ -559,20 +549,20 @@ assertEquals(5, calculator.calculate(2, 3));
 						<li>Exemple : un repository qui stocke dans une <code>Map</code></li>
 					</ul>
 					<pre class="long"><code class="language-java" data-trim>
-class StockRepositoryEnMemoire implements StockRepository {
-    private final Map&lt;String, Integer&gt; stock = new HashMap&lt;&gt;();
+class CompteRepositoryEnMemoire implements CompteRepository {
+    private final Map&lt;String, Compte&gt; comptes = new HashMap&lt;&gt;();
 
-    void ajouter(String produit, int quantite) {
-        stock.put(produit, quantite);
+    void ajouter(Compte compte) {
+        comptes.put(compte.numero(), compte);
     }
 
     @Override
-    public int quantiteDisponible(String produit) {
-        return stock.getOrDefault(produit, 0);
+    public Compte trouver(String numero) {
+        return comptes.get(numero);
     }
 }
 					</code></pre>
-					<aside class="notes">Pas de Mockito : c'est une classe normale, écrite une fois et réutilisée dans tous les tests. Dans le test : stock.ajouter("tomate", 2), puis new CommandeService(stock, paiementClient).</aside>
+					<aside class="notes">Pas de Mockito : c'est une classe normale, écrite une fois et réutilisée dans tous les tests. Dans le test : comptes.ajouter(new Compte("alice", 50000, true)), puis new VirementService(comptes, sepaClient).</aside>
 				</section>
 				<section>
 					<h2>Mock ou fake ?</h2>
@@ -607,43 +597,45 @@ class StockRepositoryEnMemoire implements StockRepository {
 							</tr>
 						</tbody>
 					</table>
-					<aside class="notes">Les deux se combinent très bien : un fake pour le stock, un mock pour le paiement qu'on veut vérifier.</aside>
+					<aside class="notes">Les deux se combinent très bien : un fake pour les comptes, un mock pour le réseau SEPA qu'on veut vérifier.</aside>
 				</section>
-				<section data-ak-question="code" data-ak-language="java" data-ak-id="commande-acceptee">
-					<h4>À vous : le stock suffit, Alice est débitée de 12 €</h4>
-					<p>Programmez le stock, passez la commande, vérifiez le paiement.</p>
+				<section data-ak-question="code" data-ak-language="java" data-ak-id="virement-envoye">
+					<h4>À vous : le compte d'Alice n'est pas bloqué, 12 € partent vers Bob</h4>
+					<p>Programmez le compte, faites le virement, vérifiez l'envoi SEPA.</p>
 					<script type="text/x-java" data-ak-context>
-interface StockRepository {
-    int quantiteDisponible(String produit);
+interface CompteRepository {
+    Compte trouver(String numero);
 }
 
-interface PaiementClient {
-    void payer(String client, long montant);
+interface SepaClient {
+    void envoyer(String source, String cible, long montant);
 }
 
-record Commande(String client, String produit, int quantite, long montant) {}
+record Compte(String numero, long solde, boolean bloque) {}
 
-class StockInsuffisantException extends RuntimeException {
-    StockInsuffisantException(String produit) {
-        super("Stock insuffisant : " + produit);
+record Virement(String source, String cible, long montant) {}
+
+class CompteBloqueException extends RuntimeException {
+    CompteBloqueException(String numero) {
+        super("Compte bloqué : " + numero);
     }
 }
 
-class CommandeService {
-    private final StockRepository stockRepository;
-    private final PaiementClient paiementClient;
+class VirementService {
+    private final CompteRepository compteRepository;
+    private final SepaClient sepaClient;
 
-    CommandeService(StockRepository stockRepository, PaiementClient paiementClient) {
-        this.stockRepository = stockRepository;
-        this.paiementClient = paiementClient;
+    VirementService(CompteRepository compteRepository, SepaClient sepaClient) {
+        this.compteRepository = compteRepository;
+        this.sepaClient = sepaClient;
     }
 
-    void passerCommande(Commande commande) {
-        int disponible = stockRepository.quantiteDisponible(commande.produit());
-        if (disponible < commande.quantite()) {
-            throw new StockInsuffisantException(commande.produit());
+    void virer(Virement virement) {
+        Compte compte = compteRepository.trouver(virement.source());
+        if (compte.bloque()) {
+            throw new CompteBloqueException(virement.source());
         }
-        paiementClient.payer(commande.client(), commande.montant());
+        sepaClient.envoyer(virement.source(), virement.cible(), virement.montant());
     }
 }
 					</script>
@@ -658,25 +650,25 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class CommandeServiceTest {
+class VirementServiceTest {
     @Mock
-    private StockRepository stockRepository;
+    private CompteRepository compteRepository;
     @Mock
-    private PaiementClient paiementClient;
+    private SepaClient sepaClient;
     @InjectMocks
-    private CommandeService commandeService;
+    private VirementService virementService;
 
     @Test
-    void debiteLeClientQuandLeStockSuffit() {
+    void envoieLeVirementQuandLeCompteNEstPasBloque() {
         @@
     }
 }
 					</script>
 					<aside class="notes">Réponse attendue :
-when(stockRepository.quantiteDisponible("tomate")).thenReturn(5);
-commandeService.passerCommande(new Commande("alice", "tomate", 3, 1200));
-verify(paiementClient).payer("alice", 1200);
-Erreurs fréquentes à regrouper : oublier le when (le mock renvoie 0, donc exception), vérifier avec assertEquals au lieu de verify, ou verify sans les bons arguments.</aside>
+when(compteRepository.trouver("alice")).thenReturn(new Compte("alice", 50000, false));
+virementService.virer(new Virement("alice", "bob", 1200));
+verify(sepaClient).envoyer("alice", "bob", 1200);
+Erreurs fréquentes à regrouper : oublier le when (le mock renvoie null, donc NullPointerException), vérifier avec assertEquals au lieu de verify, ou verify sans les bons arguments.</aside>
 				</section>
 				<section>
 					<img class="photo" src="assets/test-rire.gif" alt="Rire">
@@ -809,7 +801,7 @@ Erreurs fréquentes à regrouper : oublier le when (le mock renvoie 0, donc exce
 @DataJpaTest
 @Testcontainers
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-class ProduitRepositoryTest {
+class CompteRepositoryTest {
 
     @Container
     @ServiceConnection
@@ -817,17 +809,18 @@ class ProduitRepositoryTest {
             new PostgreSQLContainer&lt;&gt;("postgres:16");
 
     @Autowired
-    private ProduitRepository produitRepository;
+    private CompteRepository compteRepository;
 
     @Test
-    void trouveLesProduitsEnRupture() {
-        produitRepository.save(new Produit("tomate", 0));
-        produitRepository.save(new Produit("comté", 4));
+    void trouveLesComptesADecouvert() {
+        compteRepository.save(new Compte("alice", -2000));
+        compteRepository.save(new Compte("bob", 50000));
 
-        List&lt;Produit&gt; enRupture = produitRepository.findByStock(0);
+        List&lt;Compte&gt; decouverts =
+                compteRepository.findBySoldeLessThan(0);
 
-        assertEquals(1, enRupture.size());
-        assertEquals("tomate", enRupture.get(0).getNom());
+        assertEquals(1, decouverts.size());
+        assertEquals("alice", decouverts.get(0).getNumero());
     }
 }
 					</code></pre>
@@ -857,31 +850,31 @@ static RabbitMQContainer rabbit =
 				<section>
 					<h2>Test de contrôleur</h2>
 					<pre class="long"><code class="language-java" data-trim data-line-numbers="|1|7-8|12-13|15-18">
-@WebMvcTest(CommandeController.class)
-class CommandeControllerTest {
+@WebMvcTest(VirementController.class)
+class VirementControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockitoBean
-    private CommandeService commandeService;
+    private VirementService virementService;
 
     @Test
-    void renvoieLaCommandeEnJson() throws Exception {
-        when(commandeService.trouver(42))
-                .thenReturn(new CommandeDto(42, "alice", 1200));
+    void renvoieLeVirementEnJson() throws Exception {
+        when(virementService.trouver(42))
+                .thenReturn(new VirementDto(42, "alice", 1200));
 
-        mockMvc.perform(get("/api/commandes/42"))
+        mockMvc.perform(get("/api/virements/42"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.client").value("alice"))
+                .andExpect(jsonPath("$.source").value("alice"))
                 .andExpect(jsonPath("$.montant").value(1200));
     }
 }
 					</code></pre>
-					<aside class="notes">@MockitoBean existe depuis Spring Boot 3.4 ; avant, c'était @MockBean. Même rôle que @Mock, mais le faux est placé dans le contexte Spring. Bon exercice oral : comment tester le cas 404, quand la commande n'existe pas ?</aside>
+					<aside class="notes">@MockitoBean existe depuis Spring Boot 3.4 ; avant, c'était @MockBean. Même rôle que @Mock, mais le faux est placé dans le contexte Spring. Bon exercice oral : comment tester le cas 404, quand le virement n'existe pas ?</aside>
 				</section>
 				<section data-ak-question="choice" data-ak-choices="3" data-ak-id="niveau-de-test">
-					<h4>Un test qui démarre l'application avec un PostgreSQL Testcontainers et appelle <code>GET /api/produits</code> en JSON, c'est un test…</h4>
+					<h4>Un test qui démarre l'application avec un PostgreSQL Testcontainers et appelle <code>GET /api/comptes</code> en JSON, c'est un test…</h4>
 					<ul>
 						<li><strong>A.</strong> unitaire</li>
 						<li><strong>B.</strong> d'intégration</li>
@@ -890,12 +883,12 @@ class CommandeControllerTest {
 					<aside class="notes">Réponse B. Il y a une vraie base et le framework, mais pas de navigateur ni de front : ce n'est pas un end-to-end.</aside>
 				</section>
 				<section>
-					<h2>Un client HTTP vers un fournisseur</h2>
-					<p>FraisDirect lit le prix du jour sur l'API de la ferme</p>
+					<h2>Un client HTTP vers un partenaire</h2>
+					<p>La banque lit le taux de change du jour sur une API externe</p>
 					<p class="fragment"><strong>Jamais de vraie requête vers un serveur externe dans un test</strong></p>
 					<ul>
 						<li class="fragment con">Le serveur peut être lent ou en panne : le test échoue sans raison</li>
-						<li class="fragment con">L'API peut être payante, ou créer de vraies commandes</li>
+						<li class="fragment con">L'API peut être payante, ou déclencher de vrais virements</li>
 					</ul>
 					<aside class="notes">Un test doit donner le même résultat à chaque exécution. Un serveur qu'on ne contrôle pas rend le test aléatoire.</aside>
 				</section>
@@ -905,13 +898,13 @@ class CommandeControllerTest {
 						<pre>
 							sequenceDiagram
 							participant T as Test
-							participant C as FournisseurClient
+							participant C as ChangeClient
 							participant W as WireMock
-							T->>W: Si GET /prix/tomate, réponds {"prix": 320}
-							T->>C: prixDuJour("tomate")
-							C->>W: GET /prix/tomate
-							W-->>C: 200 {"prix": 320}
-							C-->>T: 320
+							T->>W: Si GET /taux/USD, réponds {"taux": 108}
+							T->>C: tauxDuJour("USD")
+							C->>W: GET /taux/USD
+							W-->>C: 200 {"taux": 108}
+							C-->>T: 108
 						</pre>
 					</div>
 					<aside class="notes">Le client ne sait pas qu'il parle à un faux : on lui donne juste une autre URL. Le vrai code HTTP est exécuté : la requête, la lecture du JSON, la gestion des erreurs.</aside>
@@ -920,22 +913,22 @@ class CommandeControllerTest {
 					<h2>WireMock : le test</h2>
 					<pre class="long"><code class="language-java" data-trim data-line-numbers="|6-7|8-9|11|13">
 @WireMockTest
-class FournisseurClientTest {
+class ChangeClientTest {
 
     @Test
-    void litLePrixDuJour(WireMockRuntimeInfo wiremock) {
-        stubFor(get("/prix/tomate")
-                .willReturn(okJson("{\"prix\": 320}")));
+    void litLeTauxDuJour(WireMockRuntimeInfo wiremock) {
+        stubFor(get("/taux/USD")
+                .willReturn(okJson("{\"taux\": 108}")));
         var url = wiremock.getHttpBaseUrl();
-        var client = new FournisseurClient(url);
+        var client = new ChangeClient(url);
 
-        long prix = client.prixDuJour("tomate");
+        long taux = client.tauxDuJour("USD");
 
-        assertEquals(320, prix);
+        assertEquals(108, taux);
     }
 }
 					</code></pre>
-					<aside class="notes">Étapes : programmer la réponse, pointer le client vers WireMock, appeler, vérifier. Le vrai intérêt : tester les cas qu'on ne peut pas provoquer chez le fournisseur, comme une erreur 500 ou un délai de 30 secondes.</aside>
+					<aside class="notes">Étapes : programmer la réponse, pointer le client vers WireMock, appeler, vérifier. Le vrai intérêt : tester les cas qu'on ne peut pas provoquer chez le fournisseur, comme une erreur 500 ou un délai de 30 secondes. Le taux est en centièmes : 108 pour 1,08.</aside>
 				</section>
 			</section>
 
@@ -960,24 +953,23 @@ class FournisseurClientTest {
 				<section>
 					<h2>Un scénario</h2>
 					<ol>
-						<li class="fragment">Ouvrir FraisDirect</li>
-						<li class="fragment">Ajouter deux comtés à 27 € au panier</li>
-						<li class="fragment">Ouvrir le panier</li>
-						<li class="fragment">Lire « Livraison offerte »</li>
+						<li class="fragment">Ouvrir la banque, connecté en Alice</li>
+						<li class="fragment">Choisir Bob comme bénéficiaire</li>
+						<li class="fragment">Saisir 1 000 € et valider</li>
+						<li class="fragment">Lire « Virement effectué »</li>
 					</ol>
-					<aside class="notes">La même règle que le TDD, vue depuis l'écran. Ce test vérifie que le front affiche bien ce que l'API calcule.</aside>
+					<aside class="notes">La même règle que le TDD, vue depuis l'écran. Ce test vérifie que le front affiche bien ce que l'API décide.</aside>
 				</section>
 				<section>
 					<h2>Exemple avec Playwright</h2>
 					<pre class="long"><code class="language-typescript" data-trim data-line-numbers="|2|3-6|7|8-9">
-test('livraison offerte dès 50 €', async ({ page }) =&gt; {
+test('virement de 1 000 € accepté', async ({ page }) =&gt; {
   await page.goto('http://localhost:4200');
-  const comte = page.getByRole('button',
-      { name: 'Ajouter Comté 18 mois' });
-  await comte.click();
-  await comte.click();
-  await page.getByRole('link', { name: 'Panier' }).click();
-  await expect(page.getByText('Livraison offerte'))
+  await page.getByLabel('Bénéficiaire')
+      .selectOption('Bob');
+  await page.getByLabel('Montant').fill('1000');
+  await page.getByRole('button', { name: 'Valider' }).click();
+  await expect(page.getByText('Virement effectué'))
       .toBeVisible();
 });
 					</code></pre>
@@ -993,16 +985,16 @@ test('livraison offerte dès 50 €', async ({ page }) =&gt; {
 						<li class="fragment con">Quand les exécuter ?</li>
 						<li class="fragment con">Difficile à maintenir</li>
 					</ul>
-					<aside class="notes">Préparer la base : le comté doit exister, coûter 27 €, être en stock. Quand les exécuter : trop lents pour chaque commit, souvent la nuit ou avant une mise en production.</aside>
+					<aside class="notes">Préparer la base : Alice doit exister, avoir assez d'argent, et Bob être dans ses bénéficiaires. Quand les exécuter : trop lents pour chaque commit, souvent la nuit ou avant une mise en production.</aside>
 				</section>
 				<section>
 					<h2>Faut-il en faire ?</h2>
 					<ul>
 						<li class="fragment pro"><strong>Oui !</strong></li>
-						<li class="fragment pro">Au moins sur les chemins usuels : commander, payer, se connecter</li>
+						<li class="fragment pro">Au moins sur les chemins usuels : se connecter, consulter son solde, faire un virement</li>
 						<li class="fragment con">Ils ne remplacent pas les tests manuels</li>
 					</ul>
-					<aside class="notes">Peu de tests, mais sur ce qui rapporte : si la commande ne marche plus, FraisDirect ne gagne plus d'argent.</aside>
+					<aside class="notes">Peu de tests, mais sur ce qui compte : si le virement ne marche plus, la banque ne fait plus son métier.</aside>
 				</section>
 			</section>
 
@@ -1017,7 +1009,7 @@ test('livraison offerte dès 50 €', async ({ page }) =&gt; {
 						<li>Intégration : une vraie base avec Testcontainers, jamais de vrai serveur externe</li>
 						<li>End-to-end : peu, sur les chemins qui comptent</li>
 					</ul>
-					<aside class="notes">Revenir à la pyramide une dernière fois. La prochaine fois, FraisDirect grandit : cours middleware.</aside>
+					<aside class="notes">Revenir à la pyramide une dernière fois. La prochaine fois, l'application grandit : cours middleware.</aside>
 				</section>
 			</section>
 		</div>
