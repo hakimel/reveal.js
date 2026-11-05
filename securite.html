@@ -762,7 +762,8 @@ HMAC-SHA256( header + "." + payload , "secret-de-la-banque" )
 				<section>
 					<h2>Dans Spring : vérifier les tokens</h2>
 					<pre class="long"><code class="language-groovy" data-trim>
-implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+implementation 'org.springframework.boot:' +
+        'spring-boot-starter-security-oauth2-resource-server'
 					</code></pre>
 					<pre class="long"><code class="language-properties" data-trim>
 spring.security.oauth2.resourceserver.jwt.issuer-uri=https://accounts.google.com
