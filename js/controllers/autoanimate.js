@@ -206,7 +206,7 @@ export default class AutoAnimate {
 			delta.scaleX = Math.round( delta.scaleX * 1000 ) / 1000;
 
 			let translate = elementOptions.translate !== false && ( delta.x !== 0 || delta.y !== 0 ),
-				scale = elementOptions.scale !== false && ( delta.scaleX !== 0 || delta.scaleY !== 0 );
+				scale = elementOptions.scale !== false && ( delta.scaleX !== 1 || delta.scaleY !== 1 );
 
 			// No need to transform if nothing's changed
 			if( translate || scale ) {
