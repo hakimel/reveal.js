@@ -95,6 +95,34 @@
 					assert.strictEqual( slides[1].h3.offsetLeft, 100 );
 				});
 
+				QUnit.test( 'Only transforms elements whose position or size changes', assert => {
+					Reveal.slide(0);
+					const from = document.createElement( 'div' );
+					from.dataset.id = 'scale-test';
+					from.style.cssText = 'position: absolute; top: 0; left: 0; width: 60px; height: 40px';
+					const to = from.cloneNode();
+					slides[0].slide.appendChild( from );
+					slides[1].slide.appendChild( to );
+
+					try {
+						Reveal.slide(1);
+						assert.strictEqual( getComputedStyle( to ).transform, 'none', 'An unchanged element has no transform' );
+
+						Reveal.slide(0);
+						to.style.left = '100px';
+						to.style.height = '80px';
+						Reveal.slide(1);
+						const transform = new DOMMatrix( getComputedStyle( to ).transform );
+						assert.strictEqual( transform.a, 1, 'Width stays the same' );
+						assert.strictEqual( transform.d, 0.5, 'Height starts at half its target size' );
+						assert.strictEqual( transform.e, -100, 'Element starts at its previous position' );
+					}
+					finally {
+						from.remove();
+						to.remove();
+					}
+				});
+
 				QUnit.test( 'Does not add [data-auto-animate] on non auto-animated slides', assert => {
 					Reveal.slide(2);
 					Reveal.next();
