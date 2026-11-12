@@ -1,5 +1,6 @@
 import { queryAll } from '../utils/util'
 import { colorToRgb, colorBrightness } from '../utils/color'
+import { getMaxVerticalSlideCount } from '../utils/vertical-slide-count'
 
 /**
  * Creates and updates slide backgrounds.
@@ -414,8 +415,7 @@ export default class Backgrounds {
 
 		if( this.Reveal.getConfig().parallaxBackgroundImage ) {
 
-			let horizontalSlides = this.Reveal.getHorizontalSlides(),
-				verticalSlides = this.Reveal.getVerticalSlides();
+			let horizontalSlides = this.Reveal.getHorizontalSlides();
 
 			let backgroundSize = this.element.style.backgroundSize.split( ' ' ),
 				backgroundWidth, backgroundHeight;
@@ -443,7 +443,7 @@ export default class Backgrounds {
 			horizontalOffset = horizontalOffsetMultiplier * indices.h * -1;
 
 			let slideHeight = this.element.offsetHeight,
-				verticalSlideCount = verticalSlides.length,
+				verticalSlideCount = getMaxVerticalSlideCount( horizontalSlides ),
 				verticalOffsetMultiplier,
 				verticalOffset;
 
@@ -451,7 +451,9 @@ export default class Backgrounds {
 				verticalOffsetMultiplier = this.Reveal.getConfig().parallaxBackgroundVertical;
 			}
 			else {
-				verticalOffsetMultiplier = ( backgroundHeight - slideHeight ) / ( verticalSlideCount-1 );
+				// Divide travel by the tallest stack, not the total number of
+				// vertical slides across every stack (which under-scrolls).
+				verticalOffsetMultiplier = verticalSlideCount > 1 ? ( backgroundHeight - slideHeight ) / ( verticalSlideCount-1 ) : 0;
 			}
 
 			verticalOffset = verticalSlideCount > 0 ?  verticalOffsetMultiplier * indices.v : 0;
@@ -469,3 +471,4 @@ export default class Backgrounds {
 	}
 
 }
+# this will not work I need to patch properly
