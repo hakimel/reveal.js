@@ -414,8 +414,7 @@ export default class Backgrounds {
 
 		if( this.Reveal.getConfig().parallaxBackgroundImage ) {
 
-			let horizontalSlides = this.Reveal.getHorizontalSlides(),
-				verticalSlides = this.Reveal.getVerticalSlides();
+			let horizontalSlides = this.Reveal.getHorizontalSlides();
 
 			let backgroundSize = this.element.style.backgroundSize.split( ' ' ),
 				backgroundWidth, backgroundHeight;
@@ -442,8 +441,9 @@ export default class Backgrounds {
 
 			horizontalOffset = horizontalOffsetMultiplier * indices.h * -1;
 
+			// Use the deepest stack so parallel stacks share the same vertical increment.
 			let slideHeight = this.element.offsetHeight,
-				verticalSlideCount = verticalSlides.length,
+				verticalSlideCount = horizontalSlides.reduce( ( count, slide ) => Math.max( count, slide.querySelectorAll( ':scope > section' ).length ), 0 ),
 				verticalOffsetMultiplier,
 				verticalOffset;
 
@@ -451,7 +451,7 @@ export default class Backgrounds {
 				verticalOffsetMultiplier = this.Reveal.getConfig().parallaxBackgroundVertical;
 			}
 			else {
-				verticalOffsetMultiplier = ( backgroundHeight - slideHeight ) / ( verticalSlideCount-1 );
+				verticalOffsetMultiplier = verticalSlideCount > 1 ? ( backgroundHeight - slideHeight ) / ( verticalSlideCount-1 ) : 0;
 			}
 
 			verticalOffset = verticalSlideCount > 0 ?  verticalOffsetMultiplier * indices.v : 0;
