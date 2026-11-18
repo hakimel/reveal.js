@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - Test Parallax</title>
+	</head>
+
+	<body style="overflow: auto;">
+
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<script type="module">
+			import 'reveal.css';
+			import 'qunit/qunit/qunit.css';
+			import QUnit from 'qunit';
+			import Reveal from 'reveal.js';
+
+			QUnit.config.testTimeout = 30000;
+
+			let deck;
+			let element;
+
+			async function createDeck( stackSizes, config = {} ) {
+				element = document.createElement( 'div' );
+				element.className = 'reveal';
+				element.style.cssText = 'width: 800px; height: 600px; visibility: hidden;';
+				element.innerHTML = '<div class="slides">' + stackSizes.map( size => {
+					return '<section>' + ( size > 0 ? '<section>Slide</section>'.repeat( size ) : 'Slide' ) + '</section>';
+				} ).join( '' ) + '</div>';
+				document.querySelector( '#qunit-fixture' ).appendChild( element );
+
+				deck = new Reveal( element, {
+					embedded: true,
+					transition: 'none',
+					scrollActivationWidth: null,
+					parallaxBackgroundImage: '../examples/assets/image1.png',
+					parallaxBackgroundSize: '1600px 1200px',
+					...config
+				} );
+				await deck.initialize();
+
+				return element.querySelector( '.backgrounds' );
+			}
+
+			QUnit.module( 'Parallax', {
+				afterEach: function() {
+					if( deck ) deck.destroy();
+					if( element ) element.remove();
+					deck = null;
+					element = null;
+				}
+			} );
+
+			QUnit.test( 'Vertical offset uses the deepest stack', async function( assert ) {
+				const background = await createDeck( [ 2, 3, 2, 4, 0 ] );
+				const horizontalStep = ( 1600 - background.offsetWidth ) / 4;
+				const verticalStep = ( 1200 - background.offsetHeight ) / 3;
+
+				deck.slide( 3, 1 );
+				assert.strictEqual( parseFloat( background.style.backgroundPositionX ), -3 * horizontalStep, 'Horizontal offset still spans the deck' );
+				assert.strictEqual( parseFloat( background.style.backgroundPositionY ), -verticalStep, 'One step covers one third of the vertical travel' );
+
+				deck.slide( 1, 1 );
+				assert.strictEqual( parseFloat( background.style.backgroundPositionY ), -verticalStep, 'The same vertical index has the same offset in a shorter stack' );
+
+				deck.slide( 3, 3 );
+				assert.strictEqual( parseFloat( background.style.backgroundPositionY ), background.offsetHeight - 1200, 'The deepest slide reaches the bottom of the background' );
+
+				deck.slide( 4, 0 );
+				assert.strictEqual( parseFloat( background.style.backgroundPositionY ), 0, 'A horizontal slide returns to the top of the background' );
+			} );
+
+			QUnit.test( 'A single vertical stack spans the background', async function( assert ) {
+				const background = await createDeck( [ 3 ] );
+				deck.slide( 0, 2 );
+
+				assert.strictEqual( parseFloat( background.style.backgroundPositionX ), 0, 'No horizontal travel with one stack' );
+				assert.strictEqual( parseFloat( background.style.backgroundPositionY ), background.offsetHeight - 1200, 'The last slide reaches the bottom of the background' );
+			} );
+
+			QUnit.test( 'A stack containing one slide keeps a valid offset', async function( assert ) {
+				const background = await createDeck( [ 1, 0 ] );
+				assert.strictEqual( parseFloat( background.style.backgroundPositionY ), 0, 'One vertical slide has no vertical travel' );
+
+				deck.slide( 1, 0 );
+				assert.strictEqual( parseFloat( background.style.backgroundPositionX ), background.offsetWidth - 1600, 'Horizontal navigation still updates the background' );
+				assert.strictEqual( parseFloat( background.style.backgroundPositionY ), 0, 'The vertical offset stays valid after navigation' );
+			} );
+
+			QUnit.test( 'Horizontal-only slides have no vertical offset', async function( assert ) {
+				const background = await createDeck( [ 0, 0 ] );
+				deck.slide( 1, 0 );
+
+				assert.strictEqual( parseFloat( background.style.backgroundPositionX ), background.offsetWidth - 1600, 'The last slide reaches the right edge of the background' );
+				assert.strictEqual( parseFloat( background.style.backgroundPositionY ), 0, 'No vertical travel without a stack' );
+			} );
+
+			QUnit.test( 'Explicit parallax increments are preserved', async function( assert ) {
+				const background = await createDeck( [ 2, 3, 4 ], {
+					parallaxBackgroundHorizontal: 50,
+					parallaxBackgroundVertical: 75
+				} );
+				deck.slide( 2, 2 );
+
+				assert.strictEqual( parseFloat( background.style.backgroundPositionX ), -100, 'Uses the configured horizontal increment' );
+				assert.strictEqual( parseFloat( background.style.backgroundPositionY ), -150, 'Uses the configured vertical increment' );
+			} );
+		</script>
+
+	</body>
+</html>
