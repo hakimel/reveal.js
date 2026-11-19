@@ -1,0 +1,3 @@
+# Optional Workshop 4 adapter. Use a separate virtual environment when comparing versions.
+-r requirements.txt
+agent-framework

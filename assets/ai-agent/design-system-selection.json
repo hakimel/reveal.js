@@ -1,0 +1,125 @@
+{
+  "source": "User-provided skills-slides-main/tokens CSV files",
+  "selected": {
+    "aesthetics": [
+      {
+        "id": "enterprise-tech",
+        "name": "Enterprise Tech",
+        "category": "corporate",
+        "vibe_keywords": "structured,technical,secure,scalable,complex",
+        "compatible_palettes": "midnight-aurora,carbon-fiber,ocean-deep",
+        "compatible_fonts": "jetbrains-mono,clash-satoshi,syne-spacemono",
+        "compatible_layouts": "dashboard,grid-cards,editorial-stack",
+        "signature_effects": "scanning-line,grid-overlay,pulsing-rings",
+        "is_dark": "true",
+        "energy_level": "5"
+      },
+      {
+        "id": "developer-docs",
+        "name": "Developer Docs",
+        "category": "tech",
+        "vibe_keywords": "clear,structured,technical,readable,systematic",
+        "compatible_palettes": "arctic-frost,carbon-fiber,monokai",
+        "compatible_fonts": "jetbrains-mono,jakarta-jakarta,cabinet-general",
+        "compatible_layouts": "editorial-stack,grid-cards,dashboard",
+        "signature_effects": "code-block-reveal,syntax-highlight,fade-up",
+        "is_dark": "false",
+        "energy_level": "4"
+      }
+    ],
+    "color-palettes": [
+      {
+        "id": "midnight-aurora",
+        "name": "Midnight Aurora",
+        "bg_primary": "#0a0f1c",
+        "bg_secondary": "#0d1529",
+        "text_primary": "#e8f4fd",
+        "text_secondary": "#94a3b8",
+        "accent_1": "#00d4ff",
+        "accent_2": "#ff2d78",
+        "border_color": "#1e2d4a",
+        "glow_color": "#00d4ff40",
+        "is_dark": "true",
+        "wcag_contrast": "7.2",
+        "vibe_keywords": "futuristic,electric,deep,immersive,tech"
+      }
+    ],
+    "layout-patterns": [
+      {
+        "id": "split-panel",
+        "name": "Split Panel",
+        "css_grid_template": "grid-template-columns: 1fr 1fr; grid-template-rows: 1fr; gap: 0;",
+        "content_areas": "left-content-area(headline+body+cta), right-visual-area(image+illustration+screenshot)",
+        "best_for": "feature explanations,before-after comparisons,content+image pairs,problem-solution slides,testimonial+photo",
+        "max_content_per_slide": "5",
+        "description": "50/50 vertical split with content on the left and a visual on the right (or reversed). The visual area bleeds to the edge. Content area has internal padding. Works well with a strong image or product screenshot. Can shift to 60/40 for content-heavy or visual-heavy slides."
+      },
+      {
+        "id": "editorial-stack",
+        "name": "Editorial Stack",
+        "css_grid_template": "grid-template-rows: auto 1fr auto auto; grid-template-columns: 1fr; max-width: 860px; margin: 0 auto;",
+        "content_areas": "section-label, headline, body-text, pull-quote-or-data-callout",
+        "best_for": "narrative slides,story telling,process steps,data-driven insights,long-form explanations,methodology",
+        "max_content_per_slide": "6",
+        "description": "Vertical editorial flow inspired by magazine layouts. Top: small uppercase section label or step number. Below: large headline (2-3 lines max). Body: 60-80 word paragraph in a comfortable reading width. Bottom: a pull quote, key stat, or visual footnote. Left-aligned reading gravity. White space is intentional."
+      },
+      {
+        "id": "dashboard",
+        "name": "Dashboard",
+        "css_grid_template": "grid-template-columns: 1fr 1fr 1fr; grid-template-rows: auto 1fr 1fr; gap: 1rem;",
+        "content_areas": "slide-title, metric-card-1, metric-card-2, metric-card-3, chart-large(colspan 2), insight-panel",
+        "best_for": "data reports,KPI reviews,analytics summaries,financial overviews,status updates,metrics presentations",
+        "max_content_per_slide": "8",
+        "description": "Top bar with slide title and time period. Three equal metric cards with large number + label + trend indicator. Below: a large chart taking 2/3 width and a insights/legend panel taking 1/3. Designed for data density without clutter. Uses subtle borders and background variation to segment zones."
+      }
+    ],
+    "effects-library": [
+      {
+        "id": "dot-grid",
+        "name": "Dot Grid",
+        "category": "background",
+        "css_code_snippet": ".dot-grid { position: absolute; inset: 0; background-image: radial-gradient(circle, var(--dot-color, rgba(255,255,255,0.15)) 1px, transparent 1px); background-size: 28px 28px; pointer-events: none; }",
+        "js_required": "false",
+        "performance_impact": "low",
+        "best_with_aesthetics": "developer-docs,open-source,workshop-training,academic-paper,consulting-swiss",
+        "description": "Radial-gradient dot matrix pattern. Lighter and more refined than a line grid. Works on both light (dark dots) and dark (light dots) backgrounds. The 28px grid spacing is optimal for legibility — the dots register visually but don't compete with content. Zero JS, minimal CPU."
+      },
+      {
+        "id": "fade-up",
+        "name": "Fade Up",
+        "category": "entrance",
+        "css_code_snippet": ".fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); } .fade-up.visible { opacity: 1; transform: translateY(0); }",
+        "js_required": "true",
+        "performance_impact": "low",
+        "best_with_aesthetics": "conservative-corporate,modern-corporate,investor-deck,medical-healthcare,academic-paper",
+        "description": "The most universally applicable entrance animation. Element starts at 30px below and zero opacity, transitions to natural position with ease-out spring curve. Trigger by adding .visible class via IntersectionObserver or slide-enter event. Stagger multiple elements by adding transition-delay increments (0.1s per item)."
+      },
+      {
+        "id": "progress-bar",
+        "name": "Progress Bar",
+        "category": "text",
+        "css_code_snippet": ".progress-track { background: var(--track-color, rgba(255,255,255,0.1)); border-radius: 99px; overflow: hidden; } .progress-fill { height: 6px; border-radius: 99px; background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); width: 0%; transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1); } .progress-fill.animate { width: var(--target-width); }",
+        "js_required": "true",
+        "performance_impact": "low",
+        "best_with_aesthetics": "workshop-training,webinar-presentation,devops-pipeline,open-source,saas-product",
+        "description": "Animated horizontal progress bar for showing completion percentages, skill levels, or agenda progress. The fill element transitions from 0% to the --target-width value when .animate is added. Gradient fill uses accent colors. Track has a subtle transparent background. Add a counter label that updates in sync for dual reinforcement."
+      }
+    ]
+  },
+  "adaptations": {
+    "font": "Local Bahij, offline; existing monospace stack for code",
+    "sizing": "16px lesson title and icon; 13–14px reading text",
+    "layout": "RTL persistent sidebar and reading column, split experiment; stacked on phones",
+    "motion": "Promo mesh drift, 80 desktop / 36 mobile particles, fade/scale entrances, hover tilt and button glow; pause and reduced-motion supported",
+    "palette": "Exact promo cyan/pink and navy UI; semantic result states retained; source lesson theme configuration preserved"
+  },
+  "calculated_contrast": {
+    "text_primary_on_bg_primary": 17.11,
+    "text_primary_on_bg_secondary": 16.25,
+    "text_secondary_on_bg_primary": 7.46,
+    "text_secondary_on_bg_secondary": 7.08,
+    "accent_1_on_bg_primary": 10.8,
+    "accent_1_on_bg_secondary": 10.26
+  },
+  "visual_reference": "User-provided examples/skills-slides-promo.html"
+}

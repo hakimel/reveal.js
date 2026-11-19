@@ -1,0 +1,25 @@
+import fs from 'node:fs';import vm from 'node:vm';import assert from 'node:assert/strict';
+const store=new Map();const ctx={window:{},localStorage:{getItem:k=>store.get(k)??null,setItem:(k,v)=>store.set(k,v)},console};vm.createContext(ctx);
+for(const f of ['ai-agent-demos.js','ai-agent-extensions.js','ai-agent-progress.js'])vm.runInContext(fs.readFileSync('js/'+f,'utf8'),ctx);
+const api=ctx.window.AgentLessonDemos,progress=ctx.window.AgentLessonProgress,ls=JSON.parse(fs.readFileSync('assets/ai-agent/lessons.json','utf8'));
+let count=0;const ok=(x,msg)=>{assert(x,msg);count++;};
+const val=id=>Object.fromEntries(ls.find(l=>l.id===id).demo.fields.map(f=>[f.id,f.value]));
+const run=(id,changes={},action='run',s=api.state())=>api.simulate(ls.find(l=>l.id===id).demo,{...val(id),...changes},s,action);
+for(const l of ls){ok(l.quiz.feedbackByChoice.length===l.quiz.choices.length);ok(l.quiz.feedbackByChoice.every(x=>typeof x==='string'&&x.length>10));ok(Boolean(l.demo.mission&&l.demo.prediction));ok(Boolean(l.longTitle));}
+ok(api.predictionOutcome(ls[0].demo,{task:'calculate'},{} )==='tool');ok(api.predictionOutcome(ls[0].demo,{task:'chat'},{} )==='direct');
+ok(run(2,{stream:true}).snippets.length===2);ok(run(3,{pattern:'tool-check'}).status==='Completed');ok(run(4,{request:ls[3].demo.challenge.start}).status==='Failed');ok(run(4,{request:ls[3].demo.challenge.start.replace('city','expression')}).code.result===13.5);
+ok(run(5,{claim:'draft'}).status==='Failed');ok(run(5,{claim:'verified'}).status==='Completed');ok(run(5,{question:'date'}).status==='Pending');
+ok(run(6,{operation:'read'}).status==='Completed');ok(run(6,{operation:'read',permission:false}).status==='Denied');ok(!run(6,{operation:'read'}).approval);
+ok(run(7,{toolFailed:true,replan:'ignore'}).status==='Failed');ok(run(7,{toolFailed:true,replan:'retry'}).code.retry_limit===1);ok(run(7,{toolFailed:true,replan:'ask'}).status==='Pending');
+ok(run(8,{source:false}).extras[0].body.includes('مەنبە يوق'));ok(run(8,{unknown:true}).extras[0].body.includes('بېكىتىلمىدى'));
+ok(run(9,{buggy:true}).tests.some(t=>!t.pass));ok(run(9,{buggy:false}).tests.every(t=>t.pass));
+ok(run(10,{failedStep:'1'}).status==='Failed');ok(run(10,{failedStep:'2'}).trace[1].status==='Failed');ok(run(11).snippets.length===2);
+ok(run(12,{permission:false}).extras[1].body.includes('ئىجازەت چەكلىمىسى'));ok(run(12,{permission:true}).extras[1].body.includes('ئىجازەت يوق'));
+let s=api.state();ok(run(13,{},'search',s).catalog.length===2);ok(run(13,{query:'13.5'},'search',s).catalog.length===1);run(13,{},'delete-catalog:fixture-01',s);ok(run(13,{query:'13.5'},'search',s).catalog.length===0);
+ok(run(14).snippets.length===2);s=api.state();ok(run(15,{stale:true},'click',s).status==='Pending');ok(!s.clicked);run(15,{stale:true},'refresh-screen',s);ok(s.freshScreen);run(15,{stale:true},'click',s);ok(run(15,{stale:true},'observe',s).status==='Completed');
+s=api.state();let r=run(16,{twoJobs:true,cancelJob:'second'},'run',s);ok(r.jobs.length===2);ok(r.jobs[1].status==='Cancelled');ok(r.code.total_records===1);ok(run(16,{twoJobs:true,cancelJob:'second'},'run',s).code.writes_this_run===0);
+ok(run(17,{model:'remote',tool:'remote',logging:'remote'}).extras[0].code.length===3);ok(run(17).extras[0].code.length===0);
+ok(run(18).status==='Pending');ok(run(18,{factSentence:'injection',injectionSentence:'fact'}).status==='Failed');ok(run(18,{factSentence:'fact',injectionSentence:'injection'}).status==='Completed');ok(run(18,{factSentence:'fact',injectionSentence:'injection',decision:'obey'}).status==='Failed');
+const correct=ls[0].quiz.correct;let input={version:1,lastLesson:1,completed:[1],answers:{1:correct},motionPaused:true};store.set('agent-lab-interactive-v1',JSON.stringify(input));let loaded=progress.load(ls);ok(loaded.migrated);ok(loaded.state.read.includes(1));ok(loaded.state.completed.length===0);ok(store.has('agent-lab-interactive-v1-backup'));
+input={version:2,lastLesson:1,completed:[1,99],practiced:[1],read:[1],answers:{1:correct},practiceMode:'explore'};let normalized=progress.normalize(input,ls);ok(normalized.completed.length===1);ok(normalized.practiceMode==='explore');input.answers[1]=(correct+1)%3;ok(progress.normalize(input,ls).completed.length===0);assert.throws(()=>progress.normalize({version:2,completed:'bad'},ls));count++;
+const report={checks:count,lessons:ls.length,all_recommendation_simulations:true,progress_validation:true,result:'passed'};fs.writeFileSync('docs/ai-agent/recommendations-unit-validation.json',JSON.stringify(report,null,2)+'\n');console.log(report);

@@ -1,0 +1,7 @@
+{
+  "task": "write_study_plan",
+  "facts": [{"duration_hours": 13.5, "source_id": "calc-18x45-div60"}],
+  "unknown": ["start_date"],
+  "permissions": {"write_note": "requires_human_approval"},
+  "output_contract": {"language": "ug", "cite_source_ids": true, "invent_missing_dates": false}
+}

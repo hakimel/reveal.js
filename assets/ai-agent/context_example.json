@@ -1,0 +1,17 @@
+{
+  "raw": {
+    "hours": 13.5,
+    "source": "study-01",
+    "write_allowed": false,
+    "start_date": null,
+    "debug": ["unrelated debug line 1", "unrelated debug line 2"]
+  },
+  "selected_context": {
+    "goal": "draft a study plan",
+    "hours": 13.5,
+    "source": "study-01",
+    "write_allowed": false,
+    "unknown": ["start_date"]
+  },
+  "acceptance": ["source preserved", "permission preserved", "missing date stays unknown"]
+}

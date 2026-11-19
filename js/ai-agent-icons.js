@@ -1,0 +1,9 @@
+/* Repository-native SVG icons; no images, icon service or external font required. */
+(() => {
+  const paths = {"core": "<rect x=\"6\" y=\"6\" width=\"20\" height=\"20\" rx=\"4\"/><path d=\"M12 1v5m8-5v5M12 26v5m8-5v5M1 12h5m-5 8h5m20-8h5m-5 8h5\"/><circle cx=\"16\" cy=\"16\" r=\"4\"/>", "layers": "<path d=\"m16 3 13 7-13 7L3 10 16 3Zm-13 14 13 7 13-7M3 24l13 7 13-7\"/>", "route": "<circle cx=\"7\" cy=\"6\" r=\"3\"/><circle cx=\"25\" cy=\"26\" r=\"3\"/><path d=\"M7 9v11a6 6 0 0 0 6 6h9M7 15h12a6 6 0 0 0 6-6V3m-5 5 5-5 5 5\"/>", "tool": "<path d=\"M20 3a9 9 0 0 0-9 12L3 23a4 4 0 0 0 6 6l8-8A9 9 0 0 0 29 9l-6 6-6-6 6-6Z\"/>", "search": "<circle cx=\"14\" cy=\"14\" r=\"10\"/><path d=\"m22 22 8 8M9 14h10m-5-5v10\"/>", "shield": "<path d=\"m16 2 12 5v9c0 7-12 14-12 14S4 23 4 16V7l12-5Z\"/><path d=\"m10 16 4 4 8-9\"/>", "network": "<circle cx=\"16\" cy=\"6\" r=\"4\"/><circle cx=\"5\" cy=\"26\" r=\"4\"/><circle cx=\"27\" cy=\"26\" r=\"4\"/><path d=\"M16 10v7M5 22v-5h22v5M16 17v11\"/>", "check": "<rect x=\"4\" y=\"4\" width=\"24\" height=\"24\" rx=\"3\"/><path d=\"m9 16 5 5 10-11\"/>", "pulse": "<path d=\"M1 17h7l4-12 8 23 4-11h7\"/>", "plug": "<path d=\"M11 2v8m10-8v8M6 10h20v5a10 10 0 0 1-20 0v-5Zm10 15v7\"/>", "database": "<ellipse cx=\"16\" cy=\"6\" rx=\"12\" ry=\"4\"/><path d=\"M4 6v20c0 5 24 5 24 0V6M4 16c0 5 24 5 24 0\"/>", "screen": "<rect x=\"2\" y=\"3\" width=\"28\" height=\"21\" rx=\"2\"/><path d=\"M10 30h12m-6-6v6M7 10l4 4-4 4m8 0h6\"/>"};
+  function icon(kind, className='') {
+    kind = Object.hasOwn(paths,kind) ? kind : 'core';
+    return `<svg class="lesson-icon icon-${kind} ${className}" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><g class="icon-drawing">${paths[kind]}</g><circle class="icon-signal" cx="27" cy="5" r="2" fill="currentColor" stroke="none"/></svg>`;
+  }
+  window.AgentLessonIcons = { icon };
+})();

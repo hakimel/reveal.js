@@ -1,0 +1,2 @@
+# Install in a Python 3.10+ virtual environment. Tests use only the standard library.
+openai>=1.0,<3
