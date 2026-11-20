@@ -1,6 +1,7 @@
 /* Local-only progress validation, migration and portable export/import. */
 (() => {
- const key='agent-lab-interactive-v1';
+ const baseKey='agent-lab-interactive-v1';let key=baseKey;
+ const setScope=userId=>{key=typeof userId==='string'&&userId?baseKey+'-user-'+encodeURIComponent(userId):baseKey;};
  const empty=()=>({version:2,lastLesson:null,completed:[],read:[],practiced:[],answers:{},motionPaused:false,practiceMode:'predict'});
  function normalize(input,lessons){
   if(!input||![1,2].includes(input.version)||!Array.isArray(input.completed)||!input.answers||typeof input.answers!=='object'||Array.isArray(input.answers))throw Error('ھۆججەتنىڭ تەرەققىيات قۇرۇلمىسى توغرا ئەمەس.');
@@ -13,5 +14,5 @@
  }
  function load(lessons){let storageOK=true,migrated=false,s=empty();try{const raw=localStorage.getItem(key);if(raw){const data=JSON.parse(raw);s=normalize(data,lessons);migrated=data.version===1;if(migrated)localStorage.setItem(key+'-backup',raw);}}catch(e){storageOK=e.name==='SyntaxError'||e instanceof Error&&e.message.includes('قۇرۇلمىسى');}return {state:s,storageOK,migrated};}
  const save=s=>{try{localStorage.setItem(key,JSON.stringify(s));return true;}catch{return false;}};
- window.AgentLessonProgress={empty,normalize,load,save};
+ window.AgentLessonProgress={empty,normalize,load,save,setScope};
 })();

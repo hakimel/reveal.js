@@ -1,0 +1,23 @@
+<dialog id="authDialog" aria-labelledby="authTitle" aria-describedby="authDescription">
+  <div class="dialog-heading"><h2 id="authTitle">ھېساباتقا كىرىش</h2><button type="button" id="closeAuth" aria-label="ھېسابات كۆزنىكىنى تاقاش">×</button></div>
+  <p id="authDescription">ھېساباتىڭىزغا كىرىڭ ياكى يېڭى ھېسابات قۇرۇڭ.</p>
+  <div class="auth-tabs" aria-label="ھېسابات مەشغۇلاتى">
+    <button type="button" id="authSigninTab" aria-pressed="true">كىرىش</button>
+    <button type="button" id="authSignupTab" aria-pressed="false">تىزىملىتىش</button>
+  </div>
+  <p id="authUnavailable" role="status" hidden></p>
+  <form id="authForm">
+    <label class="auth-field" id="authNameField" hidden>ئىسمىڭىز <span>ئىختىيارىي</span><input id="authName" name="name" type="text" dir="auto" autocomplete="name" maxlength="60"></label>
+    <label class="auth-field" id="authEmailField">ئېلېكترونلۇق خەت ئادرېسى<input id="authEmail" name="email" type="email" dir="ltr" autocomplete="email" maxlength="254" required spellcheck="false" autocapitalize="none"></label>
+    <label class="auth-field" id="authPasswordField">پارول<div class="auth-password-row"><input id="authPassword" name="password" type="password" dir="ltr" autocomplete="current-password" maxlength="128" required aria-describedby="authPasswordHint"><button type="button" id="authShowPassword" aria-pressed="false" aria-label="پارولنى كۆرسىتىش">كۆرسىتىش</button></div><small id="authPasswordHint" hidden>كەم دېگەندە 8 ھەرپ ياكى رەقەم ئىشلىتىڭ.</small></label>
+    <label class="auth-field" id="authConfirmField" hidden>پارولنى قايتا كىرگۈزۈڭ<input id="authConfirm" name="confirm-password" type="password" dir="ltr" autocomplete="new-password" minlength="8" maxlength="128"></label>
+    <button type="submit" class="primary-button" id="authSubmit">ھېساباتقا كىرىش</button>
+  </form>
+  <section id="authAccount" hidden aria-label="ھېسابات ئۇچۇرى"><p>كىرگەن ھېسابات:</p><bdi dir="ltr" id="authAccountEmail"></bdi><div class="auth-account-actions"><button type="button" class="secondary-button" id="authChangePassword">پارولنى ئۆزگەرتىش</button><button type="button" class="secondary-button" id="authSignout">ھېساباتتىن چىقىش</button></div></section>
+  <p id="authMessage" role="status" aria-live="polite"></p>
+  <button type="button" class="text-button" id="authForgotPassword">پارولنى ئۇنتۇدىڭىزمۇ؟</button>
+  <button type="button" class="text-button" id="authBackToSignin" hidden>كىرىش بېتىگە قايتىش</button>
+  <p class="auth-progress-note">دەرس تەرەققىياتى بۇ توركۆرگۈچتە ساقلىنىدۇ. باشقا ئۈسكۈنىگە يۆتكەش ئۈچۈن تەرەققىيات ھۆججىتىنى چۈشۈرۈپ ساقلاڭ.</p>
+  <button type="button" id="authContinueGuest" class="text-button">دەرسكە قايتىش</button>
+</dialog>
+<p id="authAnnouncement" class="sr-only" aria-live="polite"></p>

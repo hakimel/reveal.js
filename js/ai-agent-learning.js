@@ -1,6 +1,7 @@
 /* Offline course shell. Content, theme, fields and quiz settings come from courseData. */
-(() => {
+(async () => {
   'use strict';
+  await window.AgentLessonAuth?.ready;
   const $=q=>document.querySelector(q);
   const {lessons}=JSON.parse($('#courseData').textContent);
   const engine=window.AgentLessonDemos;
@@ -12,7 +13,7 @@
   const stepLabels={idle:'تېخى يېتىپ كەلمىدى',active:'نۆۋەتتىكى قەدەم',pass:'تەكشۈرۈلدى',fail:'توسۇلدى',pending:'كۈتۈلمەكتە'};
   const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   function prose(value){return String(value??'').split(/([A-Za-z][A-Za-z0-9_.:/-]*(?: [A-Za-z][A-Za-z0-9_.:/-]*)*|\d+(?:[.,]\d+)?(?:\s*[/×*+−–-]\s*\d+(?:[.,]\d+)?)*)/g).map((part,i)=>i%2?`<bdi dir="ltr">${esc(part)}</bdi>`:esc(part)).join('');}
-  const progress=window.AgentLessonProgress, loaded=progress.load(lessons);
+  const progress=window.AgentLessonProgress;progress.setScope(window.AgentLessonAuth?.currentUser?.id);const loaded=progress.load(lessons);
   let saved=loaded.state,storageOK=loaded.storageOK,current=null,session=null,timer=null,toastTimer,actionTimer,inputTimer;
   const paused=()=>saved.motionPaused||reduced.matches;
   function persist(){storageOK=progress.save(saved);showStorageNotice();}
@@ -172,6 +173,7 @@
   $('#mobileToc').addEventListener('click',e=>{if(e.target!==$('#mobileToc'))return;const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.target.close();});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
   window.addEventListener('hashchange',()=>{const m=location.hash.match(/^#lesson-(\d+)$/);if(m&&Number(m[1])!==current?.id)showLesson(Number(m[1]));else if(location.hash==='#home'&&current)showHome();});
+  window.addEventListener('agent-auth-changed',event=>{stop();progress.setScope(event.detail.user?.id);Object.assign(loaded,progress.load(lessons));saved=loaded.state;storageOK=loaded.storageOK;updateMotion();showStorageNotice();showHome();});
   $('.brand-mark').innerHTML=icon('core','brand-agent-icon');
   updateMotion();showStorageNotice();
   const initial=location.hash.match(/^#lesson-(\d+)$/);

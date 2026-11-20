@@ -1,0 +1,19 @@
+{
+  "result": "passed",
+  "sdk": "@supabase/supabase-js 2.119.2",
+  "provider": "intercepted synthetic Auth API; no live accounts or emails",
+  "checks": [
+    "Unconfigured auth cannot submit; offline guest lesson stays usable",
+    "Sign-up uses PKCE, validates confirmation, and requires email confirmation",
+    "Sign-in rejects wrong password and accepts a server-confirmed session",
+    "Session restores on reload; sign-out restores separate guest progress",
+    "A second account does not inherit the first account’s progress",
+    "Password reset exchanges a PKCE code and updates through the authenticated SDK",
+    "No submitted password is stored in browser storage",
+    "Provider rate limits receive a translated error",
+    "Keyboard close and responsive forms at 1440, 390 and 360px",
+    "Secret-key configuration is rejected before SDK initialization"
+  ],
+  "authRequests": 16,
+  "errors": []
+}

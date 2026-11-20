@@ -1,0 +1,27 @@
+/* Compact Uyghur account forms matching the course's cyan glass panels. */
+.header-note{flex-shrink:1;min-width:0}.header-actions{gap:8px;flex-shrink:0}
+#accountButton{border-color:#00d4ff55;color:var(--ui-accent)}
+#authDialog{width:min(360px,calc(100vw - 24px));padding:16px;background:#0d1529f5;border:1px solid #00d4ff35;box-shadow:0 12px 40px #0008,0 0 24px #00d4ff0a;backdrop-filter:blur(12px)}
+#authDialog .dialog-heading{padding-bottom:10px;gap:8px}
+#authDialog h2{font-size:13px;line-height:1.6}
+#authDescription,#authUnavailable,#authMessage,#authAccount p{font-size:12px;line-height:1.65;margin:12px 0}
+.auth-tabs{display:flex;gap:6px;margin:12px 0}.auth-tabs button{flex:1;min-height:28px;border:1px solid var(--line);border-radius:4px;font-size:11px;padding:4px 8px;color:var(--muted)}
+.auth-tabs button[aria-pressed=true]{border-color:#00d4ff66;background:#00d4ff0b;color:var(--text)}
+.auth-field{display:block;margin:12px 0;font-size:11px;line-height:1.6;color:var(--text)}
+.auth-field>span{color:var(--muted);font-size:10px;margin-inline-start:5px}
+.auth-field input{display:block;width:100%;min-width:0;min-height:30px;margin-top:5px;border:1px solid #94a3b84a;background:#0a0f1caa;border-radius:4px;padding:6px 8px;font-size:12px;line-height:1.5;color:var(--text)}
+.auth-field small{display:block;color:var(--muted);font-size:10px;line-height:1.6;margin-top:5px}
+.auth-password-row{display:flex;gap:6px;align-items:center;min-width:0}.auth-password-row input{flex:1}
+.auth-password-row button{font-size:10px;min-height:28px;color:var(--accent);padding:4px}
+#authSubmit{width:100%;margin:5px 0 8px;min-height:30px;font-size:11px;padding:5px 8px}
+#authDialog .text-button{display:block;font-size:10px;min-height:28px;line-height:1.6}
+.auth-progress-note{font-size:10px;line-height:1.65;margin:12px 0 6px;padding-top:10px;border-top:1px solid var(--line)}
+#authMessage[data-kind=error],#authUnavailable{color:#f0a5ac}
+#authMessage[data-kind=success]{color:#7dd7b2}
+#authAccountEmail{font-size:12px;overflow-wrap:anywhere;display:block;color:var(--text)}
+.auth-account-actions{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0}
+.auth-account-actions button{font-size:10px;padding:4px 8px;min-height:28px}
+@media(max-width:1000px){.header-note{display:none}}
+@media(max-width:760px){.brand>span:last-child{font-size:11px}.brand{gap:5px}.header-actions{gap:5px}.app-header{padding-inline:8px;gap:6px}.app-header .header-actions button{font-size:10px;padding-inline:6px}#authDialog{padding:13px}.auth-field input{font-size:16px}.auth-password-row button{padding-inline:2px}}
+@media(max-width:370px){.brand small{display:none}.brand>span:last-child{font-size:10px}.brand-mark{width:17px;height:17px}.app-header .header-actions button{padding-inline:5px;font-size:9px}}
+@media print{#authDialog,#accountButton{display:none!important}}
