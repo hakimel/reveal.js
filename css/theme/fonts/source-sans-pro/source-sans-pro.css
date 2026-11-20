@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('./source-sans-pro-regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('./source-sans-pro-italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('./source-sans-pro-semibold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Source Sans Pro';
+    src: url('./source-sans-pro-semibolditalic.woff') format('woff');
+    font-weight: 600;
+    font-style: italic;
+}

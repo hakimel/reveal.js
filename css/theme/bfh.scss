@@ -1,0 +1,50 @@
+/**
+ * BFH theme for reveal.js.
+ *
+ * By Markus Tiede, http://mtiede.de
+ *
+ * Re-generate CSS via : 'npm run build:styles'
+ */
+
+// Load utils
+@use 'sass:color';
+@use 'template/mixins' as mixins;
+
+$main-color: #567585;
+$link-color: #79a8cb;
+
+// Inject theme variables (with some overrides)
+@use 'template/settings' with (
+	$background-color: #fff,
+
+	$main-color: $main-color,
+	$main-font: "'Lucida Sans', Helvetica, sans-serif",
+	$main-font-size: 42px,
+
+	$heading-color: #f3c23e,
+	// similar to: Unit Rounded OT
+	$heading-font: "'Unit Rounded Pro', 'Signika Negative', Helvetica, sans-serif",
+	$heading-text-shadow: none,
+	$heading-letter-spacing: normal,
+	$heading-text-transform: none,
+	// workaround for : https://github.com/bfh/reveal.js/issues/5
+	$heading-font-weight: none,
+
+	$heading1-size: 2.5em,
+	$heading2-size: 1.6em,
+	$heading3-size: 1.3em,
+	$heading4-size: 1em,
+
+	$link-color: $link-color,
+	$link-color-hover: color.adjust($link-color, $lightness: -25%),
+	$selection-background-color: color.adjust($link-color, $lightness: 25%)
+);
+
+// Inject the theme template
+@use 'template/theme';
+
+// Include theme-specific fonts
+@import url(https://fonts.googleapis.com/css2?family=Signika+Negative);
+
+// Change text colors against dark slide backgrounds
+@include mixins.dark-bg-text-color(color.adjust($main-color, $lightness: 50%));

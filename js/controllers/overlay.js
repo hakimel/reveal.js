@@ -63,6 +63,19 @@ export default class Overlay {
 	 */
 	previewIframe( url ) {
 
+		// Preview URLs can come from the postMessage API via setState.
+		// Allow web URLs, an empty preview, or files when the deck itself is local.
+		if( typeof url !== 'string' ) return;
+		let previewURL;
+		try {
+			previewURL = new URL( url, document.baseURI );
+		}
+		catch( error ) {
+			return;
+		}
+		if( previewURL.protocol === 'file:' && window.location.protocol !== 'file:' ) return;
+		if( !['http:', 'https:', 'file:'].includes( previewURL.protocol ) && previewURL.href !== 'about:blank' ) return;
+
 		this.close();
 
 		this.state = { previewIframe: url };
@@ -72,20 +85,23 @@ export default class Overlay {
 
 		this.viewport.innerHTML =
 			`<header class="r-overlay-header">
-				<a class="r-overlay-header-button r-overlay-external" href="${url}" target="_blank"><span class="icon"></span></a>
+				<a class="r-overlay-header-button r-overlay-external" target="_blank" rel="noopener"><span class="icon"></span></a>
 				<button class="r-overlay-header-button r-overlay-close"><span class="icon"></span></button>
 			</header>
 			<div class="r-overlay-spinner"></div>
 			<div class="r-overlay-content">
-				<iframe src="${url}"></iframe>
+				<iframe></iframe>
 				<small class="r-overlay-content-inner">
 					<span class="r-overlay-error x-frame-error">Unable to load iframe. This is likely due to the site's policy (x-frame-options).</span>
 				</small>
 			</div>`;
 
-		this.dom.querySelector( 'iframe' ).addEventListener( 'load', event => {
+		const iframe = this.dom.querySelector( 'iframe' );
+		iframe.addEventListener( 'load', event => {
 			this.dom.dataset.state = 'loaded';
 		}, false );
+		iframe.src = previewURL.href;
+		this.dom.querySelector( '.r-overlay-external' ).href = previewURL.href;
 
 		this.dom.querySelector( '.r-overlay-close' ).addEventListener( 'click', event => {
 			this.close();

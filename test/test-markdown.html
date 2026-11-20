@@ -5,10 +5,6 @@
 		<meta charset="utf-8">
 
 		<title>reveal.js - Test Markdown</title>
-
-		<link rel="stylesheet" href="../dist/reveal.css">
-		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
-		<script src="../node_modules/qunit/qunit/qunit.js"></script>
 	</head>
 
 	<body style="overflow: auto;">
@@ -315,11 +311,50 @@
 		</div>
 
 		<script type="module">
-			import Reveal from '../dist/reveal.esm.js'
-			import Markdown from '../plugin/markdown/markdown.esm.js'
-			import Highlight from '../plugin/highlight/highlight.esm.js'
+			import 'reveal.css';
+			import 'qunit/qunit/qunit.css';
+			import QUnit from 'qunit';
+			import Reveal from 'reveal.js';
+			import Markdown from 'reveal.js/plugin/markdown'
+			import Highlight from 'reveal.js/plugin/highlight'
 
 			QUnit.config.testTimeout = 30000;
+
+			QUnit.test( 'List attributes distinguish blank lines from adjacent item comments', async function( assert ) {
+				for( const [marker, tag] of [['-', 'ul'], ['1.', 'ol']] ) {
+					for( const [suffix, target] of [
+						['\n\n<!-- .element class="list-test" -->', tag],
+						['\n<!-- .element class="list-test" -->', 'li:last-child'],
+						[' <!-- .element class="list-test" -->', 'li:last-child'],
+						['\n   <!-- .element class="list-test" -->', 'li:last-child']
+					] ) {
+						const root = document.createElement( 'div' );
+						root.innerHTML = '<section data-markdown><script type="text/template"></' + 'script></section>';
+						root.querySelector( 'script' ).textContent = `${marker} HTML\n${marker} CSS${suffix}`;
+						await Markdown().init( { getConfig: () => ({}), getRevealElement: () => root } );
+						assert.strictEqual( root.querySelector( '.list-test' ), root.querySelector( target ), `${tag}: ${JSON.stringify( suffix )}` );
+						assert.strictEqual( root.querySelectorAll( '.list-test' ).length, 1, 'only the intended element receives attributes' );
+					}
+				}
+			} );
+
+			QUnit.test( 'List comments preserve loose lists, nested lists and custom renderers', async function( assert ) {
+				for( const [markdown, config] of [
+					['- HTML\n\n- CSS', {}],
+					['- HTML\n  - CSS', {}],
+					['- HTML\n- CSS', { renderer: { listitem: token => `<li>${token.text}</li>` } }]
+				] ) {
+					for( const blankLine of [false, true] ) {
+						const root = document.createElement( 'div' );
+						root.innerHTML = '<section data-markdown><script type="text/template"></' + 'script></section>';
+						root.querySelector( 'script' ).textContent = markdown + ( blankLine ? '\n\n' : '\n' ) + '<!-- .element class="list-test" -->';
+						await Markdown().init( { getConfig: () => ({ markdown: config }), getRevealElement: () => root } );
+						const list = root.querySelector( 'ul' );
+						assert.strictEqual( root.querySelector( '.list-test' ), blankLine ? list : list.lastElementChild, `${markdown}: blank line ${blankLine}` );
+						assert.strictEqual( list.nextSibling.nextSibling.nodeType, Node.COMMENT_NODE, 'comment remains outside the list' );
+					}
+				}
+			} );
 
 			let deck1 = new Reveal( document.querySelector( '.deck1' ), { plugins: [ Markdown ] })
 			deck1.addEventListener( 'ready', function() {
@@ -402,7 +437,7 @@
 				QUnit.module( 'Options' );
 
 				QUnit.test( 'Options are set', function( assert ) {
-					assert.strictEqual( deck4.getPlugin( 'markdown' ).marked.defaults.smartypants, true );
+					assert.strictEqual( deck4.getPlugin( 'markdown' ).markdownOptions.smartypants, true );
 				});
 
 				QUnit.test( 'Smart quotes are activated', function( assert ) {

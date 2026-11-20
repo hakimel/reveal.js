@@ -1,0 +1,221 @@
+//#region plugin/math/katex.js
+var e = () => {
+	let e, t = {
+		version: "latest",
+		delimiters: [
+			{
+				left: "$$",
+				right: "$$",
+				display: !0
+			},
+			{
+				left: "$",
+				right: "$",
+				display: !1
+			},
+			{
+				left: "\\(",
+				right: "\\)",
+				display: !1
+			},
+			{
+				left: "\\[",
+				right: "\\]",
+				display: !0
+			}
+		],
+		ignoredTags: [
+			"script",
+			"noscript",
+			"style",
+			"textarea",
+			"pre",
+			"code"
+		]
+	}, n = (e) => {
+		let t = document.createElement("link");
+		t.rel = "stylesheet", t.href = e, document.head.appendChild(t);
+	}, r = (e) => new Promise((t, n) => {
+		let r = document.createElement("script");
+		r.type = "text/javascript", r.onload = t, r.onerror = n, r.src = e, document.head.append(r);
+	});
+	async function i(e) {
+		for (let t of e) await r(t);
+	}
+	return {
+		id: "katex",
+		init: function(r) {
+			e = r;
+			let a = e.getConfig().katex || {}, o = {
+				...t,
+				...a
+			}, { local: s, version: c, extensions: l, ...u } = o, d = o.local || "https://cdn.jsdelivr.net/npm/katex", f = o.local ? "" : "@" + o.version, p = d + f + "/dist/katex.min.css", m = d + f + "/dist/katex.min.js", h = d + f + "/dist/contrib/mhchem.min.js", g = d + f + "/dist/contrib/auto-render.min.js", _ = [m];
+			o.extensions && o.extensions.includes("mhchem") && _.push(h), _.push(g);
+			let v = () => {
+				renderMathInElement(r.getSlidesElement(), u), e.layout();
+			};
+			n(p), i(_).then(() => {
+				e.isReady() ? v() : e.on("ready", v.bind(this));
+			});
+		}
+	};
+}, t = () => {
+	let e, t = {
+		messageStyle: "none",
+		tex2jax: {
+			inlineMath: [["$", "$"], ["\\(", "\\)"]],
+			skipTags: [
+				"script",
+				"noscript",
+				"style",
+				"textarea",
+				"pre",
+				"code"
+			]
+		},
+		skipStartupTypeset: !0
+	};
+	function n(e, t) {
+		let n = document.querySelector("head"), r = document.createElement("script");
+		r.type = "text/javascript", r.src = e;
+		let i = () => {
+			typeof t == "function" && (t.call(), t = null);
+		};
+		r.onload = i, r.onreadystatechange = () => {
+			this.readyState === "loaded" && i();
+		}, n.appendChild(r);
+	}
+	return {
+		id: "mathjax2",
+		init: function(r) {
+			e = r;
+			let i = e.getConfig().mathjax2 || e.getConfig().math || {}, a = {
+				...t,
+				...i
+			}, o = a.mathjax || "https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js", s = a.config || "TeX-AMS_HTML-full", c = o + "?config=" + s;
+			a.tex2jax = {
+				...t.tex2jax,
+				...i.tex2jax
+			}, a.mathjax = a.config = null, n(c, function() {
+				MathJax.Hub.Config(a), MathJax.Hub.Queue([
+					"Typeset",
+					MathJax.Hub,
+					e.getRevealElement()
+				]), MathJax.Hub.Queue(e.layout), e.on("slidechanged", function(e) {
+					MathJax.Hub.Queue([
+						"Typeset",
+						MathJax.Hub,
+						e.currentSlide
+					]);
+				});
+			});
+		}
+	};
+}, n = Plugin = Object.assign(t(), {
+	KaTeX: e,
+	MathJax2: t,
+	MathJax3: () => {
+		let e, t = {
+			tex: { inlineMath: [["$", "$"], ["\\(", "\\)"]] },
+			options: { skipHtmlTags: [
+				"script",
+				"noscript",
+				"style",
+				"textarea",
+				"pre",
+				"code"
+			] },
+			startup: { ready: () => {
+				MathJax.startup.defaultReady(), MathJax.startup.promise.then(() => {
+					e.layout();
+				});
+			} }
+		};
+		function n(e, t) {
+			let n = document.createElement("script");
+			n.type = "text/javascript", n.id = "MathJax-script", n.src = e, n.async = !0, n.onload = () => {
+				typeof t == "function" && (t.call(), t = null);
+			}, document.head.appendChild(n);
+		}
+		return {
+			id: "mathjax3",
+			init: function(r) {
+				e = r;
+				let i = e.getConfig().mathjax3 || {}, a = {
+					...t,
+					...i
+				};
+				a.tex = {
+					...t.tex,
+					...i.tex
+				}, a.options = {
+					...t.options,
+					...i.options
+				}, a.startup = {
+					...t.startup,
+					...i.startup
+				};
+				let o = a.mathjax || "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js";
+				a.mathjax = null, window.MathJax = a, n(o, function() {
+					e.addEventListener("slidechanged", function(e) {
+						MathJax.typeset();
+					});
+				});
+			}
+		};
+	},
+	MathJax4: () => {
+		let e, t = {
+			tex: { inlineMath: [["$", "$"], ["\\(", "\\)"]] },
+			options: { skipHtmlTags: [
+				"script",
+				"noscript",
+				"style",
+				"textarea",
+				"pre",
+				"code"
+			] },
+			startup: { ready: () => {
+				MathJax.startup.defaultReady(), MathJax.startup.promise.then(() => {
+					e.layout();
+				});
+			} }
+		};
+		function n(e, t) {
+			let n = document.createElement("script");
+			n.type = "text/javascript", n.id = "MathJax-script", n.src = e, n.async = !0, n.onload = () => {
+				typeof t == "function" && (t.call(), t = null);
+			}, document.head.appendChild(n);
+		}
+		return {
+			id: "mathjax4",
+			init: function(r) {
+				e = r;
+				let i = e.getConfig().mathjax4 || {}, a = {
+					...t,
+					...i
+				};
+				a.tex = {
+					...t.tex,
+					...i.tex
+				}, a.options = {
+					...t.options,
+					...i.options
+				}, a.startup = {
+					...t.startup,
+					...i.startup
+				};
+				let o = a.mathjax || "https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js";
+				a.mathjax = null, window.MathJax = a, n(o, function() {
+					MathJax.startup.promise.then(() => {
+						MathJax.typeset(), e.addEventListener("slidechanged", function(e) {
+							MathJax.typeset();
+						});
+					});
+				});
+			}
+		};
+	}
+});
+//#endregion
+export { n as default };

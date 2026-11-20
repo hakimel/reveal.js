@@ -1,4 +1,4 @@
-import { enterFullscreen } from '../utils/util.js'
+import { enterFullscreen } from '../utils/util'
 
 /**
  * Handles all reveal.js keyboard interactions.

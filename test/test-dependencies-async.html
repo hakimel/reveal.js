@@ -5,10 +5,6 @@
 		<meta charset="utf-8">
 
 		<title>reveal.js - Test Async Dependencies</title>
-
-		<link rel="stylesheet" href="../dist/reveal.css">
-		<link rel="stylesheet" href="../node_modules/qunit/qunit/qunit.css">
-		<script src="../node_modules/qunit/qunit/qunit.js"></script>
 	</head>
 
 	<body style="overflow: auto;">
@@ -26,13 +22,19 @@
 
 		</div>
 
-		<script src="../dist/reveal.js"></script>
-		<script>
-			var	externalScriptSequence = '';
+		<script type="module">
+			import 'reveal.css';
+			import 'qunit/qunit/qunit.css';
+			import QUnit from 'qunit';
+			import Reveal from 'reveal.js';
+
+			window.externalScriptSequence = '';
+
 			var scriptCount = 0;
 
 			QUnit.config.testTimeout = 30000;
 			QUnit.config.autostart = false;
+
 			QUnit.module( 'Async Dependencies' );
 
 			QUnit.test( 'Async scripts are loaded', function( assert ) {

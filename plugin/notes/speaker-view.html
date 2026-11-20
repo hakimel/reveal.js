@@ -494,7 +494,7 @@
 						notes.classList.remove( 'hidden' );
 						notesValue.style.whiteSpace = data.whitespace;
 						if( data.markdown ) {
-							notesValue.innerHTML = marked( data.notes );
+							notesValue.innerHTML = marked.parse( data.notes );
 						}
 						else {
 							notesValue.innerHTML = data.notes;

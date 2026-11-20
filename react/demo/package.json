@@ -1,0 +1,16 @@
+{
+	"private": true,
+	"name": "revealjs-react-demo",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build"
+	},
+	"dependencies": {
+		"reveal.js": "file:../../"
+	},
+	"devDependencies": {
+		"@vitejs/plugin-react": "^6.0.1",
+		"typescript": "^6.0.2",
+		"vite": "^8.0.3"
+	}
+}

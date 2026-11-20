@@ -1,5 +1,5 @@
-import { queryAll } from '../utils/util.js'
-import { colorToRgb, colorBrightness } from '../utils/color.js'
+import { queryAll } from '../utils/util'
+import { colorToRgb, colorBrightness } from '../utils/color'
 
 /**
  * Creates and updates slide backgrounds.
@@ -141,6 +141,7 @@ export default class Backgrounds {
 		element.removeAttribute( 'data-background-size' );
 		element.removeAttribute( 'data-background-transition' );
 		element.style.backgroundColor = '';
+		element.style.backgroundImage = '';
 
 		contentElement.style.backgroundSize = '';
 		contentElement.style.backgroundRepeat = '';

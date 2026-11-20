@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>reveal.js - Test Overlays</title>
+	</head>
+	<body>
+		<div id="qunit"></div>
+		<div id="qunit-fixture"></div>
+
+		<script type="module">
+			import 'reveal.css';
+			import 'qunit/qunit/qunit.css';
+			import QUnit from 'qunit';
+			import Reveal from 'reveal.js';
+
+			QUnit.config.testTimeout = 30000;
+
+			// A sandboxed frame has an opaque origin, exercising the actual cross-origin API.
+			function sendState( state ) {
+				return new Promise( resolve => {
+					const sender = document.createElement( 'iframe' );
+					sender.setAttribute( 'sandbox', 'allow-scripts' );
+					const message = JSON.stringify({ method: 'setState', args: [state] });
+					const onMessage = event => {
+						if( event.source === sender.contentWindow && event.data === 'state-sent' ) {
+							window.removeEventListener( 'message', onMessage );
+							sender.remove();
+							resolve( event.origin );
+						}
+					};
+					window.addEventListener( 'message', onMessage );
+					sender.srcdoc = `<script>parent.postMessage(${JSON.stringify( message )}, '*'); parent.postMessage('state-sent', '*');<\/script>`;
+					document.querySelector( '#qunit-fixture' ).appendChild( sender );
+				} );
+			}
+
+			QUnit.module( 'Iframe previews', hooks => {
+				let deck, root;
+
+				hooks.beforeEach( async () => {
+					root = document.createElement( 'div' );
+					root.className = 'reveal';
+					root.innerHTML = '<div class="slides"><section>One</section><section>Two</section></div>';
+					document.querySelector( '#qunit-fixture' ).appendChild( root );
+					deck = new Reveal( root );
+					await deck.initialize();
+				} );
+
+				hooks.afterEach( () => deck.destroy() );
+
+				QUnit.test( 'postMessage cannot inject HTML through preview URLs', async assert => {
+					const url = './simple.md?url="><img src=x onerror="window.previewXSS=true">';
+					const origin = await sendState({ previewIframe: url });
+					assert.strictEqual( origin, 'null', 'message came from another origin' );
+					assert.strictEqual( root.querySelectorAll( '.r-overlay-preview img, [onerror]' ).length, 0, 'URL did not create elements or handlers' );
+					assert.strictEqual( root.querySelector( '.r-overlay-preview iframe' ).src, new URL( url, document.baseURI ).href, 'iframe URL is assigned as a property' );
+					assert.strictEqual( root.querySelector( '.r-overlay-external' ).href, new URL( url, document.baseURI ).href, 'external link URL is assigned as a property' );
+				} );
+
+				QUnit.test( 'postMessage rejects executable and non-web iframe URLs', async assert => {
+					const blob = URL.createObjectURL( new Blob( ['<p>Preview</p>'], { type: 'text/html' } ) );
+					try {
+						for( const url of [
+							'javascript:parent.previewXSS=true',
+							' \tJaVaScRiPt:parent.previewXSS=true',
+							'java\nscript:parent.previewXSS=true',
+							'data:text/html,<p>Preview</p>',
+							blob,
+							'file:///tmp/preview.html',
+							'about:srcdoc',
+							'https://[invalid',
+							{ url: './simple.md' }
+						] ) {
+							await sendState({ previewIframe: url });
+							assert.notOk( deck.isOverlayOpen(), `rejected ${JSON.stringify( url )}` );
+							assert.strictEqual( deck.getState().previewIframe, undefined, 'rejected URL is not saved in state' );
+						}
+					}
+					finally {
+						URL.revokeObjectURL( blob );
+						delete window.previewXSS;
+					}
+				} );
+
+				QUnit.test( 'Valid previews still synchronize through getState and postMessage setState', async assert => {
+					deck.previewIframe( './simple.md' );
+					const state = { ...deck.getState(), indexh: 1 };
+					deck.hidePreview();
+					await sendState( state );
+					assert.strictEqual( deck.getIndices().h, 1, 'slide state is restored' );
+					assert.strictEqual( deck.getState().previewIframe, './simple.md', 'preview state is restored' );
+					assert.strictEqual( root.querySelector( '.r-overlay-preview iframe' ).src, new URL( './simple.md', document.baseURI ).href, 'relative preview is restored' );
+					await sendState({ ...state, previewIframe: undefined });
+					assert.notOk( deck.isOverlayOpen(), 'closing a preview still synchronizes' );
+				} );
+
+				QUnit.test( 'Direct previews accept web URLs and preserve an open preview on invalid input', assert => {
+					for( const url of [new URL( './simple.md', document.baseURI ).href, `//${location.host}/test/simple.md`, 'https://example.invalid/preview'] ) {
+						deck.previewIframe( url );
+						assert.strictEqual( root.querySelector( '.r-overlay-preview iframe' ).src, new URL( url, document.baseURI ).href, `accepted ${url}` );
+						deck.hidePreview();
+					}
+					deck.previewIframe( './simple.md' );
+					const iframe = root.querySelector( '.r-overlay-preview iframe' );
+					deck.previewIframe( 'javascript:parent.previewXSS=true' );
+					assert.strictEqual( root.querySelector( '.r-overlay-preview iframe' ), iframe, 'invalid input leaves the current preview intact' );
+				} );
+			} );
+		</script>
+	</body>
+</html>

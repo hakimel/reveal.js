@@ -1,5 +1,5 @@
-import { extend, queryAll, closest, getMimeTypeFromFile, encodeRFC3986URI } from '../utils/util.js'
-import { isMobile } from '../utils/device.js'
+import { extend, queryAll, closest, getMimeTypeFromFile, encodeRFC3986URI } from '../utils/util'
+import { isMobile } from '../utils/device'
 
 import fitty from 'fitty';
 
@@ -704,7 +704,10 @@ export default class SlideContent {
 		this.failedAudioPlaybackTargets.clear();
 		this.failedVideoPlaybackTargets.clear();
 		this.failedMutedVideoPlaybackTargets.clear();
-		this.mediaPlayButton.remove();
+
+		if( this.mediaPlayButton && this.mediaPlayButton.parentNode ) {
+			this.mediaPlayButton.remove();
+		}
 
 	}
 

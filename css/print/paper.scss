@@ -1,4 +1,3 @@
-
 @media print {
 	html:not(.print-pdf) {
 		overflow: visible;
@@ -24,25 +23,46 @@
 			display: none !important;
 		}
 
-		p, td, li {
-			font-size: 20pt!important;
+		p,
+		td,
+		li {
+			font-size: 20pt !important;
 			color: #000;
 		}
 
-		h1,h2,h3,h4,h5,h6 {
-			color: #000!important;
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			color: #000 !important;
 			height: auto;
 			line-height: normal;
 			text-align: left;
 			letter-spacing: normal;
 		}
 
-		h1 { font-size: 28pt !important; }
-		h2 { font-size: 24pt !important; }
-		h3 { font-size: 22pt !important; }
-		h4 { font-size: 22pt !important; font-variant: small-caps; }
-		h5 { font-size: 21pt !important; }
-		h6 { font-size: 20pt !important; font-style: italic; }
+		h1 {
+			font-size: 28pt !important;
+		}
+		h2 {
+			font-size: 24pt !important;
+		}
+		h3 {
+			font-size: 22pt !important;
+		}
+		h4 {
+			font-size: 22pt !important;
+			font-variant: small-caps;
+		}
+		h5 {
+			font-size: 21pt !important;
+		}
+		h6 {
+			font-size: 20pt !important;
+			font-style: italic;
+		}
 
 		a:link,
 		a:visited {
@@ -51,7 +71,10 @@
 			text-decoration: underline;
 		}
 
-		ul, ol, div, p {
+		ul,
+		ol,
+		div,
+		p {
 			visibility: visible;
 			position: static;
 			width: auto;
@@ -137,7 +160,7 @@
 		section img {
 			display: block;
 			margin: 15px 0px;
-			background: rgba(255,255,255,1);
+			background: rgba(255, 255, 255, 1);
 			border: 1px solid #666;
 			box-shadow: none;
 		}

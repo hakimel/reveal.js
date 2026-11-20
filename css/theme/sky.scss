@@ -1,0 +1,46 @@
+/**
+ * Sky theme for reveal.js.
+ *
+ * Copyright (C) 2011-2012 Hakim El Hattab, http://hakim.se
+ */
+
+// Load utils
+@use 'sass:color';
+@use 'template/mixins' as mixins;
+
+$active-color: #2a76dd;
+
+// Inject theme variables (with some overrides)
+@use 'template/settings' with (
+	$background: radial-gradient(#f7fbfc, #add9e4),
+	$background-color: #f7fbfc,
+
+	$main-color: #333,
+	$main-font: "'Open Sans', sans-serif",
+
+	$heading-color: #333,
+	$heading-font: "'Quicksand', sans-serif",
+	$heading-letter-spacing: -0.05em,
+
+	$link-color: $active-color,
+	$link-color-hover: color.scale($active-color, $lightness: 15%),
+	$selection-color: #fff,
+	$selection-background-color: $active-color,
+
+	$overlay-element-bg-color: '0 0 0',
+	$overlay-element-fg-color: '240 240 240'
+);
+
+// Inject the theme template
+@use 'template/theme';
+
+// Include theme-specific fonts
+@import url('https://fonts.googleapis.com/css?family=Quicksand:400,700,400italic,700italic');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700');
+
+// Change text when the background is inverted
+@include mixins.dark-bg-text-color(#fff);
+
+.reveal a {
+	line-height: 1.3em;
+}
