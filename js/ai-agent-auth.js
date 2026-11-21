@@ -6,6 +6,8 @@
   if (!dialog) return;
   const form = $('#authForm'), submit = $('#authSubmit');
   const email = $('#authEmail'), password = $('#authPassword'), confirm = $('#authConfirm');
+  const allowEmail = window.AgentLessonAuthConfig?.emailPassword !== false;
+  const allowGoogle = window.AgentLessonAuthConfig?.google === true;
   const labels = {
     signin: ['ھېساباتقا كىرىش', 'ئېلېكترونلۇق خەت ئادرېسى ۋە پارولىڭىزنى كىرگۈزۈڭ.', 'ھېساباتقا كىرىش'],
     signup: ['يېڭى ھېسابات قۇرۇش', 'تىزىملىتىڭ، ئاندىن كەلگەن خەت ئارقىلىق ئادرېسىڭىزنى جەزملەشتۈرۈڭ.', 'ھېسابات قۇرۇش'],
@@ -43,20 +45,24 @@
     form.setAttribute('aria-busy', String(busy));
     form.querySelectorAll('input,button').forEach(el => { el.disabled = busy || !api.configured; });
     $('#authSignout').disabled = busy; $('#authChangePassword').disabled = busy;
+    $('#authGoogle').disabled = busy || !api.configured;
+    $('#authGoogle').setAttribute('aria-busy', String(busy));
     submit.textContent = busy ? 'بىر ئاز كۈتۈڭ…' : labels[mode][2];
     $('#authUnavailable').hidden = !readiness;
     $('#authUnavailable').textContent = readiness;
   }
   function view(next, {preserveMessage = false} = {}) {
+    if (!allowEmail && ['signup', 'reset', 'update'].includes(next)) next = 'signin';
     if (next === 'account' && !user) next = 'signin';
     if (next === 'update' && !user && !recovering) next = 'signin';
     mode = next;
     clearPasswords();
     $('#authTitle').textContent = labels[mode][0];
-    $('#authDescription').textContent = labels[mode][1];
+    $('#authDescription').textContent = mode === 'signin' && !allowEmail ? 'Google ھېساباتىڭىز ئارقىلىق دەرس ھېساباتىڭىزغا كىرىڭ.' : labels[mode][1];
     const signingUp = mode === 'signup', changing = mode === 'update';
     const hasPassword = mode === 'signin' || signingUp || changing;
-    $('.auth-tabs').hidden = !['signin', 'signup'].includes(mode);
+    $('.auth-tabs').hidden = !allowEmail || !['signin', 'signup'].includes(mode);
+    $('#authGoogleSection').hidden = !allowGoogle || !['signin', 'signup'].includes(mode);
     $('#authSigninTab').setAttribute('aria-pressed', String(mode === 'signin'));
     $('#authSignupTab').setAttribute('aria-pressed', String(signingUp));
     $('#authNameField').hidden = !signingUp; $('#authName').disabled = !signingUp;
@@ -67,8 +73,9 @@
     $('#authPasswordHint').hidden = !signingUp && !changing;
     $('#authConfirmField').hidden = !signingUp && !changing;
     confirm.required = signingUp || changing;
-    form.hidden = mode === 'account'; $('#authAccount').hidden = mode !== 'account';
-    $('#authForgotPassword').hidden = mode !== 'signin';
+    form.hidden = !allowEmail || mode === 'account'; $('#authAccount').hidden = mode !== 'account';
+    $('#authChangePassword').hidden = !allowEmail;
+    $('#authForgotPassword').hidden = !allowEmail || mode !== 'signin';
     $('#authBackToSignin').hidden = mode !== 'reset' && mode !== 'update';
     $('#authAccountEmail').textContent = user?.email || '';
     if (!preserveMessage) message();
@@ -83,14 +90,14 @@
     opener = document.activeElement;
     view(next);
     if (!dialog.open) dialog.showModal();
-    const first = [...form.querySelectorAll('input')].find(el => !el.disabled && !el.closest('[hidden]'));
+    const first = allowGoogle && ['signin', 'signup'].includes(mode) ? $('#authGoogle') : [...form.querySelectorAll('input')].find(el => !el.disabled && !el.closest('[hidden]'));
     (first || $('#closeAuth')).focus();
   }
   function updateUser(next) {
     const safe = next?.id ? {id: String(next.id), email: String(next.email || '')} : null;
     const changed = safe?.id !== user?.id;
     user = safe; api.currentUser = safe;
-    $('#accountButton').textContent = user ? 'ھېساباتىم' : 'كىرىش / تىزىملىتىش';
+    $('#accountButton').textContent = user ? 'ھېساباتىم' : allowGoogle && !allowEmail ? 'ھېساباتقا كىرىش' : 'كىرىش / تىزىملىتىش';
     $('#authAccountEmail').textContent = user?.email || '';
     if (changed) {
       window.dispatchEvent(new CustomEvent('agent-auth-changed', {detail: {user: safe}}));
@@ -111,6 +118,30 @@
     return 'مەشغۇلات تاماملانمىدى. ئۇچۇرلىرىڭىزنى تەكشۈرۈپ، قايتا سىناڭ.';
   }
   const returnUrl = () => location.origin + location.pathname;
+  $('#authGoogle').addEventListener('click', async () => {
+    if (busy || !api.configured || !allowGoogle) return;
+    busy = true; enabled(); message('Google غا ئۇلىنىۋاتىدۇ…');
+    const controller = new AbortController();
+    const deadline = setTimeout(() => controller.abort(), 10000);
+    try {
+      // Verify readiness so a disabled provider never lands the learner on an API error page.
+      const response = await fetch(config.url + '/auth/v1/settings', {headers: {apikey:config.key}, signal:controller.signal});
+      if (!response.ok) throw new Error('Provider unavailable');
+      const settings = await response.json();
+      if (settings.external?.google !== true) {
+        message('Google ئارقىلىق كىرىش تېخى تەييار بولمىدى. ھازىرچە دەرسنى مېھمان سۈپىتىدە ئۆگىنەلەيسىز.', 'error');
+        return;
+      }
+      const {data, error} = await client.auth.signInWithOAuth({provider:'google', options:{redirectTo:returnUrl(), scopes:'openid email profile', queryParams:{prompt:'select_account'}, skipBrowserRedirect:true}});
+      if (error) throw error;
+      const target = new URL(data.url);
+      if (target.origin !== config.url || target.pathname !== '/auth/v1/authorize' || target.searchParams.get('provider') !== 'google' || target.searchParams.get('redirect_to') !== returnUrl()) throw new Error('Invalid authorization destination');
+      clearPasswords();
+      location.assign(target.href);
+    } catch (error) {
+      message(error?.name === 'AbortError' ? 'ئۇلىنىش ۋاقتى توشتى. تور ئۇلىنىشىنى تەكشۈرۈپ، قايتا سىناڭ.' : errorText(error), 'error');
+    } finally {clearTimeout(deadline); busy = false; enabled();}
+  });
   $('#accountButton').addEventListener('click', () => open());
   $('#authSigninTab').addEventListener('click', () => view('signin'));
   $('#authSignupTab').addEventListener('click', () => view('signup'));
@@ -130,7 +161,7 @@
   password.addEventListener('input', () => confirm.setCustomValidity(''));
   form.addEventListener('submit', async event => {
     event.preventDefault();
-    if (busy || !api.configured) return;
+    if (busy || !api.configured || !allowEmail) return;
     if (['signup', 'update'].includes(mode) && password.value !== confirm.value) {
       confirm.setCustomValidity('ئىككى قېتىم كىرگۈزۈلگەن پارول ئوخشاش بولۇشى كېرەك.');
       confirm.reportValidity(); return;
@@ -215,5 +246,5 @@
       api.ready = Promise.race([restore, new Promise(resolve => setTimeout(resolve, 3000))]);
     } catch {readiness = 'ھېسابات مۇلازىمىتى قوزغالمىدى. دەرسنى داۋاملىق ئۆگىنەلەيسىز.'; api.configured = false;}
   }
-  view('signin');
+  view('signin'); updateUser(null);
 })();

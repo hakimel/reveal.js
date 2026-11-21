@@ -15,6 +15,10 @@
     <button type="button" id="authSignupTab" aria-pressed="false">تىزىملىتىش</button>
   </div>
   <p id="authUnavailable" role="status" hidden></p>
+  <div id="authGoogleSection" hidden>
+    <button type="button" id="authGoogle" class="auth-google-button"><span class="google-symbol" aria-hidden="true" dir="ltr">G</span><span>Google ئارقىلىق داۋاملاشتۇرۇش</span></button>
+    <p id="authGoogleNote">Google ھېساباتىڭىزنى تاللاڭ. تۇنجى قېتىم كىرگەندە دەرس ھېساباتىڭىز ئاپتوماتىك قۇرۇلىدۇ.</p>
+  </div>
   <form id="authForm">
     <label class="auth-field" id="authNameField" hidden>ئىسمىڭىز <span>ئىختىيارىي</span><input id="authName" name="name" type="text" dir="auto" autocomplete="name" maxlength="60"></label>
     <label class="auth-field" id="authEmailField">ئېلېكترونلۇق خەت ئادرېسى<input id="authEmail" name="email" type="email" dir="ltr" autocomplete="email" maxlength="254" required spellcheck="false" autocapitalize="none"></label>

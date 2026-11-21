@@ -21,6 +21,11 @@
 #authAccountEmail{font-size:12px;overflow-wrap:anywhere;display:block;color:var(--text)}
 .auth-account-actions{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0}
 .auth-account-actions button{font-size:10px;padding:4px 8px;min-height:28px}
+.auth-google-button{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:32px;padding:6px 10px;border:1px solid #94a3b86b;border-radius:5px;background:#e8f4fd;color:#0a0f1c;font-size:11px;line-height:1.6}
+.auth-google-button:hover{background:#fff;box-shadow:0 0 16px #00d4ff19}
+.google-symbol{font:600 13px/1 Arial,sans-serif;flex-shrink:0}
+#authGoogleNote{font-size:11px;line-height:1.65;margin:10px 0 14px;color:var(--muted)}
+#authGoogleSection{margin:14px 0}
 @media(max-width:1000px){.header-note{display:none}}
 @media(max-width:760px){.brand>span:last-child{font-size:11px}.brand{gap:5px}.header-actions{gap:5px}.app-header{padding-inline:8px;gap:6px}.app-header .header-actions button{font-size:10px;padding-inline:6px}#authDialog{padding:13px}.auth-field input{font-size:16px}.auth-password-row button{padding-inline:2px}}
 @media(max-width:370px){.brand small{display:none}.brand>span:last-child{font-size:10px}.brand-mark{width:17px;height:17px}.app-header .header-actions button{padding-inline:5px;font-size:9px}}

@@ -1,0 +1,15 @@
+{
+  "result": "passed",
+  "provider": "synthetic Google OAuth + real bundled Supabase SDK",
+  "checks": [
+    "Google is the primary option; SMTP-dependent email forms are hidden",
+    "Disabled provider stays on the lesson with a clear translated message",
+    "Network failure restores the Google button without redirecting",
+    "Compact Google dialog fits desktop and both phone sizes",
+    "Official SDK completes Google authorize → PKCE exchange → session restoration",
+    "Google account progress survives reload and remains separate from guest progress",
+    "No email/password signup, recovery, SMTP request, or real Google login occurs in tests"
+  ],
+  "authRequests": 8,
+  "errors": []
+}
