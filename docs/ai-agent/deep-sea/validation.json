@@ -1,0 +1,15 @@
+{
+  "result": "passed",
+  "layouts": 10,
+  "checks": [
+    "living nettle, glass orb, compact local-font text and keyboard-operated pearl feedback",
+    "agent states follow real simulation and quiz results; depth progress resumes after reload",
+    "home bento, glass orb and all lesson cards at ten viewports, including 320px and landscape",
+    "pointer tilt resets when paused; pearl feedback and manual practice work without animation; OS reduced motion respected"
+  ],
+  "issues": [],
+  "errors": [],
+  "http_requests": [],
+  "offline": true,
+  "no_microphone": true
+}
