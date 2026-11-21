@@ -1,6 +1,6 @@
 import fs from 'node:fs';import vm from 'node:vm';import assert from 'node:assert/strict';
 const store=new Map();const ctx={window:{},localStorage:{getItem:k=>store.get(k)??null,setItem:(k,v)=>store.set(k,v)},console};vm.createContext(ctx);
-for(const f of ['ai-agent-demos.js','ai-agent-extensions.js','ai-agent-progress.js'])vm.runInContext(fs.readFileSync('js/'+f,'utf8'),ctx);
+for(const f of ['ai-agent-demos.js','ai-agent-extensions.js','ai-agent-mission.js','ai-agent-progress.js'])vm.runInContext(fs.readFileSync('js/'+f,'utf8'),ctx);
 const api=ctx.window.AgentLessonDemos,progress=ctx.window.AgentLessonProgress,ls=JSON.parse(fs.readFileSync('assets/ai-agent/lessons.json','utf8'));
 let count=0;const ok=(x,msg)=>{assert(x,msg);count++;};
 const val=id=>Object.fromEntries(ls.find(l=>l.id===id).demo.fields.map(f=>[f.id,f.value]));

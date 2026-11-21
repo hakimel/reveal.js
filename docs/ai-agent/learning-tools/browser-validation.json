@@ -1,0 +1,17 @@
+{
+  "result": "passed",
+  "layouts": 36,
+  "checks": [
+    "three-step first visit, keyboard pearl hints revealed individually and saved per lesson",
+    "focus setting persists, pauses decoration and leaves the motion preference separate",
+    "continue card targets practice, quiz, completion and then the next unfinished lesson",
+    "resumable mission: tool failure, exact comparison, injection, denial, timeout recovery, verification and duplicate prevention",
+    "mission results export contains simulated status and trace",
+    "direct-success scenario requires read-back instead of unnecessary retry",
+    "new home, hint and mission panels fit six viewports in both reading modes; reduced-motion hints remain usable"
+  ],
+  "issues": [],
+  "errors": [],
+  "http_requests": [],
+  "offline": true
+}

@@ -74,7 +74,7 @@
   const fine=matchMedia('(hover:hover) and (pointer:fine)'),reduced=matchMedia('(prefers-reduced-motion:reduce)');let tilted=null,tiltFrame=null;
   function resetTilt(){if(tiltFrame)cancelAnimationFrame(tiltFrame);tiltFrame=null;if(!tilted)return;tilted.style.removeProperty('--ocean-rx');tilted.style.removeProperty('--ocean-ry');tilted=null;}
   document.addEventListener('pointermove',event=>{
-    if(!fine.matches||reduced.matches||document.body.classList.contains('motion-paused'))return;
+    if(!fine.matches||reduced.matches||(document.body.classList.contains('motion-paused')||document.body.classList.contains('focus-mode')))return;
     const card=event.target.closest('.home-lesson-card,.agent-habitat,.pearl-card');if(!card){resetTilt();return;}
     if(tilted!==card){resetTilt();tilted=card;}if(tiltFrame)cancelAnimationFrame(tiltFrame);
     const x=event.clientX,y=event.clientY;tiltFrame=requestAnimationFrame(()=>{if(!card.isConnected)return;const r=card.getBoundingClientRect();card.style.setProperty('--ocean-rx',`${-(y-r.top-r.height/2)/r.height*3}deg`);card.style.setProperty('--ocean-ry',`${(x-r.left-r.width/2)/r.width*3}deg`);});
@@ -88,5 +88,5 @@
     if(event.target.closest('#motionButton'))resetTilt();
   });
   reduced.addEventListener('change',resetTilt);document.addEventListener('visibilitychange',()=>{if(document.hidden)resetTilt();});
-  window.AgentOcean={agentCard,pearlCard,depthCard,setState,sync,mount};setupAmbient();
+  window.AgentOcean={agentCard,pearlCard,depthCard,setState,sync,mount,quiet:resetTilt};setupAmbient();
 })();
