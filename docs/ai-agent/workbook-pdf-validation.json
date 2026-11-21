@@ -1,0 +1,9 @@
+{
+  "file": "output/pdf/ai-agent-workbook.pdf",
+  "pages": 26,
+  "renderer": "Chromium print; PDFKit raster review",
+  "review": "All 26 pages reviewed in contact sheets; first page inspected at full resolution",
+  "blank_pages": [],
+  "visible_clipping": [],
+  "local_fonts": true
+}

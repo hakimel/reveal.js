@@ -1,0 +1,59 @@
+{
+  "total": 42,
+  "viewports": [
+    [
+      1440,
+      900
+    ],
+    [
+      1280,
+      720
+    ],
+    [
+      1920,
+      1080
+    ],
+    [
+      390,
+      844
+    ]
+  ],
+  "routes": {
+    "overview": 13,
+    "workshop-1": 12,
+    "workshop-2": 8,
+    "workshop-3": 6,
+    "workshop-4": 9,
+    "workshop-5": 10,
+    "all": 42
+  },
+  "fontStatus": [
+    {
+      "family": "Bahij",
+      "status": "loaded"
+    },
+    {
+      "family": "Alkatip",
+      "status": "loaded"
+    },
+    {
+      "family": "Bahij",
+      "status": "loaded"
+    },
+    {
+      "family": "Alkatip",
+      "status": "loaded"
+    }
+  ],
+  "layouts": [],
+  "errors": [],
+  "tests": [
+    "local fonts",
+    "18 exercises, worked answers and notes",
+    "all five workshop paths, overview, boundaries and stage alignment",
+    "browser-local progress survives reload and syncs with reader",
+    "simulation approval and denial",
+    "reduced motion",
+    "phone workbook and print media"
+  ]
+}

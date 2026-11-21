@@ -1,0 +1,24 @@
+/* Uyghur shaping: template tracking must never separate joined Arabic-script letters. */
+html[lang=ug] :is(h1,h2,h3,h4,p,li,label,button,summary,dt,dd,blockquote,option,span,a,strong,small){
+ letter-spacing:normal!important;
+ font-kerning:normal;
+ font-variant-ligatures:common-ligatures contextual;
+ word-break:normal;
+ hyphens:none;
+}
+html[lang=ug]{--font-mono:SFMono-Regular,Consolas,Bahij,monospace}
+html[lang=ug] .lab-tag:not([dir=ltr]){font-family:Bahij,Arial,sans-serif}
+html[lang=ug] body{font-family:Bahij,Arial,sans-serif;text-rendering:optimizeLegibility}
+html[lang=ug] :is(.process-node p,.result-reason,.comparison-panels strong,.english-term){overflow-wrap:break-word}
+html[lang=ug] :is(pre,code,[dir=ltr],bdi){unicode-bidi:isolate}
+html[lang=ug] :is(pre,code){text-rendering:auto;font-variant-ligatures:none}
+/* A dense teaching slide must be scrollable on short as well as narrow screens. */
+@media screen{
+ html[lang=ug] .deck .slide{overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain}
+ html[lang=ug] .deck .slide-content{min-width:0;flex-shrink:0}
+}
+@media(max-width:900px),(max-height:600px){
+ html[lang=ug] .deck .slide{justify-content:flex-start}
+ html[lang=ug] .deck .slide-content{margin-block:0;padding-bottom:18px}
+ html[lang=ug] .deck :is(.flow,.lesson-actions,.course-actions){min-width:0;flex-wrap:wrap}
+}

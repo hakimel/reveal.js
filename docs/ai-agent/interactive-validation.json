@@ -1,0 +1,20 @@
+{
+  "lessons": 18,
+  "file_url_works": true,
+  "offline": true,
+  "http_requests": [],
+  "errors": [],
+  "layouts": [],
+  "checks": [
+    "embedded local Uyghur font loads from file://",
+    "home contains intro, 18 lessons and start",
+    "prediction-first mode hides results until a choice and completion is gated",
+    "all 18 themes, demos, wrong/right feedback and manual completion",
+    "decision branches, Pending/Failed separation, approval/denial, reset, comparison tests, memory, GUI verification, deadline, locality and untrusted data",
+    "resume after reload and reopening, completed lessons and motion setting retained",
+    "18 lessons at 1440, 1280, 390 and 360 pixels; mobile contents closes on selection",
+    "keyboard controls, Escape, reduced motion and manual steps",
+    "storage unavailable fallback",
+    "direct file:// opening offline; zero HTTP requests and zero browser errors"
+  ]
+}

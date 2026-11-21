@@ -41,7 +41,9 @@
   }
   function goToSlide(index) {
     if (!Number.isFinite(index)) return;
+    const previous = current;
     current = Math.max(0, Math.min(slides.length - 1, index));
+    if (previous !== current) slides[current].scrollTop = 0;
     if (!route.includes(current)) { routeName = 'all'; route = slides.map((_, i) => i); }
     updateUI();
   }
@@ -141,6 +143,11 @@
     if (e.key.toLowerCase() === 'r') { e.preventDefault(); setReading(!reading); return; }
     if (e.key.toLowerCase() === 'm') { e.preventDefault(); openDialog($('#lessonMenu')); return; }
     if (reading) return;
+    if (['ArrowDown','ArrowUp',' '].includes(e.key)) {
+      const slide=slides[current], direction=e.key==='ArrowUp'||(e.key===' '&&e.shiftKey)?-1:1;
+      const remaining=direction>0?slide.scrollHeight-slide.clientHeight-slide.scrollTop:slide.scrollTop;
+      if(remaining>2){e.preventDefault();slide.scrollBy({top:direction*(e.key===' '?slide.clientHeight*.8:80),behavior:'instant'});return;}
+    }
     if (e.key.toLowerCase() === 'n') { e.preventDefault(); showNotes(); }
     else if (['ArrowDown', 'ArrowLeft', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); moveSlide(1); }
     else if (['ArrowUp', 'ArrowRight', 'PageUp'].includes(e.key)) { e.preventDefault(); moveSlide(-1); }

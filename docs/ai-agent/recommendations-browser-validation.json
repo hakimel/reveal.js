@@ -1,0 +1,12 @@
+{
+  "checks": [
+    "prediction comparison, per-choice feedback, attempted practice and correct quiz required for completion",
+    "every lesson-specific recommendation exercised through the browser",
+    "export/reset/import round trip, invalid import rejection, and named accessible dialog",
+    "progress and latest lesson preserved after reload"
+  ],
+  "offline": true,
+  "errors": [],
+  "http_requests": [],
+  "manual_screen_reader_review": "not performed; automated accessibility tree and keyboard checks only"
+}
