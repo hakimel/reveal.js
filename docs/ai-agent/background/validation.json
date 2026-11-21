@@ -1,0 +1,14 @@
+{
+  "result": "passed",
+  "desktop_particles": 80,
+  "phone_particles": 36,
+  "animated_gradient": true,
+  "drifting_particles": true,
+  "pointer_parallax": true,
+  "pointer_events_blocked": false,
+  "motion_pause": true,
+  "focus_mode": true,
+  "reduced_motion": true,
+  "manual_lesson_works": true,
+  "errors": []
+}

@@ -64,17 +64,41 @@
     observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('ocean-visible');observer.unobserve(entry.target);}}),{threshold:.06});
     cards.forEach((el,i)=>{el.classList.add('ocean-reveal');el.style.setProperty('--rise-delay',`${i%5*75}ms`);observer.observe(el);});
   }
+  let currentLayer=null,currentFrame=null;
+  function resetCurrent(){
+    if(currentFrame)cancelAnimationFrame(currentFrame);currentFrame=null;
+    currentLayer?.style.removeProperty('--sea-pointer-x');currentLayer?.style.removeProperty('--sea-pointer-y');
+  }
+  function driftCurrent(event){
+    if(!currentLayer||currentFrame)return;
+    const x=(event.clientX/innerWidth-.5)*18,y=(event.clientY/innerHeight-.5)*12;
+    currentFrame=requestAnimationFrame(()=>{currentLayer.style.setProperty('--sea-pointer-x',x.toFixed(2)+'px');currentLayer.style.setProperty('--sea-pointer-y',y.toFixed(2)+'px');currentFrame=null;});
+  }
   function setupAmbient(){
     const ambient=document.querySelector('.ambient');if(!ambient)return;
     const rays=document.createElement('div');rays.className='ocean-rays';
+    currentLayer=document.createElement('div');currentLayer.className='ocean-current';
+    const aurora=document.createElement('div');aurora.className='ocean-aurora';
     const motes=document.createElement('div');motes.className='ocean-motes';
-    for(let i=0;i<24;i++){const dot=document.createElement('i');dot.style.cssText=`--x:${i*37.17%100}%;--y:${i*63.31%100}%;--size:${i%3+1}px;--duration:${18+i%9*3}s;--delay:-${i*.93}s`;motes.append(dot);}
-    ambient.append(rays,motes);
+    const narrow=matchMedia('(max-width:760px)');
+    function populate(){
+      const fragment=document.createDocumentFragment();
+      for(let i=0;i<(narrow.matches?36:80);i++){
+        const dot=document.createElement('i');
+        dot.className=i%5===3?'is-coral':i%5===4?'is-dusk':'';
+        dot.style.cssText=`--x:${i*37.31%100}%;--y:${i*63.31%100}%;--size:${1+i*7%3}px;--duration:${11+i*13%90/10}s;--delay:-${i*1.37%22}s;--drift:${i*19%96-48}px`;
+        fragment.append(dot);
+      }
+      motes.replaceChildren(fragment);
+    }
+    narrow.addEventListener('change',populate);populate();
+    currentLayer.append(aurora,motes);ambient.append(currentLayer,rays);
   }
   const fine=matchMedia('(hover:hover) and (pointer:fine)'),reduced=matchMedia('(prefers-reduced-motion:reduce)');let tilted=null,tiltFrame=null;
   function resetTilt(){if(tiltFrame)cancelAnimationFrame(tiltFrame);tiltFrame=null;if(!tilted)return;tilted.style.removeProperty('--ocean-rx');tilted.style.removeProperty('--ocean-ry');tilted=null;}
   document.addEventListener('pointermove',event=>{
     if(!fine.matches||reduced.matches||(document.body.classList.contains('motion-paused')||document.body.classList.contains('focus-mode')))return;
+    driftCurrent(event);
     const card=event.target.closest('.home-lesson-card,.agent-habitat,.pearl-card');if(!card){resetTilt();return;}
     if(tilted!==card){resetTilt();tilted=card;}if(tiltFrame)cancelAnimationFrame(tiltFrame);
     const x=event.clientX,y=event.clientY;tiltFrame=requestAnimationFrame(()=>{if(!card.isConnected)return;const r=card.getBoundingClientRect();card.style.setProperty('--ocean-rx',`${-(y-r.top-r.height/2)/r.height*3}deg`);card.style.setProperty('--ocean-ry',`${(x-r.left-r.width/2)/r.width*3}deg`);});
@@ -85,8 +109,10 @@
       clearTimeout(feedbackTimer);setState('listening','تاللىشىڭىز قوبۇل قىلىندى. ھازىر بىر دەرسنى ئېچىپ سىناپ بېقىڭ.');
       document.querySelector('.pearl-card')?.classList.add('pearl-responding');feedbackTimer=setTimeout(()=>{document.querySelector('.pearl-card')?.classList.remove('pearl-responding');setState('idle');},2200);
     }
-    if(event.target.closest('#motionButton'))resetTilt();
+    if(event.target.closest('#motionButton')){resetTilt();resetCurrent();}
   });
-  reduced.addEventListener('change',resetTilt);document.addEventListener('visibilitychange',()=>{if(document.hidden)resetTilt();});
-  window.AgentOcean={agentCard,pearlCard,depthCard,setState,sync,mount,quiet:resetTilt};setupAmbient();
+  const quiet=()=>{resetTilt();resetCurrent();};
+  reduced.addEventListener('change',quiet);document.addEventListener('visibilitychange',()=>{if(document.hidden)quiet();});
+  document.addEventListener('pointerleave',resetCurrent);window.addEventListener('blur',resetCurrent);
+  window.AgentOcean={agentCard,pearlCard,depthCard,setState,sync,mount,quiet};setupAmbient();
 })();
